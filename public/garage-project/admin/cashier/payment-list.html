@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thu ngân | Admin Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/design-system.css">
+    <link rel="stylesheet" href="../../assets/css/admin.css">
+</head>
+
+<body>
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar show">
+            <div class="sidebar-header">
+                <a href="../dashboard.html" class="sidebar-brand"><i class="fa-solid fa-layer-group"></i>
+                    <span>Admin</span></a>
+            </div>
+            <div class="sidebar-content">
+                <div class="sidebar-menu-title">Tài chính</div>
+                <nav>
+                    <a href="payment-list.html" class="sidebar-nav-link active"><i
+                            class="fa-solid fa-cash-register"></i> Thu ngân</a>
+                    <a href="invoice.html" class="sidebar-nav-link"><i class="fa-solid fa-file-invoice-dollar"></i> Hóa
+                        đơn</a>
+                </nav>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-topbar">
+                <div class="topbar-left">
+                    <h5 class="mb-0 fw-bold">Danh sách thanh toán</h5>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <!-- Tabs -->
+                <ul class="nav nav-tabs mb-4 border-bottom-0">
+                    <li class="nav-item">
+                        <a class="nav-link active border-0 bg-transparent fw-bold border-bottom border-primary border-3"
+                            href="#">Chờ thanh toán <span class="badge bg-danger ms-1">3</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link border-0 text-muted" href="#">Đã thanh toán</a>
+                    </li>
+                </ul>
+
+                <!-- Payment Table -->
+                <div class="card border-0 shadow-sm">
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="ps-4">Mã JOB</th>
+                                    <th>Khách hàng</th>
+                                    <th>Biển số</th>
+                                    <th>Dịch vụ</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th class="text-end pe-4">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="ps-4 fw-bold">#JOB-1020</td>
+                                    <td>
+                                        <div class="fw-bold">Nguyễn Văn A</div>
+                                        <small class="text-muted">0909.123.456</small>
+                                    </td>
+                                    <td><span class="badge bg-light text-dark border">30A-555.55</span></td>
+                                    <td>Bảo dưỡng cấp 1</td>
+                                    <td class="fw-bold fs-6 text-primary">1.250.000đ</td>
+                                    <td><span class="badge bg-warning-subtle text-warning">Chờ thanh toán</span></td>
+                                    <td class="text-end pe-4">
+                                        <a href="invoice.html" class="btn btn-primary btn-sm px-3 shadow-sm">Thu
+                                            tiền</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-4 fw-bold">#JOB-1025</td>
+                                    <td>
+                                        <div class="fw-bold">Trần Thị B</div>
+                                        <small class="text-muted">0912.999.888</small>
+                                    </td>
+                                    <td><span class="badge bg-light text-dark border">51K-123.45</span></td>
+                                    <td>Thay lốp, Cân mâm</td>
+                                    <td class="fw-bold fs-6 text-primary">4.800.000đ</td>
+                                    <td><span class="badge bg-warning-subtle text-warning">Chờ thanh toán</span></td>
+                                    <td class="text-end pe-4">
+                                        <a href="invoice.html" class="btn btn-primary btn-sm px-3 shadow-sm">Thu
+                                            tiền</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

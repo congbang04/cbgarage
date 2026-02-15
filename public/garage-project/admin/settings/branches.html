@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi nhánh | Admin Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/design-system.css">
+    <link rel="stylesheet" href="../../assets/css/admin.css">
+</head>
+
+<body>
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar show">
+            <div class="sidebar-header">
+                <a href="../dashboard.html" class="sidebar-brand"><i class="fa-solid fa-layer-group"></i>
+                    <span>Admin</span></a>
+            </div>
+            <div class="sidebar-content">
+                <div class="sidebar-menu-title">Cấu hình</div>
+                <nav>
+                    <a href="branches.html" class="sidebar-nav-link active"><i class="fa-solid fa-building"></i> Chi
+                        nhánh</a>
+                    <a href="services.html" class="sidebar-nav-link"><i class="fa-solid fa-screwdriver-wrench"></i> Dịch
+                        vụ</a>
+                    <a href="staff.html" class="sidebar-nav-link"><i class="fa-solid fa-users-gear"></i> Nhân viên</a>
+                    <a href="ai-logs.html" class="sidebar-nav-link"><i class="fa-solid fa-robot"></i> AI Logs</a>
+                </nav>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-topbar">
+                <div class="topbar-left">
+                    <h5 class="mb-0 fw-bold">Quản lý chi nhánh</h5>
+                </div>
+                <div class="topbar-right">
+                    <button class="btn btn-primary btn-sm"><i class="fa-solid fa-plus me-1"></i> Thêm chi nhánh</button>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="row g-4">
+                    <!-- Branch Card 1 -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div class="bg-primary-subtle text-primary p-3 rounded-circle">
+                                        <i class="fa-solid fa-building fa-lg"></i>
+                                    </div>
+                                    <span class="badge bg-success-subtle text-success">Hoạt động</span>
+                                </div>
+                                <h5 class="fw-bold mb-1">Trụ sở chính Quận 7</h5>
+                                <p class="text-muted small mb-3">123 Nguyễn Văn Linh, P. Tân Phong, Q.7, TP.HCM</p>
+                                <div class="small mb-2"><i class="fa-solid fa-phone me-2 text-muted"></i> 028 3333 4444
+                                </div>
+                                <div class="small mb-4"><i class="fa-solid fa-user-tie me-2 text-muted"></i> QL: Nguyễn
+                                    Văn Giám Đốc</div>
+                            </div>
+                            <div class="card-footer bg-transparent border-top py-3">
+                                <button class="btn btn-outline-secondary btn-sm w-100">Chi tiết</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Branch Card 2 -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div class="bg-info-subtle text-info p-3 rounded-circle">
+                                        <i class="fa-solid fa-building fa-lg"></i>
+                                    </div>
+                                    <span class="badge bg-success-subtle text-success">Hoạt động</span>
+                                </div>
+                                <h5 class="fw-bold mb-1">Chi nhánh Gò Vấp</h5>
+                                <p class="text-muted small mb-3">456 Phan Văn Trị, P.5, Q. Gò Vấp, TP.HCM</p>
+                                <div class="small mb-2"><i class="fa-solid fa-phone me-2 text-muted"></i> 028 5555 6666
+                                </div>
+                                <div class="small mb-4"><i class="fa-solid fa-user-tie me-2 text-muted"></i> QL: Trần
+                                    Quản Lý</div>
+                            </div>
+                            <div class="card-footer bg-transparent border-top py-3">
+                                <button class="btn btn-outline-secondary btn-sm w-100">Chi tiết</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

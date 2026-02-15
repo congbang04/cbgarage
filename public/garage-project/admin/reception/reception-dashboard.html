@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lễ tân | Service Portal</title>
+
+    <!-- Dependencies -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../assets/css/design-system.css">
+    <link rel="stylesheet" href="../assets/css/admin.css"> <!-- Reuse sidebar structure -->
+    <link rel="stylesheet" href="../assets/css/reception.css">
+</head>
+
+<body>
+
+    <div class="portal-wrapper">
+
+        <!-- SIDEBAR -->
+        <aside class="portal-sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="sidebar-brand">
+                    <i class="fa-solid fa-headset fa-lg"></i>
+                    <span>Lễ tân</span>
+                </a>
+            </div>
+            <div class="sidebar-content">
+                <nav>
+                    <a href="#" class="sidebar-nav-link active">
+                        <i class="fa-solid fa-table-columns"></i> Job Board
+                    </a>
+                    <a href="#" class="sidebar-nav-link">
+                        <i class="fa-regular fa-calendar-plus"></i> Đặt lịch
+                    </a>
+                    <a href="#" class="sidebar-nav-link">
+                        <i class="fa-solid fa-users"></i> Khách hàng
+                    </a>
+                    <a href="#" class="sidebar-nav-link">
+                        <i class="fa-solid fa-file-invoice"></i> Thanh toán
+                    </a>
+                </nav>
+            </div>
+            <div class="sidebar-footer">
+                <a href="../auth/login.html" class="sidebar-nav-link text-danger">
+                    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                </a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="portal-main">
+            <!-- Topbar -->
+            <header class="admin-topbar">
+                <div class="topbar-left">
+                    <h5 class="mb-0 fw-bold">Theo dõi dịch vụ</h5>
+                </div>
+                <div class="topbar-right">
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-plus me-1"></i> Tiếp nhận xe
+                    </button>
+                    <div class="user-dropdown">
+                        <img src="../assets/img/avatars/default.png"
+                            onerror="this.src='https://ui-avatars.com/api/?name=Le+Tan&background=10b981&color=fff'"
+                            class="avatar rounded-circle">
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-wrapper h-100 overflow-hidden">
+
+                <!-- KANBAN BOARD -->
+                <div class="kanban-board">
+
+                    <!-- Column 1: Chờ tiếp nhận -->
+                    <div class="kanban-column">
+                        <div class="kanban-header">
+                            <span>Chờ tiếp nhận</span>
+                            <span class="kanban-count">3</span>
+                        </div>
+                        <div class="kanban-items">
+                            <!-- Item 1 -->
+                            <div class="job-card priority-high">
+                                <div class="job-id">
+                                    <span>#JOB-1024</span>
+                                    <span class="text-danger fw-bold"><i class="fa-solid fa-clock"></i> 08:30</span>
+                                </div>
+                                <div class="job-vehicle">Mazda CX-5 (30H-992.11)</div>
+                                <div class="job-customer">
+                                    <i class="fa-regular fa-user"></i> Nguyễn Văn A
+                                </div>
+                                <div class="job-tags">
+                                    <span class="job-tag">Bảo dưỡng 5000km</span>
+                                    <span class="job-tag">Rửa xe</span>
+                                </div>
+                                <div class="job-footer">
+                                    <span class="text-muted">Đặt trước</span>
+                                    <button class="btn btn-sm btn-ghost p-0"><i
+                                            class="fa-solid fa-ellipsis"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- Item 2 -->
+                            <div class="job-card priority-normal">
+                                <div class="job-id">
+                                    <span>#JOB-1025</span>
+                                    <span>09:00</span>
+                                </div>
+                                <div class="job-vehicle">Honda CRV (51K-123.45)</div>
+                                <div class="job-customer">
+                                    <i class="fa-regular fa-user"></i> Trần Thị B
+                                </div>
+                                <div class="job-tags">
+                                    <span class="job-tag">Kiểm tra lốp</span>
+                                </div>
+                                <div class="job-footer">
+                                    <span class="text-muted">Walk-in</span>
+                                    <button class="btn btn-sm btn-ghost p-0"><i
+                                            class="fa-solid fa-ellipsis"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Đang thực hiện -->
+                    <div class="kanban-column">
+                        <div class="kanban-header">
+                            <span>Đang sửa chữa</span>
+                            <span class="kanban-count text-primary">2</span>
+                        </div>
+                        <div class="kanban-items">
+                            <div class="job-card priority-normal" style="border-left-color: var(--primary-color);">
+                                <div class="job-id">
+                                    <span>#JOB-1022</span>
+                                    <span class="text-primary fw-bold">Bay 01</span>
+                                </div>
+                                <div class="job-vehicle">Ford Ranger (29C-888.88)</div>
+                                <div class="job-customer">
+                                    <i class="fa-solid fa-wrench small me-1"></i> KT. Hùng
+                                </div>
+                                <div class="mt-2">
+                                    <div class="progress" style="height: 6px;">
+                                        <div class="progress-bar" style="width: 60%"></div>
+                                    </div>
+                                    <small class="text-muted mt-1 d-block">Đang thay nhớt...</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Chờ thanh toán -->
+                    <div class="kanban-column">
+                        <div class="kanban-header">
+                            <span>Chờ thanh toán</span>
+                            <span class="kanban-count text-success">1</span>
+                        </div>
+                        <div class="kanban-items">
+                            <div class="job-card priority-normal" style="border-left-color: var(--success-color);">
+                                <div class="job-id">
+                                    <span>#JOB-1020</span>
+                                    <span class="text-success"><i class="fa-solid fa-check"></i> Xong</span>
+                                </div>
+                                <div class="job-vehicle">Toyota Vios (30A-555.55)</div>
+                                <div class="job-customer">
+                                    Tổng: 1.250.000đ
+                                </div>
+                                <button class="btn btn-primary btn-sm w-100 mt-2">Tạo hóa đơn</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

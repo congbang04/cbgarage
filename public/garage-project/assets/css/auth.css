@@ -1,0 +1,175 @@
+/* * AUTHENTICATION STYLES
+ * Extends: design-system.css
+ * Layout: Centered Card with Gradient Background
+ */
+
+/* =========================================
+   1. LAYOUT & BACKGROUND
+   ========================================= */
+.auth-body {
+    background: linear-gradient(135deg, var(--bg-body) 0%, #e0e7ff 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.auth-wrapper {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+/* =========================================
+   2. AUTH CARD SPECIFICS
+   ========================================= */
+.auth-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative top border/accent */
+.auth-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--info-color));
+}
+
+/* =========================================
+   3. TYPOGRAPHY & ELEMENTS
+   ========================================= */
+.auth-brand {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.auth-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.auth-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+}
+
+/* Form Spacing */
+.auth-form .mb-3 {
+    margin-bottom: 1.25rem !important;
+}
+
+/* Button sizing override for auth */
+.btn-auth-action {
+    width: 100%;
+    padding: 0.875rem;
+    font-size: 1rem;
+}
+
+/* =========================================
+   4. SOCIAL LOGIN & DIVIDERS
+   ========================================= */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.5rem 0;
+    color: var(--text-light);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.auth-divider::before {
+    margin-right: 1rem;
+}
+
+.auth-divider::after {
+    margin-left: 1rem;
+}
+
+.social-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+}
+
+.btn-social:hover {
+    background-color: var(--bg-body);
+    border-color: var(--text-muted);
+}
+
+/* =========================================
+   5. FOOTER LINKS
+   ========================================= */
+.auth-footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.auth-footer a {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Password strength meter example styles */
+.password-strength {
+    height: 4px;
+    border-radius: 2px;
+    background-color: var(--border-color);
+    margin-top: 0.5rem;
+    overflow: hidden;
+}
+
+.password-strength-bar {
+    height: 100%;
+    width: 0;
+    transition:
+        width 0.3s ease,
+        background-color 0.3s ease;
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Báo giá | Customer Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/design-system.css">
+    <link rel="stylesheet" href="../assets/css/customer.css">
+</head>
+
+<body class="has-sticky-summary">
+
+    <div class="customer-container">
+        <!-- Header -->
+        <div class="app-header mb-3">
+            <a href="home.html" class="text-dark"><i class="fa-solid fa-arrow-left"></i></a>
+            <h1 class="app-header-title">Chi tiết Báo giá</h1>
+            <div style="width: 20px;"></div>
+        </div>
+
+        <!-- Status Timeline -->
+        <div class="card border-0 shadow-sm mb-4 bg-surface">
+            <div class="card-body">
+                <div class="timeline m-0">
+                    <div class="timeline-item">
+                        <div class="timeline-dot active"></div>
+                        <div class="timeline-content">
+                            <h5 class="fw-bold text-primary">Đã gửi báo giá</h5>
+                            <p>15/10/2023 - 09:30</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h5>Khách hàng xác nhận</h5>
+                            <p>Đang chờ xử lý</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paper Quotation -->
+        <div class="card border border-light shadow-sm mb-4 bg-surface">
+            <div class="card-header bg-transparent border-bottom border-light">
+                <div class="d-flex justify-content-between">
+                    <span class="fw-bold">QT-2023-001</span>
+                    <span class="badge badge-soft-warning">Chờ duyệt</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <h6 class="fw-bold text-primary mb-3">Thông tin thuê</h6>
+                <div class="row g-2 mb-3 font-monospace small">
+                    <div class="col-5 text-muted">Khách hàng:</div>
+                    <div class="col-7 text-end fw-bold">Nguyễn Minh Tuấn</div>
+                    <div class="col-5 text-muted">Xe:</div>
+                    <div class="col-7 text-end">Mercedes-Benz C300</div>
+                    <div class="col-5 text-muted">Từ ngày:</div>
+                    <div class="col-7 text-end">20/10/2023</div>
+                    <div class="col-5 text-muted">Đến ngày:</div>
+                    <div class="col-7 text-end">22/10/2023</div>
+                </div>
+
+                <hr class="border-light">
+
+                <h6 class="fw-bold text-primary mb-3">Chi tiết chi phí</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm table-borderless small mb-0">
+                        <tbody>
+                            <tr>
+                                <td>Thuê xe (2 ngày)</td>
+                                <td class="text-end">5.000.000đ</td>
+                            </tr>
+                            <tr>
+                                <td>Tài xế (2 ngày)</td>
+                                <td class="text-end">1.000.000đ</td>
+                            </tr>
+                            <tr>
+                                <td>VAT (10%)</td>
+                                <td class="text-end">600.000đ</td>
+                            </tr>
+                            <tr class="border-top">
+                                <td class="fw-bold pt-2 fs-6">Tổng cộng</td>
+                                <td class="fw-bold pt-2 fs-6 text-primary text-end">6.600.000đ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terms -->
+        <div class="small text-muted mb-5">
+            * Bằng việc nhấn "Chấp nhận", bạn đồng ý với các điều khoản dịch vụ của chúng tôi.
+        </div>
+    </div>
+
+    <!-- Sticky Action -->
+    <div class="sticky-summary">
+        <button class="btn btn-outline-danger btn-sm rounded-pill me-2">Từ chối</button>
+        <a href="booking-success.html" class="btn btn-success flex-grow-1 rounded-pill">
+            Chấp nhận báo giá
+        </a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

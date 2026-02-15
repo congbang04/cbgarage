@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Trang chủ | Customer Portal</title>
+
+    <!-- CSS Dependencies -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/design-system.css">
+    <link rel="stylesheet" href="../assets/css/customer.css">
+</head>
+
+<body>
+
+    <div class="customer-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div>
+                <p class="mb-0 text-muted small">Xin chào,</p>
+                <h1 class="app-header-title">Minh Tuấn 👋</h1>
+            </div>
+            <a href="profile.html" class="avatar-link">
+                <img src="../assets/img/avatars/default.png"
+                    onerror="this.src='https://ui-avatars.com/api/?name=Minh+Tuan&background=4f46e5&color=fff'"
+                    alt="Avatar" class="avatar">
+            </a>
+        </header>
+
+        <!-- Search -->
+        <div class="mb-4">
+            <div class="input-group">
+                <span class="input-group-text bg-surface border-end-0">
+                    <i class="fa-solid fa-search text-muted"></i>
+                </span>
+                <input type="text" class="form-control border-start-0 ps-0" placeholder="Tìm kiếm xe, dịch vụ...">
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="scroll-horizontal mb-4">
+            <a href="#" class="category-pill active">Tất cả</a>
+            <a href="#" class="category-pill">Sedan</a>
+            <a href="#" class="category-pill">SUV</a>
+            <a href="#" class="category-pill">Luxury</a>
+            <a href="#" class="category-pill">MPV</a>
+        </div>
+
+        <!-- Featured Cars -->
+        <section class="mb-4">
+            <div class="section-title">
+                <span>Xe nổi bật</span>
+                <a href="#" class="see-all">Xem tất cả</a>
+            </div>
+
+            <!-- Car Card 1 -->
+            <div class="vehicle-card" onclick="window.location.href='car-detail.html'">
+                <div class="vehicle-img-wrapper">
+                    <span class="badge badge-soft-success vehicle-badge">Có sẵn</span>
+                    <img src="https://placehold.co/600x400/e2e8f0/64748b?text=Mercedes+C300" alt="Car"
+                        class="vehicle-img">
+                </div>
+                <div class="vehicle-details">
+                    <h3 class="vehicle-title">Mercedes-Benz C300 AMG</h3>
+                    <div class="vehicle-specs">
+                        <span><i class="fa-solid fa-gas-pump me-1"></i> Xăng</span>
+                        <span><i class="fa-solid fa-gears me-1"></i> Tự động</span>
+                        <span><i class="fa-solid fa-user-group me-1"></i> 5 chỗ</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="vehicle-price">2.500.000đ<small
+                                class="text-muted fs-6 fw-normal">/ngày</small></span>
+                        <button class="btn btn-sm btn-primary rounded-pill"><i
+                                class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Car Card 2 -->
+            <div class="vehicle-card" onclick="window.location.href='car-detail.html'">
+                <div class="vehicle-img-wrapper">
+                    <span class="badge badge-soft-warning vehicle-badge">Sắp hết</span>
+                    <img src="https://placehold.co/600x400/e2e8f0/64748b?text=VinFast+VF8" alt="Car"
+                        class="vehicle-img">
+                </div>
+                <div class="vehicle-details">
+                    <h3 class="vehicle-title">VinFast VF8 Plus</h3>
+                    <div class="vehicle-specs">
+                        <span><i class="fa-solid fa-bolt me-1"></i> Điện</span>
+                        <span><i class="fa-solid fa-gears me-1"></i> Tự động</span>
+                        <span><i class="fa-solid fa-user-group me-1"></i> 5 chỗ</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="vehicle-price">1.800.000đ<small
+                                class="text-muted fs-6 fw-normal">/ngày</small></span>
+                        <button class="btn btn-sm btn-primary rounded-pill"><i
+                                class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Quotation -->
+        <section>
+            <div class="section-title">
+                <span>Báo giá gần đây</span>
+            </div>
+            <div class="card p-3 mb-3 cursor-pointer" onclick="window.location.href='quotation-view.html'">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                        <h6 class="mb-1">Thuê xe tháng 10</h6>
+                        <small class="text-muted">QT-2023-001 • 15/10/2023</small>
+                    </div>
+                    <span class="badge badge-soft-warning">Chờ duyệt</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <span class="fw-bold text-primary">5.200.000đ</span>
+                    <i class="fa-solid fa-chevron-right text-muted small"></i>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item-link active">
+            <i class="fa-solid fa-house"></i>
+            <span>Trang chủ</span>
+        </a>
+        <a href="booking.html" class="nav-item-link">
+            <i class="fa-solid fa-calendar-check"></i>
+            <span>Đặt xe</span>
+        </a>
+        <a href="chat.html" class="nav-item-link">
+            <i class="fa-solid fa-message"></i>
+            <span>Hỗ trợ</span>
+        </a>
+        <a href="profile.html" class="nav-item-link">
+            <i class="fa-solid fa-user"></i>
+            <span>Tài khoản</span>
+        </a>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
