@@ -4,136 +4,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xuất kho | Admin Portal</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Phiếu xuất kho | Garage Pro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/design-system.css">
     <link rel="stylesheet" href="../../assets/css/admin.css">
+    <style>
+        .invoice-paper {
+            background: #fff;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            .invoice-paper,
+            .invoice-paper * {
+                visibility: visible;
+            }
+
+            .invoice-paper {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <div class="admin-wrapper">
-        <aside class="admin-sidebar show">
+        <nav class="sidebar no-print">
             <div class="sidebar-header">
-                <a href="../dashboard.html" class="sidebar-brand"><i class="fa-solid fa-layer-group"></i>
-                    <span>Admin</span></a>
+                <a href="#" class="sidebar-brand"><i class="fas fa-wrench text-primary"></i> GARAGE PRO</a>
             </div>
-            <div class="sidebar-content">
-                <nav>
-                    <a href="inventory.html" class="sidebar-nav-link"><i class="fa-solid fa-boxes-stacked"></i> Tồn
-                        kho</a>
-                    <a href="requests.html" class="sidebar-nav-link"><i class="fa-solid fa-file-import"></i> Nhập
-                        hàng</a>
-                    <a href="goods-issue.html" class="sidebar-nav-link active"><i class="fa-solid fa-dolly"></i> Xuất
-                        kho</a>
-                    <a href="transfer.html" class="sidebar-nav-link"><i class="fa-solid fa-truck-arrow-right"></i>
-                        Chuyển kho</a>
-                </nav>
+            <div class="sidebar-menu">
+                <a href="inventory.html" class="nav-link"><i class="fas fa-boxes"></i> Tồn kho</a>
+                <a href="requests.html" class="nav-link active"><i class="fas fa-clipboard-check"></i> Duyệt yêu cầu</a>
+                <a href="transfer.html" class="nav-link"><i class="fas fa-truck-loading"></i> Chuyển kho</a>
             </div>
-        </aside>
+        </nav>
 
-        <main class="admin-main">
-            <header class="admin-topbar">
-                <div class="topbar-left">
-                    <h5 class="mb-0 fw-bold">Xuất kho vật tư</h5>
+        <div class="main-content">
+            <header class="top-navbar no-print">
+                <div class="d-flex align-items-center">
+                    <a href="requests.html" class="btn btn-light me-3"><i class="fas fa-arrow-left"></i></a>
+                    <h4 class="mb-0 fw-bold">Chi tiết Phiếu xuất kho</h4>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-secondary" onclick="window.print()"><i class="fas fa-print"></i> In
+                        phiếu</button>
+                    <button class="btn btn-success"><i class="fas fa-check"></i> Xác nhận xuất</button>
                 </div>
             </header>
 
-            <div class="content-wrapper">
-                <div class="row g-4">
-                    <!-- Form Selection -->
-                    <div class="col-lg-4">
-                        <div class="card border-0 shadow-sm h-100">
-                            <div class="card-header bg-transparent fw-bold">Thông tin xuất</div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label class="form-label">Loại xuất kho</label>
-                                    <select class="form-select">
-                                        <option>Xuất cho sửa chữa (Job)</option>
-                                        <option>Xuất hủy/Hư hỏng</option>
-                                        <option>Xuất bán lẻ</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Mã Job / Khách hàng</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-white"><i
-                                                class="fa-solid fa-magnifying-glass"></i></span>
-                                        <input type="text" class="form-control" placeholder="Tìm JOB ID...">
-                                    </div>
-                                </div>
-                                <div class="p-3 bg-light rounded border mb-3">
-                                    <div class="fw-bold text-primary">#JOB-1022</div>
-                                    <div class="small">Ford Ranger (29C-888.88)</div>
-                                    <div class="small text-muted">KT: Nguyễn Văn Hùng</div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Ghi chú</label>
-                                    <textarea class="form-control" rows="3"></textarea>
-                                </div>
-                            </div>
+            <div class="p-4">
+                <div class="invoice-paper">
+                    <!-- Header Phiếu -->
+                    <div class="row mb-4 border-bottom pb-3">
+                        <div class="col-6">
+                            <h4 class="fw-bold text-uppercase">Garage Pro System</h4>
+                            <div class="small">Kho: <strong>Chi nhánh Quận 7</strong></div>
+                            <div class="small">Địa chỉ: 123 Nguyễn Thị Thập, P. Tân Phú</div>
+                        </div>
+                        <div class="col-6 text-end">
+                            <h3 class="fw-bold text-dark">PHIẾU XUẤT KHO</h3>
+                            <div class="text-muted">Số: <strong>PXK-20231025-001</strong></div>
+                            <div class="text-muted">Ngày: 25/10/2023</div>
                         </div>
                     </div>
 
-                    <!-- Items List -->
-                    <div class="col-lg-8">
-                        <div class="card border-0 shadow-sm h-100">
-                            <div
-                                class="card-header bg-transparent fw-bold d-flex justify-content-between align-items-center">
-                                <span>Danh sách vật tư</span>
-                                <button class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-plus"></i> Thêm
-                                    dòng</button>
-                            </div>
-                            <div class="card-body p-0">
-                                <table class="table align-middle mb-0">
-                                    <thead class="bg-light">
-                                        <tr>
-                                            <th class="ps-4">Vật tư</th>
-                                            <th class="text-center" style="width: 100px;">ĐV</th>
-                                            <th class="text-center" style="width: 120px;">Số lượng</th>
-                                            <th class="text-end pe-4" style="width: 50px;"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="ps-4">
-                                                <div class="fw-bold">Lọc nhớt Ford Ranger</div>
-                                                <small class="text-muted">PT-FR-001</small>
-                                            </td>
-                                            <td class="text-center">Cái</td>
-                                            <td class="text-center">
-                                                <input type="number" class="form-control form-control-sm text-center"
-                                                    value="1">
-                                            </td>
-                                            <td class="text-end pe-4"><i
-                                                    class="fa-solid fa-trash text-danger cursor-pointer"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="ps-4">
-                                                <div class="fw-bold">Dầu nhớt Castrol 5W30</div>
-                                                <small class="text-muted">SP-001</small>
-                                            </td>
-                                            <td class="text-center">Lít</td>
-                                            <td class="text-center">
-                                                <input type="number" class="form-control form-control-sm text-center"
-                                                    value="6">
-                                            </td>
-                                            <td class="text-end pe-4"><i
-                                                    class="fa-solid fa-trash text-danger cursor-pointer"></i></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="card-footer bg-transparent p-3 text-end">
-                                <button class="btn btn-light me-2">Hủy</button>
-                                <button class="btn btn-primary px-4">Xác nhận xuất kho</button>
-                            </div>
+                    <!-- Thông tin Người nhận -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <table class="table table-borderless table-sm mb-0">
+                                <tr>
+                                    <td style="width: 150px;" class="text-secondary">Người yêu cầu:</td>
+                                    <td class="fw-bold">KTV Nguyễn Văn Hùng</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-secondary">Lý do xuất:</td>
+                                    <td>Sửa chữa xe <strong>Toyota Vios - 51G-123.45</strong> (Phiếu #ORD-8821)</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-secondary">Ghi chú:</td>
+                                    <td class="fst-italic">Xuất vật tư thay thế bảo dưỡng định kỳ</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Bảng Vật tư -->
+                    <table class="table table-bordered mb-5">
+                        <thead class="bg-light text-uppercase small">
+                            <tr>
+                                <th class="text-center" style="width: 50px;">#</th>
+                                <th>Mã VTTB</th>
+                                <th>Tên Vật tư / Phụ tùng</th>
+                                <th class="text-center">ĐVT</th>
+                                <th class="text-center">SL Yêu cầu</th>
+                                <th class="text-center">Thực xuất</th>
+                                <th>Ghi chú</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td>PT-OIL-CAS5W30</td>
+                                <td>Nhớt Castrol Magnatec 5W30 (Can 4L)</td>
+                                <td class="text-center">Can</td>
+                                <td class="text-center">1</td>
+                                <td class="text-center fw-bold">1</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">2</td>
+                                <td>PT-FIL-TOY01</td>
+                                <td>Lọc nhớt Toyota Vios</td>
+                                <td class="text-center">Cái</td>
+                                <td class="text-center">1</td>
+                                <td class="text-center fw-bold">1</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">3</td>
+                                <td>VTT-WASH-01</td>
+                                <td>Nước rửa kính (Chai 1L)</td>
+                                <td class="text-center">Chai</td>
+                                <td class="text-center">1</td>
+                                <td class="text-center fw-bold">1</td>
+                                <td>Khuyến mãi</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Chữ ký -->
+                    <div class="row text-center mt-5">
+                        <div class="col-4">
+                            <div class="fw-bold mb-5">Người lập phiếu</div>
+                            <div>(Ký, họ tên)</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="fw-bold mb-5">Người nhận hàng</div>
+                            <div>(Ký, họ tên)</div>
+                        </div>
+                        <div class="col-4">
+                            <div class="fw-bold mb-5">Thủ kho</div>
+                            <div>(Ký, họ tên)</div>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

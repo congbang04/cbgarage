@@ -1,335 +1,256 @@
-/* * CUSTOMER PORTAL STYLES
- * Extends: design-system.css
- * Focus: Mobile-first, App-like experience
- */
+/* ==========================================================================
+   CUSTOMER MODULE STYLES
+   Extends design-system.css
+   ========================================================================== */
 
-/* =========================================
-   1. LAYOUT & MOBILE OPTIMIZATIONS
-   ========================================= */
+/* --- Layout & Spacing --- */
 body {
-    padding-bottom: 80px; /* Space for bottom nav */
-    background-color: var(--bg-body);
+    background-color: #f8f9fa;
+    padding-bottom: 80px; /* Space for mobile bottom nav or sticky footers */
 }
 
-.customer-container {
-    max-width: 768px; /* Limit width for app-like feel on desktop */
-    margin: 0 auto;
-    padding: 1rem;
-    min-height: 100vh;
+section {
+    padding: 3rem 0;
 }
 
-/* Header/Top Bar */
-.app-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 0;
-    margin-bottom: 1.5rem;
+/* --- Hero Section (Home) --- */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+    color: var(--white);
+    padding: 4rem 0 6rem;
+    border-radius: 0 0 30px 30px;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
 }
 
-.app-header-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--text-main);
-    margin: 0;
-}
-
-/* =========================================
-   2. BOTTOM NAVIGATION (Fixed)
-   ========================================= */
-.bottom-nav {
-    position: fixed;
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
     bottom: 0;
     left: 0;
-    width: 100%;
-    background-color: var(--bg-surface);
-    border-top: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 0.75rem 0;
-    z-index: 1000;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
+    background-image: url("https://images.unsplash.com/photo-1487754180477-db33d3808b29?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.1;
+    z-index: 0;
 }
 
-.nav-item-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: var(--text-light);
-    font-size: 0.75rem;
-    font-weight: 500;
-    gap: 0.25rem;
-    text-decoration: none;
-    transition: var(--transition-fast);
+.hero-content {
+    position: relative;
+    z-index: 1;
 }
 
-.nav-item-link i {
-    font-size: 1.25rem;
-    margin-bottom: 2px;
-}
-
-.nav-item-link.active {
-    color: var(--primary-color);
-}
-
-/* =========================================
-   3. VEHICLE CARDS
-   ========================================= */
-.vehicle-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
+/* --- Service Cards --- */
+.service-card {
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: var(--transition-base);
+    height: 100%;
+    cursor: pointer;
+    position: relative;
     overflow: hidden;
-    box-shadow: var(--shadow-sm);
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+}
+
+.service-card.selected {
+    border: 2px solid var(--primary);
+    background-color: var(--primary-light);
+}
+
+.service-icon {
+    font-size: 2.5rem;
     margin-bottom: 1rem;
-    border: 1px solid var(--border-color);
+    color: var(--primary);
+}
+
+/* --- Booking Wizard --- */
+.wizard-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.wizard-steps::before {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e9ecef;
+    z-index: 0;
+}
+
+.step-item {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    background: var(--white);
+    border: 2px solid #e9ecef;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: var(--secondary);
     transition: var(--transition-base);
 }
 
-.vehicle-card:active {
-    transform: scale(0.98);
+.step-item.active {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: var(--white);
 }
 
-.vehicle-img-wrapper {
-    position: relative;
-    height: 180px;
-    background-color: #f1f5f9;
+.step-item.completed {
+    background: var(--success);
+    border-color: var(--success);
+    color: var(--white);
 }
 
-.vehicle-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+/* --- Time Slots --- */
+.time-slot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
 }
 
-.vehicle-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+.time-slot-btn {
+    padding: 8px 0;
+    text-align: center;
+    border: 1px solid #dee2e6;
+    border-radius: var(--border-radius-sm);
+    background: var(--white);
+    cursor: pointer;
+    transition: var(--transition-base);
 }
 
-.vehicle-details {
+.time-slot-btn:hover:not(.disabled) {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.time-slot-btn.active {
+    background: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
+}
+
+.time-slot-btn.disabled {
+    background: #f1f3f5;
+    color: #adb5bd;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+/* --- Sticky Booking Summary --- */
+.booking-summary-sticky {
+    position: sticky;
+    bottom: 0;
+    background: var(--white);
     padding: 1rem;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+    z-index: 100;
+    border-top: 1px solid #e9ecef;
 }
 
-.vehicle-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 0.25rem;
-}
-
-.vehicle-specs {
-    display: flex;
-    gap: 1rem;
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    margin-bottom: 0.75rem;
-}
-
-.vehicle-price {
-    color: var(--primary-color);
-    font-weight: 700;
-    font-size: 1.1rem;
-}
-
-/* =========================================
-   4. TIMELINE COMPONENT
-   ========================================= */
+/* --- Timeline (Car History) --- */
 .timeline {
     position: relative;
-    padding-left: 2rem;
-    margin: 1.5rem 0;
-}
-
-.timeline::before {
-    content: "";
-    position: absolute;
-    left: 7px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background-color: var(--border-color);
+    padding-left: 30px;
+    border-left: 2px solid #e9ecef;
 }
 
 .timeline-item {
     position: relative;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .timeline-dot {
     position: absolute;
-    left: -2.05rem;
-    top: 0.25rem;
-    width: 16px;
-    height: 16px;
+    left: -36px;
+    top: 0;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
-    background-color: var(--bg-surface);
-    border: 2px solid var(--border-color);
-    z-index: 1;
+    background: var(--white);
+    border: 3px solid var(--primary);
 }
 
-.timeline-dot.active {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px var(--primary-light);
+.timeline-content {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
 }
 
-.timeline-content h5 {
-    font-size: 0.95rem;
-    margin-bottom: 0.25rem;
-}
-
-.timeline-content p {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin: 0;
-}
-
-/* =========================================
-   5. STICKY SUMMARY (Booking/Checkout)
-   ========================================= */
-.sticky-summary {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: var(--bg-surface);
-    padding: 1rem;
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
-    z-index: 1050;
-    border-top-left-radius: var(--radius-xl);
-    border-top-right-radius: var(--radius-xl);
+/* --- Quotation View --- */
+.quotation-item {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid #e9ecef;
+    border-radius: var(--border-radius);
+    margin-bottom: 0.5rem;
+    background: var(--white);
 }
 
-.summary-price {
-    display: flex;
-    flex-direction: column;
+.quotation-item.rejected {
+    opacity: 0.6;
+    background: #f8f9fa;
+    text-decoration: line-through;
 }
 
-.summary-price small {
-    color: var(--text-muted);
-    font-size: 0.75rem;
-}
-
-.summary-price span {
-    color: var(--primary-color);
-    font-weight: 700;
-    font-size: 1.25rem;
-}
-
-/* Add padding to body when sticky summary is present */
-body.has-sticky-summary {
-    padding-bottom: 100px;
-}
-
-/* =========================================
-   6. CHAT BUBBLES
-   ========================================= */
+/* --- Chat Interface --- */
 .chat-container {
+    height: calc(100vh - 160px);
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    padding-bottom: 1rem;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    background: #f8f9fa;
 }
 
 .chat-bubble {
     max-width: 80%;
-    padding: 0.75rem 1rem;
-    border-radius: 1rem;
+    padding: 10px 15px;
+    border-radius: 15px;
+    margin-bottom: 10px;
     position: relative;
     font-size: 0.95rem;
-    line-height: 1.5;
 }
 
-.chat-bubble.received {
-    align-self: flex-start;
-    background-color: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-bottom-left-radius: 0.25rem;
+.chat-bubble.bot {
+    background: var(--white);
+    border: 1px solid #e9ecef;
+    border-bottom-left-radius: 2px;
+    margin-right: auto;
 }
 
-.chat-bubble.sent {
-    align-self: flex-end;
-    background-color: var(--primary-color);
-    color: white;
-    border-bottom-right-radius: 0.25rem;
-}
-
-.chat-time {
-    display: block;
-    font-size: 0.7rem;
-    margin-top: 0.25rem;
-    opacity: 0.7;
-    text-align: right;
+.chat-bubble.user {
+    background: var(--primary);
+    color: var(--white);
+    border-bottom-right-radius: 2px;
+    margin-left: auto;
 }
 
 .chat-input-area {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: var(--bg-surface);
-    padding: 0.75rem;
-    border-top: 1px solid var(--border-color);
-    display: flex;
-    gap: 0.75rem;
-    align-items: center;
-    z-index: 1050;
-}
-
-/* Adjust body for chat input */
-body.chat-view {
-    padding-bottom: 80px;
-    background-color: #f1f5f9;
-}
-
-/* =========================================
-   7. UTILITIES & SECTIONS
-   ========================================= */
-.section-title {
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.see-all {
-    font-size: 0.85rem;
-    color: var(--primary-color);
-    font-weight: 600;
-}
-
-.category-pill {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background-color: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-pill);
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    margin-right: 0.5rem;
-    white-space: nowrap;
-}
-
-.category-pill.active {
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
-}
-
-.scroll-horizontal {
-    display: flex;
-    overflow-x: auto;
-    padding-bottom: 0.5rem;
-    gap: 0.5rem;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-}
-.scroll-horizontal::-webkit-scrollbar {
-    display: none;
+    padding: 1rem;
+    background: var(--white);
+    border-top: 1px solid #e9ecef;
 }

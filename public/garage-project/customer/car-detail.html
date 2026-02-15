@@ -3,99 +3,114 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Chi tiết xe | Customer Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết xe | Garage Pro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/design-system.css">
     <link rel="stylesheet" href="../assets/css/customer.css">
 </head>
 
-<body class="has-sticky-summary">
+<body>
 
-    <!-- Back Button Header -->
-    <div class="position-absolute top-0 start-0 p-3 z-3">
-        <a href="home.html" class="btn btn-light btn-sm rounded-circle shadow-sm">
-            <i class="fa-solid fa-arrow-left"></i>
-        </a>
-    </div>
-
-    <!-- Hero Image -->
-    <div class="w-100 bg-light" style="height: 300px;">
-        <img src="https://placehold.co/800x600/e2e8f0/64748b?text=Mercedes+C300+Details"
-            class="w-100 h-100 object-fit-cover" alt="Detail">
-    </div>
-
-    <div class="customer-container mt-n4 position-relative bg-body rounded-top-4 pt-4">
-
-        <!-- Header Info -->
-        <div class="d-flex justify-content-between align-items-start mb-3">
-            <div>
-                <h2 class="h4 fw-bold mb-1">Mercedes-Benz C300</h2>
-                <div class="text-muted small">Sedan Luxury • 2023</div>
-            </div>
-            <div class="d-flex align-items-center gap-1 text-warning">
-                <i class="fa-solid fa-star"></i>
-                <span class="fw-bold text-dark">4.8</span>
-                <span class="text-muted small">(120)</span>
-            </div>
-        </div>
-
-        <!-- Specs Grid -->
-        <div class="row g-2 mb-4">
-            <div class="col-3">
-                <div class="p-2 border rounded text-center bg-surface">
-                    <i class="fa-solid fa-gauge-high text-primary mb-1"></i>
-                    <div class="small fw-bold">250km/h</div>
+    <!-- Header -->
+    <div class="bg-primary text-white p-4 pb-5 rounded-bottom-4 shadow-sm">
+        <div class="container">
+            <a href="profile.html" class="text-white mb-3 d-block"><i class="fas fa-arrow-left"></i> Quay lại</a>
+            <div class="d-flex align-items-center">
+                <div class="bg-white text-primary rounded-circle p-3 me-3 shadow-sm">
+                    <i class="fas fa-car fa-2x"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold mb-0">Toyota Vios</h2>
+                    <div class="opacity-75">51G-123.45</div>
                 </div>
             </div>
-            <div class="col-3">
-                <div class="p-2 border rounded text-center bg-surface">
-                    <i class="fa-solid fa-gears text-primary mb-1"></i>
-                    <div class="small fw-bold">Tự động</div>
+            <div class="mt-4 row g-2 text-center">
+                <div class="col-4">
+                    <div class="bg-white bg-opacity-10 rounded p-2">
+                        <div class="small opacity-75">ODO (Km)</div>
+                        <div class="fw-bold">45.200</div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-3">
-                <div class="p-2 border rounded text-center bg-surface">
-                    <i class="fa-solid fa-gas-pump text-primary mb-1"></i>
-                    <div class="small fw-bold">Xăng</div>
+                <div class="col-4">
+                    <div class="bg-white bg-opacity-10 rounded p-2">
+                        <div class="small opacity-75">Năm SX</div>
+                        <div class="fw-bold">2019</div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-3">
-                <div class="p-2 border rounded text-center bg-surface">
-                    <i class="fa-solid fa-chair text-primary mb-1"></i>
-                    <div class="small fw-bold">5 Chỗ</div>
+                <div class="col-4">
+                    <div class="bg-white bg-opacity-10 rounded p-2">
+                        <div class="small opacity-75">Màu</div>
+                        <div class="fw-bold">Trắng</div>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <!-- Description -->
-        <h5 class="fw-bold mb-2">Mô tả</h5>
-        <p class="text-muted small mb-4">
-            Mercedes-Benz C300 AMG mang đến trải nghiệm lái thể thao và sang trọng. Nội thất da cao cấp, hệ thống âm
-            thanh Burmester, và các tính năng an toàn hàng đầu. Phù hợp cho các chuyến công tác hoặc sự kiện quan trọng.
-        </p>
-
-        <!-- Features List -->
-        <h5 class="fw-bold mb-2">Tính năng</h5>
-        <ul class="list-unstyled text-muted small row">
-            <li class="col-6 mb-2"><i class="fa-solid fa-check text-success me-2"></i>Bluetooth</li>
-            <li class="col-6 mb-2"><i class="fa-solid fa-check text-success me-2"></i>Camera 360</li>
-            <li class="col-6 mb-2"><i class="fa-solid fa-check text-success me-2"></i>Cửa sổ trời</li>
-            <li class="col-6 mb-2"><i class="fa-solid fa-check text-success me-2"></i>Map GPS</li>
-        </ul>
     </div>
 
-    <!-- Sticky Summary Action -->
-    <div class="sticky-summary">
-        <div class="summary-price">
-            <small>Đơn giá</small>
-            <span>2.500.000đ</span>
+    <main class="container mt-n4 position-relative z-1 mb-5">
+
+        <!-- Timeline Section -->
+        <div class="card border-0 shadow-sm p-4">
+            <h5 class="fw-bold mb-4">Lịch sử sửa chữa</h5>
+
+            <div class="timeline">
+                <!-- Event 1 (Latest) -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-warning-subtle text-warning rounded-pill">Đang xử lý</span>
+                            <small class="text-muted">Hôm nay</small>
+                        </div>
+                        <h6 class="fw-bold">Bảo dưỡng cấp 45.000km</h6>
+                        <p class="text-muted small mb-2">Chi nhánh: Garage Quận 7</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-primary">Đang báo giá</span>
+                            <a href="quotation-view.html" class="btn btn-sm btn-primary rounded-pill px-3">Xem báo
+                                giá</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot border-secondary bg-secondary"></div>
+                    <div class="timeline-content opacity-75">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-success-subtle text-success rounded-pill">Hoàn thành</span>
+                            <small class="text-muted">15/08/2023</small>
+                        </div>
+                        <h6 class="fw-bold">Thay dầu & Lọc dầu</h6>
+                        <p class="text-muted small mb-2">Chi nhánh: Garage Quận 7</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-dark">550.000đ</span>
+                            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3">Chi tiết</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot border-secondary bg-secondary"></div>
+                    <div class="timeline-content opacity-75">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-success-subtle text-success rounded-pill">Hoàn thành</span>
+                            <small class="text-muted">02/02/2023</small>
+                        </div>
+                        <h6 class="fw-bold">Sơn cản trước</h6>
+                        <p class="text-muted small mb-2">Chi nhánh: Garage Tân Bình</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-dark">1.200.000đ</span>
+                            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3">Chi tiết</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <a href="booking.html" class="btn btn-primary px-4 rounded-pill">
-            Đặt ngay
-        </a>
-    </div>
+
+    </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

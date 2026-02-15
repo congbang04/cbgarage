@@ -4,88 +4,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yêu cầu nhập hàng | Admin Portal</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Yêu cầu xuất kho | Garage Pro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/design-system.css">
     <link rel="stylesheet" href="../../assets/css/admin.css">
 </head>
 
 <body>
     <div class="admin-wrapper">
-        <aside class="admin-sidebar show">
+        <nav class="sidebar">
             <div class="sidebar-header">
-                <a href="../dashboard.html" class="sidebar-brand"><i class="fa-solid fa-layer-group"></i>
-                    <span>Admin</span></a>
+                <a href="#" class="sidebar-brand"><i class="fas fa-wrench text-primary"></i> GARAGE PRO</a>
             </div>
-            <div class="sidebar-content">
-                <nav>
-                    <a href="inventory.html" class="sidebar-nav-link"><i class="fa-solid fa-boxes-stacked"></i> Tồn
-                        kho</a>
-                    <a href="requests.html" class="sidebar-nav-link active"><i class="fa-solid fa-file-import"></i> Nhập
-                        hàng</a>
-                    <a href="goods-issue.html" class="sidebar-nav-link"><i class="fa-solid fa-dolly"></i> Xuất kho</a>
-                    <a href="transfer.html" class="sidebar-nav-link"><i class="fa-solid fa-truck-arrow-right"></i>
-                        Chuyển kho</a>
-                </nav>
+            <div class="sidebar-menu">
+                <a href="inventory.html" class="nav-link"><i class="fas fa-boxes"></i> Tồn kho</a>
+                <a href="requests.html" class="nav-link active"><i class="fas fa-clipboard-check"></i> Duyệt yêu cầu</a>
+                <a href="transfer.html" class="nav-link"><i class="fas fa-truck-loading"></i> Chuyển kho</a>
             </div>
-        </aside>
+        </nav>
 
-        <main class="admin-main">
-            <header class="admin-topbar">
-                <div class="topbar-left">
-                    <h5 class="mb-0 fw-bold">Yêu cầu nhập hàng (PO)</h5>
-                </div>
-                <div class="topbar-right">
-                    <button class="btn btn-primary btn-sm"><i class="fa-solid fa-plus me-1"></i> Tạo đơn nhập</button>
+        <div class="main-content">
+            <header class="top-navbar">
+                <div class="d-flex align-items-center">
+                    <a href="inventory.html" class="btn btn-light me-3"><i class="fas fa-arrow-left"></i></a>
+                    <h4 class="mb-0 fw-bold">Yêu cầu từ Kỹ thuật viên</h4>
                 </div>
             </header>
 
-            <div class="content-wrapper">
-                <div class="card border-0 shadow-sm">
-                    <table class="table align-middle mb-0">
-                        <thead class="bg-light">
-                            <tr>
-                                <th class="ps-4">Mã PO</th>
-                                <th>Nhà cung cấp</th>
-                                <th>Người tạo</th>
-                                <th>Ngày tạo</th>
-                                <th>Tổng tiền</th>
-                                <th>Trạng thái</th>
-                                <th class="text-end pe-4">Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="ps-4 fw-bold">PO-2023-088</td>
-                                <td>Công ty TNHH Castrol BP</td>
-                                <td>Admin Kho</td>
-                                <td>20/10/2023</td>
-                                <td>45.000.000đ</td>
-                                <td><span class="badge bg-warning-subtle text-warning">Chờ duyệt</span></td>
-                                <td class="text-end pe-4">
-                                    <button class="btn btn-sm btn-ghost text-success"><i
-                                            class="fa-solid fa-check"></i></button>
-                                    <button class="btn btn-sm btn-ghost text-danger"><i
-                                            class="fa-solid fa-xmark"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="ps-4 fw-bold">PO-2023-087</td>
-                                <td>Phụ tùng Mazda Chính hãng</td>
-                                <td>Admin Kho</td>
-                                <td>18/10/2023</td>
-                                <td>12.500.000đ</td>
-                                <td><span class="badge bg-success-subtle text-success">Đã nhập kho</span></td>
-                                <td class="text-end pe-4">
-                                    <button class="btn btn-sm btn-ghost"><i class="fa-solid fa-eye"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div class="p-4">
+                <div class="row g-4">
+                    <!-- Request Card 1 -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-top border-4 border-warning">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0 fw-bold">#REQ-005</h6>
+                                <span class="badge bg-warning text-dark">Chờ duyệt</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex mb-3">
+                                    <div class="me-3">
+                                        <div class="bg-light rounded p-2 text-center" style="width: 50px;">
+                                            <i class="fas fa-user-cog fs-4 text-secondary"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">KTV: Nguyễn Văn Hùng</div>
+                                        <div class="small text-muted">Xe: Ford Ranger - 59C-999.88</div>
+                                    </div>
+                                </div>
+                                <hr class="border-light">
+                                <ul class="list-group list-group-flush mb-3">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                        <div>
+                                            <div class="fw-bold small">Sơn đen nhám</div>
+                                            <div class="x-small text-muted">Mã: PNT-BLK-MAT</div>
+                                        </div>
+                                        <span class="badge bg-primary rounded-pill">x2 Lon</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                        <div>
+                                            <div class="fw-bold small">Dung môi pha sơn</div>
+                                            <div class="x-small text-muted">Mã: SOL-STD-01</div>
+                                        </div>
+                                        <span class="badge bg-primary rounded-pill">x1 Lít</span>
+                                    </li>
+                                </ul>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-success"><i class="fas fa-check"></i> Xuất kho</button>
+                                    <button class="btn btn-outline-danger">Từ chối</button>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-light small text-muted">
+                                <i class="far fa-clock"></i> Yêu cầu lúc: 10:30 hôm nay
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Request Card 2 -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-top border-4 border-success">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0 fw-bold">#REQ-004</h6>
+                                <span class="badge bg-success-subtle text-success">Đã xuất</span>
+                            </div>
+                            <div class="card-body opacity-75">
+                                <div class="d-flex mb-3">
+                                    <div class="me-3">
+                                        <div class="bg-light rounded p-2 text-center" style="width: 50px;">
+                                            <i class="fas fa-user-cog fs-4 text-secondary"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">KTV: Trần Nam</div>
+                                        <div class="small text-muted">Xe: Toyota Vios - 51G...</div>
+                                    </div>
+                                </div>
+                                <ul class="list-group list-group-flush mb-3">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                        <div>
+                                            <div class="fw-bold small">Lọc nhớt Vios</div>
+                                        </div>
+                                        <span class="badge bg-secondary rounded-pill">x1 Cái</span>
+                                    </li>
+                                </ul>
+                                <button class="btn btn-light w-100 border" disabled>Đã hoàn thành</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
 </body>
 

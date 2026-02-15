@@ -3,110 +3,133 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Báo giá | Customer Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duyệt báo giá | Garage Pro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/design-system.css">
     <link rel="stylesheet" href="../assets/css/customer.css">
 </head>
 
-<body class="has-sticky-summary">
+<body class="bg-light">
 
-    <div class="customer-container">
-        <!-- Header -->
-        <div class="app-header mb-3">
-            <a href="home.html" class="text-dark"><i class="fa-solid fa-arrow-left"></i></a>
-            <h1 class="app-header-title">Chi tiết Báo giá</h1>
-            <div style="width: 20px;"></div>
-        </div>
-
-        <!-- Status Timeline -->
-        <div class="card border-0 shadow-sm mb-4 bg-surface">
-            <div class="card-body">
-                <div class="timeline m-0">
-                    <div class="timeline-item">
-                        <div class="timeline-dot active"></div>
-                        <div class="timeline-content">
-                            <h5 class="fw-bold text-primary">Đã gửi báo giá</h5>
-                            <p>15/10/2023 - 09:30</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <h5>Khách hàng xác nhận</h5>
-                            <p>Đang chờ xử lý</p>
-                        </div>
-                    </div>
-                </div>
+    <!-- Sticky Header -->
+    <div class="bg-white shadow-sm p-3 sticky-top border-bottom">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <a href="car-detail.html" class="text-dark small text-decoration-none"><i
+                        class="fas fa-arrow-left me-1"></i> Trở về</a>
+                <h5 class="fw-bold mb-0">Báo giá #QT-9921</h5>
             </div>
-        </div>
-
-        <!-- Paper Quotation -->
-        <div class="card border border-light shadow-sm mb-4 bg-surface">
-            <div class="card-header bg-transparent border-bottom border-light">
-                <div class="d-flex justify-content-between">
-                    <span class="fw-bold">QT-2023-001</span>
-                    <span class="badge badge-soft-warning">Chờ duyệt</span>
-                </div>
-            </div>
-            <div class="card-body">
-                <h6 class="fw-bold text-primary mb-3">Thông tin thuê</h6>
-                <div class="row g-2 mb-3 font-monospace small">
-                    <div class="col-5 text-muted">Khách hàng:</div>
-                    <div class="col-7 text-end fw-bold">Nguyễn Minh Tuấn</div>
-                    <div class="col-5 text-muted">Xe:</div>
-                    <div class="col-7 text-end">Mercedes-Benz C300</div>
-                    <div class="col-5 text-muted">Từ ngày:</div>
-                    <div class="col-7 text-end">20/10/2023</div>
-                    <div class="col-5 text-muted">Đến ngày:</div>
-                    <div class="col-7 text-end">22/10/2023</div>
-                </div>
-
-                <hr class="border-light">
-
-                <h6 class="fw-bold text-primary mb-3">Chi tiết chi phí</h6>
-                <div class="table-responsive">
-                    <table class="table table-sm table-borderless small mb-0">
-                        <tbody>
-                            <tr>
-                                <td>Thuê xe (2 ngày)</td>
-                                <td class="text-end">5.000.000đ</td>
-                            </tr>
-                            <tr>
-                                <td>Tài xế (2 ngày)</td>
-                                <td class="text-end">1.000.000đ</td>
-                            </tr>
-                            <tr>
-                                <td>VAT (10%)</td>
-                                <td class="text-end">600.000đ</td>
-                            </tr>
-                            <tr class="border-top">
-                                <td class="fw-bold pt-2 fs-6">Tổng cộng</td>
-                                <td class="fw-bold pt-2 fs-6 text-primary text-end">6.600.000đ</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Terms -->
-        <div class="small text-muted mb-5">
-            * Bằng việc nhấn "Chấp nhận", bạn đồng ý với các điều khoản dịch vụ của chúng tôi.
+            <span class="badge bg-warning text-dark">Chờ duyệt</span>
         </div>
     </div>
 
-    <!-- Sticky Action -->
-    <div class="sticky-summary">
-        <button class="btn btn-outline-danger btn-sm rounded-pill me-2">Từ chối</button>
-        <a href="booking-success.html" class="btn btn-success flex-grow-1 rounded-pill">
-            Chấp nhận báo giá
-        </a>
+    <main class="container py-4 mb-5">
+
+        <!-- Info Card -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <small class="text-muted">Xe</small>
+                        <div class="fw-bold">Toyota Vios</div>
+                    </div>
+                    <div class="col-6 text-end">
+                        <small class="text-muted">Biển số</small>
+                        <div class="fw-bold">51G-123.45</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h6 class="fw-bold mb-3 text-muted">CHI TIẾT HẠNG MỤC</h6>
+
+        <!-- Item 1: Service -->
+        <div class="quotation-item">
+            <div class="flex-grow-1">
+                <div class="d-flex align-items-center mb-1">
+                    <span class="badge bg-info-subtle text-info me-2 rounded-1">Công</span>
+                    <h6 class="fw-bold mb-0">Thay dầu máy</h6>
+                </div>
+                <div class="text-muted small">Đơn giá: 150.000đ</div>
+            </div>
+            <div class="text-end ms-3">
+                <div class="fw-bold text-primary mb-2">150.000đ</div>
+                <div class="form-check form-switch d-inline-block">
+                    <input class="form-check-input" type="checkbox" role="switch" checked>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 2: Product -->
+        <div class="quotation-item">
+            <div class="flex-grow-1">
+                <div class="d-flex align-items-center mb-1">
+                    <span class="badge bg-secondary-subtle text-secondary me-2 rounded-1">Vật tư</span>
+                    <h6 class="fw-bold mb-0">Nhớt Castrol 5W30</h6>
+                </div>
+                <div class="text-muted small">SL: 4 Lít x 120.000đ</div>
+            </div>
+            <div class="text-end ms-3">
+                <div class="fw-bold text-primary mb-2">480.000đ</div>
+                <div class="form-check form-switch d-inline-block">
+                    <input class="form-check-input" type="checkbox" role="switch" checked>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 3: Product (Rejected example) -->
+        <div class="quotation-item rejected">
+            <div class="flex-grow-1">
+                <div class="d-flex align-items-center mb-1">
+                    <span class="badge bg-secondary-subtle text-secondary me-2 rounded-1">Vật tư</span>
+                    <h6 class="fw-bold mb-0">Lọc gió điều hòa</h6>
+                </div>
+                <div class="text-muted small">SL: 1 Cái x 250.000đ</div>
+            </div>
+            <div class="text-end ms-3">
+                <div class="fw-bold text-muted mb-2 text-decoration-line-through">250.000đ</div>
+                <div class="form-check form-switch d-inline-block">
+                    <input class="form-check-input" type="checkbox" role="switch">
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Sticky Footer Total -->
+    <div class="fixed-bottom bg-white border-top p-3 shadow-lg">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-end mb-3">
+                <span class="text-muted">Tổng cộng (2 mục):</span>
+                <h3 class="fw-bold text-primary mb-0">630.000đ</h3>
+            </div>
+            <div class="row g-2">
+                <div class="col-6">
+                    <button class="btn btn-outline-secondary w-100 rounded-pill">Từ chối tất cả</button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-primary w-100 rounded-pill fw-bold">PHÊ DUYỆT</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simple JS toggle UI logic for demo
+        document.querySelectorAll('.form-check-input').forEach(switchBtn => {
+            switchBtn.addEventListener('change', function () {
+                const item = this.closest('.quotation-item');
+                if (this.checked) {
+                    item.classList.remove('rejected');
+                } else {
+                    item.classList.add('rejected');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

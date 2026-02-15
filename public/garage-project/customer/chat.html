@@ -3,81 +3,86 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hỗ trợ | Customer Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat hỗ trợ | Garage Pro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/design-system.css">
     <link rel="stylesheet" href="../assets/css/customer.css">
 </head>
 
-<body class="chat-view">
+<body class="bg-light">
 
-    <!-- Chat Header -->
-    <header class="app-header bg-surface px-3 py-2 border-bottom fixed-top m-0 shadow-sm" style="height: 60px;">
-        <div class="d-flex align-items-center gap-3">
-            <a href="home.html" class="text-dark"><i class="fa-solid fa-arrow-left"></i></a>
-            <div class="d-flex align-items-center gap-2">
-                <div class="position-relative">
-                    <img src="../assets/img/avatars/default.png"
-                        onerror="this.src='https://ui-avatars.com/api/?name=Support&background=10b981&color=fff'"
-                        class="avatar rounded-circle" alt="Support">
-                    <span class="status-dot success position-absolute bottom-0 end-0 border border-white"></span>
-                </div>
-                <div class="d-flex flex-column">
-                    <span class="fw-bold text-dark text-start lh-1">CSKH 24/7</span>
-                    <small class="text-success lh-1 mt-1" style="font-size: 0.7rem;">Đang trực tuyến</small>
-                </div>
+    <!-- Header -->
+    <div class="bg-white shadow-sm px-3 py-2 d-flex align-items-center justify-content-between sticky-top">
+        <div class="d-flex align-items-center">
+            <a href="home.html" class="text-dark me-3"><i class="fas fa-arrow-left"></i></a>
+            <div class="position-relative">
+                <img src="../assets/img/bot-avatar.png"
+                    onerror="this.src='https://cdn-icons-png.flaticon.com/512/4712/4712027.png'"
+                    class="rounded-circle border" width="40" height="40">
+                <span class="position-absolute bottom-0 end-0 bg-success p-1 rounded-circle border border-white"></span>
+            </div>
+            <div class="ms-2">
+                <div class="fw-bold small">Trợ lý ảo Garage</div>
+                <div class="text-success x-small" style="font-size: 10px;">Đang hoạt động</div>
             </div>
         </div>
-        <a href="tel:1900xxxx" class="btn btn-light btn-sm rounded-circle text-primary"><i
-                class="fa-solid fa-phone"></i></a>
-    </header>
-
-    <!-- Spacer for fixed header -->
-    <div style="height: 70px;"></div>
-
-    <!-- Messages -->
-    <div class="customer-container pt-0">
-        <div class="text-center mb-4">
-            <span class="badge bg-light text-muted border fw-normal">Hôm nay, 09:30</span>
-        </div>
-
-        <div class="chat-container">
-            <!-- Received -->
-            <div class="chat-bubble received">
-                Xin chào! Tôi có thể giúp gì cho bạn về đơn đặt xe #BK-8829 không?
-                <span class="chat-time">09:30</span>
-            </div>
-
-            <!-- Sent -->
-            <div class="chat-bubble sent">
-                Chào bạn, mình muốn đổi địa điểm nhận xe sang Quận 7 được không?
-                <span class="chat-time">09:32</span>
-            </div>
-
-            <!-- Received -->
-            <div class="chat-bubble received">
-                Dạ được ạ. Anh vui lòng cho em xin địa chỉ cụ thể để em cập nhật phí giao xe nhé.
-                <span class="chat-time">09:33</span>
-            </div>
-
-            <!-- Sent -->
-            <div class="chat-bubble sent">
-                Chung cư Sunrise City, Nguyễn Hữu Thọ nhé.
-                <span class="chat-time">09:34</span>
-            </div>
-        </div>
+        <button class="btn btn-light btn-sm rounded-circle"><i class="fas fa-phone"></i></button>
     </div>
 
-    <!-- Input Area -->
-    <div class="chat-input-area">
-        <button class="btn btn-light text-primary rounded-circle p-2"><i class="fa-solid fa-plus"></i></button>
-        <input type="text" class="form-control rounded-pill border-0 bg-light" placeholder="Nhập tin nhắn...">
-        <button class="btn btn-primary rounded-circle p-2"><i class="fa-solid fa-paper-plane"></i></button>
+    <!-- Chat Area -->
+    <div class="chat-container">
+        <div class="chat-messages">
+            <div class="text-center small text-muted my-3">Hôm nay, 10:30</div>
+
+            <!-- Bot Message -->
+            <div class="chat-bubble bot">
+                Xin chào anh A! 👋 <br>
+                Em có thể giúp gì cho chiếc Toyota Vios của anh hôm nay?
+            </div>
+
+            <!-- User Message -->
+            <div class="chat-bubble user">
+                Xe anh đi bị rung khi đạp phanh em ơi.
+            </div>
+
+            <!-- Bot Message (Typing...) -->
+            <div class="chat-bubble bot text-muted small fst-italic">
+                <i class="fas fa-circle-notch fa-spin me-1"></i> Đang phân tích...
+            </div>
+
+            <!-- Bot Message Response -->
+            <div class="chat-bubble bot">
+                Dạ, hiện tượng rung khi đạp phanh thường do <b>đĩa phanh bị cong vênh</b> hoặc <b>má phanh mòn không
+                    đều</b> ạ. <br><br>
+                Anh nên mang xe đến kiểm tra sớm để đảm bảo an toàn. Em đặt lịch kiểm tra phanh cho anh vào sáng mai
+                nhé?
+                <div class="mt-2">
+                    <button class="btn btn-sm btn-outline-primary rounded-pill me-1 bg-white">Đặt lịch ngay</button>
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill bg-white">Báo giá sơ bộ</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Input Area -->
+        <div class="chat-input-area">
+            <div class="input-group">
+                <button class="btn btn-light text-secondary border"><i class="fas fa-camera"></i></button>
+                <input type="text" class="form-control border-start-0 border-end-0" placeholder="Nhập tin nhắn..."
+                    autofocus>
+                <button class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Auto scroll to bottom
+        const messages = document.querySelector('.chat-messages');
+        messages.scrollTop = messages.scrollHeight;
+    </script>
 </body>
 
 </html>

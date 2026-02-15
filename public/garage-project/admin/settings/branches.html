@@ -4,94 +4,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi nhánh | Admin Portal</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Cấu hình Chi nhánh | Garage Pro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/design-system.css">
     <link rel="stylesheet" href="../../assets/css/admin.css">
 </head>
 
 <body>
     <div class="admin-wrapper">
-        <aside class="admin-sidebar show">
+        <nav class="sidebar">
             <div class="sidebar-header">
-                <a href="../dashboard.html" class="sidebar-brand"><i class="fa-solid fa-layer-group"></i>
-                    <span>Admin</span></a>
+                <a href="#" class="sidebar-brand"><i class="fas fa-wrench text-primary"></i> GARAGE PRO</a>
             </div>
-            <div class="sidebar-content">
-                <div class="sidebar-menu-title">Cấu hình</div>
-                <nav>
-                    <a href="branches.html" class="sidebar-nav-link active"><i class="fa-solid fa-building"></i> Chi
-                        nhánh</a>
-                    <a href="services.html" class="sidebar-nav-link"><i class="fa-solid fa-screwdriver-wrench"></i> Dịch
-                        vụ</a>
-                    <a href="staff.html" class="sidebar-nav-link"><i class="fa-solid fa-users-gear"></i> Nhân viên</a>
-                    <a href="ai-logs.html" class="sidebar-nav-link"><i class="fa-solid fa-robot"></i> AI Logs</a>
-                </nav>
+            <div class="sidebar-menu">
+                <a href="services.html" class="nav-link"><i class="fas fa-tag"></i> Dịch vụ & Giá</a>
+                <a href="branches.html" class="nav-link active"><i class="fas fa-building"></i> Chi nhánh</a>
+                <a href="ai-logs.html" class="nav-link"><i class="fas fa-robot"></i> Quản trị AI</a>
             </div>
-        </aside>
+        </nav>
 
-        <main class="admin-main">
-            <header class="admin-topbar">
-                <div class="topbar-left">
-                    <h5 class="mb-0 fw-bold">Quản lý chi nhánh</h5>
-                </div>
-                <div class="topbar-right">
-                    <button class="btn btn-primary btn-sm"><i class="fa-solid fa-plus me-1"></i> Thêm chi nhánh</button>
-                </div>
+        <div class="main-content">
+            <header class="top-navbar justify-content-between">
+                <h4 class="mb-0 fw-bold">Quản lý Chi nhánh</h4>
+                <button class="btn btn-primary"><i class="fas fa-plus"></i> Thêm chi nhánh</button>
             </header>
 
-            <div class="content-wrapper">
+            <div class="p-4">
                 <div class="row g-4">
-                    <!-- Branch Card 1 -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card h-100 border-0 shadow-sm">
+                    <!-- Branch 1 -->
+                    <div class="col-md-6">
+                        <div class="card h-100">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <div class="bg-primary-subtle text-primary p-3 rounded-circle">
-                                        <i class="fa-solid fa-building fa-lg"></i>
+                                    <div>
+                                        <h5 class="fw-bold mb-1">Garage Quận 7</h5>
+                                        <span class="badge bg-primary">Trụ sở chính</span>
+                                        <span class="badge bg-success">Kho tổng</span>
                                     </div>
-                                    <span class="badge bg-success-subtle text-success">Hoạt động</span>
+                                    <div class="dropdown">
+                                        <button class="btn btn-light btn-sm" data-bs-toggle="dropdown"><i
+                                                class="fas fa-ellipsis-v"></i></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Sửa thông tin</a></li>
+                                            <li><a class="dropdown-item" href="#">Quản lý cầu nâng</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <h5 class="fw-bold mb-1">Trụ sở chính Quận 7</h5>
-                                <p class="text-muted small mb-3">123 Nguyễn Văn Linh, P. Tân Phong, Q.7, TP.HCM</p>
-                                <div class="small mb-2"><i class="fa-solid fa-phone me-2 text-muted"></i> 028 3333 4444
+                                <div class="mb-2"><i class="fas fa-map-marker-alt text-danger width-20"></i> 123 Nguyễn
+                                    Thị Thập, P. Tân Phú, Q.7</div>
+                                <div class="mb-3"><i class="fas fa-phone text-success width-20"></i> 1900 1234</div>
+                                <hr>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">Cầu nâng: <strong>5</strong></small>
+                                    <small class="text-muted">Nhân sự: <strong>12</strong></small>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
                                 </div>
-                                <div class="small mb-4"><i class="fa-solid fa-user-tie me-2 text-muted"></i> QL: Nguyễn
-                                    Văn Giám Đốc</div>
-                            </div>
-                            <div class="card-footer bg-transparent border-top py-3">
-                                <button class="btn btn-outline-secondary btn-sm w-100">Chi tiết</button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Branch Card 2 -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card h-100 border-0 shadow-sm">
+                    <!-- Branch 2 -->
+                    <div class="col-md-6">
+                        <div class="card h-100">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <div class="bg-info-subtle text-info p-3 rounded-circle">
-                                        <i class="fa-solid fa-building fa-lg"></i>
+                                    <div>
+                                        <h5 class="fw-bold mb-1">Garage Tân Bình</h5>
+                                        <span class="badge bg-secondary">Chi nhánh</span>
                                     </div>
-                                    <span class="badge bg-success-subtle text-success">Hoạt động</span>
+                                    <div class="dropdown">
+                                        <button class="btn btn-light btn-sm" data-bs-toggle="dropdown"><i
+                                                class="fas fa-ellipsis-v"></i></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Sửa thông tin</a></li>
+                                            <li><a class="dropdown-item" href="#">Quản lý cầu nâng</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <h5 class="fw-bold mb-1">Chi nhánh Gò Vấp</h5>
-                                <p class="text-muted small mb-3">456 Phan Văn Trị, P.5, Q. Gò Vấp, TP.HCM</p>
-                                <div class="small mb-2"><i class="fa-solid fa-phone me-2 text-muted"></i> 028 5555 6666
+                                <div class="mb-2"><i class="fas fa-map-marker-alt text-danger width-20"></i> 456 Cộng
+                                    Hòa, P.13, Q. Tân Bình</div>
+                                <div class="mb-3"><i class="fas fa-phone text-success width-20"></i> 1900 5678</div>
+                                <hr>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">Cầu nâng: <strong>3</strong></small>
+                                    <small class="text-muted">Nhân sự: <strong>8</strong></small>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
                                 </div>
-                                <div class="small mb-4"><i class="fa-solid fa-user-tie me-2 text-muted"></i> QL: Trần
-                                    Quản Lý</div>
-                            </div>
-                            <div class="card-footer bg-transparent border-top py-3">
-                                <button class="btn btn-outline-secondary btn-sm w-100">Chi tiết</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
