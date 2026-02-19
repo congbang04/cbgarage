@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('ai_messages', function (Blueprint $table) {
             $table->id();
+            $table->string('sender', 50);
+            $table->text('content');
+            $table->json('context_data')->nullable();
+
+            $table->foreignId('session_id')
+                ->constrained('ai_chat_sessions')
+                ->cascadeOnDelete();
+
             $table->timestamps();
         });
     }

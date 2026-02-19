@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('status', 50)->default('draft');
+            $table->decimal('total_amount', 15, 2)->default(0);
+
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('branch_id')->constrained('branches');
+            $table->foreignId('car_id')->constrained('cars');
+            $table->foreignId('booking_id')->nullable()->constrained('bookings');
+            $table->foreignId('technician_id')->nullable()->constrained('technicians', 'user_id');
+
             $table->timestamps();
         });
     }

@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('ai_chat_sessions', function (Blueprint $table) {
             $table->id();
+            $table->string('title')->nullable();
+
+            $table->foreignId('customer_id')
+                ->constrained('customers', 'user_id')
+                ->cascadeOnDelete();
+
             $table->timestamps();
         });
     }

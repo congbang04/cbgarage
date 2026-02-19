@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('booking_services', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('booking_id')
+                ->constrained('bookings', 'booking_id')
+                ->cascadeOnDelete();
+            $table->foreignId('service_id')->constrained('services', 'service_id');
+
+            $table->decimal('price', 15, 2);
             $table->timestamps();
         });
     }

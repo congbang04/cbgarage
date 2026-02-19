@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
+            $table->integer('quantity')->default(0);
+            $table->integer('min_stock')->default(0);
+
+            $table->foreignId('branch_id')->constrained('branches');
+            $table->foreignId('part_id')->constrained('parts');
+
             $table->timestamps();
         });
     }

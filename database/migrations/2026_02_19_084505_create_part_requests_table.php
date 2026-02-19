@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('part_requests', function (Blueprint $table) {
             $table->id();
+            $table->string('status', 50)->default('pending');
+            $table->text('note')->nullable();
+
+            $table->foreignId('order_id')->constrained('orders');
+            $table->foreignId('technician_id')->constrained('technicians', 'user_id');
+
             $table->timestamps();
         });
     }

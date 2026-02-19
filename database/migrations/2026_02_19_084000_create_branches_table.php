@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('address');
+            $table->boolean('is_central_warehouse')->default(false);
+            $table->string('phone', 20);
+            $table->string('coordinates')->nullable();
             $table->timestamps();
         });
     }

@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('parts', function (Blueprint $table) {
             $table->id();
+            $table->string('sku')->unique();
+            $table->string('name');
+            $table->decimal('price_sell', 15, 2);
+            $table->string('unit', 50);
             $table->timestamps();
         });
     }

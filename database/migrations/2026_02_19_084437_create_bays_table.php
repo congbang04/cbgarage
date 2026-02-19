@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('bays', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 50);
+            $table->string('status', 50)->default('available');
+            $table->string('type', 50);
+
+            $table->foreignId('branch_id')->constrained('branches');
+
             $table->timestamps();
         });
     }

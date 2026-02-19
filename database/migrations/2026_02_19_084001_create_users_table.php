@@ -18,6 +18,15 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->string('role', 50);
+            $table->boolean('is_actived')->default(true);
+            $table->boolean('is_deleted')->default(false);
+
+            $table->foreignId('branch_id')
+                ->nullable()
+                ->nullOnDelete()
+                ->constrained('branches');
+
             $table->timestamps();
         });
 
