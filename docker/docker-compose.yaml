@@ -13,8 +13,8 @@ services:
       - /var/www/node_modules
     ports:
       - "8000:80"     # Nginx
-      - "8081:8081"   # Reverb 
-      - "5173:5173"   # Vite 
+      - "8082:8082"   # Reverb 
+      - "5175:5175"   # Vite 
     depends_on:
       - db
 
@@ -28,7 +28,7 @@ services:
       MYSQL_USER: laravel
       MYSQL_PASSWORD: '1'
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
 
