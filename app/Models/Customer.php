@@ -6,5 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    //
+    protected $fillable = ['user_id', 'phone', 'address', 'is_active'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function cars()
+    {
+        return $this->hasMany(Car::class);
+    }
+
+    // Bổ sung: Customer có nhiều Booking
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
+    public function chatSessions()
+    {
+        return $this->hasMany(AiChatSession::class);
+    }
 }
