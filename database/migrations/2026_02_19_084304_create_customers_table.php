@@ -17,7 +17,7 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
             $table->string('name');
-            $table->string('phone', 20);
+            $table->string('phone', 20)->nullable();
             $table->string('address')->nullable();
             $table->boolean('is_active')->default(true);
 
