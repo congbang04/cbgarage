@@ -6,15 +6,14 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('customer.home');
 })->name('welcome');
-Route::prefix('auth')->group(function () {
-    Route::get('login', [AuthController::class, 'login'])->name('auth.login');
-    Route::post('login', [AuthController::class, 'store'])->name('auth.store');
-    Route::get('register', [AuthController::class, 'register'])->name('auth.register');
-    Route::POST('confirmed-register', [AuthController::class, 'storeRegister'])->name('auth.storeRegister');
-    Route::POST('logout', [AuthController::class, 'logout'])->name('auth.logout');
-});
+
+Route::get('login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('login', [AuthController::class, 'store'])->name('auth.store');
+Route::get('register', [AuthController::class, 'register'])->name('auth.register');
+Route::POST('confirmed-register', [AuthController::class, 'storeRegister'])->name('auth.storeRegister');
+Route::POST('logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 Route::get('/email/verify', function () {
     if (auth()->user()->hasVerifiedEmail()) {
@@ -26,7 +25,7 @@ Route::get('/email/verify', function () {
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
 
-    return redirect('/home');
+    return redirect('/');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', function (Request $request) {

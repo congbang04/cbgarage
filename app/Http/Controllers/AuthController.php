@@ -2,19 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\NoCacheHeaders;
+use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Services\AuthService;
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
-class AuthController extends Controller
+class AuthController extends Controller implements HasMiddleware
+
 {
     protected $authService;
     public function __construct(AuthService $authService)
     {
         $this->authService = $authService;
+    }
+    public static function middleware(): array
+    {
+        return [
+            // Áp dụng cho các phương thức chỉ dành cho GUEST
+            new Middleware(
+                // Kết hợp cả hai middleware
+                middleware: ['guest', NoCacheHeaders::class],
+                // Áp dụng cho tất cả các trang không cần đăng nhập
+                only: ['login', 'register', 'storeRegister']
+            ),
+
+            // Áp dụng cho các phương thức yêu cầu đã ĐĂNG NHẬP
+            new Middleware(
+                middleware: 'auth',
+                only: ['logout']
+            ),
+        ];
     }
     public function login()
     {
@@ -23,6 +47,43 @@ class AuthController extends Controller
     public function register()
     {
         return view('auth.register');
+    }
+    public function store(LoginUserRequest $request)
+    {
+        $data = [
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+            'last_login_ip' => $request->ip(),
+            'remember_token' => $request->has('remember_token'),
+        ];
+        try {
+            // Thực hiện đăng nhập
+            $this->authService->login($data);
+
+            // Lấy thông tin người dùng vừa được xác thực
+            $user = Auth::user();
+
+            // Kiểm tra group_role và điều hướng
+            if ($user && $user->group_role == 'ADMIN') {
+                return redirect()->route('admin.dashboard')
+                    ->with('success', 'Chào mừng Admin, đăng nhập thành công!');
+            }
+            if ($user && $user->group_role == 'TECHNICIAN') {
+                return redirect()->route('toDoList')
+                    ->with('success', 'Chào mừng Technician, đăng nhập thành công!');
+            }
+
+            // Nếu không phải ADMIN, chuyển hướng đến trang mặc định
+            return redirect()->route('welcome')
+                ->with('success', 'Đăng nhập thành công!');
+        } catch (ValidationException $e) {
+            return back()->withErrors($e->errors())->withInput($request->except('password'));
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
     public function storeRegister(RegisterRequest $request)
     {

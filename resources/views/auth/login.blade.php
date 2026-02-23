@@ -19,11 +19,16 @@
             <p class="auth-subtitle">Nhập thông tin để truy cập tài khoản của bạn</p>
 
             <!-- Login Form -->
-            <form class="auth-form" action="../index.html" method="POST">
+            <form class="auth-form" action="{{ route('auth.store') }}" method="POST">@csrf
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="name@company.com" required>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="name@company.com"
+                        @error('email') is-invalid @enderror value="{{ old('email') }}" required autofocus>
+                    @error('email')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
+
 
                 <div class="mb-3">
                     <div class="d-flex justify-content-between align-items-center mb-1">
@@ -31,16 +36,21 @@
                         <a href="forgot-password.html" class="small text-primary-main fw-semibold">Quên mật khẩu?</a>
                     </div>
                     <div class="input-group">
-                        <input type="password" class="form-control" id="password" placeholder="••••••••" required>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="••••••••"
+                            @error('password') is-invalid @enderror required>
                         <span class="input-group-text bg-surface cursor-pointer">
                             <i class="fa-regular fa-eye-slash text-muted"></i>
                         </span>
                     </div>
+                    @error('password')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
 
+
                 <div class="mb-4 form-check">
-                    <input type="checkbox" class="form-check-input" id="remember">
-                    <label class="form-check-label text-muted small" for="remember">Ghi nhớ đăng nhập</label>
+                    <input type="checkbox" class="form-check-input" id="remember_token" name="remember_token">
+                    <label class="form-check-label text-muted small" for="remember_token">Ghi nhớ đăng nhập</label>
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-auth-action">

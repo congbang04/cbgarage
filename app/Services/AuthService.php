@@ -47,13 +47,13 @@ class AuthService
             ]);
         }
         // Kiểm tra tài khoản bị xóa
-        if ($user->is_delete == 1) {
+        if ($user->is_deleted == 1) {
             throw ValidationException::withMessages([
                 'email' => 'Tài khoản này đã bị xóa hoặc vô hiệu hóa.',
             ]);
         }
         // Kiểm tra tài khoản bị khóa
-        if ($user->is_active == 0) {
+        if ($user->is_actived == 0) {
             throw ValidationException::withMessages([
                 'email' => 'Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.',
             ]);

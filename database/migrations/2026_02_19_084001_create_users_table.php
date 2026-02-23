@@ -26,6 +26,8 @@ return new class extends Migration
                 ->nullOnDelete()
                 ->constrained('branches');
 
+            $table->timestamp('last_login_at')->nullable();
+            $table->string('last_login_ip', 40)->nullable();
             $table->timestamps();
         });
 

@@ -184,6 +184,12 @@ a:hover {
     padding: 30px;
 }
 
+#btn-logout:hover {
+    background: red;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+}
 /* ==========================================================================
    4. COMPONENTS: CARDS
    ========================================================================== */
