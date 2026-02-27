@@ -1,0 +1,140 @@
+@extends('layouts.app')
+@section('title', 'Thông tin cá nhân')
+@section('styles')
+    <link rel="stylesheet" href={{ asset('assets/css/design-system.css') }}>
+    <link rel="stylesheet" href={{ asset('assets/css/customer.css') }}>
+@endsection
+@section('header')
+    <nav class="navbar navbar-light bg-white shadow-sm mb-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="{{ route('home') }}">
+                <i class="fas fa-chevron-left me-2 text-dark fs-6"></i> Quay lại trang chủ
+            </a>
+        </div>
+    </nav>
+@endsection
+@section('content')
+    <main class="container">
+        <div class="row">
+            <!-- Sidebar / User Info -->
+            <div id="profileSidebar" class="col-md-4 mb-4">
+                <div class="card border-0 shadow-sm text-center p-4 h-100">
+                    <div class="mb-3 position-relative d-block mx-auto" style="width: max-content;">
+                        <img src="https://ui-avatars.com/api/?name=Le+Cong+Bang&amp;size=128"
+                            class="rounded-circle shadow-sm" alt="Avatar">
+                        <span
+                            class="position-absolute bg-primary text-white rounded-circle p-2 border border-2 border-white d-flex align-items-center justify-content-center"
+                            style="cursor: pointer; bottom: 5px; right: 5px;">
+                            <i class="fas fa-camera small"></i>
+                        </span>
+                    </div>
+                    <h5 class="fw-bold mb-1">{{ Auth::user()->customer->name }}</h5>
+                    <p class="text-muted small mb-3">Thành viên Bạc <i class="fas fa-star text-warning"></i></p>
+
+                    <button type="button" class="btn btn-outline-primary btn-sm rounded-pill" data-bs-toggle="modal"
+                        data-bs-target="#updateProfileModal"><i class="fas fa-edit me-1"></i>
+                        Chỉnh sửa hồ sơ
+                    </button>
+
+                    <hr class="my-4">
+                    <div class="text-start">
+                        <div class="mb-2"><i class="fas fa-phone-alt text-muted me-2 width-20"></i>
+                            {{ Auth::user()->customer->phone }}</div>
+                        <div class="mb-2"><i class="fas fa-envelope text-muted me-2 width-20"></i>
+                            {{ Auth::user()->email }}</div>
+                        <div class="mb-2"><i class="fas fa-map-marker-alt text-muted me-2 width-20"></i>
+                            {{ Auth::user()->customer->address ?? 'Chưa cập nhật địa chỉ' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content: My Cars & Bookings -->
+            <div class="col-md-8">
+
+                <!-- Section: Xe của tôi -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">Danh sách xe</h5>
+                    <button type="button" class="btn btn-primary btn-sm rounded-pill" data-bs-toggle="modal"
+                        data-bs-target="#addCarModal"><i class="fas fa-plus me-1"></i> Thêm
+                        xe</button>
+                </div>
+
+                <!-- Car 1 -->
+                <div class="card border-0 shadow-sm mb-3 overflow-hidden">
+                    <div class="row g-0">
+                        <div class="col-4 bg-light d-flex align-items-center justify-content-center">
+                            <i class="fas fa-car fa-3x text-secondary opacity-50"></i>
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h5 class="card-title fw-bold mb-1">Toyota Vios</h5>
+                                        <p class="card-text text-muted small mb-2">51G-123.45</p>
+                                        <span class="badge bg-success-subtle text-success rounded-pill px-3">Hoạt
+                                            động</span>
+                                    </div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-link text-muted p-0" data-bs-toggle="dropdown"><i
+                                                class="fas fa-ellipsis-v"></i></button>
+                                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                                            <li><a class="dropdown-item" href="{{ route('customer.carDetail') }}">Xem chi
+                                                    tiết</a></li>
+                                            <li><a class="dropdown-item" href="booking.html">Đặt lịch sửa xe này</a>
+                                            </li>
+                                            <li>
+                                                <hr class="dropdown-divider">
+                                            </li>
+                                            <li><a class="dropdown-item text-danger" href="#">Xóa xe</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="mt-3 text-end">
+                                    <a href="{{ route('customer.carDetail') }}"
+                                        class="btn btn-outline-secondary btn-sm rounded-pill px-3">Lịch sử sửa chữa</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car 2 -->
+                <div class="card border-0 shadow-sm mb-3 overflow-hidden">
+                    <div class="row g-0">
+                        <div class="col-4 bg-light d-flex align-items-center justify-content-center">
+                            <i class="fas fa-truck-pickup fa-3x text-secondary opacity-50"></i>
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h5 class="card-title fw-bold mb-1">Ford Ranger</h5>
+                                        <p class="card-text text-muted small mb-2">59C-999.88</p>
+                                        <span class="badge bg-warning-subtle text-warning rounded-pill px-3">Bảo
+                                            dưỡng</span>
+                                    </div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-link text-muted p-0" data-bs-toggle="dropdown"><i
+                                                class="fas fa-ellipsis-v"></i></button>
+                                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                                            <li><a class="dropdown-item" href="#">Xem chi tiết</a></li>
+                                            <li><a class="dropdown-item text-danger" href="#">Xóa xe</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="mt-3 text-end">
+                                    <a href="#" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Lịch sử
+                                        sửa chữa</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    @include('customer.modal.profile-modal')
+    @include('customer.modal.add-car-modal')
+@endsection

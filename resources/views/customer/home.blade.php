@@ -3,9 +3,13 @@
 @section('styles')
     <link rel="stylesheet" href={{ asset('assets/css/design-system.css') }}>
     <link rel="stylesheet" href={{ asset('assets/css/customer.css') }}>
+@endsection
+
 @section('header')
     @include('layouts.partials.navbar')
     @include('layouts.partials.header')
+@endsection
+
 @section('content')
     <!-- Main Content -->
     <main class="container">

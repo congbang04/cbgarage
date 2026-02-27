@@ -19,7 +19,7 @@
             <p class="auth-subtitle">Bắt đầu dùng thử miễn phí 14 ngày của bạn</p>
 
             <!-- Register Form -->
-            <form class="auth-form" action="{{ route('auth.storeRegister') }}" method="POST">@csrf
+            <form class="auth-form" action="{{ route('storeRegister') }}" method="POST">@csrf
                 <div class="mb-3">
                     <label for="fullname" class="form-label">Họ và tên</label>
                     <input type="text" class="form-control" id="customer_name" name="customer_name"
@@ -94,7 +94,7 @@
 
             <!-- Footer -->
             <div class="auth-footer">
-                Đã có tài khoản? <a href={{ route('auth.login') }}>Đăng nhập</a>
+                Đã có tài khoản? <a href={{ route('login') }}>Đăng nhập</a>
             </div>
         </div>
     </div>

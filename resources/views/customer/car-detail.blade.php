@@ -1,0 +1,108 @@
+@extends('layouts.app')
+@section('title', 'Chi tiết xe')
+@section('styles')
+    <link rel="stylesheet" href={{ asset('assets/css/design-system.css') }}>
+    <link rel="stylesheet" href={{ asset('assets/css/customer.css') }}>
+@endsection
+
+@section('header')
+    <div class="bg-primary text-white p-4 pb-5 rounded-bottom-4 shadow-sm">
+        <div class="container">
+            <a href="{{ route('customer.profile') }}" class="text-white mb-3 d-block"><i class="fas fa-arrow-left"></i> Quay
+                lại</a>
+            <div class="d-flex align-items-center">
+                <div class="bg-white text-primary rounded-circle p-3 me-3 shadow-sm">
+                    <i class="fas fa-car fa-2x"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold mb-0">Toyota Vios</h2>
+                    <div class="opacity-75">51G-123.45</div>
+                </div>
+            </div>
+            <div class="mt-4 row g-2 text-center">
+                <div class="col-4">
+                    <div class="bg-white bg-opacity-10 rounded p-2">
+                        <div class="small opacity-75">ODO (Km)</div>
+                        <div class="fw-bold">45.200</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="bg-white bg-opacity-10 rounded p-2">
+                        <div class="small opacity-75">Năm SX</div>
+                        <div class="fw-bold">2019</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="bg-white bg-opacity-10 rounded p-2">
+                        <div class="small opacity-75">Màu</div>
+                        <div class="fw-bold">Trắng</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('content')
+    <main class="container mt-n4 position-relative z-1 mb-5">
+
+        <!-- Timeline Section -->
+        <div class="card border-0 shadow-sm p-4">
+            <h5 class="fw-bold mb-4">Lịch sử sửa chữa</h5>
+
+            <div class="timeline">
+                <!-- Event 1 (Latest) -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-warning-subtle text-warning rounded-pill">Đang xử lý</span>
+                            <small class="text-muted">Hôm nay</small>
+                        </div>
+                        <h6 class="fw-bold">Bảo dưỡng cấp 45.000km</h6>
+                        <p class="text-muted small mb-2">Chi nhánh: Garage Quận 7</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-primary">Đang báo giá</span>
+                            <a href="quotation-view.html" class="btn btn-sm btn-primary rounded-pill px-3">Xem báo
+                                giá</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot border-secondary bg-secondary"></div>
+                    <div class="timeline-content opacity-75">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-success-subtle text-success rounded-pill">Hoàn thành</span>
+                            <small class="text-muted">15/08/2023</small>
+                        </div>
+                        <h6 class="fw-bold">Thay dầu & Lọc dầu</h6>
+                        <p class="text-muted small mb-2">Chi nhánh: Garage Quận 7</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-dark">550.000đ</span>
+                            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3">Chi tiết</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot border-secondary bg-secondary"></div>
+                    <div class="timeline-content opacity-75">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-success-subtle text-success rounded-pill">Hoàn thành</span>
+                            <small class="text-muted">02/02/2023</small>
+                        </div>
+                        <h6 class="fw-bold">Sơn cản trước</h6>
+                        <p class="text-muted small mb-2">Chi nhánh: Garage Tân Bình</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-dark">1.200.000đ</span>
+                            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3">Chi tiết</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+@endsection

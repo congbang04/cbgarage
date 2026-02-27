@@ -45,7 +45,7 @@
                 </form>
 
                 <!-- Form 2: Đăng xuất (POST method chuẩn Laravel) -->
-                <form method="POST" action="{{ route('auth.logout') }}">@csrf
+                <form method="POST" action="{{ route('logout') }}">@csrf
                     <button type="submit" class="btn-link-muted">
                         Đăng xuất
                     </button>

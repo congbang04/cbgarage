@@ -19,7 +19,7 @@
             <p class="auth-subtitle">Nhập thông tin để truy cập tài khoản của bạn</p>
 
             <!-- Login Form -->
-            <form class="auth-form" action="{{ route('auth.store') }}" method="POST">@csrf
+            <form class="auth-form" action="{{ route('store') }}" method="POST">@csrf
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="name@company.com"
@@ -75,7 +75,7 @@
 
             <!-- Footer -->
             <div class="auth-footer">
-                Chưa có tài khoản? <a href={{ route('auth.register') }}>Đăng ký ngay</a>
+                Chưa có tài khoản? <a href={{ route('register') }}>Đăng ký ngay</a>
             </div>
         </div>
     </div>

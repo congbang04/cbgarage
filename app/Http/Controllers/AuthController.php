@@ -74,7 +74,7 @@ class AuthController extends Controller implements HasMiddleware
             }
 
             // Nếu không phải ADMIN, chuyển hướng đến trang mặc định
-            return redirect()->route('welcome')
+            return redirect()->route('home')
                 ->with('success', 'Đăng nhập thành công!');
         } catch (ValidationException $e) {
             return back()->withErrors($e->errors())->withInput($request->except('password'));
@@ -108,6 +108,13 @@ class AuthController extends Controller implements HasMiddleware
     }
     public function logout(Request $request)
     {
+        $user = auth()->user();
+
+        if ($user) {
+            // Xóa remember_token trong database
+            $user->setRememberToken(null);
+            $user->save();
+        }
         Auth::logout(); // Đăng xuất user khỏi guard hiện tại
 
         // Xóa toàn bộ session để tránh session cũ bị tái sử dụng
@@ -116,6 +123,6 @@ class AuthController extends Controller implements HasMiddleware
         // Tạo lại CSRF token mới để tránh lỗi khi gửi form tiếp theo
         $request->session()->regenerateToken();
 
-        return redirect()->route('auth.login');
+        return redirect()->route('login');
     }
 }

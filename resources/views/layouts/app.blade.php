@@ -40,11 +40,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
-        window.routes = {
-            //
-        };
+    @include('layouts.routes')
 
+    <script>
         const Toast = Swal.mixin({
             toast: true, // Kích hoạt chế độ toast (thông báo nhỏ)
             position: "top-end", // Vị trí ở góc trên bên phải
