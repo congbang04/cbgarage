@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Car extends Model
 {
-    protected $fillable = ['license_plate', 'brand', 'model', 'vin_number', 'current_odo', 'customer_id'];
+    protected $fillable = ['customer_id', 'brand_id', 'car_model_id', 'license_plate', 'current_odo', 'vin_number'];
 
     public function customer()
     {
@@ -21,5 +21,15 @@ class Car extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
+    public function carModel()
+    {
+        return $this->belongsTo(CarModel::class);
     }
 }
