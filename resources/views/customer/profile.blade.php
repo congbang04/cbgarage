@@ -50,7 +50,7 @@
             </div>
 
             <!-- Main Content: My Cars & Bookings -->
-            <div class="col-md-8">
+            <div id="car_list" class="col-md-8">
 
                 <!-- Section: Xe của tôi -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -59,82 +59,54 @@
                         data-bs-target="#addCarModal"><i class="fas fa-plus me-1"></i> Thêm
                         xe</button>
                 </div>
-
-                <!-- Car 1 -->
-                <div class="card border-0 shadow-sm mb-3 overflow-hidden">
-                    <div class="row g-0">
-                        <div class="col-4 bg-light d-flex align-items-center justify-content-center">
-                            <i class="fas fa-car fa-3x text-secondary opacity-50"></i>
-                        </div>
-                        <div class="col-8">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <h5 class="card-title fw-bold mb-1">Toyota Vios</h5>
-                                        <p class="card-text text-muted small mb-2">51G-123.45</p>
-                                        <span class="badge bg-success-subtle text-success rounded-pill px-3">Hoạt
-                                            động</span>
+                @foreach ($cars as $car)
+                    <!-- Car 1 -->
+                    <div class="card border-0 shadow-sm mb-3 overflow-hidden">
+                        <div class="row g-0">
+                            <div class="col-4 bg-light d-flex align-items-center justify-content-center">
+                                <i class="fas fa-car fa-3x text-secondary opacity-50"></i>
+                            </div>
+                            <div class="col-8">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h5 class="card-title fw-bold mb-1">
+                                                {{ $car->brand->name ?? 'Hãng xe không xác định' }}
+                                                {{ $car->carModel->name ?? 'Dòng xe không xác định' }}</h5>
+                                            <p class="card-text text-muted small mb-2"> {{ $car->license_plate }}
+                                            </p>
+                                            <span class="badge bg-success-subtle text-success rounded-pill px-3">Hoạt
+                                                động</span>
+                                        </div>
+                                        <div class="dropdown">
+                                            <button class="btn btn-link text-muted p-0" data-bs-toggle="dropdown"><i
+                                                    class="fas fa-ellipsis-v"></i></button>
+                                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('customer.carDetail', $car->id) }}">Xem
+                                                        chi
+                                                        tiết</a></li>
+                                                <li><a class="dropdown-item" href="booking.html">Đặt lịch sửa xe này</a>
+                                                </li>
+                                                <li>
+                                                    <hr class="dropdown-divider">
+                                                </li>
+                                                <li><a class="dropdown-item text-danger" href="#">Xóa xe</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="dropdown">
-                                        <button class="btn btn-link text-muted p-0" data-bs-toggle="dropdown"><i
-                                                class="fas fa-ellipsis-v"></i></button>
-                                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
-                                            <li><a class="dropdown-item" href="{{ route('customer.carDetail') }}">Xem chi
-                                                    tiết</a></li>
-                                            <li><a class="dropdown-item" href="booking.html">Đặt lịch sửa xe này</a>
-                                            </li>
-                                            <li>
-                                                <hr class="dropdown-divider">
-                                            </li>
-                                            <li><a class="dropdown-item text-danger" href="#">Xóa xe</a></li>
-                                        </ul>
+                                    <div class="mt-3 text-end">
+                                        <a href="{{ route('customer.carDetail', $car->id) }}"
+                                            class="btn btn-outline-secondary btn-sm rounded-pill px-3">Lịch sử sửa chữa</a>
                                     </div>
-                                </div>
-                                <div class="mt-3 text-end">
-                                    <a href="{{ route('customer.carDetail') }}"
-                                        class="btn btn-outline-secondary btn-sm rounded-pill px-3">Lịch sử sửa chữa</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Car 2 -->
-                <div class="card border-0 shadow-sm mb-3 overflow-hidden">
-                    <div class="row g-0">
-                        <div class="col-4 bg-light d-flex align-items-center justify-content-center">
-                            <i class="fas fa-truck-pickup fa-3x text-secondary opacity-50"></i>
-                        </div>
-                        <div class="col-8">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <h5 class="card-title fw-bold mb-1">Ford Ranger</h5>
-                                        <p class="card-text text-muted small mb-2">59C-999.88</p>
-                                        <span class="badge bg-warning-subtle text-warning rounded-pill px-3">Bảo
-                                            dưỡng</span>
-                                    </div>
-                                    <div class="dropdown">
-                                        <button class="btn btn-link text-muted p-0" data-bs-toggle="dropdown"><i
-                                                class="fas fa-ellipsis-v"></i></button>
-                                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
-                                            <li><a class="dropdown-item" href="#">Xem chi tiết</a></li>
-                                            <li><a class="dropdown-item text-danger" href="#">Xóa xe</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="mt-3 text-end">
-                                    <a href="#" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Lịch sử
-                                        sửa chữa</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                @endforeach
             </div>
         </div>
     </main>
     @include('customer.modal.profile-modal')
-    @include('customer.modal.add-car-modal')
+    @include('customer.modal.create-car-modal')
 @endsection

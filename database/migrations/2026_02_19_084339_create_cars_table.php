@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('customer_id')
-                ->constrained('customers', 'user_id')
+                ->constrained('customers')
                 ->cascadeOnDelete();
 
             $table->foreignId('brand_id')
@@ -27,8 +27,10 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->string('license_plate')->unique();
+            $table->year('manufacture_year');
+            $table->string('color', 50);
             $table->integer('current_odo')->default(0);
-            $table->string('vin_number')->unique()->nullable();
+            $table->string('vin_number')->nullable();
             $table->timestamps();
         });
     }

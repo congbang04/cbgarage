@@ -5,4 +5,5 @@ $.ajaxSetup({
     },
 });
 
-import "./modules/customer";
+import "./modules/customer/profile";
+import "./modules/car/car";

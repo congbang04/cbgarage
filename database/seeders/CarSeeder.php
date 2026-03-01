@@ -24,30 +24,36 @@ class CarSeeder extends Seeder
         $ranger = CarModel::where('name', 'Ranger')->where('brand_id', $ford->id)->first();
 
         Car::create([
-            'customer_id'  => 1,
-            'brand_id'     => $toyota->id,
-            'car_model_id' => $vios->id,
+            'customer_id'   => 1,
+            'brand_id'      => $toyota->id,
+            'car_model_id'  => $vios->id,
             'license_plate' => '51A-12345',
-            'current_odo'  => 45000,
-            'vin_number'   => 'VINTOYOTA123456789'
+            'manufacture_year' => 2020,
+            'color'         => 'Trắng',
+            'current_odo'   => 45000,
+            'vin_number'    => 'VINTOYOTA123456789'
         ]);
 
         Car::create([
-            'customer_id'  => 1,
-            'brand_id'     => $honda->id,
-            'car_model_id' => $civic->id,
+            'customer_id'   => 1,
+            'brand_id'      => $honda->id,
+            'car_model_id'  => $civic->id,
             'license_plate' => '60B-67890',
-            'current_odo'  => 32000,
-            'vin_number'   => 'VINHONDA987654321'
+            'manufacture_year' => 2021,
+            'color'         => 'Đen',
+            'current_odo'   => 32000,
+            'vin_number'    => 'VINHONDA987654321'
         ]);
 
         Car::create([
-            'customer_id'  => 1,
-            'brand_id'     => $ford->id,
-            'car_model_id' => $ranger->id,
+            'customer_id'   => 1,
+            'brand_id'      => $ford->id,
+            'car_model_id'  => $ranger->id,
             'license_plate' => '59C-24680',
-            'current_odo'  => 78000,
-            'vin_number'   => 'VINFORD112233445'
+            'manufacture_year' => 2019,
+            'color'         => 'Xám',
+            'current_odo'   => 78000,
+            'vin_number'    => 'VINFORD112233445'
         ]);
     }
 }

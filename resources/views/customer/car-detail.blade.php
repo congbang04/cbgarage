@@ -15,27 +15,28 @@
                     <i class="fas fa-car fa-2x"></i>
                 </div>
                 <div>
-                    <h2 class="fw-bold mb-0">Toyota Vios</h2>
-                    <div class="opacity-75">51G-123.45</div>
+                    <h2 class="fw-bold mb-0">{{ $car->brand->name ?? 'Hãng xe không xác định' }}
+                        {{ $car->carModel->name ?? 'Dòng xe không xác định' }}</h2>
+                    <div class="opacity-75">{{ $car->license_plate }}</div>
                 </div>
             </div>
             <div class="mt-4 row g-2 text-center">
                 <div class="col-4">
                     <div class="bg-white bg-opacity-10 rounded p-2">
                         <div class="small opacity-75">ODO (Km)</div>
-                        <div class="fw-bold">45.200</div>
+                        <div class="fw-bold">{{ $car->current_odo ?? 'Chưa cập nhật' }}</div>
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="bg-white bg-opacity-10 rounded p-2">
                         <div class="small opacity-75">Năm SX</div>
-                        <div class="fw-bold">2019</div>
+                        <div class="fw-bold">{{ $car->manufacture_year ?? 'Chưa cập nhật' }}</div>
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="bg-white bg-opacity-10 rounded p-2">
                         <div class="small opacity-75">Màu</div>
-                        <div class="fw-bold">Trắng</div>
+                        <div class="fw-bold">{{ $car->color ?? 'Chưa cập nhật' }}</div>
                     </div>
                 </div>
             </div>

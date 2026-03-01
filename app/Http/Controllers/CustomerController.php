@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\Brand;
+use App\Models\Car;
 use App\Models\Customer;
 use Illuminate\Support\Facades\DB;
 
@@ -14,11 +16,19 @@ class CustomerController extends Controller
     }
     public function profile()
     {
-        return view('customer.profile');
+        $cars = Car::whereHas('customer', function ($q) {
+            $q->where('user_id', auth()->id());
+        })->with(['brand', 'carModel', 'customer'])->get();
+        $brands = Brand::with('carModels')->get();
+
+        return view('customer.profile', compact('cars', 'brands'));
     }
-    public function carDetail()
+    public function carDetail(Car $car)
     {
-        return view('customer.car-detail');
+        if ($car->customer->user_id !== auth()->id()) {
+            abort(403);
+        }
+        return view('customer.car-detail', compact('car'));
     }
     public function update(UpdateCustomerRequest $request)
     {
