@@ -23,13 +23,7 @@ class CustomerController extends Controller
 
         return view('customer.profile', compact('cars', 'brands'));
     }
-    public function carDetail(Car $car)
-    {
-        if ($car->customer->user_id !== auth()->id()) {
-            abort(403);
-        }
-        return view('customer.car-detail', compact('car'));
-    }
+
     public function update(UpdateCustomerRequest $request)
     {
         $customer = Customer::where('user_id', auth()->id())

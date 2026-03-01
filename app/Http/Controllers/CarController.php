@@ -22,4 +22,16 @@ class CarController extends Controller
         ]);
         return response()->json(['message' => 'Xe đã được thêm thành công']);
     }
+    public function carDetail(Car $car)
+    {
+        if ($car->customer->user_id !== auth()->id()) {
+            abort(403);
+        }
+        return view('customer.car-detail', compact('car'));
+    }
+    public function destroy(Car $car)
+    {
+        $car->delete();
+        return response()->json(['message' => 'Xe đã được xóa thành công']);
+    }
 }

@@ -5,3 +5,9 @@ export function createCar(data) {
         data: data,
     });
 }
+export function deleteCar(carId) {
+    return $.ajax({
+        url: window.routes.carDestroy.replace(":id", carId),
+        method: "DELETE",
+    });
+}

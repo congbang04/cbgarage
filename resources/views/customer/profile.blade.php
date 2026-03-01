@@ -61,7 +61,7 @@
                 </div>
                 @foreach ($cars as $car)
                     <!-- Car 1 -->
-                    <div class="card border-0 shadow-sm mb-3 overflow-hidden">
+                    <div class="card border-0 shadow-sm mb-3 ">
                         <div class="row g-0">
                             <div class="col-4 bg-light d-flex align-items-center justify-content-center">
                                 <i class="fas fa-car fa-3x text-secondary opacity-50"></i>
@@ -79,8 +79,8 @@
                                                 động</span>
                                         </div>
                                         <div class="dropdown">
-                                            <button class="btn btn-link text-muted p-0" data-bs-toggle="dropdown"><i
-                                                    class="fas fa-ellipsis-v"></i></button>
+                                            <button class="btn btn-link text-muted btn-action-dots"
+                                                data-bs-toggle="dropdown"><i class="fas fa-ellipsis-v"></i></button>
                                             <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
                                                 <li><a class="dropdown-item"
                                                         href="{{ route('customer.carDetail', $car->id) }}">Xem
@@ -91,7 +91,12 @@
                                                 <li>
                                                     <hr class="dropdown-divider">
                                                 </li>
-                                                <li><a class="dropdown-item text-danger" href="#">Xóa xe</a></li>
+                                                <li>
+                                                    <button type="button" class="dropdown-item text-danger btn-delete-car"
+                                                        data-id="{{ $car->id }}">
+                                                        Xóa xe
+                                                    </button>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
