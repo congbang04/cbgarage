@@ -73,8 +73,10 @@
                                             <h5 class="card-title fw-bold mb-1">
                                                 {{ $car->brand->name ?? 'Hãng xe không xác định' }}
                                                 {{ $car->carModel->name ?? 'Dòng xe không xác định' }}</h5>
-                                            <p class="card-text text-muted small mb-2"> {{ $car->license_plate }}
+                                            <p class="card-text text-muted small mb-2">Biển số: {{ $car->license_plate }}
                                             </p>
+                                            <p class="card-text text-muted small mb-2">VIN:
+                                                {{ $car->vin_number ?? 'Chưa cập nhật' }}</p>
                                             <span class="badge bg-success-subtle text-success rounded-pill px-3">Hoạt
                                                 động</span>
                                         </div>

@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AddCarRequest;
+use App\Http\Requests\CreateCarRequest;
+use App\Http\Requests\UpdateCarRequest;
+use App\Models\Brand;
 use App\Models\Car;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
-    public function store(AddCarRequest $request)
+    public function store(CreateCarRequest $request)
     {
         Car::create([
             'customer_id' => auth()->id(),
@@ -27,7 +29,25 @@ class CarController extends Controller
         if ($car->customer->user_id !== auth()->id()) {
             abort(403);
         }
-        return view('customer.car-detail', compact('car'));
+        $brands = Brand::with('carModels')->get();
+
+        return view('customer.car-detail', compact('car', 'brands'));
+    }
+    public function update(UpdateCarRequest $request, Car $car)
+    {
+        if ($car->customer->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $validated = $request->validated();
+
+        $car->update($validated);
+
+        return response()->json([
+            'success' => true,
+            'car' => $car,
+            'message' => 'Cập nhật thông tin xe thành công',
+        ]);
     }
     public function destroy(Car $car)
     {

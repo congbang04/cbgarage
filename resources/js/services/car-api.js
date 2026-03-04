@@ -11,3 +11,10 @@ export function deleteCar(carId) {
         method: "DELETE",
     });
 }
+export function updateCar(carId, data) {
+    return $.ajax({
+        url: window.routes.carUpdate.replace(":id", carId),
+        method: "PUT",
+        data: data,
+    });
+}

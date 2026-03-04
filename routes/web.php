@@ -60,10 +60,9 @@ Route::put('/customer/update', [CustomerController::class, 'update'])
 */
 Route::prefix('car')->middleware(['auth', 'verified'])
     ->group(function () {
+        Route::get('/{car}', [CarController::class, 'carDetail'])
+            ->name('customer.carDetail');
         Route::post('/', [CarController::class, 'store'])->name('car.store');
+        Route::put('/{car}', [CarController::class, 'update'])->name('car.update');
         Route::delete('/{car}', [CarController::class, 'destroy'])->name('car.destroy');
     });
-
-Route::get('/car-detail/{car}', [CarController::class, 'carDetail'])
-    ->middleware(['auth', 'verified'])
-    ->name('customer.carDetail');

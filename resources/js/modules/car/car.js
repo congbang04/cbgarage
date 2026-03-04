@@ -1,4 +1,4 @@
-import { createCar, deleteCar } from "../../services/car-api";
+import { createCar, deleteCar, updateCar } from "../../services/car-api";
 
 $(document).ready(function () {
     $("#form_create_car").on("submit", function (e) {
@@ -55,6 +55,35 @@ $(document).ready(function () {
             }
         });
     });
+
+    $("#form_update_car").on("submit", function (e) {
+        e.preventDefault();
+
+        let form = $(this);
+        let formData = form.serialize();
+        let carId = $("#car_id").val();
+
+        clearErrors();
+
+        updateCar(carId, formData)
+            .done(function (res) {
+                Swal.fire("Thành công!", res.message, "success");
+
+                $("#form_update_car")[0].reset();
+
+                $(".modal").modal("hide");
+
+                loadCarDetail();
+            })
+            .fail(function (xhr) {
+                if (xhr.status === 422) {
+                    showValidationErrors(xhr.responseJSON.errors);
+                } else {
+                    Swal.fire("Lỗi!", "Không thể thêm xe.", "error");
+                }
+            });
+    });
+
     /*
     ===============================
     HELPER FUNCTIONS
@@ -77,5 +106,10 @@ $(document).ready(function () {
     }
     function loadCarList() {
         $("#car_list").load(window.location.href + " #car_list > *");
+    }
+    function loadCarDetail() {
+        $("#car_detail_header").load(
+            window.location.href + " #car_detail_header > *",
+        );
     }
 });
