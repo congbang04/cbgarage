@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Services\SlotService;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\CreateBookingRequest;
 use App\Models\WorkingHour;
 
 class SlotController extends Controller
@@ -21,7 +19,6 @@ class SlotController extends Controller
     }
     public function index(Request $request)
     {
-        dd($request->all());
         $validator = Validator::make($request->all(), [
             'date' => 'required|date_format:Y-m-d',
             'service_id' => 'required|exists:services,id',
@@ -45,62 +42,5 @@ class SlotController extends Controller
             'dayOfWeek' => $dayOfWeek,
             'dayActive' => $dayActive,
         ]);
-    }
-    public function confirmedBooking(CreateBookingRequest $request)
-    {
-        $data = [
-            'customer_name' => $request->input('customer_name'),
-            'customer_phone' => $request->input('customer_phone'),
-            'license_plate' => $request->input('license_plate'),
-            'issue_description' => $request->input('issue_description'),
-            'service_id' => $request->input('service_id'),
-            'start_time' => $request->input('start_time'),
-            'booking_id' => $request->input('booking_id')
-        ];
-        $date = $request->input('date');
-
-        try {
-            // Gọi service để xác nhận đặt lịch
-            $confirmedBooking = $this->slotService->confirmBooking($data);
-
-            // broadcast(new SlotStatusUpdated($date))->toOthers();
-
-            // Nếu không có lỗi, trả về response thành công
-            return response()->json([
-                'message' => 'Đặt lịch thành công!',
-                'booking' => $confirmedBooking,
-            ], 201);
-        } catch (Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage() // Lấy thông báo lỗi từ Exception
-            ],  (int) $e->getCode() ?: 500); // Lấy mã lỗi, mặc định là 400
-        }
-    }
-    public function storeLock(Request $request)
-    {
-        // Validate dữ liệu đầu vào cơ bản
-        $validatedData = $request->validate([
-            'service_id' => 'required|exists:services,id',
-            'start_time' => 'required|date',
-        ]);
-        $date = $request->date;
-
-        try {
-            $pendingBooking = $this->slotService->lockSlot($validatedData);
-
-            // broadcast(new SlotStatusUpdated($date))->toOthers();
-
-            return response()->json([
-                'message' => 'Slot đã được giữ tạm thời trong 10 phút.',
-                'booking_id' => $pendingBooking->id, // Trả về ID để front-end sử dụng
-                'expires_at' => $pendingBooking->lock_expires_at->toDateTimeString(),
-
-            ], 201); // 201 Created
-
-        } catch (Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], (int)$e->getCode() ?: 400);
-        }
     }
 }

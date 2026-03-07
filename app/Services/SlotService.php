@@ -28,7 +28,7 @@ class SlotService
             return [];
         }
         $bookingsOnDate = Booking::getBookingsOnDate($date);
-        $locksOnDate = BookingLock::getLockedBookingsOnDate($date);
+        $locksOnDate = BookingLock::getLocksOnDate($date);
         $potentialSlots = $this->generateSlots($workingHours['start'], $workingHours['end']);
         $availableSlots = [];
         $now = Carbon::now();
