@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('contact_name');
             $table->string('contact_phone', 20);
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
-            $table->dateTime('lock_expires_at')->nullable();
+            $table->timestamp('start_time');
+            $table->timestamp('end_time');
             $table->string('status', 50)->default('pending');
             $table->text('description')->nullable();
 

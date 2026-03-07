@@ -23,6 +23,10 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CustomerSeeder::class,
             CarSeeder::class,
+            ServiceSeeder::class,
+            BranchSeeder::class,
+            WorkingHourSeeder::class,
+            BaySeeder::class,
         ]);
         for ($i = 1; $i <= 3; $i++) {
             DB::table('users')->insert([

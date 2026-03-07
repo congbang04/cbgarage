@@ -18,6 +18,7 @@ return new class extends Migration
             $table->boolean('is_central_warehouse')->default(false);
             $table->string('phone', 20);
             $table->string('coordinates')->nullable();
+            $table->boolean('is_actived')->default(true);
             $table->timestamps();
         });
     }

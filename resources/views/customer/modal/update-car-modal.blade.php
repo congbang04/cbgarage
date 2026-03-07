@@ -7,8 +7,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="form_update_car" method="PUT" action="{{ route('car.update', $car->id) }}">
+                    <form id="form_update_car" method="POST" action="{{ route('car.update', $car->id) }}">
+                        @method('PUT')
                         @csrf
+
                         <input type="hidden" id="car_id" value="{{ $car->id }}">
                         <div class="row g-3 align-items-end">
 

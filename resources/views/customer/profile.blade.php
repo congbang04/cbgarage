@@ -39,9 +39,9 @@
                     <hr class="my-4">
                     <div class="text-start">
                         <div class="mb-2"><i class="fas fa-phone-alt text-muted me-2 width-20"></i>
-                            {{ Auth::user()->customer->phone }}</div>
+                            {{ Auth::user()->customer->phone ?? 'Chưa cập nhật số điện thoại' }}</div>
                         <div class="mb-2"><i class="fas fa-envelope text-muted me-2 width-20"></i>
-                            {{ Auth::user()->email }}</div>
+                            {{ Auth::user()->email ?? 'Chưa cập nhật email' }}</div>
                         <div class="mb-2"><i class="fas fa-map-marker-alt text-muted me-2 width-20"></i>
                             {{ Auth::user()->customer->address ?? 'Chưa cập nhật địa chỉ' }}
                         </div>
@@ -114,6 +114,6 @@
             </div>
         </div>
     </main>
-    @include('customer.modal.profile-modal')
+    @include('customer.modal.update-customer-modal')
     @include('customer.modal.create-car-modal')
 @endsection

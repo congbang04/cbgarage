@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\SlotController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\CustomerController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -66,3 +69,25 @@ Route::prefix('car')->middleware(['auth', 'verified'])
         Route::put('/{car}', [CarController::class, 'update'])->name('car.update');
         Route::delete('/{car}', [CarController::class, 'destroy'])->name('car.destroy');
     });
+/*
+    ===============================
+    BOOKING ROUTES
+    ===============================
+*/
+Route::prefix('booking')
+    ->group(function () {
+        Route::get('/', [BookingController::class, 'index'])
+            ->name('booking.index');
+        // Route::get('/{car}', [CarController::class, 'carDetail'])
+        //     ->name('customer.carDetail');
+        // Route::post('/', [CarController::class, 'store'])->name('car.store');
+        // Route::put('/{car}', [CarController::class, 'update'])->name('car.update');
+        // Route::delete('/{car}', [CarController::class, 'destroy'])->name('car.destroy');
+    });
+
+Route::resource('branches', BranchController::class);
+
+
+Route::get('slots', [SlotController::class, 'index'])->name('slots.index');
+// Route::post('slots/lock', [SlotController::class, 'storeLock'])->name('slots.storeLock');
+// Route::post('slots/confirmed-booking', [SlotController::class, 'confirmedBooking'])->name('slots.confirmedBooking');

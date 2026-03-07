@@ -22,7 +22,7 @@ class UpdateCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'nullable|string|min:5|max:255',
+            'name' => 'required|string|min:5|max:255',
             'phone' => 'nullable|digits_between:10,15',
             'address' => 'nullable|string|max:255',
         ];
@@ -30,6 +30,7 @@ class UpdateCustomerRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'name.required' => 'Tên không được để trống.',
             'name.min' => 'Tên phải có ít nhất 5 ký tự.',
             'name.max' => 'Dài quá số ký tự quy định.',
 

@@ -5,5 +5,6 @@ $.ajaxSetup({
     },
 });
 
-import "./modules/customer/profile";
-import "./modules/car/car";
+import "./modules/profile";
+import "./modules/car";
+import "./modules/booking";
