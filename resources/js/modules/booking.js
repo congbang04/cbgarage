@@ -1,11 +1,11 @@
-import { getSlots, createLock } from "../services/booking-api";
+import { getSlots, createLock, releaseLock } from "../services/booking-api";
 import { clearErrors, showValidationErrors } from "../helpers/validation";
 
 $(document).ready(function () {
     loadSlots();
     $("input[name='date']").on("change", loadSlots);
 });
-
+let currentLockId = null;
 function loadSlots() {
     const { branchId, serviceId, date } = getBookingData();
     console.log(branchId, serviceId, date);
@@ -65,6 +65,8 @@ function getBookingData() {
     };
 }
 $(document).on("click", "input[name='slot_time']", function () {
+    releaseCurrentLock();
+
     const { branchId, serviceId, date } = getBookingData();
 
     const timeSlot = $(this).data("time");
@@ -74,14 +76,42 @@ $(document).on("click", "input[name='slot_time']", function () {
     console.log(branchId, serviceId, date, startTime);
 
     createLock(branchId, serviceId, startTime)
-        .done(function () {
-            alert("Khung giờ đã được đặt thành công!");
+        .done(function (res) {
+            console.log(res);
+
+            currentLockId = res.id;
+
+            Swal.fire({
+                icon: "success",
+                title: "Đã giữ chỗ 5 phút",
+            });
         })
         .fail(function (xhr) {
             if (xhr.status === 422) {
                 showValidationErrors(xhr.responseJSON.errors, form);
             } else {
-                Swal.fire("Lỗi!", "Không thể thêm xe.", "error");
+                Swal.fire({
+                    icon: "error",
+                    title: "Rất tiếc...",
+                    text:
+                        xhr.responseJSON.message ??
+                        "Có lỗi xảy ra, vui lòng thử lại.",
+                    didClose: () => {
+                        $(this).prop("disabled", false).html(originalText);
+                    },
+                });
             }
         });
 });
+function releaseCurrentLock() {
+    if (!currentLockId) return;
+
+    releaseLock(currentLockId)
+        .done(function () {
+            console.log("Lock released");
+            currentLockId = null;
+        })
+        .fail(function () {
+            console.log("Release lock failed");
+        });
+}

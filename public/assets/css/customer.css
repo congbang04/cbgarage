@@ -137,7 +137,7 @@ section {
     transition: var(--transition-base);
 }
 
-.time-slot-btn:hover:not(.disabled, .past, .lunch) {
+.time-slot-btn:hover:not(.disabled, .past, .locked) {
     border-color: var(--primary);
     color: var(--primary);
 }
@@ -161,9 +161,8 @@ section {
     cursor: not-allowed;
     text-decoration: line-through;
 }
-.time-slot-btn.lunch {
-    background: #f1f3f5;
-    color: #ffffff;
+.time-slot-btn.locked {
+    color: #adb5bd;
     cursor: not-allowed;
 }
 

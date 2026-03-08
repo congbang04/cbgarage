@@ -20,3 +20,12 @@ export function createLock(branchId, serviceId, startTime) {
         },
     });
 }
+export function releaseLock(lockId) {
+    return $.ajax({
+        url: window.routes.releaseLock,
+        method: "POST",
+        data: {
+            lock_id: lockId,
+        },
+    });
+}

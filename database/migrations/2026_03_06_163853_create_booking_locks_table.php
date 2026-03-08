@@ -14,10 +14,6 @@ return new class extends Migration
         Schema::create('booking_locks', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('branch_id')
-                ->constrained('branches')
-                ->cascadeOnDelete();
-
             $table->foreignId('bay_id')
                 ->constrained('bays')
                 ->cascadeOnDelete();
@@ -33,7 +29,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->index(['branch_id', 'start_time', 'end_time']);
+            $table->index(['bay_id', 'start_time', 'end_time']);
         });
     }
 

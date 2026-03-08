@@ -16,6 +16,8 @@ class CustomerSeeder extends Seeder
     {
         $user1 = User::where('email', 'bangle161004@gmail.com')->first();
         $user2 = User::where('email', 'customer2@gmail.com')->first();
+        $user3 = User::where('email', 'customer3@gmail.com')->first();
+        $user4 = User::where('email', 'customer4@gmail.com')->first();
 
         if ($user1) {
             Customer::create([
@@ -34,6 +36,26 @@ class CustomerSeeder extends Seeder
                 'name' => 'Nguyễn Văn A',
                 'phone'   => '0900000002',
                 'address' => 'Đồng Nai',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+        if ($user3) {
+            Customer::create([
+                'user_id' => $user3->id,
+                'name' => 'Trần Thị B',
+                'phone'   => '0900000003',
+                'address' => 'Bình Dương',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+        if ($user4) {
+            Customer::create([
+                'user_id' => $user4->id,
+                'name' => 'Phạm Văn C',
+                'phone'   => '0900000004',
+                'address' => 'Bà Rịa - Vũng Tàu',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

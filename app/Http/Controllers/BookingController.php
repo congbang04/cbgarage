@@ -7,6 +7,7 @@ use App\Services\BookingLockService;
 use App\Services\BranchService;
 use App\Services\CarService;
 use App\Services\ServiceService;
+use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
@@ -36,5 +37,11 @@ class BookingController extends Controller
 
         $lock = $this->bookingLockService->createLock($branchId, $serviceId, $customerId, $startTime);
         return response()->json($lock, 201);
+    }
+    public function releaseLock(Request $request)
+    {
+        $lockId = $request->lock_id;
+        $this->bookingLockService->releaseLock($lockId);
+        return response()->json(['message' => 'Đã hoàn tác giữ chỗ. Khung giờ này hiện đã trống.'], 200);
     }
 }

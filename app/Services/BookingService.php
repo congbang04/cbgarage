@@ -3,24 +3,29 @@
 namespace App\Services;
 
 use App\Models\Booking;
+use App\Models\BookingLock;
 use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class BookingService
 {
-    public function confirmBooking(array $customerData): Booking
+    public function createBooking($branchId, $serviceId, $customerId, $startTime, $lockId): Booking
     {
-        $bookingId = $customerData['booking_id'];
-        return DB::transaction(function () use ($bookingId, $customerData) {
+        return DB::transaction(function () use ($branchId, $serviceId, $customerId, $startTime, $lockId) {
             // 1. Tìm và khóa chính xác bản ghi PENDING cần xác nhận
             $booking = Booking::where('status', 'PENDING')->lockForUpdate()->findOrFail($bookingId);
 
-            // 2. Kiểm tra an toàn: Đảm bảo booking chưa hết hạn khóa
-            if (Carbon::parse($booking->lock_expires_at)->isPast()) {
+            $lock = BookingLock::find($lockId);
+
+            if (!$lock || $lock->expires_at->isPast()) {
                 DB::rollBack();
-                $booking->delete(); // Xóa booking hết hạn này đi
-                throw new Exception('Phiên đặt lịch của bạn đã hết hạn. Vui lòng thử lại.', 410); // 410 Gone
+
+                if ($lock) {
+                    $lock->delete();
+                }
+
+                throw new Exception('Phiên đặt lịch của bạn đã hết hạn. Vui lòng thử lại.', 410);
             }
 
             // 3. Cập nhật bản ghi với thông tin khách hàng và chuyển trạng thái

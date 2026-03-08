@@ -32,22 +32,22 @@ class BaySeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'name' => 'Bay Q1-03',
-                'status' => 'available',
-                'type' => 'car',
-                'branch_id' => 2,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Bay Q1-04',
-                'status' => 'available',
-                'type' => 'car',
-                'branch_id' => 2,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+            // [
+            //     'name' => 'Bay Q1-03',
+            //     'status' => 'available',
+            //     'type' => 'car',
+            //     'branch_id' => 2,
+            //     'created_at' => now(),
+            //     'updated_at' => now(),
+            // ],
+            // [
+            //     'name' => 'Bay Q1-04',
+            //     'status' => 'available',
+            //     'type' => 'car',
+            //     'branch_id' => 2,
+            //     'created_at' => now(),
+            //     'updated_at' => now(),
+            // ],
 
             // Branch 3 - Quận 7
             [

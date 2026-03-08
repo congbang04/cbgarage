@@ -8,6 +8,7 @@
 
         'slotsIndex' => route('slots.index'),
         'createLock' => route('createLock'),
+        'releaseLock' => route('releaseLock'),
     ];
 @endphp
 

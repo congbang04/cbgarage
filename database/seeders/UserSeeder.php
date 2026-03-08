@@ -35,5 +35,25 @@ class UserSeeder extends Seeder
             'updated_at' => now(),
             'email_verified_at' => now(),
         ]);
+        User::create([
+            'email' => 'customer3@gmail.com',
+            'password' => Hash::make('Rcvn123456'),
+            'is_actived' => '1',
+            'is_deleted' => '0',
+            'role' => 'CUSTOMER',
+            'created_at' => now(),
+            'updated_at' => now(),
+            'email_verified_at' => now(),
+        ]);
+        User::create([
+            'email' => 'customer4@gmail.com',
+            'password' => Hash::make('Rcvn123456'),
+            'is_actived' => '1',
+            'is_deleted' => '0',
+            'role' => 'CUSTOMER',
+            'created_at' => now(),
+            'updated_at' => now(),
+            'email_verified_at' => now(),
+        ]);
     }
 }

@@ -41,8 +41,8 @@
                 {{ $slot['time'] }}
             </label>
         @elseif ($slot['status'] === 'locked')
-            <label class="time-slot-btn bg-warning">
-                <input type="radio" name="slot_time" data-time="{{ $slot['time'] }}">
+            <label class="time-slot-btn bg-warning locked">
+                <input type="radio" name="slot_time" data-time="{{ $slot['time'] }}" disabled>
                 {{ $slot['time'] }}
             </label>
         @elseif ($slot['status'] === 'unavailable')
@@ -50,9 +50,6 @@
                 <input type="radio" name="slot_time" data-time="{{ $slot['time'] }}" disabled>
                 {{ $slot['time'] }}
             </label>
-        @elseif ($slot['status'] === 'lunch')
-            <div class="time-slot-btn bg-info lunch d-hidden">Nghỉ trưa
-            </div>
         @else
             <label class="time-slot-btn past">
                 <input type="radio" name="slot_time" data-time="{{ $slot['time'] }}" disabled>

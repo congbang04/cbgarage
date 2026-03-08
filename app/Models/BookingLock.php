@@ -9,7 +9,6 @@ class BookingLock extends Model
     protected $table = 'booking_locks';
 
     protected $fillable = [
-        'branch_id',
         'bay_id',
         'customer_id',
         'start_time',
