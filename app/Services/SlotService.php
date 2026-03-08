@@ -29,24 +29,22 @@ class SlotService
         }
         $bookingsOnDate = Booking::getBookingsOnDate($date);
         $locksOnDate = BookingLock::getLocksOnDate($date);
-        $potentialSlots = $this->generateSlots($workingHours['start'], $workingHours['end']);
+        $lunch = $workingHours['lunch'];
+        $potentialSlots = $this->generateSlots($workingHours['start'], $workingHours['end'], $lunch);
         $availableSlots = [];
         $now = Carbon::now();
-        $lunch = $workingHours['lunch'];
         if ($lunch && isset($lunch['start'], $lunch['end'])) {
             $lunchStart = $lunch['start'] instanceof Carbon ? $lunch['start'] : Carbon::parse($lunch['start']);
             $lunchEnd = $lunch['end'] instanceof Carbon ? $lunch['end'] : Carbon::parse($lunch['end']);
         }
         foreach ($potentialSlots as $slot) {
-            $slotEnd = $slot->copy()->addMinutes($service->duration_minutes);
+            $slotEnd = $slot->copy()->addMinutes($service->estimated_duration);
             $status = 'available';
             $expiresAt = null;
             if ($slotEnd->gt($workingHours['end'])) {
                 continue;
             }
-            if ($lunchStart && $lunchEnd && $slot->gte($lunchStart) && $slot->lt($lunchEnd)) {
-                $status = 'lunch';
-            } elseif ($slot->lt($now) || $slotEnd->lt($now)) {
+            if ($slot->lt($now) || $slotEnd->lt($now)) {
                 $status = 'past';
             } elseif ($this->isSlotUnavailable($branchId, $slot, $slotEnd, $bookingsOnDate, $lunch)) {
                 $status = 'unavailable';
@@ -64,11 +62,13 @@ class SlotService
         }
         return $availableSlots;
     }
-    private function generateSlots(Carbon $startTime, Carbon $endTime,): array
+    private function generateSlots(Carbon $startTime, Carbon $endTime, $lunch): array
     {
         $slots = [];
         $currentTime = $startTime->copy();
         $slotMinutes = self::TIME_SLOT_MINUTES;
+        $lunchStart = $lunch['start'] ?? null;
+        $lunchEnd = $lunch['end'] ?? null;
         $currentTime->second(0);
         $remainder = $currentTime->minute % $slotMinutes;
         if ($remainder > 0) {
@@ -76,6 +76,11 @@ class SlotService
             $currentTime->addMinutes($minutesToAdd);
         }
         while ($currentTime->lt($endTime)) {
+            if ($lunchStart && $currentTime >= $lunchStart && $currentTime < $lunchEnd) {
+                $currentTime = $lunchEnd->copy();
+                continue;
+            }
+
             $slots[] = $currentTime->copy();
             $currentTime->addMinutes(self::TIME_SLOT_MINUTES);
         }

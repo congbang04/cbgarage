@@ -28,7 +28,7 @@
         <form action="booking-success.html">
 
             <!-- Step 1: Chọn chi nhánh -->
-            <div class="mb-4">
+            <div id="branch-section" class="mb-4">
                 <h6 class="fw-bold mb-3"><i class="fas fa-map-marker-alt text-primary me-2"></i>Chọn Chi
                     nhánh</h6>
                 <div id="branches-list" class="row g-2">
@@ -37,7 +37,7 @@
             </div>
 
             <!-- Step 2: Chọn Dịch vụ -->
-            <div class="mb-4">
+            <div id="service-section" class="mb-4">
                 <h6 class="fw-bold mb-3"><i class="fas fa-tools text-primary me-2"></i>Chọn Dịch vụ</h6>
                 <div id="services-list" class="row g-2">
                     @include('customer.booking-partials.services')
@@ -45,21 +45,15 @@
             </div>
 
             <!-- Step 3: Chọn Ngày Giờ -->
-            <div class="mb-4">
+            <div id="time-section" class="mb-4">
                 <h6 class="fw-bold mb-3"><i class="far fa-clock text-primary me-2"></i>Thời gian hẹn</h6>
-                <div class="mb-3">
+                <div id="date-input" class="mb-3">
                     <label class="form-label small text-muted">Ngày đến</label>
                     <input type="date" class="form-control" name="date" value="{{ date('Y-m-d') }}">
                 </div>
                 <label class="form-label small text-muted">Giờ đến (Dự kiến 60 phút)</label>
                 <div id="slot-list" class="time-slot-grid">
-                    @include('customer.booking-partials.slots')
-                    <div class="time-slot-btn disabled">08:00</div>
-                    <div class="time-slot-btn disabled">08:30</div>
-                    <div class="time-slot-btn active">09:00</div>
-                    <div class="time-slot-btn">09:30</div>
-                    <div class="time-slot-btn">10:00</div>
-                    <div class="time-slot-btn">10:30</div>
+                    {{-- ajax render slots list --}}
                 </div>
             </div>
 

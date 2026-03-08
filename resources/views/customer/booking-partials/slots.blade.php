@@ -36,27 +36,28 @@
 @else
     @foreach ($available_slots as $slot)
         @if ($slot['status'] === 'available')
-            <button class="btn btn-outline-primary rounded-pill time-slot-btn" data-time="{{ $slot['time'] }}">
+            <label class="time-slot-btn">
+                <input type="radio" name="slot_time" value="{{ $slot['time'] }}">
                 {{ $slot['time'] }}
-            </button>
+            </label>
         @elseif ($slot['status'] === 'locked')
-            <button class="btn btn-warning rounded-pill time-slot-btn-locked locked-slot"
-                data-expires="{{ $slot['expires_at'] }}" data-time="{{ $slot['time'] }}">
+            <label class="time-slot-btn bg-warning">
+                <input type="radio" name="slot_time" value="{{ $slot['time'] }}">
                 {{ $slot['time'] }}
-            </button>
+            </label>
         @elseif ($slot['status'] === 'unavailable')
-            <button class="btn btn-danger rounded-pill time-slot-btn" disabled>
+            <label class="time-slot-btn bg-danger disabled">
+                <input type="radio" name="slot_time" value="{{ $slot['time'] }}" disabled>
                 {{ $slot['time'] }}
-            </button>
+            </label>
         @elseif ($slot['status'] === 'lunch')
-            <button class="btn btn-info rounded-pill time-slot-btn-locked btn-lunch" style="color: black;">
-                <span class="slot-time">{{ $slot['time'] }}</span>
-                <span class="slot-lunch" style="font-size: 0.9rem ">Nghỉ trưa</span>
-            </button>
+            <div class="time-slot-btn bg-info lunch d-hidden">Nghỉ trưa
+            </div>
         @else
-            <button class="btn btn-secondary rounded-pill time-slot-btn " disabled>
+            <label class="time-slot-btn past">
+                <input type="radio" name="slot_time" value="{{ $slot['time'] }}" disabled>
                 {{ $slot['time'] }}
-            </button>
+            </label>
         @endif
     @endforeach
 
