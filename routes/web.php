@@ -89,5 +89,5 @@ Route::resource('branches', BranchController::class);
 
 
 Route::get('slots', [SlotController::class, 'index'])->name('slots.index');
-// Route::post('slots/lock', [SlotController::class, 'storeLock'])->name('slots.storeLock');
+Route::post('slots/lock', [BookingController::class, 'createLock'])->name('createLock');
 // Route::post('slots/confirmed-booking', [SlotController::class, 'confirmedBooking'])->name('slots.confirmedBooking');

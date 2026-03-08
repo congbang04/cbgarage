@@ -37,17 +37,17 @@
     @foreach ($available_slots as $slot)
         @if ($slot['status'] === 'available')
             <label class="time-slot-btn">
-                <input type="radio" name="slot_time" value="{{ $slot['time'] }}">
+                <input type="radio" name="slot_time" data-time="{{ $slot['time'] }}">
                 {{ $slot['time'] }}
             </label>
         @elseif ($slot['status'] === 'locked')
             <label class="time-slot-btn bg-warning">
-                <input type="radio" name="slot_time" value="{{ $slot['time'] }}">
+                <input type="radio" name="slot_time" data-time="{{ $slot['time'] }}">
                 {{ $slot['time'] }}
             </label>
         @elseif ($slot['status'] === 'unavailable')
             <label class="time-slot-btn bg-danger disabled">
-                <input type="radio" name="slot_time" value="{{ $slot['time'] }}" disabled>
+                <input type="radio" name="slot_time" data-time="{{ $slot['time'] }}" disabled>
                 {{ $slot['time'] }}
             </label>
         @elseif ($slot['status'] === 'lunch')
@@ -55,7 +55,7 @@
             </div>
         @else
             <label class="time-slot-btn past">
-                <input type="radio" name="slot_time" value="{{ $slot['time'] }}" disabled>
+                <input type="radio" name="slot_time" data-time="{{ $slot['time'] }}" disabled>
                 {{ $slot['time'] }}
             </label>
         @endif

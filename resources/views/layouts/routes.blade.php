@@ -7,6 +7,7 @@
         'carUpdate' => route('car.update', ['car' => ':id']),
 
         'slotsIndex' => route('slots.index'),
+        'createLock' => route('createLock'),
     ];
 @endphp
 

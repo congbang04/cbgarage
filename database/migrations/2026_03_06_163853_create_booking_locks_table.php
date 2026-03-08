@@ -23,6 +23,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->foreignId('customer_id')
+                ->nullable()
                 ->constrained('customers', 'user_id');
 
             $table->timestamp('start_time');

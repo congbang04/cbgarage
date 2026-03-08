@@ -1,17 +1,16 @@
-import { getSlots } from "../services/booking-api";
+import { getSlots, createLock } from "../services/booking-api";
+import { clearErrors, showValidationErrors } from "../helpers/validation";
 
 $(document).ready(function () {
     loadSlots();
-
-    // khi đổi ngày
     $("input[name='date']").on("change", loadSlots);
 });
 
 function loadSlots() {
-    const selectedDate = $("input[name='date']").val();
-    const selectedServiceId = $("input[name='service_id']:checked").val();
-    const selectedBranchId = $("input[name='branch_id']:checked").val();
-    if (!selectedDate || !selectedServiceId || !selectedBranchId) {
+    const { branchId, serviceId, date } = getBookingData();
+    console.log(branchId, serviceId, date);
+
+    if (!branchId || !serviceId || !date) {
         if ($("#slot-warning").length === 0) {
             $("#date-input").after(
                 '<p id="slot-warning" class="fs-3 text-center text-warning fw-medium">Vui lòng chọn chi nhánh và dịch vụ để hiện khung giờ.</p>',
@@ -20,9 +19,9 @@ function loadSlots() {
 
         return;
     }
-
     $("#slot-warning").remove();
-    getSlots(selectedDate, selectedServiceId, selectedBranchId)
+
+    getSlots(branchId, serviceId, date)
         .done(function (resHtml) {
             $("#slot-list").html(resHtml);
         })
@@ -57,4 +56,32 @@ $(document).on("change", "input[name='service_id']", function () {
         },
         400,
     );
+});
+function getBookingData() {
+    return {
+        branchId: $("input[name='branch_id']:checked").val(),
+        serviceId: $("input[name='service_id']:checked").val(),
+        date: $("input[name='date']").val(),
+    };
+}
+$(document).on("click", "input[name='slot_time']", function () {
+    const { branchId, serviceId, date } = getBookingData();
+
+    const timeSlot = $(this).data("time");
+    const startTime = date + " " + timeSlot;
+
+    console.log("Selected slot:", startTime);
+    console.log(branchId, serviceId, date, startTime);
+
+    createLock(branchId, serviceId, startTime)
+        .done(function () {
+            alert("Khung giờ đã được đặt thành công!");
+        })
+        .fail(function (xhr) {
+            if (xhr.status === 422) {
+                showValidationErrors(xhr.responseJSON.errors, form);
+            } else {
+                Swal.fire("Lỗi!", "Không thể thêm xe.", "error");
+            }
+        });
 });

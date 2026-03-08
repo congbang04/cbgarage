@@ -33,10 +33,6 @@ class SlotService
         $potentialSlots = $this->generateSlots($workingHours['start'], $workingHours['end'], $lunch);
         $availableSlots = [];
         $now = Carbon::now();
-        if ($lunch && isset($lunch['start'], $lunch['end'])) {
-            $lunchStart = $lunch['start'] instanceof Carbon ? $lunch['start'] : Carbon::parse($lunch['start']);
-            $lunchEnd = $lunch['end'] instanceof Carbon ? $lunch['end'] : Carbon::parse($lunch['end']);
-        }
         foreach ($potentialSlots as $slot) {
             $slotEnd = $slot->copy()->addMinutes($service->estimated_duration);
             $status = 'available';

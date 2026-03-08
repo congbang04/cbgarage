@@ -28,6 +28,7 @@ return new class extends Migration
                 ->constrained('customers', 'user_id');
 
             $table->foreignId('car_id')
+                ->nullable()
                 ->constrained('cars');
 
             $table->timestamps();

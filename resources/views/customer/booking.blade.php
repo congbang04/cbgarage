@@ -8,7 +8,7 @@
 @section('header')
     <div class="bg-white shadow-sm p-3 sticky-top">
         <div class="container d-flex align-items-center">
-            <a href="home.html" class="text-dark me-3"><i class="fas fa-arrow-left"></i></a>
+            <a href="{{ route('home') }}" class="text-dark me-3"><i class="fas fa-arrow-left"></i></a>
             <h5 class="mb-0 fw-bold">Đặt lịch sửa chữa</h5>
         </div>
     </div>
@@ -60,29 +60,8 @@
             <!-- Step 4: Thông tin khách -->
             <div class="mb-5">
                 <h6 class="fw-bold mb-3"><i class="far fa-user text-primary me-2"></i>Thông tin liên hệ</h6>
-                <div class="card shadow-sm border-0">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label class="form-label small">Họ và tên</label>
-                            <input type="text" class="form-control" value="Nguyễn Văn A">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label small">Số điện thoại</label>
-                            <input type="tel" class="form-control" value="0909123456">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label small">Chọn xe</label>
-                            <select class="form-select">
-                                <option selected>Toyota Vios - 51G-123.45</option>
-                                <option>Ford Ranger - 59C-999.88</option>
-                                <option>Xe khác...</option>
-                            </select>
-                        </div>
-                        <div class="mb-0">
-                            <label class="form-label small">Ghi chú thêm</label>
-                            <textarea class="form-control" rows="2" placeholder="VD: Xe bị kêu ở gầm..."></textarea>
-                        </div>
-                    </div>
+                <div id="contact-information" class="card shadow-sm border-0">
+                    @include('customer.booking-partials.contact-information')
                 </div>
             </div>
 

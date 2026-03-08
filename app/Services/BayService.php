@@ -7,7 +7,7 @@ use App\Models\Booking;
 
 class BayService
 {
-    public function findFirstAvailable($branchId, $startTime, $endTime)
+    public function findBayFirstAvailable($branchId, $startTime, $endTime)
     {
         $bays = Bay::where('branch_id', $branchId)->get();
 
