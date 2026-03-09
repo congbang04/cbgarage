@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateBookingLockRequest;
+use App\Http\Requests\CreateBookingRequest;
 use App\Services\BookingLockService;
+use App\Services\BookingService;
 use App\Services\BranchService;
 use App\Services\CarService;
 use App\Services\ServiceService;
@@ -11,14 +13,20 @@ use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-    protected $branchService, $serviceService, $carService, $bookingLockService;
+    protected $branchService, $serviceService, $carService, $bookingLockService, $bookingService;
 
-    public function __construct(BranchService $branchService, ServiceService $serviceService, CarService $carService, BookingLockService $bookingLockService)
-    {
+    public function __construct(
+        BranchService $branchService,
+        ServiceService $serviceService,
+        CarService $carService,
+        BookingLockService $bookingLockService,
+        BookingService $bookingService
+    ) {
         $this->branchService = $branchService;
         $this->serviceService = $serviceService;
         $this->carService = $carService;
         $this->bookingLockService = $bookingLockService;
+        $this->bookingService = $bookingService;
     }
 
     public function index()
@@ -43,5 +51,23 @@ class BookingController extends Controller
         $lockId = $request->lock_id;
         $this->bookingLockService->releaseLock($lockId);
         return response()->json(['message' => 'Đã hoàn tác giữ chỗ. Khung giờ này hiện đã trống.'], 200);
+    }
+    public function createBooking(CreateBookingRequest $request)
+    {
+        $data = [
+            'lock_id' => $request->lock_id,
+            'service_id' => $request->service_id,
+            'contact_name' => $request->contact_name,
+            'contact_phone' => $request->contact_phone,
+            'start_time' => $request->start_time,
+            'car_id' => $request->car_id,
+            'description' => $request->description,
+        ];
+        try {
+            $booking = $this->bookingService->createBooking($data);
+            return response()->json($booking, 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getCode() ?: 500);
+        }
     }
 }

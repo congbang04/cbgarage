@@ -25,7 +25,7 @@
             <div class="step-item">4</div>
         </div>
 
-        <form action="booking-success.html">
+        <form id="booking-form" method="POST" action="{{ route('createBooking') }}">@csrf
 
             <!-- Step 1: Chọn chi nhánh -->
             <div id="branch-section" class="mb-4">
@@ -64,6 +64,8 @@
                     @include('customer.booking-partials.contact-information')
                 </div>
             </div>
+
+            <input type="hidden" name="start_time" id="start-time">
 
             <!-- Sticky Summary -->
             <div class="booking-summary-sticky">

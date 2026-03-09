@@ -1,11 +1,17 @@
-import { getSlots, createLock, releaseLock } from "../services/booking-api";
-import { clearErrors, showValidationErrors } from "../helpers/validation";
+import {
+    getSlots,
+    createBooking,
+    createLock,
+    releaseLock,
+} from "../services/booking-api";
+import { showValidationErrors } from "../helpers/validation";
 
 $(document).ready(function () {
     loadSlots();
     $("input[name='date']").on("change", loadSlots);
 });
 let currentLockId = null;
+let timeSlot = null;
 function loadSlots() {
     const { branchId, serviceId, date } = getBookingData();
     console.log(branchId, serviceId, date);
@@ -29,7 +35,6 @@ function loadSlots() {
             alert("Có lỗi xảy ra khi tải dữ liệu khung giờ!");
         });
 }
-
 $(document).on("change", "input[name='branch_id']", function () {
     $("input[name='branch_id']")
         .closest(".card")
@@ -69,8 +74,10 @@ $(document).on("click", "input[name='slot_time']", function () {
 
     const { branchId, serviceId, date } = getBookingData();
 
-    const timeSlot = $(this).data("time");
-    const startTime = date + " " + timeSlot;
+    timeSlot = $(this).data("time");
+    const startTime = `${date} ${timeSlot}`;
+
+    $("#start-time").val(startTime);
 
     console.log("Selected slot:", startTime);
     console.log(branchId, serviceId, date, startTime);
@@ -115,3 +122,55 @@ function releaseCurrentLock() {
             console.log("Release lock failed");
         });
 }
+$(document).on("submit", "#booking-form", function (e) {
+    e.preventDefault();
+    const form = $(this);
+    const submitButton = form.find("button[type='submit']");
+    const originalText = submitButton.html();
+    submitButton.prop("disabled", true).html("Đang đặt...");
+
+    const { serviceId } = getBookingData();
+    const contactName = form.find("[name='contact_name']").val();
+    const contactPhone = form.find("[name='contact_phone']").val();
+    const startTime = form.find("[name='start_time']").val();
+    const description = form.find("[name='description']").val();
+
+    createBooking(
+        currentLockId,
+        serviceId,
+        contactName,
+        contactPhone,
+        startTime,
+        $("select[name='car_id']").val(),
+        description,
+    )
+        .done(function (res) {
+            console.log(res);
+            Swal.fire({
+                icon: "success",
+                title: "Đặt lịch thành công!",
+                didClose: () => {
+                    window.location.href = "/booking";
+                },
+            });
+        })
+        .fail(function (xhr) {
+            if (xhr.status === 422) {
+                showValidationErrors(xhr.responseJSON.errors, form);
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Rất tiếc...",
+                    text:
+                        xhr.responseJSON.message ??
+                        "Có lỗi xảy ra, vui lòng thử lại.",
+                    didClose: () => {
+                        $(this).prop("disabled", false).html(originalText);
+                    },
+                });
+            }
+        })
+        .always(function () {
+            submitButton.prop("disabled", false).html(originalText);
+        });
+});

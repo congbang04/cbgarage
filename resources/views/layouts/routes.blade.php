@@ -6,9 +6,11 @@
         'carDestroy' => route('car.destroy', ['car' => ':id']),
         'carUpdate' => route('car.update', ['car' => ':id']),
 
-        'slotsIndex' => route('slots.index'),
+        'createBooking' => route('createBooking'),
         'createLock' => route('createLock'),
         'releaseLock' => route('releaseLock'),
+
+        'slotsIndex' => route('slots.index'),
     ];
 @endphp
 

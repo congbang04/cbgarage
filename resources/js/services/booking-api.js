@@ -9,6 +9,29 @@ export function getSlots(branchId, serviceId, date) {
         },
     });
 }
+export function createBooking(
+    lockId,
+    serviceId,
+    contactName,
+    contactPhone,
+    startTime,
+    carId,
+    description = null,
+) {
+    return $.ajax({
+        url: window.routes.createBooking,
+        method: "POST",
+        data: {
+            lock_id: lockId,
+            service_id: serviceId,
+            contact_name: contactName,
+            contact_phone: contactPhone,
+            start_time: startTime,
+            car_id: carId,
+            description: description,
+        },
+    });
+}
 export function createLock(branchId, serviceId, startTime) {
     return $.ajax({
         url: window.routes.createLock,

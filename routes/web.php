@@ -76,19 +76,12 @@ Route::prefix('car')->middleware(['auth', 'verified'])
 */
 Route::prefix('booking')
     ->group(function () {
-        Route::get('/', [BookingController::class, 'index'])
-            ->name('booking.index');
-        // Route::get('/{car}', [CarController::class, 'carDetail'])
-        //     ->name('customer.carDetail');
-        // Route::post('/', [CarController::class, 'store'])->name('car.store');
-        // Route::put('/{car}', [CarController::class, 'update'])->name('car.update');
-        // Route::delete('/{car}', [CarController::class, 'destroy'])->name('car.destroy');
+        Route::get('/', [BookingController::class, 'index'])->name('booking.index');
+        Route::post('/', [BookingController::class, 'createBooking'])->name('createBooking');
+        Route::post('/create-lock', [BookingController::class, 'createLock'])->name('createLock');
+        Route::post('/release-lock', [BookingController::class, 'releaseLock'])->name('releaseLock');
     });
 
-Route::resource('branches', BranchController::class);
-
-
 Route::get('slots', [SlotController::class, 'index'])->name('slots.index');
-Route::post('slots/lock', [BookingController::class, 'createLock'])->name('createLock');
-Route::post('slots/releaseLock', [BookingController::class, 'releaseLock'])->name('releaseLock');
-// Route::post('slots/confirmed-booking', [SlotController::class, 'confirmedBooking'])->name('slots.confirmedBooking');
+
+Route::resource('branches', BranchController::class);
