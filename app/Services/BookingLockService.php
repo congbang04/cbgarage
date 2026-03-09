@@ -33,9 +33,9 @@ class BookingLockService
                 if (!$bay) {
                     throw new Exception('Slot không còn chổ trống');
                 }
-                $date = Carbon::parse($startTime)->toDateString();
-                $bookingsOnDate = Booking::getBookingsOnDate($date);
-                $locksOnDate = BookingLock::getLocksOnDate($date);
+                $date = Carbon::parse($startTime);
+                $bookingsOnDate = Booking::getBookingsOnDate($branchId, $date);
+                $locksOnDate = BookingLock::getLocksOnDate($branchId, $date);
                 if (!$this->slotService->isSlotAvailable(
                     $branchId,
                     Carbon::parse($startTime),

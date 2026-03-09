@@ -35,10 +35,14 @@ class BookingLock extends Model
     {
         return now()->greaterThan($this->expires_at);
     }
-    public static function getLocksOnDate($date)
+    public static function getLocksOnDate($branchId, $date)
     {
-        return self::whereDate('start_time', $date)
+        return self::whereHas('bay', function ($q) use ($branchId) {
+            $q->where('branch_id', $branchId);
+        })
             ->where('expires_at', '>', now())
+            ->where('start_time', '<', $date->copy()->endOfDay())
+            ->where('end_time', '>', $date->copy()->startOfDay())
             ->get();
     }
 }

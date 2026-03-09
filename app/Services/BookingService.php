@@ -33,7 +33,6 @@ class BookingService
             $carId = $data['car_id'];
 
             if (!$lock || Carbon::parse($lock->expires_at)->isPast()) {
-                DB::rollBack();
                 if ($lock) {
                     $lock->delete();
                 }
@@ -51,6 +50,8 @@ class BookingService
                 'customer_id' => $customerId,
                 'car_id' => $carId,
             ]);
+            $lock->delete();
+
             return $booking;
         });
     }

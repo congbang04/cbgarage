@@ -27,8 +27,9 @@ class SlotService
         if (!$workingHours) {
             return [];
         }
-        $bookingsOnDate = Booking::getBookingsOnDate($date);
-        $locksOnDate = BookingLock::getLocksOnDate($date);
+        $bookingsOnDate = Booking::getBookingsOnDate($branchId, $date);
+        $locksOnDate = BookingLock::getLocksOnDate($branchId, $date);
+
         $lunch = $workingHours['lunch'];
         $potentialSlots = $this->generateSlots($workingHours['start'], $workingHours['end'], $lunch);
         $availableSlots = [];
@@ -42,9 +43,22 @@ class SlotService
             }
             if ($slot->lt($now) || $slotEnd->lt($now)) {
                 $status = 'past';
-            } elseif ($this->isSlotUnavailable($branchId, $slot, $slotEnd, $bookingsOnDate, $lunch)) {
+            } elseif ($this->isSlotUnavailable(
+                $branchId,
+                $slot,
+                $slotEnd,
+                $bookingsOnDate,
+                $locksOnDate,
+                $lunch
+            )) {
                 $status = 'unavailable';
-            } elseif (!$this->isSlotAvailable($branchId, $slot, $slotEnd, $bookingsOnDate, $locksOnDate)) {
+            } elseif (!$this->isSlotAvailable(
+                $branchId,
+                $slot,
+                $slotEnd,
+                $bookingsOnDate,
+                $locksOnDate
+            )) {
                 $status = 'locked';
                 if ($lock = $this->slotLockService->getLockForSlot($slot, $slotEnd, $locksOnDate)) {
                     $expiresAt = $lock->expires_at;
@@ -108,33 +122,45 @@ class SlotService
         }
         return true;
     }
-    public function isSlotUnavailable($branchId, Carbon $newBookingStart, Carbon $newBookingEnd, $existingBookings, ?array $lunch = null): bool
-    {
-        $maxBays = $this->branchService->countByBranch($branchId);
-        $concurrentBookings = 0;
-        $lunchStart = null;
-        $lunchEnd = null;
+    public function isSlotUnavailable(
+        $branchId,
+        Carbon $newBookingStart,
+        Carbon $newBookingEnd,
+        $existingBookings,
+        $existingLocks,
+        ?array $lunch = null
+    ): bool {
         if ($lunch && isset($lunch['start'], $lunch['end'])) {
-            $lunchStart = $lunch['start'] instanceof Carbon ? $lunch['start'] : Carbon::parse($lunch['start']);
-            $lunchEnd = $lunch['end'] instanceof Carbon ? $lunch['end'] : Carbon::parse($lunch['end']);
+            $lunchStart = Carbon::parse($lunch['start']);
+            $lunchEnd   = Carbon::parse($lunch['end']);
+
+            if ($newBookingStart->lt($lunchEnd) && $newBookingEnd->gt($lunchStart)) {
+                return true;
+            }
         }
-        if ($lunchStart && $newBookingStart->lt($lunchEnd) &&  $newBookingEnd->gt($lunchStart)) {
-            return true; // Slot này trùng giờ nghỉ, không khả dụng
-        }
+
+        $maxBays = $this->branchService->countByBranch($branchId);
+        $concurrent = 0;
+
         foreach ($existingBookings as $booking) {
 
-            if ($booking->status !== 'CONFIRMED') {
-                continue;
-            }
-            $bookingStart = Carbon::parse($booking->start_time);
-            $bookingEnd = Carbon::parse($booking->end_time);
-            if ($newBookingStart->lt($bookingEnd) && $newBookingEnd->gt($bookingStart)) {
-                $concurrentBookings++;
+            $start = Carbon::parse($booking->start_time);
+            $end = Carbon::parse($booking->end_time);
+
+            if ($newBookingStart->lt($end) && $newBookingEnd->gt($start)) {
+                $concurrent++;
             }
         }
-        if ($concurrentBookings >= $maxBays) {
-            return true;
+
+        foreach ($existingLocks as $lock) {
+
+            $start = Carbon::parse($lock->start_time);
+            $end = Carbon::parse($lock->end_time);
+
+            if ($newBookingStart->lt($end) && $newBookingEnd->gt($start)) {
+                $concurrent++;
+            }
         }
-        return false;
+        return $concurrent >= $maxBays;
     }
 }

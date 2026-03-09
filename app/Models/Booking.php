@@ -42,10 +42,13 @@ class Booking extends Model
     {
         return $this->belongsTo(Car::class);
     }
-    public static function getBookingsOnDate($date)
+    public static function getBookingsOnDate($branchId, $date)
     {
-        return self::whereDate('start_time', $date)
-            ->where('status', 'CONFIRMED')
+        return self::whereHas('bay', function ($q) use ($branchId) {
+            $q->where('branch_id', $branchId);
+        })
+            ->where('start_time', '<', $date->copy()->endOfDay())
+            ->where('end_time', '>', $date->copy()->startOfDay())
             ->get();
     }
 }
