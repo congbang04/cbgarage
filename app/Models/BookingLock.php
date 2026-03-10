@@ -13,7 +13,8 @@ class BookingLock extends Model
         'customer_id',
         'start_time',
         'end_time',
-        'expires_at'
+        'expires_at',
+        'session_id',
     ];
 
     public function branch()

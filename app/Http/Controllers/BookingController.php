@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SlotStatusUpdated;
 use App\Http\Requests\CreateBookingLockRequest;
 use App\Http\Requests\CreateBookingRequest;
 use App\Services\BookingLockService;
@@ -10,6 +11,7 @@ use App\Services\BranchService;
 use App\Services\CarService;
 use App\Services\ServiceService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class BookingController extends Controller
 {
@@ -44,6 +46,10 @@ class BookingController extends Controller
         $startTime = $request->start_time;
 
         $lock = $this->bookingLockService->createLock($branchId, $serviceId, $customerId, $startTime);
+
+        $date = Carbon::parse($startTime)->toDateString();
+        broadcast(new SlotStatusUpdated($date))->toOthers();
+
         return response()->json($lock, 201);
     }
     public function releaseLock(Request $request)
@@ -65,6 +71,10 @@ class BookingController extends Controller
         ];
         try {
             $booking = $this->bookingService->createBooking($data);
+
+            $date = Carbon::parse($data['start_time'])->toDateString();
+            broadcast(new SlotStatusUpdated($date))->toOthers();
+
             return response()->json($booking, 201);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], $e->getCode() ?: 500);

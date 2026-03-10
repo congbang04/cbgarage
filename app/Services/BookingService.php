@@ -5,22 +5,27 @@ namespace App\Services;
 use App\Models\Booking;
 use App\Models\BookingLock;
 use App\Services\ServiceService;
+use App\Services\SlotService;
 use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class BookingService
 {
-    protected $serviceService;
+    protected $serviceService, $slotService;
     public function __construct(
-        ServiceService $serviceService
+        ServiceService $serviceService,
+        SlotService $slotService
     ) {
         $this->serviceService = $serviceService;
+        $this->slotService = $slotService;
     }
     public function createBooking(array $data): Booking
     {
         return DB::transaction(function () use ($data) {
-            $lock = BookingLock::find($data['lock_id']);
+            $lock = BookingLock::where('id', $data['lock_id'])
+                ->where('session_id', $this->slotService->bookingSessionId())
+                ->first();
             $service = $this->serviceService->find($data['service_id']);
 
             $contactName = $data['contact_name'];

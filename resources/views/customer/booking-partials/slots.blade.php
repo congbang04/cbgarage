@@ -40,6 +40,11 @@
                 <input type="radio" name="slot_time" data-time="{{ $slot['time'] }}">
                 {{ $slot['time'] }}
             </label>
+        @elseif ($slot['status'] === 'locked_by_you')
+            <label class="time-slot-btn">
+                <input type="radio" name="slot_time" checked>
+                {{ $slot['time'] }}
+            </label>
         @elseif ($slot['status'] === 'locked')
             <label class="time-slot-btn bg-warning locked">
                 <input type="radio" name="slot_time" data-time="{{ $slot['time'] }}" disabled>
@@ -57,5 +62,4 @@
             </label>
         @endif
     @endforeach
-
 @endif

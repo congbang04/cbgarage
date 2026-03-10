@@ -5,6 +5,8 @@ $.ajaxSetup({
     },
 });
 
+import "./echo";
+
 import "./modules/profile";
 import "./modules/car";
 import "./modules/booking";

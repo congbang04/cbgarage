@@ -22,7 +22,7 @@ class CreateBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'lock_id' => 'required|exists:booking_locks,id',
+            'lock_id' => 'required|integer|exists:booking_locks,id',
             'contact_name' => 'required|string|max:255',
             'contact_phone' => 'required|string|max:20',
             'start_time' => 'required|date',

@@ -5,17 +5,21 @@ namespace App\Services;
 use App\Models\Booking;
 use App\Models\BookingLock;
 use App\Models\Service;
-use Illuminate\Support\Carbon;
-use App\Services\WorkingTimeService;
 use App\Services\BranchService;
 use App\Services\SlotLockService;
+use App\Services\WorkingTimeService;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class SlotService
 {
     private const TIME_SLOT_MINUTES = 20;
     protected $workingTimeService, $branchService, $slotLockService;
-    public function __construct(WorkingTimeService $workingTimeService, BranchService $branchService, SlotLockService $slotLockService)
-    {
+    public function __construct(
+        WorkingTimeService $workingTimeService,
+        BranchService $branchService,
+        SlotLockService $slotLockService,
+    ) {
         $this->workingTimeService = $workingTimeService;
         $this->branchService = $branchService;
         $this->slotLockService = $slotLockService;
@@ -29,8 +33,13 @@ class SlotService
         }
         $bookingsOnDate = Booking::getBookingsOnDate($branchId, $date);
         $locksOnDate = BookingLock::getLocksOnDate($branchId, $date);
-
         $lunch = $workingHours['lunch'];
+
+        $currentSession = $this->bookingSessionId();
+        logger('SESSION', [
+            'laravel_session' => session()->getId(),
+            'booking_session_id' => $currentSession
+        ]);
         $potentialSlots = $this->generateSlots($workingHours['start'], $workingHours['end'], $lunch);
         $availableSlots = [];
         $now = Carbon::now();
@@ -38,10 +47,20 @@ class SlotService
             $slotEnd = $slot->copy()->addMinutes($service->estimated_duration);
             $status = 'available';
             $expiresAt = null;
+            $lock = $this->slotLockService->getLockForSlot($slot, $slotEnd, $locksOnDate);
+
             if ($slotEnd->gt($workingHours['end'])) {
                 continue;
             }
-            if ($slot->lt($now) || $slotEnd->lt($now)) {
+
+            if ($lock && $lock->session_id === $currentSession) {
+
+                if ($slot->eq($lock->start_time)) {
+                    $status = 'locked_by_you';
+                } else {
+                    $status = 'locked';
+                }
+            } elseif ($slot->lt($now) || $slotEnd->lt($now)) {
                 $status = 'past';
             } elseif ($this->isSlotUnavailable(
                 $branchId,
@@ -49,7 +68,8 @@ class SlotService
                 $slotEnd,
                 $bookingsOnDate,
                 $locksOnDate,
-                $lunch
+                $lunch,
+                $currentSession
             )) {
                 $status = 'unavailable';
             } elseif (!$this->isSlotAvailable(
@@ -60,7 +80,7 @@ class SlotService
                 $locksOnDate
             )) {
                 $status = 'locked';
-                if ($lock = $this->slotLockService->getLockForSlot($slot, $slotEnd, $locksOnDate)) {
+                if ($lock) {
                     $expiresAt = $lock->expires_at;
                 }
             }
@@ -128,7 +148,8 @@ class SlotService
         Carbon $newBookingEnd,
         $existingBookings,
         $existingLocks,
-        ?array $lunch = null
+        ?array $lunch = null,
+        $currentSessionId = null
     ): bool {
         if ($lunch && isset($lunch['start'], $lunch['end'])) {
             $lunchStart = Carbon::parse($lunch['start']);
@@ -156,11 +177,21 @@ class SlotService
 
             $start = Carbon::parse($lock->start_time);
             $end = Carbon::parse($lock->end_time);
-
+            if ($currentSessionId && $lock->session_id === $currentSessionId) {
+                continue;
+            }
             if ($newBookingStart->lt($end) && $newBookingEnd->gt($start)) {
                 $concurrent++;
             }
         }
         return $concurrent >= $maxBays;
+    }
+    public function bookingSessionId()
+    {
+        if (!session()->has('booking_session_id')) {
+            session(['booking_session_id' => (string) Str::uuid()]);
+        }
+
+        return session('booking_session_id');
     }
 }

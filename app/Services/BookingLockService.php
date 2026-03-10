@@ -30,6 +30,7 @@ class BookingLockService
                 $endTime = Carbon::parse($startTime)->addMinutes($service->estimated_duration);
                 $bay = $this->bayService->findBayFirstAvailable($branchId, $startTime, $endTime);
                 $bayId = $bay->id ?? null;
+                $bookingSessionId = $this->slotService->bookingSessionId();
                 if (!$bay) {
                     throw new Exception('Slot không còn chổ trống');
                 }
@@ -51,6 +52,7 @@ class BookingLockService
                     'start_time'  => $startTime,
                     'end_time'    => $endTime,
                     'expires_at'  => Carbon::now()->addMinutes(5),
+                    'session_id' => $bookingSessionId,
                 ]);
 
                 return $lock;

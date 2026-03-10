@@ -5,14 +5,14 @@ import {
     releaseLock,
 } from "../services/booking-api";
 import { showValidationErrors } from "../helpers/validation";
+import { initRealtimeSlots } from "./booking-realtime.js";
 
 $(document).ready(function () {
-    loadSlots();
-    $("input[name='date']").on("change", loadSlots);
+    initRealtimeSlots();
 });
 let currentLockId = null;
 let timeSlot = null;
-function loadSlots() {
+export function loadSlots() {
     const { branchId, serviceId, date } = getBookingData();
     console.log(branchId, serviceId, date);
 
@@ -22,7 +22,6 @@ function loadSlots() {
                 '<p id="slot-warning" class="fs-3 text-center text-warning fw-medium">Vui lòng chọn chi nhánh và dịch vụ để hiện khung giờ.</p>',
             );
         }
-
         return;
     }
     $("#slot-warning").remove();
@@ -62,6 +61,9 @@ $(document).on("change", "input[name='service_id']", function () {
         400,
     );
 });
+$(document).on("change", "input[name='date']", function () {
+    initRealtimeSlots();
+});
 function getBookingData() {
     return {
         branchId: $("input[name='branch_id']:checked").val(),
@@ -90,7 +92,7 @@ $(document).on("click", "input[name='slot_time']", function () {
 
             Swal.fire({
                 icon: "success",
-                title: "Đã giữ chỗ 5 phút",
+                title: "Đang giữ khung giờ " + timeSlot + " trong 5 phút",
             });
         })
         .fail(function (xhr) {

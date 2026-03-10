@@ -26,7 +26,7 @@ return new class extends Migration
             $table->timestamp('end_time');
 
             $table->timestamp('expires_at');
-
+            $table->uuid('session_id')->nullable()->index();
             $table->timestamps();
 
             $table->index(['bay_id', 'start_time', 'end_time']);
