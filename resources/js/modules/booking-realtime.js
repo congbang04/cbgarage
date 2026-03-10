@@ -21,6 +21,7 @@ function joinChannel(date) {
     Echo.channel(channelName).listen(".slot.updated", () => {
         loadSlots();
     });
+    loadSlots();
 }
 export function initRealtimeSlots() {
     const date = $("input[name='date']").val();

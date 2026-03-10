@@ -48,29 +48,24 @@ class SlotService
             $status = 'available';
             $expiresAt = null;
             $lock = $this->slotLockService->getLockForSlot($slot, $slotEnd, $locksOnDate);
-
-            if ($slotEnd->gt($workingHours['end'])) {
-                continue;
-            }
-
-            if ($lock && $lock->session_id === $currentSession) {
-
-                if ($slot->eq($lock->start_time)) {
-                    $status = 'locked_by_you';
-                } else {
-                    $status = 'locked';
-                }
-            } elseif ($slot->lt($now) || $slotEnd->lt($now)) {
-                $status = 'past';
-            } elseif ($this->isSlotUnavailable(
+            $myLock = $locksOnDate->first(function ($lock) use ($slot, $slotEnd, $currentSession) {
+                return $lock->session_id === $currentSession &&
+                    Carbon::parse($lock->start_time)->eq($slot); // Khớp chính xác giờ bắt đầu
+            });
+            $isFull = $this->isSlotUnavailable(
                 $branchId,
                 $slot,
                 $slotEnd,
                 $bookingsOnDate,
-                $locksOnDate,
                 $lunch,
-                $currentSession
-            )) {
+            );
+            if ($slotEnd->gt($workingHours['end'])) {
+                continue;
+            }
+
+            if ($myLock) {
+                $status = 'locked_by_you';
+            } elseif ($isFull) {
                 $status = 'unavailable';
             } elseif (!$this->isSlotAvailable(
                 $branchId,
@@ -84,6 +79,11 @@ class SlotService
                     $expiresAt = $lock->expires_at;
                 }
             }
+
+            if ($slot->lt($now) || $slotEnd->lt($now)) {
+                $status = 'past';
+            }
+
             $availableSlots[] = [
                 'time' => $slot->format('H:i'),
                 'status' => $status,
@@ -147,9 +147,7 @@ class SlotService
         Carbon $newBookingStart,
         Carbon $newBookingEnd,
         $existingBookings,
-        $existingLocks,
         ?array $lunch = null,
-        $currentSessionId = null
     ): bool {
         if ($lunch && isset($lunch['start'], $lunch['end'])) {
             $lunchStart = Carbon::parse($lunch['start']);
@@ -168,18 +166,6 @@ class SlotService
             $start = Carbon::parse($booking->start_time);
             $end = Carbon::parse($booking->end_time);
 
-            if ($newBookingStart->lt($end) && $newBookingEnd->gt($start)) {
-                $concurrent++;
-            }
-        }
-
-        foreach ($existingLocks as $lock) {
-
-            $start = Carbon::parse($lock->start_time);
-            $end = Carbon::parse($lock->end_time);
-            if ($currentSessionId && $lock->session_id === $currentSessionId) {
-                continue;
-            }
             if ($newBookingStart->lt($end) && $newBookingEnd->gt($start)) {
                 $concurrent++;
             }

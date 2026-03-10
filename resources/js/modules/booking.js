@@ -89,11 +89,11 @@ $(document).on("click", "input[name='slot_time']", function () {
             console.log(res);
 
             currentLockId = res.id;
-
             Swal.fire({
                 icon: "success",
                 title: "Đang giữ khung giờ " + timeSlot + " trong 5 phút",
             });
+            loadSlots();
         })
         .fail(function (xhr) {
             if (xhr.status === 422) {
