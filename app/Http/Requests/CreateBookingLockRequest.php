@@ -30,10 +30,10 @@ class CreateBookingLockRequest extends FormRequest
     public function messages()
     {
         return [
-            'branch_id.required' => 'Vui lòng chọn chi nhánh.',
+            'branch_id.required' => 'Vui lòng chọn 1 chi nhánh.',
             'branch_id.exists'   => 'Chi nhánh không tồn tại.',
 
-            'service_id.required' => 'Vui lòng chọn dịch vụ.',
+            'service_id.required' => 'Vui lòng chọn 1 dịch vụ.',
             'service_id.exists'   => 'Dịch vụ không tồn tại.',
 
             'start_time.required' => 'Vui lòng chọn thời gian bắt đầu.',

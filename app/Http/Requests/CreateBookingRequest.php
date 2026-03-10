@@ -22,6 +22,8 @@ class CreateBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'branch_id' => 'required|exists:branches,id',
+            'service_id' => 'required|exists:services,id',
             'lock_id' => 'required|integer|exists:booking_locks,id',
             'contact_name' => 'required|string|max:255',
             'contact_phone' => 'required|string|max:20',
@@ -33,6 +35,12 @@ class CreateBookingRequest extends FormRequest
     public function messages()
     {
         return [
+            'branch_id.required' => 'Vui lòng chọn 1 chi nhánh.',
+            'branch_id.exists'   => 'Chi nhánh không tồn tại.',
+
+            'service_id.required' => 'Vui lòng chọn 1 dịch vụ.',
+            'service_id.exists'   => 'Dịch vụ không tồn tại.',
+
             'lock_id.required' => 'Vui lòng giữ chỗ trước khi đặt lịch.',
             'lock_id.exists' => 'Phiên giữ chỗ không hợp lệ. Vui lòng thử lại.',
 

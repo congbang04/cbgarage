@@ -47,7 +47,8 @@
             </label>
         @elseif ($slot['status'] === 'locked')
             <label class="time-slot-btn bg-warning locked">
-                <input type="radio" name="slot_time" data-time="{{ $slot['time'] }}" disabled>
+                <input type="radio" name="slot_time" data-time="{{ $slot['time'] }}"
+                    data-expires="{{ $slot['expires_at'] }}" disabled><i class="fa-solid fa-lock"></i>
                 {{ $slot['time'] }}
             </label>
         @elseif ($slot['status'] === 'unavailable')

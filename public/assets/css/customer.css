@@ -162,10 +162,45 @@ section {
     text-decoration: line-through;
 }
 .time-slot-btn.locked {
-    color: #adb5bd;
+    color: #000000;
     cursor: not-allowed;
 }
+/* SLOT TOOLTIP */
 
+.slot-tooltip {
+    position: absolute;
+    background: #212529;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+
+    padding: 6px 12px;
+    border-radius: 6px;
+
+    white-space: nowrap;
+
+    transform: translate(-50%, -100%);
+    pointer-events: none;
+
+    z-index: 999;
+}
+
+/* mũi tên */
+
+.slot-tooltip::after {
+    content: "";
+    position: absolute;
+
+    top: 100%;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    border-width: 6px;
+    border-style: solid;
+
+    border-color: #212529 transparent transparent transparent;
+}
 /* --- Sticky Booking Summary --- */
 .booking-summary-sticky {
     position: sticky;

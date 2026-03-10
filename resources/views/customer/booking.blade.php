@@ -66,6 +66,7 @@
             </div>
 
             <input type="hidden" name="start_time" id="start-time">
+            <input type="hidden" name="lock_id" id="lock-id">
 
             <!-- Sticky Summary -->
             <div class="booking-summary-sticky">
