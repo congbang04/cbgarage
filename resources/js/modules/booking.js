@@ -128,6 +128,7 @@ $(document).on("submit", "#booking-form", function (e) {
     )
         .done(function (res) {
             console.log(res);
+            localStorage.clear();
             Swal.fire({
                 icon: "success",
                 title: "Đặt lịch thành công!",

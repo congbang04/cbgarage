@@ -25,6 +25,7 @@ return new class extends Migration
                 ->constrained('bays');
 
             $table->foreignId('customer_id')
+                ->nullable()
                 ->constrained('customers', 'user_id');
 
             $table->foreignId('car_id')

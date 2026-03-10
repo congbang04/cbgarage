@@ -34,8 +34,8 @@ class BookingService
             $endTime = Carbon::parse($data['start_time'])->addMinutes($service->estimated_duration);
             $description = $data['description'] ?? null;
             $bayId = $lock->bay_id;
-            $customerId = $lock->customer_id;
-            $carId = $data['car_id'];
+            $customerId = $lock->customer_id ?? null;
+            $carId = $data['car_id'] ?? null;
 
             if (!$lock || Carbon::parse($lock->expires_at)->isPast()) {
                 if ($lock) {

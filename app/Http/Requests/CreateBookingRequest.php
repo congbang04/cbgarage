@@ -22,22 +22,17 @@ class CreateBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'branch_id' => 'required|exists:branches,id',
             'service_id' => 'required|exists:services,id',
             'lock_id' => 'required|integer|exists:booking_locks,id',
             'contact_name' => 'required|string|max:255',
             'contact_phone' => 'required|string|max:20',
             'start_time' => 'required|date',
             'description' => 'nullable|string|max:1000',
-            'car_id' => 'required|exists:cars,id',
         ];
     }
     public function messages()
     {
         return [
-            'branch_id.required' => 'Vui lòng chọn 1 chi nhánh.',
-            'branch_id.exists'   => 'Chi nhánh không tồn tại.',
-
             'service_id.required' => 'Vui lòng chọn 1 dịch vụ.',
             'service_id.exists'   => 'Dịch vụ không tồn tại.',
 
@@ -48,9 +43,6 @@ class CreateBookingRequest extends FormRequest
             'contact_phone.required' => 'Vui lòng nhập số điện thoại liên hệ.',
 
             'start_time.required' => 'Vui lòng chọn thời gian bắt đầu.',
-
-            'car_id.required' => 'Vui lòng chọn xe của bạn.',
-            'car_id.exists' => 'Xe không hợp lệ. Vui lòng chọn xe khác.',
         ];
     }
 }
