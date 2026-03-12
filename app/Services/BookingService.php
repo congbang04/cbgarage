@@ -30,6 +30,7 @@ class BookingService
 
             $contactName = $data['contact_name'];
             $contactPhone = $data['contact_phone'];
+            $service_id = $data['service_id'];
             $startTime = Carbon::parse($data['start_time']);
             $endTime = Carbon::parse($data['start_time'])->addMinutes($service->estimated_duration);
             $description = $data['description'] ?? null;
@@ -47,6 +48,7 @@ class BookingService
             $booking = Booking::create([
                 'contact_name' => $contactName,
                 'contact_phone' => $contactPhone,
+                'service_id' => $service_id,
                 'start_time' => $startTime,
                 'end_time' => $endTime,
                 'status' => 'PENDING',
