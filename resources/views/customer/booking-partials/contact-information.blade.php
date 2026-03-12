@@ -11,7 +11,7 @@
         <div class="mb-3">
             <label class="form-label small">Chọn xe</label>
             <select class="form-select" name="car_id">
-                <option selected>---Chọn xe của bạn---</option>
+                <option value="" selected>---Chọn xe của bạn---</option>
                 @foreach ($cars as $car)
                     <option value="{{ $car->id }}">
                         {{ $car->brand->name }} {{ $car->carModel->name }} - {{ $car->license_plate }}

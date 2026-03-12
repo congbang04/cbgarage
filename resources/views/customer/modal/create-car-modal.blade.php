@@ -13,13 +13,15 @@
                         <div class="row g-3 align-items-end">
 
                             <div class="mb-1">
-                                <label for="license_plate" class="form-label">Biển số xe (*)</label>
+                                <label for="license_plate" class="form-label">Biển số xe <span
+                                        class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="license_plate" name="license_plate"
                                     placeholder="Nhập biển số xe (VD: 51A12345)">
                             </div>
 
                             <div class="mb-1">
-                                <label for="brand_id" class="form-label">Hãng xe (*)</label>
+                                <label for="brand_id" class="form-label">Hãng xe <span
+                                        class="text-danger">*</span></label>
                                 <select class="form-select" id="brand_id" name="brand_id">
                                     <option value="">-- Chọn hãng xe --</option>
                                     @foreach ($brands as $brand)
@@ -31,7 +33,8 @@
                             </div>
 
                             <div class="mb-1">
-                                <label for="car_model_id" class="form-label">Dòng xe (*)</label>
+                                <label for="car_model_id" class="form-label">Dòng xe <span
+                                        class="text-danger">*</span></label>
                                 <select class="form-select" id="car_model_id" name="car_model_id">
                                     <option value="">-- Chọn dòng xe --</option>
                                 </select>
@@ -40,23 +43,26 @@
                             <div class="mb-1">
                                 <label for="vin_number" class="form-label">Số khung (VIN)</label>
                                 <input type="text" class="form-control" id="vin_number" name="vin_number"
-                                    placeholder="Nhập số khung">
+                                    placeholder="Nhập 17 ký tự...">
                             </div>
 
                             <div class="mb-1">
-                                <label for="manufacture_year" class="form-label">Năm sản xuất (*)</label>
+                                <label for="manufacture_year" class="form-label">Năm sản xuất <span
+                                        class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="manufacture_year" name="manufacture_year"
                                     placeholder="Nhập năm sản xuất">
                             </div>
 
                             <div class="mb-1">
-                                <label for="color" class="form-label">Màu xe (*)</label>
+                                <label for="color" class="form-label">Màu xe <span
+                                        class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="color" name="color"
                                     placeholder="Nhập màu xe">
                             </div>
 
                             <div class="mb-1">
-                                <label for="current_odo" class="form-label">ODO (*)</label>
+                                <label for="current_odo" class="form-label">ODO <span
+                                        class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="current_odo" name="current_odo"
                                     placeholder="Nhập số ODO hiện tại">
                             </div>

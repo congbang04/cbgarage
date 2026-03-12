@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\SlotController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ReceptionController;
+use App\Http\Controllers\SlotController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -85,3 +87,21 @@ Route::prefix('booking')
 Route::get('slots', [SlotController::class, 'index'])->name('slots.index');
 
 Route::resource('branches', BranchController::class);
+/*
+    ===============================
+    ADMIN DASHBOARD ROUTES
+    ===============================
+*/
+Route::get('/admin-dashboard', [AdminController::class, 'dashboard'])->name('adminDashboard');
+Route::get('/customer-search', [AdminController::class, 'customerSearch'])->name('customerSearch');
+/*
+    ===============================
+    RECEPTION ROUTES
+    ===============================
+*/
+Route::prefix('reception')
+    ->group(function () {
+        Route::get('/', [ReceptionController::class, 'list'])->name('reception.list');
+        Route::get('/create', [ReceptionController::class, 'create'])->name('reception.create');
+        Route::get('/quotation', [ReceptionController::class, 'quotation'])->name('reception.quotation');
+    });

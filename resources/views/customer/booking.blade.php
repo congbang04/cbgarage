@@ -1,5 +1,8 @@
 @extends('layouts.app')
-@section('title', 'Trang chủ')
+@section('title', 'Đặt lịch')
+@section('vite')
+    @vite(['resources/js/modules/booking.js', 'resources/js/modules/booking-lock.js', 'resources/js/modules/booking-tooltip.js'])
+@endsection
 @section('styles')
     <link rel="stylesheet" href={{ asset('assets/css/design-system.css') }}>
     <link rel="stylesheet" href={{ asset('assets/css/customer.css') }}>
@@ -25,7 +28,7 @@
             <div class="step-item">4</div>
         </div>
 
-        <form id="booking-form" method="POST" action="{{ route('createBooking') }}">@csrf
+        <form id="booking-form" method="POST">@csrf
 
             <!-- Step 1: Chọn chi nhánh -->
             <div id="branch-section" class="mb-4">
@@ -80,8 +83,9 @@
                         <div>09:00 - 25/10</div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary w-100 fw-bold py-2 rounded-pill shadow">XÁC NHẬN ĐẶT
-                    LỊCH</button>
+                <button type="submit" class="btn btn-primary w-100 fw-bold py-2 rounded-pill shadow">
+                    XÁC NHẬN ĐẶTLỊCH
+                </button>
             </div>
 
         </form>

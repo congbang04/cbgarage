@@ -103,7 +103,7 @@ $(document).on("change", "input[name='date']", function () {
     initRealtimeSlots();
 });
 
-$(document).on("submit", "#booking-form", function (e) {
+$(document).one("submit", "#booking-form", function (e) {
     e.preventDefault();
     const form = $(this);
     const submitButton = form.find("button[type='submit']");

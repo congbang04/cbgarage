@@ -1,7 +1,8 @@
 import { createLock, releaseLock } from "../services/booking-api";
 import { showValidationErrors } from "../helpers/validation";
-import { getBookingData } from "./booking.js";
+import { getBookingData, loadSlots } from "./booking.js";
 $(document).ready(function () {
+    const savedLockId = localStorage.getItem("booking_lock_id");
     const savedStartTime = localStorage.getItem("booking_start_time");
 
     if (savedLockId && savedStartTime) {

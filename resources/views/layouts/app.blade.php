@@ -25,6 +25,7 @@
     {{-- nhúng file css và js --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    @yield('vite')
 
     @yield('styles')
 </head>
@@ -50,6 +51,7 @@
             timer: 1500, // Tự động đóng sau 1.5 giây
             timerProgressBar: true, // Hiển thị thanh thời gian đếm ngược
             didOpen: (toast) => {
+                toast.parentElement.style.top = "60px";
                 toast.addEventListener('mouseenter', Swal.stopTimer)
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
             }

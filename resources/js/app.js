@@ -6,9 +6,3 @@ $.ajaxSetup({
 });
 
 import "./echo";
-
-import "./modules/profile";
-import "./modules/car";
-import "./modules/booking";
-import "./modules/booking-lock";
-import "./modules/booking-tooltip";

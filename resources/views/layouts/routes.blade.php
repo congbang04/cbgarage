@@ -11,6 +11,8 @@
         'releaseLock' => route('releaseLock'),
 
         'slotsIndex' => route('slots.index'),
+
+        'customerSearch' => route('customerSearch'),
     ];
 @endphp
 
