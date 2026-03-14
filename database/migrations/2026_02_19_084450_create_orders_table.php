@@ -23,8 +23,9 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('branch_id')->constrained('branches');
             $table->foreignId('car_id')->constrained('cars');
+            $table->foreignId('customer_id')->constrained('customers');
             $table->foreignId('booking_id')->nullable()->constrained('bookings');
-            $table->foreignId('technician_id')->nullable()->constrained('technicians', 'user_id');
+            $table->foreignId('technician_id')->nullable()->constrained('technicians');
 
             $table->timestamps();
         });

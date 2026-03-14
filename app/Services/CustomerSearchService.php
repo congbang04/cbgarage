@@ -40,6 +40,7 @@ class CustomerSearchService
             return [
                 'type' => 'booking',
                 'data' => $booking,
+                'booking_id' => $booking->id,
                 'name' => $booking->contact_name,
                 'phone' => $booking->contact_phone,
             ];

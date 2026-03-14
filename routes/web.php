@@ -102,6 +102,8 @@ Route::get('/customer-search', [AdminController::class, 'customerSearch'])->name
 Route::prefix('reception')
     ->group(function () {
         Route::get('/', [ReceptionController::class, 'list'])->name('reception.list');
+        Route::get('/partial/table-list', [ReceptionController::class, 'tableList'])->name('table');
         Route::get('/create', [ReceptionController::class, 'create'])->name('reception.create');
         Route::get('/quotation', [ReceptionController::class, 'quotation'])->name('reception.quotation');
+        Route::post('/store', [ReceptionController::class, 'storeReception'])->name('reception.store');
     });

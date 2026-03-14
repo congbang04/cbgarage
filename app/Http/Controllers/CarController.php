@@ -6,13 +6,21 @@ use App\Http\Requests\CreateCarRequest;
 use App\Http\Requests\UpdateCarRequest;
 use App\Models\Brand;
 use App\Models\Car;
+use App\Services\CarService;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
+    protected $carService;
+
+    public function __construct(CarService $carService)
+    {
+        $this->carService = $carService;
+    }
+
     public function store(CreateCarRequest $request)
     {
-        Car::create([
+        $data = [
             'customer_id' => auth()->id(),
             'brand_id' => $request->brand_id,
             'car_model_id' => $request->car_model_id,
@@ -21,8 +29,13 @@ class CarController extends Controller
             'color' => $request->color,
             'current_odo' => $request->current_odo,
             'vin_number' => $request->vin_number,
+        ];
+        $car = $this->carService->create($data);
+
+        return response()->json([
+            'message' => 'Xe đã được thêm thành công',
+            'data' => $car
         ]);
-        return response()->json(['message' => 'Xe đã được thêm thành công']);
     }
     public function carDetail(Car $car)
     {

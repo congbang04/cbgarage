@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Tiếp nhận xe')
 @section('vite')
-    {{-- @vite(['resources/js/modules/booking.js', 'resources/js/modules/booking-lock.js', 'resources/js/modules/booking-tooltip.js']) --}}
+    @vite(['resources/js/modules/reception.js'])
 @endsection
 @section('styles')
     <link rel="stylesheet" href={{ asset('assets/css/design-system.css') }}>
@@ -49,6 +49,8 @@
             </div>
 
             <!-- Data Table -->
+            <div id="table-data"></div>
+
             <div class="card">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">

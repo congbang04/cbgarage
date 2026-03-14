@@ -1,14 +1,21 @@
-import { customerSearch } from "../services/reception-api";
+import {
+    customerSearch,
+    receptionStore,
+    tableList,
+} from "../services/reception-api";
 import { showValidationErrors } from "../helpers/validation";
+$(document).ready(function () {
+    loadOrders();
+});
 $("#fuel-range").on("input", function () {
     $("#fuel-value").text($(this).val() + "%");
 });
-$(document).on("submit", "#customer-search", function (e) {
-    e.preventDefault();
-    const phone = $(this).find("[name='search_phone']").val();
+$(document).on("click", "#btn-customer-search", function () {
+    const phone = $("#customer-phone-search").val();
     customerSearch(phone)
         .done(function (res) {
             console.log(res);
+            $("input[name='booking_id']").val(res?.booking_id || "");
             $("input[name='name']").val(res.name);
             $("input[name='phone']").val(res.phone);
 
@@ -113,3 +120,49 @@ $(document).on("click", ".car-item", function (e) {
         $("#car_model_id").val(car.car_model_id).trigger("change");
     }, 50);
 });
+
+$(document).on("submit", "#create-reception", function (e) {
+    e.preventDefault();
+
+    const form = $(this);
+    const btn = form.find("button[type='submit']");
+
+    const originalText = btn.html();
+    btn.prop("disabled", true).html("Đang lưu...");
+
+    const formData = form.serialize();
+
+    receptionStore(formData)
+        .done(function (res) {
+            Swal.fire({
+                icon: "success",
+                title: "Thành công",
+                text: res.message,
+            });
+
+            form[0].reset();
+        })
+        .fail(function (xhr) {
+            if (xhr.status === 422) {
+                showValidationErrors(xhr.responseJSON.errors, form);
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi",
+                    text: xhr.responseJSON?.message ?? "Có lỗi xảy ra",
+                });
+            }
+        })
+        .always(function () {
+            btn.prop("disabled", false).html(originalText);
+        });
+});
+function loadOrders() {
+    tableList()
+        .done(function (res) {
+            $("#table-data").html(res);
+        })
+        .fail(function (xhr) {
+            //
+        });
+}

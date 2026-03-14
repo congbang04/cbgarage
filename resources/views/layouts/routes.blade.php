@@ -13,6 +13,8 @@
         'slotsIndex' => route('slots.index'),
 
         'customerSearch' => route('customerSearch'),
+        'receptionStore' => route('reception.store'),
+        'tableList' => route('table'),
     ];
 @endphp
 

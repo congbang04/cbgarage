@@ -7,11 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = [
+        'fuel_range',
         'status',
         'total_amount',
+        'description',
+        'note',
         'user_id',
         'branch_id',
         'car_id',
+        'customer_id',
         'booking_id',
         'technician_id'
     ];
@@ -30,6 +34,10 @@ class Order extends Model
     public function car()
     {
         return $this->belongsTo(Car::class);
+    }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
     }
 
     public function booking()

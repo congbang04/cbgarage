@@ -18,6 +18,10 @@ class Customer extends Model
     {
         return $this->hasMany(Car::class);
     }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 
     // Bổ sung: Customer có nhiều Booking
     public function bookings()
