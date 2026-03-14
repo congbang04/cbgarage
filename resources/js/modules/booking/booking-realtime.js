@@ -1,5 +1,4 @@
-import { loadSlots } from "./booking.js";
-
+import { loadSlots } from "./booking-core.js";
 let currentChannel = null;
 function leaveChannel() {
     if (!currentChannel) return;

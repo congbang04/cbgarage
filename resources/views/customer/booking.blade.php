@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Đặt lịch')
 @section('vite')
-    @vite(['resources/js/modules/booking.js', 'resources/js/modules/booking-lock.js', 'resources/js/modules/booking-tooltip.js'])
+    @vite(['resources/js/modules/booking/booking-app.js'])
 @endsection
 @section('styles')
     <link rel="stylesheet" href={{ asset('assets/css/design-system.css') }}>

@@ -9,6 +9,7 @@ class Booking extends Model
     protected $fillable = [
         'contact_name',
         'contact_phone',
+        'service_id',
         'start_time',
         'end_time',
         'lock_expires_at',
