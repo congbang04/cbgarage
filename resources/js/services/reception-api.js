@@ -12,9 +12,9 @@ export function receptionStore(data) {
         data: data,
     });
 }
-export function tableList() {
+export function tableList(url = window.routes.tableList) {
     return $.ajax({
-        url: window.routes.tableList,
+        url: url,
         method: "GET",
     });
 }

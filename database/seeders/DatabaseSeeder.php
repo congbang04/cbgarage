@@ -28,6 +28,9 @@ class DatabaseSeeder extends Seeder
             WorkingHourSeeder::class,
             BaySeeder::class,
             TechnicianSeeder::class,
+
+            BookingSeeder::class,
+            OrderSeeder::class,
         ]);
     }
 }

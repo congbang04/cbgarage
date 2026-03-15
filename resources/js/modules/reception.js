@@ -157,12 +157,19 @@ $(document).on("submit", "#create-reception", function (e) {
             btn.prop("disabled", false).html(originalText);
         });
 });
-function loadOrders() {
-    tableList()
+function loadOrders(url = window.routes.tableList) {
+    tableList(url)
         .done(function (res) {
             $("#table-data").html(res);
         })
         .fail(function (xhr) {
-            //
+            console.log(xhr.responseText);
         });
 }
+$(document).on("click", ".pagination a", function (e) {
+    e.preventDefault();
+
+    let url = $(this).attr("href");
+
+    loadOrders(url);
+});

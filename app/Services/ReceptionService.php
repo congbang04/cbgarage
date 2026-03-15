@@ -64,6 +64,7 @@ class ReceptionService
             'id',
             'customer_id',
             'car_id',
+            'status',
             'created_at'
         ])
             ->with([
@@ -73,8 +74,9 @@ class ReceptionService
 
                 'car.brand:id,name',
 
-                'car.carModel:id,name'
+                'car.carModel:id,name',
             ])
+            ->where('branch_id', auth()->user()->branch_id)
             ->latest()
             ->paginate($perPage);
     }

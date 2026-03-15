@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedTinyInteger('fuel_range')->default(0);
-            $table->string('status', 50)->default('draft');
+            $table->string('status', 50)->default('received');
             $table->decimal('total_amount', 15, 2)->default(0);
             $table->text('description')->nullable();
             $table->text('note')->nullable();

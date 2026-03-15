@@ -8,12 +8,13 @@
 
          <div class="sidebar-menu">
              <div class="menu-header">Tổng quan</div>
-             <a href="dashboard.html" class="nav-link active">
+             <a href="dashboard.html" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                  <i class="fas fa-th-large"></i> Dashboard
              </a>
 
              <div class="menu-header">Vận hành</div>
-             <a href="{{ route('reception.list') }}" class="nav-link">
+             <a href="{{ route('reception.list') }}"
+                 class="nav-link {{ request()->routeIs('reception.list') ? 'active' : '' }}">
                  <i class="fas fa-car"></i> Tiếp nhận xe
              </a>
              <a href="technician/jobs.html" class="nav-link">
