@@ -31,7 +31,7 @@
 </head>
 
 <body class="@yield('body-class')">
-    @include('layouts.partials.admin-sidebar')
+    @yield('sidebar')
 
     @yield('header')
 

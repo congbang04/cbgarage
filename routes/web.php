@@ -7,10 +7,20 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ReceptionController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SlotController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+/*
+    ===============================
+    RESOURCE ROUTES
+    ===============================
+*/
+
+Route::resource('branches', BranchController::class);
+Route::resource('services', ServiceController::class);
+Route::get('/partial/service-list', [ServiceController::class, 'servicesList'])->name('serviceList');
 /*
     ===============================
     AUTHENTICATION ROUTES
@@ -85,8 +95,6 @@ Route::prefix('booking')
     });
 
 Route::get('slots', [SlotController::class, 'index'])->name('slots.index');
-
-Route::resource('branches', BranchController::class);
 /*
     ===============================
     ADMIN DASHBOARD ROUTES

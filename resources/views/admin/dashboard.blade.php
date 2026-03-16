@@ -8,6 +8,9 @@
     <link rel="stylesheet" href={{ asset('assets/css/admin.css') }}>
 @endsection
 @section('body-class', 'admin-wrapper')
+@section('sidebar')
+    @include('layouts.partials.admin-sidebar')
+@endsection
 @section('content')
     <!-- MAIN CONTENT -->
     <div class="main-content">

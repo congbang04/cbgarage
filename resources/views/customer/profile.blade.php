@@ -59,8 +59,10 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="fw-bold mb-0">Danh sách xe</h5>
                     <button type="button" class="btn btn-primary btn-sm rounded-pill" data-bs-toggle="modal"
-                        data-bs-target="#addCarModal"><i class="fas fa-plus me-1"></i> Thêm
-                        xe</button>
+                        data-bs-target="#addCarModal">
+                        <i class="fas fa-plus me-1"></i>
+                        Thêm xe
+                    </button>
                 </div>
                 @foreach ($cars as $car)
                     <!-- Car 1 -->

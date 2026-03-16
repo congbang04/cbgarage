@@ -1,7 +1,7 @@
 import { createCar, deleteCar, updateCar } from "../services/car-api";
 import { clearErrors, showValidationErrors } from "../helpers/validation";
 import { reloadDOM, resetModal } from "../helpers/dom";
-
+import { confirmDelete } from "../helpers/sweetalert";
 $(document).ready(function () {
     resetModal("#updateCarModal", "#form_update_car");
     resetModal("#addCarModal", "#form_create_car");
@@ -35,29 +35,10 @@ $("#form_create_car").on("submit", function (e) {
 
 $(document).on("click", ".btn-delete-car", function () {
     const carId = $(this).data("id");
-
-    Swal.fire({
-        title: "Bạn chắc chắn?",
+    confirmDelete({
         text: "Xe sẽ bị xóa vĩnh viễn!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Xóa",
-        cancelButtonText: "Hủy",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            deleteCar(carId)
-                .done(function (res) {
-                    Swal.fire("Đã xóa!", res.message, "success");
-                    reloadDOM("#car_list");
-                })
-                .fail(function (xhr) {
-                    if (xhr.status === 422) {
-                        showValidationErrors(xhr.responseJSON.errors);
-                    } else {
-                        Swal.fire("Lỗi!", "Không thể xóa xe.", "error");
-                    }
-                });
-        }
+        onConfirm: () => deleteCar(carId),
+        reload: () => reloadDOM("#car_list"),
     });
 });
 

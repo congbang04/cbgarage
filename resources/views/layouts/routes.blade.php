@@ -15,6 +15,10 @@
         'customerSearch' => route('customerSearch'),
         'receptionStore' => route('reception.store'),
         'tableList' => route('table'),
+        'serviceList' => route('serviceList'),
+        'serviceStore' => route('services.store'),
+        'serviceDestroy' => route('services.destroy', ['service' => ':service']),
+        'serviceUpdate' => route('services.update', ['service' => ':service']),
     ];
 @endphp
 
