@@ -27,7 +27,7 @@
                     <a class="nav-link text-secondary fw-bold" href="{{ route('services.index') }}">Dịch vụ (Công)</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active fw-bold" href="#">Phụ tùng (Vật tư)</a>
+                    <a class="nav-link active fw-bold" href="{{ route('parts.index') }}">Phụ tùng (Vật tư)</a>
                 </li>
             </ul>
 

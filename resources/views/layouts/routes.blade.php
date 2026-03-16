@@ -23,6 +23,11 @@
         'partStore' => route('parts.store'),
         'partDestroy' => route('parts.destroy', ['part' => ':part']),
         'partUpdate' => route('parts.update', ['part' => ':part']),
+
+        'branchList' => route('branchList'),
+        'branchStore' => route('branches.store'),
+        'branchDestroy' => route('branches.destroy', ['branch' => ':branch']),
+        'branchUpdate' => route('branches.update', ['branch' => ':branch']),
     ];
 @endphp
 

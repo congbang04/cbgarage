@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('branches', BranchController::class);
+Route::get('/partial/branch-list', [BranchController::class, 'branchList'])->name('branchList');
 Route::resource('services', ServiceController::class);
 Route::get('/partial/service-list', [ServiceController::class, 'servicesList'])->name('serviceList');
 Route::resource('parts', PartController::class);
