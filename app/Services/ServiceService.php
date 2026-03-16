@@ -10,7 +10,7 @@ class ServiceService
 {
     public function getAll()
     {
-        return Service::orderBy('name')->get();
+        return Service::orderByDesc('created_at')->get();
     }
 
     public function find($id)

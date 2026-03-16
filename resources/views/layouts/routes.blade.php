@@ -19,6 +19,10 @@
         'serviceStore' => route('services.store'),
         'serviceDestroy' => route('services.destroy', ['service' => ':service']),
         'serviceUpdate' => route('services.update', ['service' => ':service']),
+        'partList' => route('partList'),
+        'partStore' => route('parts.store'),
+        'partDestroy' => route('parts.destroy', ['part' => ':part']),
+        'partUpdate' => route('parts.update', ['part' => ':part']),
     ];
 @endphp
 

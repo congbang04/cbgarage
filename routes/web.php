@@ -6,6 +6,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\PartController;
 use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SlotController;
@@ -21,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 Route::resource('branches', BranchController::class);
 Route::resource('services', ServiceController::class);
 Route::get('/partial/service-list', [ServiceController::class, 'servicesList'])->name('serviceList');
+Route::resource('parts', PartController::class);
+Route::get('/partial/part-list', [PartController::class, 'partsList'])->name('partList');
 /*
     ===============================
     AUTHENTICATION ROUTES
