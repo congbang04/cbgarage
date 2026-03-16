@@ -15,70 +15,79 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        /*
+        |--------------------------------
+        | SUPER ADMIN (Admin tổng)
+        |--------------------------------
+        */
         User::create([
-            'email' => 'bangle161004@gmail.com',
+            'email' => 'superadmin@gmail.com',
             'password' => Hash::make('Rcvn123456'),
-            'is_actived' => '1',
-            'is_deleted' => '0',
-            'role' => 'CUSTOMER',
-            'created_at' => now(),
-            'updated_at' => now(),
+            'role' => 'SUPER_ADMIN',
+            'branch_id' => null,
+            'is_actived' => true,
+            'is_deleted' => false,
             'email_verified_at' => now(),
         ]);
 
-        User::create([
-            'email' => 'customer2@gmail.com',
-            'password' => Hash::make('Rcvn123456'),
-            'is_actived' => '1',
-            'is_deleted' => '0',
-            'role' => 'CUSTOMER',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'email_verified_at' => now(),
-        ]);
-        User::create([
-            'email' => 'customer3@gmail.com',
-            'password' => Hash::make('Rcvn123456'),
-            'is_actived' => '1',
-            'is_deleted' => '0',
-            'role' => 'CUSTOMER',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'email_verified_at' => now(),
-        ]);
-        User::create([
-            'email' => 'customer4@gmail.com',
-            'password' => Hash::make('Rcvn123456'),
-            'is_actived' => '1',
-            'is_deleted' => '0',
-            'role' => 'CUSTOMER',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'email_verified_at' => now(),
-        ]);
+        /*
+        |--------------------------------
+        | ADMIN CHI NHÁNH
+        |--------------------------------
+        */
         for ($i = 1; $i <= 3; $i++) {
-            DB::table('users')->insert([
-                'email' => 'a' . $i . '@a',
+            User::create([
+                'email' => "admin{$i}@garage.com",
                 'password' => Hash::make('Rcvn123456'),
-                'is_actived' => '1',
-                'is_deleted' => '0',
-                'role' => 'TECHNICIAN',
-                'branch_id' => $i + 1,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'role' => 'BRANCH_ADMIN',
+                'branch_id' => $i,
+                'is_actived' => true,
+                'is_deleted' => false,
                 'email_verified_at' => now(),
             ]);
         }
-        for ($i = 1; $i <= 3; $i++) {
-            DB::table('users')->insert([
-                'email' => 'admin' . $i . '@a',
+
+        /*
+        |--------------------------------
+        | TECHNICIANS
+        |--------------------------------
+        */
+        for ($i = 1; $i <= 5; $i++) {
+
+            $user = User::create([
+                'email' => "tech{$i}@garage.com",
                 'password' => Hash::make('Rcvn123456'),
-                'is_actived' => '1',
-                'is_deleted' => '0',
-                'role' => 'ADMIN',
-                'branch_id' => $i + 1,
+                'role' => 'TECHNICIAN',
+                'branch_id' => rand(1, 3),
+                'is_actived' => true,
+                'is_deleted' => false,
+                'email_verified_at' => now(),
+            ]);
+
+            DB::table('technicians')->insert([
+                'user_id' => $user->id,
+                'name' => "Technician {$i}",
+                'phone' => '09000000' . $i,
+                'specialization' => 'Engine Repair',
+                'is_actived' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
+            ]);
+        }
+
+        /*
+        |--------------------------------
+        | CUSTOMERS
+        |--------------------------------
+        */
+        for ($i = 1; $i <= 4; $i++) {
+            User::create([
+                'email' => "customer{$i}@gmail.com",
+                'password' => Hash::make('Rcvn123456'),
+                'role' => 'CUSTOMER',
+                'branch_id' => null,
+                'is_actived' => true,
+                'is_deleted' => false,
                 'email_verified_at' => now(),
             ]);
         }

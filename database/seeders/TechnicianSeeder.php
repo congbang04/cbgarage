@@ -13,20 +13,20 @@ class TechnicianSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = DB::table('users')
-            ->where('role', 'TECHNICIAN')
-            ->get();
+        // $users = DB::table('users')
+        //     ->where('role', 'TECHNICIAN')
+        //     ->get();
 
-        foreach ($users as $user) {
-            DB::table('technicians')->insert([
-                'user_id' => $user->id,
-                'name' => 'Technician ' . $user->id,
-                'phone' => '09000000' . $user->id,
-                'specialization' => 'Engine Repair',
-                'is_actived' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+        // foreach ($users as $user) {
+        //     DB::table('technicians')->insert([
+        //         'user_id' => $user->id,
+        //         'name' => 'Technician ' . $user->id,
+        //         'phone' => '09000000' . $user->id,
+        //         'specialization' => 'Engine Repair',
+        //         'is_actived' => true,
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ]);
+        // }
     }
 }

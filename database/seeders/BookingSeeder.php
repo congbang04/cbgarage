@@ -11,7 +11,7 @@ class BookingSeeder extends Seeder
     public function run(): void
     {
         $services = DB::table('services')->pluck('id')->toArray();
-        $customers = DB::table('customers')->pluck('id')->toArray();
+        $customers = DB::table('customers')->pluck('user_id')->toArray();
         $cars = DB::table('cars')->pluck('id')->toArray();
         $bays = DB::table('bays')->pluck('id')->toArray();
 

@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use Database\Seeders\CustomerSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,10 +25,9 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             WorkingHourSeeder::class,
             BaySeeder::class,
-            TechnicianSeeder::class,
-
             BookingSeeder::class,
             OrderSeeder::class,
+            PartSeeder::class,
         ]);
     }
 }
