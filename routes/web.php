@@ -118,4 +118,11 @@ Route::prefix('reception')
         Route::get('/create', [ReceptionController::class, 'create'])->name('reception.create');
         Route::get('/quotation', [ReceptionController::class, 'quotation'])->name('reception.quotation');
         Route::post('/store', [ReceptionController::class, 'storeReception'])->name('reception.store');
+
+        // Quotation API endpoints
+        Route::get('/services', [ReceptionController::class, 'getServices'])->name('reception.services');
+        Route::get('/parts', [ReceptionController::class, 'getParts'])->name('reception.parts');
+        Route::get('/technicians', [ReceptionController::class, 'getTechnicians'])->name('reception.technicians');
+        Route::post('/quotation/{orderId}', [ReceptionController::class, 'saveQuotation'])->name('reception.save-quotation');
+        Route::get('/quotation/{orderId}', [ReceptionController::class, 'showQuotation'])->name('reception.show-quotation');
     });

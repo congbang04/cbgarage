@@ -17,7 +17,7 @@ return new class extends Migration
                 ->constrained('orders')
                 ->cascadeOnDelete();
 
-            $table->string('type', 50);
+            $table->string('item_type', 50);
             $table->unsignedBigInteger('item_id');
             $table->integer('quantity');
             $table->decimal('price', 15, 2);

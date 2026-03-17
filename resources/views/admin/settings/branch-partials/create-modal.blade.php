@@ -50,6 +50,7 @@
                     <!-- Trụ sở chính -->
                     <div class="mb-3">
                         <div class="form-check form-switch">
+                            <input type="hidden" name="is_central_warehouse" value="0">
                             <input class="form-check-input" type="checkbox" id="check-central-warehouse"
                                 name="is_central_warehouse" value="1">
                             <label class="form-check-label" for="check-central-warehouse">

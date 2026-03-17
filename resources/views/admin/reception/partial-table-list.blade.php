@@ -55,9 +55,17 @@
                             </td>
 
                             <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary">
-                                    <i class="fas fa-eye"></i> Chi tiết
-                                </a>
+                                @if ($order->status === 'RECEIVED')
+                                    <a href="{{ route('reception.quotation') }}?orderId={{ $order->id }}"
+                                        class="btn btn-sm btn-primary">
+                                        <i class="fas fa-file-invoice-dollar me-1"></i> Lập báo giá
+                                    </a>
+                                @else
+                                    <a href="{{ route('reception.quotation') }}?orderId={{ $order->id }}"
+                                        class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye"></i> Chi tiết
+                                    </a>
+                                @endif
                             </td>
                         </tr>
                     @empty

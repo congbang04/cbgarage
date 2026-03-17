@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ReceptionRequest;
 use App\Models\Brand;
+use App\Models\Order;
 use App\Services\ReceptionService;
 use Illuminate\Http\Request;
 
@@ -29,9 +30,16 @@ class ReceptionController extends Controller
 
         return view('admin.reception.create', compact('brands'));
     }
-    public function quotation()
+    public function quotation(Request $request)
     {
-        return view('admin.reception.quotation');
+        $orderId = $request->query('orderId');
+        $order = null;
+
+        if ($orderId) {
+            $order = Order::with(['customer', 'car', 'car.brand', 'car.carModel', 'details'])->findOrFail($orderId);
+        }
+
+        return view('admin.reception.quotation', compact('order', 'orderId'));
     }
     public function storeReception(ReceptionRequest $request)
     {
@@ -43,5 +51,80 @@ class ReceptionController extends Controller
             'message' => 'Tiếp nhận xe thành công',
             'order_id' => $order->id
         ]);
+    }
+
+    /**
+     * Get all services for quotation
+     * GET /reception/services
+     */
+    public function getServices()
+    {
+        $services = $this->receptionService->getServices();
+        return response()->json($services);
+    }
+
+    /**
+     * Get all parts for quotation
+     * GET /reception/parts
+     */
+    public function getParts()
+    {
+        $parts = $this->receptionService->getParts();
+        return response()->json($parts);
+    }
+
+    /**
+     * Get all technicians for assignment (filtered by user's branch)
+     * GET /reception/technicians
+     */
+    public function getTechnicians()
+    {
+        $technicians = $this->receptionService->getTechnicians(auth()->user()->branch_id);
+        return response()->json($technicians);
+    }
+
+    /**
+     * Save quotation
+     * POST /reception/quotation/{orderId}
+     */
+    public function saveQuotation(Request $request, int $orderId)
+    {
+        $order = Order::findOrFail($orderId);
+
+        $validated = $request->validate([
+            'details' => 'required|array|min:1',
+            'details.*.item_type' => 'required|in:App\Models\Service,App\Models\Part',
+            'details.*.item_id' => 'required|integer',
+            'details.*.quantity' => 'required|numeric|min:1',
+            'details.*.price' => 'required|numeric|min:0',
+            'details.*.discount' => 'nullable|numeric|min:0|max:100',
+            'technician_id' => 'nullable|integer|exists:technicians,id',
+        ]);
+
+        $quotation = $this->receptionService->saveQuotation(
+            $order,
+            $validated['details'],
+            $validated['technician_id'] ?? null
+        );
+
+        return response()->json([
+            'message' => 'Lưu báo giá thành công',
+            'quotation' => $quotation->toArray()
+        ], 201);
+    }
+
+    /**
+     * Get quotation details
+     * GET /reception/quotation/{orderId}
+     */
+    public function showQuotation(int $orderId)
+    {
+        $quotation = $this->receptionService->getQuotation($orderId);
+
+        if (!$quotation) {
+            return response()->json(['error' => 'Báo giá không tìm thấy'], 404);
+        }
+
+        return response()->json($quotation);
     }
 }
