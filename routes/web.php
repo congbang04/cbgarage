@@ -124,5 +124,6 @@ Route::prefix('reception')
         Route::get('/parts', [ReceptionController::class, 'getParts'])->name('reception.parts');
         Route::get('/technicians', [ReceptionController::class, 'getTechnicians'])->name('reception.technicians');
         Route::post('/quotation/{orderId}', [ReceptionController::class, 'saveQuotation'])->name('reception.save-quotation');
+        Route::get('/quotation/{orderId}/items', [ReceptionController::class, 'getQuotationItems'])->name('reception.quotation-items');
         Route::get('/quotation/{orderId}', [ReceptionController::class, 'showQuotation'])->name('reception.show-quotation');
     });

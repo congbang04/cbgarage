@@ -127,4 +127,23 @@ class ReceptionController extends Controller
 
         return response()->json($quotation);
     }
+
+    /**
+     * Get quotation items as HTML partial
+     * GET /reception/quotation/{orderId}/items
+     */
+    public function getQuotationItems(int $orderId)
+    {
+        $quotation = $this->receptionService->getQuotation($orderId);
+
+        if (!$quotation) {
+            return response()->json(['error' => 'Báo giá không tìm thấy'], 404);
+        }
+
+        $items = $quotation->details ?? [];
+        $technicianId = $quotation->technician_id;
+
+
+        return view('admin.reception.partials.quotation-items', compact('items', 'technicianId'));
+    }
 }

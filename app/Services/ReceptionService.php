@@ -171,7 +171,7 @@ class ReceptionService
     public function getQuotation(int $orderId): ?Order
     {
         return Order::with([
-            'details',
+            'details.item',
             'customer:id,name,phone,address',
             'car:id,brand_id,car_model_id,license_plate,manufacture_year,color',
             'car.brand:id,name',

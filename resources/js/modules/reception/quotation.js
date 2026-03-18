@@ -17,8 +17,8 @@ import {
     selectItem,
     getSelectedItem,
     filterServices,
-    filterParts
-} from './quotation-core.js';
+    filterParts,
+} from "./quotation-core.js";
 
 /**
  * Initialize quotation module
@@ -46,13 +46,13 @@ export function initQuotationModule() {
  * Handles both service and part additions
  */
 function bindAddItemButtons() {
-    $(document).on('click', '.list-group-item[data-type]', function (e) {
+    $(document).on("click", ".list-group-item[data-type]", function (e) {
         e.preventDefault();
 
-        const itemType = $(this).data('type');
-        const itemId = $(this).data('id');
-        const itemName = $(this).data('name');
-        const price = parseFloat($(this).data('price'));
+        const itemType = $(this).data("type");
+        const itemId = $(this).data("id");
+        const itemName = $(this).data("name");
+        const price = parseFloat($(this).data("price"));
 
         selectItem(itemType, itemId, itemName, price);
     });
@@ -62,18 +62,18 @@ function bindAddItemButtons() {
  * Bind remove item button events
  */
 function bindRemoveItemButtons() {
-    $(document).on('click', '.btn-remove-item', function (e) {
+    $(document).on("click", ".btn-remove-item", function (e) {
         e.preventDefault();
 
-        const index = $(this).data('index');
+        const index = $(this).data("index");
 
         Swal.fire({
-            icon: 'warning',
-            title: 'Xác nhận',
-            text: 'Xóa hạng mục này?',
+            icon: "warning",
+            title: "Xác nhận",
+            text: "Xóa hạng mục này?",
             showCancelButton: true,
-            confirmButtonText: 'Xóa',
-            cancelButtonText: 'Hủy'
+            confirmButtonText: "Xóa",
+            cancelButtonText: "Hủy",
         }).then((result) => {
             if (result.isConfirmed) {
                 handleRemoveItem(index);
@@ -86,7 +86,7 @@ function bindRemoveItemButtons() {
  * Bind quantity input changes
  */
 function bindQuantityInputs() {
-    $(document).on('change', '.item-quantity', function () {
+    $(document).on("change", ".item-quantity", function () {
         handleQuantityChange(this);
     });
 }
@@ -96,9 +96,9 @@ function bindQuantityInputs() {
  */
 function bindSaveButton() {
     const orderId = $('input[name="order_id"]').val();
-    const $form = $('#quotation-form');
+    const $form = $("#quotation-form");
 
-    $(document).on('click', '#btn-save-quotation', function (e) {
+    $(document).on("click", "#btn-save-quotation", function (e) {
         e.preventDefault();
         handleSaveQuotation(orderId, $form);
     });
@@ -107,29 +107,40 @@ function bindSaveButton() {
 /**
  * Bind search functionality
  */
+function debounce(func, delay = 300) {
+    let timeout;
+    return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
 function bindSearchInputs() {
-    $(document).on('keyup', '#search-services', function () {
+    const debouncedServiceSearch = debounce(function () {
         filterServices($(this).val());
     });
 
-    $(document).on('keyup', '#search-parts', function () {
+    const debouncedPartSearch = debounce(function () {
         filterParts($(this).val());
     });
+
+    $(document).on("input", "#search-services", debouncedServiceSearch);
+    $(document).on("input", "#search-parts", debouncedPartSearch);
 }
 
 /**
  * Bind confirm item button
  */
 function bindConfirmItemButton() {
-    $(document).on('click', '#btn-confirm-item', function (e) {
+    $(document).on("click", "#btn-confirm-item", function (e) {
         e.preventDefault();
 
         const selectedItem = getSelectedItem();
         if (!selectedItem) {
             Swal.fire({
-                icon: 'warning',
-                title: 'Cảnh báo',
-                text: 'Vui lòng chọn một hạng mục!'
+                icon: "warning",
+                title: "Cảnh báo",
+                text: "Vui lòng chọn một hạng mục!",
             });
             return;
         }
@@ -138,7 +149,7 @@ function bindConfirmItemButton() {
             selectedItem.itemType,
             selectedItem.itemId,
             selectedItem.itemName,
-            selectedItem.price
+            selectedItem.price,
         );
     });
 }
@@ -147,7 +158,7 @@ function bindConfirmItemButton() {
  * Bind print quotation button
  */
 function bindPrintButton() {
-    $(document).on('click', '#btn-print-quotation', function (e) {
+    $(document).on("click", "#btn-print-quotation", function (e) {
         e.preventDefault();
         handlePrintQuotation();
     });
@@ -157,7 +168,7 @@ function bindPrintButton() {
  * Bind send WhatsApp button
  */
 function bindWhatsAppButton() {
-    $(document).on('click', '#btn-send-whatsapp', function (e) {
+    $(document).on("click", "#btn-send-message", function (e) {
         e.preventDefault();
         handleSendWhatsApp();
     });

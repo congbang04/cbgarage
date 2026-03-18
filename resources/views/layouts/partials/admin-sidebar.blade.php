@@ -28,7 +28,7 @@
              </a>
 
              <div class="menu-header">Hệ thống</div>
-             <a href="settings/services.html" class="nav-link">
+             <a href="{{ route('services.index') }}" class="nav-link">
                  <i class="fas fa-cogs"></i> Cấu hình
              </a>
              <a href="settings/ai-logs.html" class="nav-link">

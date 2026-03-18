@@ -56,7 +56,7 @@
                                         <tr>
                                             <th style="width: 50px;">#</th>
                                             <th>Mã & Tên hạng mục</th>
-                                            <th>Loại</th>
+                                            <th class="text-start ps-4">Loại</th>
                                             <th style="width: 100px;">ĐVT</th>
                                             <th style="width: 120px;">Số lượng</th>
                                             <th class="text-end">Đơn giá</th>
@@ -68,10 +68,6 @@
                                         <!-- Items added dynamically -->
                                     </tbody>
                                 </table>
-                                <div id="empty-state" class="p-4 text-center text-muted">
-                                    <i class="fas fa-inbox fa-3x mb-3 opacity-50"></i>
-                                    <p>Chưa có hạng mục nào. Nhấn nút "Thêm" để bắt đầu.</p>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -107,7 +103,7 @@
 
                         <div class="card">
                             <div class="card-body d-grid gap-2">
-                                <button type="button" class="btn btn-success" id="btn-send-whatsapp">
+                                <button type="button" class="btn btn-success" id="btn-send-message">
                                     <i class="fab fa-whatsapp me-2"></i> Gửi khách duyệt
                                 </button>
                                 <button type="button" class="btn btn-outline-secondary" id="btn-print-quotation">
@@ -208,16 +204,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script>
-        // Initialize quotation module on page load
-        import {
-            initQuotationModule
-        } from '{{ asset('resources/js/modules/reception/quotation.js') }}';
-
-        $(document).ready(function() {
-            initQuotationModule();
-        });
-    </script>
-@endpush
