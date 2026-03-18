@@ -13,12 +13,12 @@
         'slotsIndex' => route('slots.index'),
 
         'customerSearch' => route('customerSearch'),
-        'receptionStore' => route('reception.store'),
-        'tableList' => route('table'),
+
         'serviceList' => route('serviceList'),
         'serviceStore' => route('services.store'),
         'serviceDestroy' => route('services.destroy', ['service' => ':service']),
         'serviceUpdate' => route('services.update', ['service' => ':service']),
+
         'partList' => route('partList'),
         'partStore' => route('parts.store'),
         'partDestroy' => route('parts.destroy', ['part' => ':part']),
@@ -28,6 +28,15 @@
         'branchStore' => route('branches.store'),
         'branchDestroy' => route('branches.destroy', ['branch' => ':branch']),
         'branchUpdate' => route('branches.update', ['branch' => ':branch']),
+
+        'receptionStore' => route('reception.store'),
+        'tableList' => route('table'),
+
+        'receptionServices' => route('reception.services'),
+        'receptionParts' => route('reception.parts'),
+        'receptionTechnicians' => route('reception.technicians'),
+        'receptionSaveQuotation' => route('reception.save-quotation', ['orderId' => ':orderId']),
+        'receptionQuotationItems' => route('reception.quotation-items', ['orderId' => ':orderId']),
     ];
 @endphp
 

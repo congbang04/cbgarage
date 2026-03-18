@@ -6,6 +6,7 @@ import {
 import { showValidationErrors } from "../helpers/validation";
 $(document).ready(function () {
     loadOrders();
+    initReceptionSearch();
 });
 $("#fuel-range").on("input", function () {
     $("#fuel-value").text($(this).val() + "%");
@@ -59,12 +60,10 @@ $(document).on("click", "#btn-customer-search", function () {
 function renderCars(cars) {
     const box = $("#car-list");
     box.empty();
-
     if (!cars || cars.length === 0) {
         $("#customer-cars").addClass("d-none");
         return;
     }
-
     cars.forEach((car) => {
         box.append(`
             <a href="#" 
@@ -83,11 +82,9 @@ function renderCars(cars) {
             </a>
         `);
     });
-
     $("#customer-cars").removeClass("d-none");
 }
 const brands = window.brands || [];
-
 $(document).on("change", "#brand_id", function () {
     let brandId = $(this).val();
     let modelSelect = $("#car_model_id");
@@ -120,7 +117,6 @@ $(document).on("click", ".car-item", function (e) {
         $("#car_model_id").val(car.car_model_id).trigger("change");
     }, 50);
 });
-
 $(document).on("submit", "#create-reception", function (e) {
     e.preventDefault();
 
@@ -158,7 +154,12 @@ $(document).on("submit", "#create-reception", function (e) {
         });
 });
 function loadOrders(url = window.routes.tableList) {
-    tableList(url)
+    const filters = {
+        keyword: $('input[name="keyword"]').val(),
+        status: $('select[name="status"]').val(),
+        date: $('input[name="date"]').val(),
+    };
+    tableList(url || window.routes.tableList, filters)
         .done(function (res) {
             $("#table-data").html(res);
         })
@@ -166,10 +167,26 @@ function loadOrders(url = window.routes.tableList) {
             console.log(xhr.responseText);
         });
 }
+
 $(document).on("click", ".pagination a", function (e) {
     e.preventDefault();
-
     let url = $(this).attr("href");
-
     loadOrders(url);
 });
+function initReceptionSearch() {
+    let debounceTimer;
+    $(document).on("input", 'input[name="keyword"]', function () {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            loadOrders();
+        }, 500);
+    });
+
+    $(document).on(
+        "change",
+        'select[name="status"], input[name="date"]',
+        function () {
+            loadOrders();
+        },
+    );
+}

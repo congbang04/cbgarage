@@ -17,12 +17,13 @@ class OrderSeeder extends Seeder
         $technicians = DB::table('technicians')->pluck('id')->toArray();
 
         $statuses = [
-            'received',
-            'diagnosing',
-            'repairing',
-            'waiting_part',
-            'completed',
-            'cancelled'
+            'RECEIVED',
+            'QUOTED',
+            'IN_PROGRESS',
+            'WAITING_PART',
+            'COMPLETED',
+            'PAID',
+            'CANCELLED'
         ];
 
         for ($i = 0; $i < 45; $i++) {

@@ -6,14 +6,35 @@
                         <th>Mã phiếu</th>
                         <th>Xe & Khách hàng</th>
                         <th>Cố vấn</th>
-                        <th>Ngày nhận</th>
-                        <th>Trạng thái</th>
+                        <th class="ps-4">Ngày nhận</th>
+                        <th class="ps-5">Trạng thái</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     @forelse ($orders as $order)
+                        @php
+                            $badgeClass = match ($order->status) {
+                                'RECEIVED' => '<span class="status-badge info">Đã tiếp nhận</span>',
+
+                                'QUOTED' => '<span class="status-badge warning">Đã báo giá</span>',
+
+                                'IN_PROGRESS'
+                                    => '<span class="status-badge bg-primary-subtle text-primary">Đang sửa</span>',
+
+                                'WAITING_PART'
+                                    => '<span class="status-badge bg-secondary-subtle text-secondary">Chờ phụ tùng</span>',
+
+                                'COMPLETED' => '<span class="status-badge success">Hoàn thành</span>',
+
+                                'PAID' => '<span class="status-badge bg-success text-light">Đã thanh toán</span>',
+
+                                'CANCELLED' => '<span class="status-badge danger">Đã huỷ</span>',
+
+                                default => '<span class="status-badge bg-dark text-light">Không xác định</span>',
+                            };
+                        @endphp
                         <tr>
                             <td class="fw-bold text-primary">
                                 #ORD-{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}
@@ -49,9 +70,7 @@
                             </td>
 
                             <td>
-                                <span class="status-badge warning">
-                                    {{ $order->status }}
-                                </span>
+                                {!! $badgeClass !!}
                             </td>
 
                             <td>

@@ -29,7 +29,7 @@ class ReceptionService
     public function store(array $data)
     {
         return DB::transaction(function () use ($data) {
-
+            $status = Order::STATUS_RECEIVED;
             // 1. tạo hoặc lấy customer
             $customer = $this->customerService->createOrFind([
                 'name' => $data['name'],
@@ -59,7 +59,7 @@ class ReceptionService
                 'fuel_range' => $data['fuel_range'],
                 'description' => $data['description'],
                 'note' => $data['note'],
-                'status' => 'RECEIVED',
+                'status' => $status,
                 'total_amount' => 0
             ]);
 
@@ -71,18 +71,17 @@ class ReceptionService
         return Order::select([
             'id',
             'customer_id',
+            'technician_id',
             'car_id',
             'status',
             'created_at'
         ])
             ->with([
                 'customer:id,name,phone',
-
                 'car:id,brand_id,car_model_id,license_plate,manufacture_year,color,current_odo,vin_number',
-
                 'car.brand:id,name',
-
                 'car.carModel:id,name',
+                'technician:id,name'
             ])
             ->where('branch_id', auth()->user()->branch_id)
             ->latest()
@@ -126,7 +125,7 @@ class ReceptionService
     {
         return DB::transaction(function () use ($order, $details, $technicianId) {
             $totalAmount = 0;
-
+            $quoted = Order::STATUS_QUOTED;
             // Clear existing details
             $order->details()->delete();
 
@@ -158,7 +157,7 @@ class ReceptionService
             $order->update([
                 'total_amount' => $finalAmount,
                 'technician_id' => $technicianId,
-                'status' => 'QUOTED'
+                'status' => $quoted,
             ]);
 
             return $order->fresh('details');
@@ -178,5 +177,52 @@ class ReceptionService
             'car.carModel:id,name',
             'technician:id,name'
         ])->find($orderId);
+    }
+    public function searchOrders(array $filters, int $perPage = 10)
+    {
+        $query = Order::select([
+            'id',
+            'customer_id',
+            'technician_id',
+            'car_id',
+            'status',
+            'created_at'
+        ])
+            ->with([
+                'customer:id,name,phone',
+                'car:id,brand_id,car_model_id,license_plate',
+                'car.brand:id,name',
+                'car.carModel:id,name',
+                'technician:id,name'
+            ])
+            ->where('branch_id', auth()->user()->branch_id);
+
+        // Lọc theo từ khóa (Biển số xe hoặc Tên khách hàng)
+        if (!empty($filters['keyword'])) {
+            $keyword = $filters['keyword'];
+            $query->where(function ($q) use ($keyword) {
+                $q->whereHas('car', function ($carQuery) use ($keyword) {
+                    $carQuery->where('license_plate', 'like', "%{$keyword}%");
+                })
+                    ->orWhereHas('customer', function ($customerQuery) use ($keyword) {
+                        $customerQuery->where('name', 'like', "%{$keyword}%");
+                    })
+                    ->orWhereHas('customer', function ($customerQuery) use ($keyword) {
+                        $customerQuery->where('phone', 'like', "%{$keyword}%");
+                    });
+            });
+        }
+
+        // Lọc theo trạng thái
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        // Lọc theo ngày tạo (Ngày nhận xe)
+        if (!empty($filters['date'])) {
+            $query->whereDate('created_at', $filters['date']);
+        }
+
+        return $query->latest()->paginate($perPage);
     }
 }

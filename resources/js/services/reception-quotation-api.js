@@ -10,9 +10,9 @@
  */
 export function getServices() {
     return $.ajax({
-        url: '/reception/services',
-        type: 'GET',
-        dataType: 'json'
+        url: window.routes.receptionServices,
+        type: "GET",
+        dataType: "json",
     });
 }
 
@@ -22,9 +22,9 @@ export function getServices() {
  */
 export function getParts() {
     return $.ajax({
-        url: '/reception/parts',
-        type: 'GET',
-        dataType: 'json'
+        url: window.routes.receptionParts,
+        type: "GET",
+        dataType: "json",
     });
 }
 
@@ -34,9 +34,9 @@ export function getParts() {
  */
 export function getTechnicians() {
     return $.ajax({
-        url: '/reception/technicians',
-        type: 'GET',
-        dataType: 'json'
+        url: window.routes.receptionTechnicians,
+        type: "GET",
+        dataType: "json",
     });
 }
 
@@ -46,15 +46,15 @@ export function getTechnicians() {
  */
 export function saveQuotation(orderId, details, technicianId = null) {
     return $.ajax({
-        url: '/reception/quotation/' + orderId,
-        type: 'POST',
-        contentType: 'application/json',
+        url: window.routes.receptionSaveQuotation.replace(":orderId", orderId),
+        type: "POST",
+        contentType: "application/json",
         data: JSON.stringify({
             details: details,
             technician_id: technicianId,
-            _token: $('meta[name="csrf-token"]').attr('content')
+            _token: $('meta[name="csrf-token"]').attr("content"),
         }),
-        dataType: 'json'
+        dataType: "json",
     });
 }
 
@@ -64,8 +64,8 @@ export function saveQuotation(orderId, details, technicianId = null) {
  */
 export function getQuotation(orderId) {
     return $.ajax({
-        url: '/reception/quotation/' + orderId,
-        type: 'GET',
-        dataType: 'json'
+        url: window.routes.receptionSaveQuotation.replace(":orderId", orderId),
+        type: "GET",
+        dataType: "json",
     });
 }

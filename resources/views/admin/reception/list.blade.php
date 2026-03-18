@@ -28,19 +28,24 @@
                         <div class="col-md-4">
                             <div class="search-box">
                                 <i class="fas fa-search"></i>
-                                <input type="text" class="form-control" placeholder="Tìm biển số, tên khách...">
+                                <input type="text" class="form-control" name="keyword"
+                                    placeholder="Tìm biển số, tên khách...">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-select">
+                            <select class="form-select" name="status">
                                 <option value="">Tất cả trạng thái</option>
-                                <option value="pending">Chờ báo giá</option>
-                                <option value="fixing">Đang sửa</option>
-                                <option value="done">Chờ giao xe</option>
+                                <option value="RECEIVED">Đã tiếp nhận</option>
+                                <option value="QUOTED">Đã báo giá</option>
+                                <option value="IN_PROGRESS">Đang sửa</option>
+                                <option value="WAITING_PART">Chờ phụ tùng</option>
+                                <option value="COMPLETED">Hoàn thành</option>
+                                <option value="PAID">Đã thanh toán</option>
+                                <option value="CANCELLED">Đã huỷ</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <input type="date" class="form-control">
+                            <input type="date" class="form-control" name="date">
                         </div>
                         <div class="col-md-2 text-end">
                             <a href="{{ route('reception.create') }}" class="btn btn-primary w-100"><i

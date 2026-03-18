@@ -19,9 +19,17 @@ class ReceptionController extends Controller
     {
         return view('admin.reception.list');
     }
-    public function tableList()
+    public function tableList(Request $request)
     {
-        $orders = $this->receptionService->getOrders();
+        $filters = $request->only(['keyword', 'status', 'date']);
+
+        if (!empty(array_filter($filters))) {
+            $orders = $this->receptionService->searchOrders($filters);
+        } else {
+            $orders = $this->receptionService->getOrders();
+        }
+
+        // Luôn trả về cùng một partial view để jQuery nạp vào DOM
         return view('admin.reception.partial-table-list', compact('orders'));
     }
     public function create()

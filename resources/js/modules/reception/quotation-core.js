@@ -24,7 +24,7 @@ export function loadExistingQuotation(orderId) {
     if (!orderId) return;
 
     // Fetch quotation items as HTML partial
-    $.get("/reception/quotation/" + orderId + "/items")
+    $.get(window.routes.receptionQuotationItems.replace(":orderId", orderId))
         .done(function (html) {
             if (html && html.trim()) {
                 // Insert the partial HTML into the table

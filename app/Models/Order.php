@@ -6,6 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    const STATUS_RECEIVED = 'RECEIVED';
+    const STATUS_QUOTED = 'QUOTED';
+    const STATUS_IN_PROGRESS = 'IN_PROGRESS';
+    const STATUS_WAITING_PART = 'WAITING_PART';
+    const STATUS_COMPLETED = 'COMPLETED';
+    const STATUS_PAID = 'PAID';
+    const STATUS_CANCELLED = 'CANCELLED';
+
+    public static function statuses(): array
+    {
+        return [
+            self::STATUS_RECEIVED,
+            self::STATUS_QUOTED,
+            self::STATUS_IN_PROGRESS,
+            self::STATUS_WAITING_PART,
+            self::STATUS_COMPLETED,
+            self::STATUS_PAID,
+            self::STATUS_CANCELLED,
+        ];
+    }
     protected $fillable = [
         'fuel_range',
         'status',
