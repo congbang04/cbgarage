@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             BranchSeeder::class,
             CarModelSeeder::class,
             UserSeeder::class,
-            CustomerSeeder::class,
             CarSeeder::class,
             ServiceSeeder::class,
             WorkingHourSeeder::class,
@@ -28,6 +27,7 @@ class DatabaseSeeder extends Seeder
             BookingSeeder::class,
             OrderSeeder::class,
             PartSeeder::class,
+            OrderDetailSeeder::class,
         ]);
     }
 }

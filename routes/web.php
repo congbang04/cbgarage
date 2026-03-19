@@ -10,6 +10,7 @@ use App\Http\Controllers\PartController;
 use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SlotController;
+use App\Http\Controllers\StaffController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -126,4 +127,18 @@ Route::prefix('reception')
         Route::post('/quotation/{orderId}', [ReceptionController::class, 'saveQuotation'])->name('reception.save-quotation');
         Route::get('/quotation/{orderId}/items', [ReceptionController::class, 'getQuotationItems'])->name('reception.quotation-items');
         Route::get('/quotation/{orderId}', [ReceptionController::class, 'showQuotation'])->name('reception.show-quotation');
+    });
+/*
+    ===============================
+    STAFF MANAGEMENT ROUTES (Settings)
+    ===============================
+*/
+Route::prefix('staff')
+    ->group(function () {
+        Route::get('/', [StaffController::class, 'index'])->name('staff.index');
+        Route::get('/list', [StaffController::class, 'staffList'])->name('staff.list');
+        Route::post('/', [StaffController::class, 'store'])->name('staff.store');
+        Route::put('/{staff}', [StaffController::class, 'update'])->name('staff.update');
+        Route::delete('/{staff}', [StaffController::class, 'destroy'])->name('staff.destroy');
+        Route::post('/{staff}/toggle-status', [StaffController::class, 'toggleStatus'])->name('staff.toggle-status');
     });

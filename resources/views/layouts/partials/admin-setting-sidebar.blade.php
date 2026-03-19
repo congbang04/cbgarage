@@ -9,6 +9,8 @@
                 class="fas fa-box"></i> Phụ tùng & Vật tư</a>
         <a href="{{ route('branches.index') }}" class="nav-link @if (request()->routeIs('branches.index')) active @endif"><i
                 class="fas fa-building"></i> Chi nhánh</a>
+        <a href="{{ route('staff.index') }}" class="nav-link @if (request()->routeIs('staff.index')) active @endif"><i
+                class="fas fa-users"></i> Nhân sự</a>
         <a href="#" class="nav-link"><i class="fas fa-robot"></i> Quản trị AI</a>
     </div>
 </nav>

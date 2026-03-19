@@ -29,6 +29,12 @@
         'branchDestroy' => route('branches.destroy', ['branch' => ':branch']),
         'branchUpdate' => route('branches.update', ['branch' => ':branch']),
 
+        'staffList' => route('staff.list'),
+        'staffStore' => route('staff.store'),
+        'staffUpdate' => route('staff.update', ['staff' => ':staff']),
+        'staffDestroy' => route('staff.destroy', ['staff' => ':staff']),
+        'staffToggleStatus' => route('staff.toggle-status', ['staff' => ':staff']),
+
         'receptionStore' => route('reception.store'),
         'tableList' => route('table'),
 

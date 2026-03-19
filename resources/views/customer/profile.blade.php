@@ -31,7 +31,7 @@
                             <i class="fas fa-camera small"></i>
                         </span>
                     </div>
-                    <h5 class="fw-bold mb-1">{{ Auth::user()->customer->name }}</h5>
+                    <h5 class="fw-bold mb-1"> {{ auth()->user()->name }}</h5>
                     <p class="text-muted small mb-3">Thành viên Bạc <i class="fas fa-star text-warning"></i></p>
 
                     <button type="button" class="btn btn-outline-primary btn-sm rounded-pill" data-bs-toggle="modal"

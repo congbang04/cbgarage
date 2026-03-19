@@ -26,7 +26,7 @@ class OrderSeeder extends Seeder
             'CANCELLED'
         ];
 
-        for ($i = 0; $i < 45; $i++) {
+        for ($i = 0; $i < 400; $i++) {
 
             DB::table('orders')->insert([
 
