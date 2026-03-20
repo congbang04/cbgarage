@@ -10,11 +10,21 @@ class OrderSeeder extends Seeder
     public function run(): void
     {
         $users = DB::table('users')->pluck('id')->toArray();
-        $branches = DB::table('branches')->pluck('id')->toArray();
         $customers = DB::table('customers')->pluck('id')->toArray();
         $cars = DB::table('cars')->pluck('id')->toArray();
         $bookings = DB::table('bookings')->pluck('id')->toArray();
-        $technicians = DB::table('technicians')->pluck('id')->toArray();
+
+        // Lấy technician kèm branch_id từ user
+        $technicians = DB::table('technicians')
+            ->join('users', 'technicians.user_id', '=', 'users.id')
+            ->select(
+                'technicians.id as technician_id',
+                'users.branch_id as branch_id'
+            )
+            ->get()
+            ->toArray();
+
+        $branches = DB::table('branches')->pluck('id')->toArray();
 
         $statuses = [
             'RECEIVED',
@@ -28,8 +38,25 @@ class OrderSeeder extends Seeder
 
         for ($i = 0; $i < 400; $i++) {
 
-            DB::table('orders')->insert([
+            // 60% có technician
+            $hasTechnician = rand(0, 10) > 4;
 
+            $technicianId = null;
+            $branchId = null;
+
+            if ($hasTechnician) {
+                $tech = $technicians[array_rand($technicians)];
+
+                $technicianId = $tech->technician_id;
+
+                // 🔥 branch phải theo technician
+                $branchId = $tech->branch_id;
+            } else {
+                // Không có technician thì random branch
+                $branchId = $branches[array_rand($branches)];
+            }
+
+            DB::table('orders')->insert([
                 'fuel_range' => rand(10, 90),
 
                 'status' => $statuses[array_rand($statuses)],
@@ -40,7 +67,7 @@ class OrderSeeder extends Seeder
                 'note' => fake()->optional()->sentence(),
 
                 'user_id' => $users[array_rand($users)],
-                'branch_id' => $branches[array_rand($branches)],
+                'branch_id' => $branchId,
                 'car_id' => $cars[array_rand($cars)],
                 'customer_id' => $customers[array_rand($customers)],
 
@@ -49,10 +76,7 @@ class OrderSeeder extends Seeder
                     ? $bookings[array_rand($bookings)]
                     : null,
 
-                // 60% có technician
-                'technician_id' => rand(0, 10) > 4
-                    ? $technicians[array_rand($technicians)]
-                    : null,
+                'technician_id' => $technicianId,
 
                 'created_at' => now()->subDays(rand(0, 10)),
                 'updated_at' => now(),

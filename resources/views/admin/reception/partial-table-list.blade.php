@@ -21,7 +21,7 @@
                                 'QUOTED' => '<span class="status-badge warning">Đã báo giá</span>',
 
                                 'IN_PROGRESS'
-                                    => '<span class="status-badge bg-primary-subtle text-primary">Đang sửa</span>',
+                                    => '<span class="status-badge bg-primary-subtle text-primary">Đang thực hiện</span>',
 
                                 'WAITING_PART'
                                     => '<span class="status-badge bg-secondary-subtle text-secondary">Chờ phụ tùng</span>',

@@ -35,11 +35,11 @@ class OrderDetailSeeder extends Seeder
                 $isService = rand(0, 1);
 
                 if ($isService) {
-                    $itemType = 'SERVICE';
+                    $itemType = 'App\Models\Service';
                     $itemId = $services[array_rand($services)];
                     $quantity = 1; // service thường = 1
                 } else {
-                    $itemType = 'PART';
+                    $itemType = 'App\Models\Part';
                     $itemId = $parts[array_rand($parts)];
                     $quantity = rand(1, 3);
                 }

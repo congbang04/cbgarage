@@ -11,6 +11,7 @@ use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SlotController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\TechnicianJobController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,7 @@ Route::resource('services', ServiceController::class);
 Route::get('/partial/service-list', [ServiceController::class, 'servicesList'])->name('serviceList');
 Route::resource('parts', PartController::class);
 Route::get('/partial/part-list', [PartController::class, 'partsList'])->name('partList');
+Route::get('/parts-json', [PartController::class, 'partsJson'])->name('partsJson');
 /*
     ===============================
     AUTHENTICATION ROUTES
@@ -127,6 +129,21 @@ Route::prefix('reception')
         Route::post('/quotation/{orderId}', [ReceptionController::class, 'saveQuotation'])->name('reception.save-quotation');
         Route::get('/quotation/{orderId}/items', [ReceptionController::class, 'getQuotationItems'])->name('reception.quotation-items');
         Route::get('/quotation/{orderId}', [ReceptionController::class, 'showQuotation'])->name('reception.show-quotation');
+    });
+/*
+    ===============================
+    TECHNICIAN JOB ROUTES
+    ===============================
+*/
+Route::prefix('technician-jobs')
+    ->middleware(['auth', 'verified'])
+    ->group(function () {
+        Route::get('/', [TechnicianJobController::class, 'jobs'])->name('technician.jobs');
+        Route::get('/partial/table-list', [TechnicianJobController::class, 'tableList'])->name('technician.jobs.table');
+        Route::get('/execution/{orderId}', [TechnicianJobController::class, 'execution'])->name('technician.jobs.execution');
+        Route::put('/execution/{orderId}/status', [TechnicianJobController::class, 'updateStatus'])->name('technician.jobs.updateStatus');
+        Route::post('/execution/{orderId}/complete-item', [TechnicianJobController::class, 'completeItem'])->name('technician.jobs.completeItem');
+        Route::post('/execution/{orderId}/request-part', [TechnicianJobController::class, 'requestPart'])->name('technician.jobs.requestPart');
     });
 /*
     ===============================

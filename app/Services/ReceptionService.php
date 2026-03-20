@@ -84,7 +84,7 @@ class ReceptionService
                 'technician:id,name'
             ])
             ->where('branch_id', auth()->user()->branch_id)
-            ->latest()
+            ->orderByDesc('updated_at')
             ->paginate($perPage);
     }
 
@@ -223,6 +223,6 @@ class ReceptionService
             $query->whereDate('created_at', $filters['date']);
         }
 
-        return $query->latest()->paginate($perPage);
+        return $query->orderByDesc('updated_at')->paginate($perPage);
     }
 }

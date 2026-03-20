@@ -18,8 +18,8 @@ class Part extends Model
         return $this->hasMany(Inventory::class);
     }
 
-    public function partRequests()
+    public function details()
     {
-        return $this->belongsToMany(PartRequest::class, 'part_request_details');
+        return $this->hasMany(PartRequestDetail::class);
     }
 }

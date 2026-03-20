@@ -25,9 +25,15 @@ class PartRequest extends Model
             ->withPivot('created_at');
     }
 
+    public function details()
+    {
+        return $this->hasMany(PartRequestDetail::class, 'request_id');
+    }
+
     public function parts()
     {
-        return $this->belongsToMany(Part::class, 'part_request_details')
-            ->withPivot('quantity');
+        return $this->belongsToMany(Part::class, 'part_request_details', 'request_id', 'part_id')
+            ->withPivot('quantity')
+            ->withTimestamps();
     }
 }

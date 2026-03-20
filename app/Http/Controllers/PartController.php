@@ -35,6 +35,18 @@ class PartController extends Controller
     }
 
     /**
+     * Get all parts as JSON for AJAX endpoints (Technician Jobs)
+     */
+    public function partsJson()
+    {
+        $parts = Part::select('id', 'sku', 'name', 'price_sell as unit_price')
+            ->orderBy('name')
+            ->get();
+
+        return response()->json($parts);
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create()

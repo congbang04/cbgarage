@@ -20,6 +20,7 @@
         'serviceUpdate' => route('services.update', ['service' => ':service']),
 
         'partList' => route('partList'),
+        'partsJson' => route('partsJson'),
         'partStore' => route('parts.store'),
         'partDestroy' => route('parts.destroy', ['part' => ':part']),
         'partUpdate' => route('parts.update', ['part' => ':part']),
@@ -43,6 +44,11 @@
         'receptionTechnicians' => route('reception.technicians'),
         'receptionSaveQuotation' => route('reception.save-quotation', ['orderId' => ':orderId']),
         'receptionQuotationItems' => route('reception.quotation-items', ['orderId' => ':orderId']),
+
+        'technicianJobsTable' => route('technician.jobs.table'),
+        'technicianJobsUpdateStatus' => route('technician.jobs.updateStatus', ['orderId' => ':orderId']),
+        'technicianJobsCompleteItem' => route('technician.jobs.completeItem', ['orderId' => ':orderId']),
+        'technicianJobsRequestPart' => route('technician.jobs.requestPart', ['orderId' => ':orderId']),
     ];
 @endphp
 

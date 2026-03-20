@@ -37,7 +37,7 @@
                                 <option value="">Tất cả trạng thái</option>
                                 <option value="RECEIVED">Đã tiếp nhận</option>
                                 <option value="QUOTED">Đã báo giá</option>
-                                <option value="IN_PROGRESS">Đang sửa</option>
+                                <option value="IN_PROGRESS">Đang thực hiện</option>
                                 <option value="WAITING_PART">Chờ phụ tùng</option>
                                 <option value="COMPLETED">Hoàn thành</option>
                                 <option value="PAID">Đã thanh toán</option>

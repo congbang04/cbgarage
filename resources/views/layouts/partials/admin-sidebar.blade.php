@@ -17,9 +17,16 @@
                  class="nav-link {{ request()->routeIs('reception.list') ? 'active' : '' }}">
                  <i class="fas fa-car"></i> Tiếp nhận xe
              </a>
-             <a href="technician/jobs.html" class="nav-link">
-                 <i class="fas fa-tools"></i> Kỹ thuật viên
-             </a>
+             @if (auth()->user()?->role === 'technician')
+                 <a href="{{ route('technician.jobs') }}"
+                     class="nav-link {{ request()->routeIs('technician.jobs*') ? 'active' : '' }}">
+                     <i class="fas fa-tools"></i> Công việc của tôi
+                 </a>
+             @else
+                 <a href="{{ route('technician.jobs') }}" class="nav-link">
+                     <i class="fas fa-tools"></i> Kỹ thuật viên
+                 </a>
+             @endif
              <a href="warehouse/inventory.html" class="nav-link">
                  <i class="fas fa-boxes"></i> Kho vận
              </a>
