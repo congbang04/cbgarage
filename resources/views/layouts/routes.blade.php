@@ -49,6 +49,16 @@
         'technicianJobsUpdateStatus' => route('technician.jobs.updateStatus', ['orderId' => ':orderId']),
         'technicianJobsCompleteItem' => route('technician.jobs.completeItem', ['orderId' => ':orderId']),
         'technicianJobsRequestPart' => route('technician.jobs.requestPart', ['orderId' => ':orderId']),
+
+        'warehouseInventory' => route('warehouse.inventory'),
+        'warehouseInventoryList' => route('warehouse.inventory-list'),
+        'warehousePartRequests' => route('warehouse.part-requests'),
+        'warehouseGoodsIssue' => route('warehouse.goods-issue', ['partRequestId' => ':partRequestId']),
+        'warehouseApprovePartRequest' => route('warehouse.approve-part-request', ['partRequestId' => ':partRequestId']),
+        'warehouseRejectPartRequest' => route('warehouse.reject-part-request', ['partRequestId' => ':partRequestId']),
+        'warehouseStockTransfer' => route('warehouse.stock-transfer'),
+        'warehouseCreateStockTransfer' => route('warehouse.create-stock-transfer'),
+        'warehouseGetParts' => route('warehouse.get-parts'),
     ];
 @endphp
 

@@ -27,4 +27,8 @@ class Branch extends Model
     {
         return $this->hasMany(Bay::class);
     }
+    public function partRequest()
+    {
+        return $this->hasMany(PartRequest::class, 'request_id');
+    }
 }

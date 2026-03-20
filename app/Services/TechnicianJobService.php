@@ -197,7 +197,8 @@ class TechnicianJobService
             // Create part request
             $partRequest = PartRequest::firstOrCreate([
                 'order_id' => $order->id,
-                'technician_id' => $technician->user_id,
+                'technician_id' => $technician->id,
+                'branch_id' => auth()->user()->branch_id,
                 'status' => 'pending'
             ]);
 
@@ -221,7 +222,7 @@ class TechnicianJobService
                     $attachedParts[] = $partRequestDetail;
                 }
             }
-
+            broadcast(new \App\Events\PartRequestUpdated($partRequest));
             return [
                 'request' => $partRequest->load(['details']),
                 'details' => $attachedParts

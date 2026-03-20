@@ -25,9 +25,13 @@ class DatabaseSeeder extends Seeder
             WorkingHourSeeder::class,
             BaySeeder::class,
             BookingSeeder::class,
+            TechnicianSeeder::class,
             OrderSeeder::class,
             PartSeeder::class,
             OrderDetailSeeder::class,
+            InventorySeeder::class,
+            PartRequestSeeder::class,
+            StockTransferSeeder::class,
         ]);
     }
 }

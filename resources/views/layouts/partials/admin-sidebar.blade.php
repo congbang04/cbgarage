@@ -27,7 +27,8 @@
                      <i class="fas fa-tools"></i> Kỹ thuật viên
                  </a>
              @endif
-             <a href="warehouse/inventory.html" class="nav-link">
+             <a href="{{ route('warehouse.inventory') }}"
+                 class="nav-link {{ request()->routeIs('warehouse.*') ? 'active' : '' }}">
                  <i class="fas fa-boxes"></i> Kho vận
              </a>
              <a href="cashier/payments.html" class="nav-link">

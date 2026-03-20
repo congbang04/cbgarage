@@ -17,8 +17,11 @@ return new class extends Migration
             $table->text('note')->nullable();
 
             $table->foreignId('order_id')->constrained('orders');
-            $table->foreignId('technician_id')->constrained('technicians', 'user_id');
-
+            $table->foreignId('technician_id')->constrained('technicians');
+            $table->foreignId('branch_id')
+                ->nullable()
+                ->nullOnDelete()
+                ->constrained('branches');
             $table->timestamps();
         });
     }

@@ -12,6 +12,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SlotController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\TechnicianJobController;
+use App\Http\Controllers\WarehouseController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -158,4 +159,28 @@ Route::prefix('staff')
         Route::put('/{staff}', [StaffController::class, 'update'])->name('staff.update');
         Route::delete('/{staff}', [StaffController::class, 'destroy'])->name('staff.destroy');
         Route::post('/{staff}/toggle-status', [StaffController::class, 'toggleStatus'])->name('staff.toggle-status');
+    });
+
+/*
+    ===============================
+    WAREHOUSE MANAGEMENT ROUTES
+    ===============================
+*/
+Route::prefix('warehouse')
+    ->middleware(['auth', 'verified'])
+    ->group(function () {
+        // Inventory management
+        Route::get('/inventory', [WarehouseController::class, 'inventory'])->name('warehouse.inventory');
+        Route::get('/inventory-list', [WarehouseController::class, 'inventoryList'])->name('warehouse.inventory-list');
+
+        // Part requests management
+        Route::get('/part-requests', [WarehouseController::class, 'partRequests'])->name('warehouse.part-requests');
+        Route::get('/goods-issue/{partRequestId}', [WarehouseController::class, 'showGoodsIssue'])->name('warehouse.goods-issue');
+        Route::post('/approve-part-request/{partRequestId}', [WarehouseController::class, 'approvePartRequest'])->name('warehouse.approve-part-request');
+        Route::post('/reject-part-request/{partRequestId}', [WarehouseController::class, 'rejectPartRequest'])->name('warehouse.reject-part-request');
+
+        // Stock transfer management
+        Route::get('/stock-transfer', [WarehouseController::class, 'stockTransfer'])->name('warehouse.stock-transfer');
+        Route::post('/stock-transfer/create', [WarehouseController::class, 'createStockTransfer'])->name('warehouse.create-stock-transfer');
+        Route::get('/parts', [WarehouseController::class, 'getSampleParts'])->name('warehouse.get-parts');
     });

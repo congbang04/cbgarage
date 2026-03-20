@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PartRequest extends Model
 {
-    public $timestamps = false;
-    protected $fillable = ['status', 'note', 'order_id', 'technician_id', 'created_at'];
+    protected $fillable = ['status', 'note', 'order_id', 'technician_id', 'branch_id'];
 
     public function order()
     {
@@ -35,5 +34,9 @@ class PartRequest extends Model
         return $this->belongsToMany(Part::class, 'part_request_details', 'request_id', 'part_id')
             ->withPivot('quantity')
             ->withTimestamps();
+    }
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
     }
 }
