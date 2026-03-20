@@ -77,7 +77,6 @@ class PartRequestService
 
             $actualQuantities = $data['actual_quantities'] ?? [];
             $notes = $data['notes'] ?? null;
-
             // Validate sufficient stock and deduct from inventory
             foreach ($partRequest->details as $detail) {
                 $actualQty = $actualQuantities[$detail->id] ?? 0;
@@ -85,7 +84,6 @@ class PartRequestService
                 if ($actualQty <= 0) {
                     continue; // Skip zero quantities
                 }
-
                 $this->deductInventory($detail->part_id, $actualQty, $partRequest->branch_id);
             }
 

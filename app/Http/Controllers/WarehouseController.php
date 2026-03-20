@@ -82,7 +82,6 @@ class WarehouseController extends Controller
             $partRequestId,
             $request->validated()
         );
-
         return response()->json([
             'message' => 'Xuất kho thành công',
             'goods_issue_id' => $goods['id']

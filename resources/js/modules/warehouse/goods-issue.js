@@ -57,7 +57,6 @@ function submitIssue(partRequestId, actualQties) {
         data: {
             part_request_id: partRequestId,
             actual_quantities: actualQties,
-            _token: document.querySelector('meta[name="csrf-token"]').content,
         },
         success: function (response) {
             Swal.fire("Thành công!", response.message, "success").then(() => {
