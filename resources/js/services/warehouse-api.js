@@ -17,7 +17,7 @@ export function getInventories(
 
 export function getPendingRequests() {
     return $.ajax({
-        url: window.routes.warehousePartRequests,
+        url: window.routes.warehouseCardPartRequests,
         method: "GET",
     });
 }

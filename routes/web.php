@@ -175,6 +175,7 @@ Route::prefix('warehouse')
 
         // Part requests management
         Route::get('/part-requests', [WarehouseController::class, 'partRequests'])->name('warehouse.part-requests');
+        Route::get('/card-part-requests', [WarehouseController::class, 'cardPartRequests'])->name('warehouse.card-part-requests');
         Route::get('/goods-issue/{partRequestId}', [WarehouseController::class, 'showGoodsIssue'])->name('warehouse.goods-issue');
         Route::post('/approve-part-request/{partRequestId}', [WarehouseController::class, 'approvePartRequest'])->name('warehouse.approve-part-request');
         Route::post('/reject-part-request/{partRequestId}', [WarehouseController::class, 'rejectPartRequest'])->name('warehouse.reject-part-request');

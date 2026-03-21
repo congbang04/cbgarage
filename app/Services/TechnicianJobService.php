@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\PartRequestUpdated;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\PartRequest;
@@ -225,7 +226,7 @@ class TechnicianJobService
                     $attachedParts[] = $partRequestDetail;
                 }
             }
-            broadcast(new \App\Events\PartRequestUpdated($partRequest));
+            broadcast(new PartRequestUpdated($partRequest));
             return [
                 'request' => $partRequest->load(['details']),
                 'details' => $attachedParts

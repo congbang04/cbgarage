@@ -2,12 +2,11 @@
 
 namespace App\Services;
 
+use App\Events\PartRequestUpdated;
 use App\Models\Inventory;
-use App\Models\Order;
 use App\Models\OrderDetail;
-use App\Models\Part;
 use App\Models\PartRequest;
-use App\Models\PartRequestDetail;
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -105,7 +104,7 @@ class PartRequestService
             ];
 
             // Broadcast event for real-time update
-            broadcast(new \App\Events\PartRequestUpdated($partRequest));
+            broadcast(new PartRequestUpdated($partRequest));
 
             return $goodsIssue;
         });
@@ -124,7 +123,7 @@ class PartRequestService
             'updated_at' => now(),
         ]);
 
-        broadcast(new \App\Events\PartRequestUpdated($partRequest));
+        broadcast(new PartRequestUpdated($partRequest));
 
         return $partRequest;
     }
@@ -135,7 +134,7 @@ class PartRequestService
     protected function deductInventory(int $partId, int $quantity, int $branchId): void
     {
         if (!$branchId) {
-            throw new \Exception('Lỗi không tìm thấy chi nhánh, chi nhánh không tồn tại');
+            throw new Exception('Lỗi không tìm thấy chi nhánh, chi nhánh không tồn tại');
         }
 
         $inventory = Inventory::where('part_id', $partId)
@@ -144,11 +143,11 @@ class PartRequestService
             ->first();
 
         if (!$inventory) {
-            throw new \Exception("Phụ tùng {$partId} không tồn tại trong kho");
+            throw new Exception("Phụ tùng {$partId} không tồn tại trong kho");
         }
 
         if ($inventory->quantity < $quantity) {
-            throw new \Exception("Số lượng không đủ cho phụ tùng {$inventory->part->name}. Còn {$inventory->quantity}, yêu cầu {$quantity}");
+            throw new Exception("Số lượng không đủ cho phụ tùng {$inventory->part->name}. Còn {$inventory->quantity}, yêu cầu {$quantity}");
         }
 
         $inventory->decrement('quantity', $quantity);
@@ -184,7 +183,7 @@ class PartRequestService
                 $existingDetail->increment('quantity', $actualQty);
             } else {
                 // 🆕 chưa có → tạo mới
-                \App\Models\OrderDetail::create([
+                OrderDetail::create([
                     'order_id' => $order->id,
                     'item_type' => \App\Models\Part::class,
                     'item_id' => $part->id,

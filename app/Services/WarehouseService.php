@@ -144,6 +144,8 @@ class WarehouseService
      */
     public function getPendingPartRequestsCount(): int
     {
-        return \App\Models\PartRequest::where('status', PartRequest::STATUS_PENDING)->count();
+        return PartRequest::where('status', PartRequest::STATUS_PENDING)
+            ->where('branch_id', auth()->user()->branch_id)
+            ->count();
     }
 }

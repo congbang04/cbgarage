@@ -5,20 +5,23 @@
 
 import * as warehouseApi from "../../services/warehouse-api.js";
 
+let realtimeListenerSetup = false; // ✅ Flag để tránh duplicate listener
+
 export function initPartRequestsModule() {
     setupRealTimeListener();
 }
 
 function setupRealTimeListener() {
-    // Listen for part request updates via Echo
-    if (typeof window.Echo !== "undefined") {
-        window.Echo.channel("part-requests").listen(
-            "PartRequestUpdated",
-            (event) => {
-                updateRequestCard(event.partRequest);
-            },
-        );
+    // ✅ Kiểm tra nếu đã setup rồi thì không setup lại
+    if (realtimeListenerSetup || typeof window.Echo === "undefined") {
+        return;
     }
+
+    realtimeListenerSetup = true;
+
+    window.Echo.channel("part-requests").listen(".PartRequestUpdated", () => {
+        loadCardPartRequest();
+    });
 }
 
 window.approveRequest = function (partRequestId) {
@@ -65,44 +68,19 @@ window.rejectRequest = function (partRequestId) {
         }
     });
 };
-
-function updateRequestCard(partRequest) {
-    const $card = $(`[data-request-id="${partRequest.id}"]`);
-
-    if ($card.length) {
-        let badgeHtml = "";
-        let borderClass = "";
-
-        if (partRequest.status === "pending") {
-            badgeHtml = '<span class="bg-warning text-dark">Chờ duyệt</span>';
-            borderClass = "border-warning";
-        } else if (partRequest.status === "completed") {
-            badgeHtml =
-                '<span class="bg-success-subtle text-success">Đã xuất</span>';
-            borderClass = "border-success";
-        } else {
-            badgeHtml =
-                '<span class="bg-danger-subtle text-danger">Từ chối</span>';
-            borderClass = "border-danger";
-        }
-
-        // Update status badge
-        $card.find(`#status-${partRequest.id}`).html(badgeHtml);
-
-        // Update border color
-        $card
-            .removeClass("border-warning border-success border-danger")
-            .addClass(borderClass);
-
-        // Disable buttons if not pending
-        if (partRequest.status !== "pending") {
-            $card.find("button").prop("disabled", true);
-            $card.find(".card-body").css("opacity", "0.75");
-        }
-    }
+function loadCardPartRequest() {
+    warehouseApi
+        .getPendingRequests()
+        .done(function (resHtml) {
+            $("#requestsContainer").html(resHtml);
+        })
+        .fail(function () {
+            alert("Có lỗi xảy ra khi tải dữ liệu card!");
+        });
 }
-
 // Initialize on document ready
 $(document).ready(function () {
     initPartRequestsModule();
+    loadCardPartRequest();
+    console.log("gg");
 });

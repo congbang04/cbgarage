@@ -6,10 +6,50 @@
 import * as warehouseApi from "../../services/warehouse-api.js";
 
 let searchTimeout;
+let realtimeListenerSetup = false; // ✅ Flag để tránh duplicate listener
 
 export function initInventoryModule() {
     setupEventListeners();
     loadInventories();
+    setupInventoryRealtime();
+}
+function setupInventoryRealtime() {
+    // ✅ Kiểm tra nếu đã setup rồi thì không setup lại
+    if (realtimeListenerSetup || typeof window.Echo === "undefined") {
+        return;
+    }
+
+    realtimeListenerSetup = true;
+
+    window.Echo.channel("part-requests").listen(".PartRequestUpdated", (e) => {
+        console.log("🔔 inventory nhận event", e.partRequest);
+        updatePendingBadge(e.partRequest);
+    });
+}
+
+function updatePendingBadge(partRequest) {
+    const badge = document.getElementById("pendingRequestBadge");
+    if (!badge) return;
+
+    let count = parseInt(badge.innerText) || 0;
+
+    const status = partRequest.status.toLowerCase();
+
+    // 👉 logic quan trọng
+    if (status === "pending") {
+        count++;
+    } else {
+        count = Math.max(0, count - 1);
+    }
+
+    badge.innerText = count;
+
+    // ẩn badge nếu = 0
+    if (count === 0) {
+        badge.style.display = "none";
+    } else {
+        badge.style.display = "inline-block";
+    }
 }
 
 function setupEventListeners() {

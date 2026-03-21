@@ -32,7 +32,9 @@ class WarehouseController extends Controller
     {
         $inventories = $this->warehouseService->getInventoriesByCentralBranch();
         $stats = $this->warehouseService->getInventoryStats();
-        return view('admin.warehouse.inventory', compact('inventories', 'stats'));
+        $countPartRequest = $this->warehouseService->getPendingPartRequestsCount();
+
+        return view('admin.warehouse.inventory', compact('inventories', 'stats', 'countPartRequest'));
     }
 
     /**
@@ -42,7 +44,6 @@ class WarehouseController extends Controller
     {
         $filters = $request->only(['keyword', 'status', 'price_from', 'price_to']);
         $perPage = $request->get('per_page', 15);
-
         // Nếu không có filter, lấy tất cả theo pagination
         if (!empty(array_filter($filters))) {
             $inventories = $this->warehouseService->searchInventories($filters, $perPage);
@@ -58,9 +59,13 @@ class WarehouseController extends Controller
      */
     public function partRequests()
     {
+        return view('admin.warehouse.part-requests');
+    }
+    public function cardPartRequests()
+    {
         $requests = $this->partRequestService->getPendingRequests();
 
-        return view('admin.warehouse.part-requests', compact('requests'));
+        return view('admin.warehouse.partials.card-part-request', compact('requests'));
     }
 
     /**
