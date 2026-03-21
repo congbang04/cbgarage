@@ -108,7 +108,6 @@ class ReceptionController extends Controller
             'details.*.discount' => 'nullable|numeric|min:0|max:100',
             'technician_id' => 'nullable|integer|exists:technicians,id',
         ]);
-
         $quotation = $this->receptionService->saveQuotation(
             $order,
             $validated['details'],

@@ -31,9 +31,9 @@
                             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                                 <h6 class="mb-0 fw-bold">#REQ-{{ str_pad($request->id, 5, '0', STR_PAD_LEFT) }}</h6>
                                 <span class="badge" id="status-{{ $request->id }}">
-                                    @if ($request->status === 'pending')
+                                    @if ($request->status === 'PENDING')
                                         <span class="bg-warning text-dark">Chờ duyệt</span>
-                                    @elseif ($request->status === 'completed')
+                                    @elseif ($request->status === 'COMPLETED')
                                         <span class="bg-success-subtle text-success">Đã xuất</span>
                                     @else
                                         <span class="bg-danger-subtle text-danger">Từ chối</span>
@@ -73,7 +73,7 @@
                                     @endforeach
                                 </ul>
 
-                                @if ($request->status === 'pending')
+                                @if ($request->status === 'PENDING')
                                     <div class="d-grid gap-2">
                                         <button class="btn btn-success" onclick="approveRequest({{ $request->id }})">
                                             <i class="fas fa-check"></i> Xuất kho

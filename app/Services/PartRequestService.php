@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\Inventory;
+use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Part;
 use App\Models\PartRequest;
 use App\Models\PartRequestDetail;
-use App\Models\Inventory;
-use App\Models\Part;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +19,7 @@ class PartRequestService
     public function getPendingRequests(): Collection
     {
         return PartRequest::query()
-            ->where('status', 'pending')
+            ->where('status', PartRequest::STATUS_PENDING)
             ->where('branch_id', auth()->user()->branch_id)
             ->with([
                 'order',
@@ -71,7 +73,7 @@ class PartRequestService
             if ($partRequest->branch_id !== auth()->user()->branch_id) {
                 abort(403, 'Bạn không có quyền xử lý yêu cầu này');
             }
-            if ($partRequest->status !== 'pending') {
+            if ($partRequest->status !== PartRequest::STATUS_PENDING) {
                 abort(400, 'Yêu cầu đã được xử lý rồi');
             }
 
@@ -86,10 +88,10 @@ class PartRequestService
                 }
                 $this->deductInventory($detail->part_id, $actualQty, $partRequest->branch_id);
             }
-
+            $this->createOrderDetailsFromPartRequest($partRequest, $actualQuantities);
             // Update part request status
             $partRequest->update([
-                'status' => 'completed',
+                'status' => PartRequest::STATUS_COMPLETED,
                 'updated_at' => now(),
             ]);
 
@@ -117,7 +119,7 @@ class PartRequestService
         $partRequest = PartRequest::findOrFail($partRequestId);
 
         $partRequest->update([
-            'status' => 'rejected',
+            'status' => PartRequest::STATUS_REJECTED,
             'note' => $reason ?? $partRequest->note,
             'updated_at' => now(),
         ]);
@@ -152,33 +154,46 @@ class PartRequestService
         $inventory->decrement('quantity', $quantity);
     }
 
-    // /**
-    //  * Create part request (called by technician)
-    //  */
-    // public function createPartRequest(array $data): PartRequest
-    // {
-    //     return DB::transaction(function () use ($data) {
-    //         $partRequest = PartRequest::create([
-    //             'order_id' => $data['order_id'],
-    //             'technician_id' => $data['technician_id'] ?? auth()->id(),
-    //             'branch_id' => auth()->user()->branch_id,
-    //             'status' => 'pending',
-    //             'note' => $data['note'] ?? null,
-    //             'created_at' => now(),
-    //         ]);
+    /**
+     * Create or Update OrderDetail (Quotation)
+     */
+    protected function createOrderDetailsFromPartRequest(PartRequest $partRequest, array $actualQuantities = []): void
+    {
+        logger('createOrderDetailsFromPartRequest RUN', [
+            'request_id' => $partRequest->id,
+            'time' => now()
+        ]);
+        $order = $partRequest->order;
+        foreach ($partRequest->details as $detail) {
+            $actualQty = $actualQuantities[$detail->id] ?? 0;
 
-    //         // Store part request details
-    //         foreach ($data['parts'] as $partData) {
-    //             PartRequestDetail::create([
-    //                 'request_id' => $partRequest->id,
-    //                 'part_id' => $partData['part_id'],
-    //                 'quantity' => $partData['quantity'],
-    //             ]);
-    //         }
+            if ($actualQty <= 0) {
+                continue;
+            }
 
-    //         broadcast(new \App\Events\PartRequestUpdated($partRequest));
+            $part = $detail->part;
 
-    //         return $partRequest;
-    //     });
-    // }
+            // 🔑 check đã tồn tại chưa (tránh duplicate)
+            $existingDetail = $order->details()
+                ->where('item_type', \App\Models\Part::class)
+                ->where('item_id', $part->id)
+                ->first();
+
+            if ($existingDetail) {
+                // ✅ đã có → cộng thêm số lượng
+                $existingDetail->increment('quantity', $actualQty);
+            } else {
+                // 🆕 chưa có → tạo mới
+                \App\Models\OrderDetail::create([
+                    'order_id' => $order->id,
+                    'item_type' => \App\Models\Part::class,
+                    'item_id' => $part->id,
+                    'quantity' => $actualQty,
+                    'price' => $part->price_sell, // ⚠️ lấy từ DB, không dùng frontend
+                    'discount' => 0,
+                    'status' => PartRequest::STATUS_PENDING,
+                ]);
+            }
+        }
+    }
 }

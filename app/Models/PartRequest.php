@@ -6,6 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class PartRequest extends Model
 {
+    const STATUS_PENDING = 'PENDING';
+    const STATUS_COMPLETED = 'COMPLETED';
+    const STATUS_REJECTED = 'REJECTED';
+
+    public static function statuses(): array
+    {
+        return [
+            self::STATUS_PENDING,
+            self::STATUS_COMPLETED,
+            self::STATUS_REJECTED,
+        ];
+    }
     protected $fillable = ['status', 'note', 'order_id', 'technician_id', 'branch_id'];
 
     public function order()

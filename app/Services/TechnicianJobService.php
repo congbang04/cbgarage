@@ -101,6 +101,9 @@ class TechnicianJobService
         }
 
         $order = Order::with([
+            'partRequests' => function ($q) {
+                $q->where('status', PartRequest::STATUS_PENDING);
+            },
             'customer:id,name,phone,address',
             'car:id,brand_id,car_model_id,license_plate,manufacture_year,color,current_odo,vin_number',
             'car.brand:id,name',
@@ -199,7 +202,7 @@ class TechnicianJobService
                 'order_id' => $order->id,
                 'technician_id' => $technician->id,
                 'branch_id' => auth()->user()->branch_id,
-                'status' => 'pending'
+                'status' => PartRequest::STATUS_PENDING
             ]);
 
             $attachedParts = [];

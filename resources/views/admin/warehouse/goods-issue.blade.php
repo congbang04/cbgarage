@@ -57,7 +57,7 @@
                 <button class="btn btn-outline-secondary no-print" onclick="window.print()">
                     <i class="fas fa-print"></i> In phiếu
                 </button>
-                @if ($partRequest->status === 'pending')
+                @if ($partRequest->status === 'PENDING')
                     <button class="btn btn-success no-print" id="confirmIssueBtn"
                         data-part-request-id="{{ $partRequest->id }}">
                         <i class="fas fa-check"></i> Xác nhận xuất
@@ -90,11 +90,12 @@
                         <table class="table table-borderless table-sm mb-0">
                             <tr>
                                 <td style="width: 150px;" class="text-secondary">Người yêu cầu:</td>
-                                <td class="fw-bold">KTV {{ $partRequest->technician->user->name ?? 'N/A' }}</td>
+                                <td class="fw-bold">KTV {{ $partRequest->technician->name ?? 'N/A' }}</td>
                             </tr>
                             <tr>
                                 <td class="text-secondary">Lý do xuất:</td>
-                                <td>Sửa chữa xe <strong>{{ $partRequest->order->car->name ?? 'N/A' }}
+                                <td>Sửa chữa xe <strong>{{ $partRequest->order->car->brand->name ?? 'N/A' }}
+                                        {{ $partRequest->order->car->carModel->name ?? 'N/A' }}
                                         - {{ $partRequest->order->car->license_plate ?? 'N/A' }}</strong>
                                     (Phiếu #ORD-{{ str_pad($partRequest->order->id, 5, '0', STR_PAD_LEFT) }})</td>
                             </tr>

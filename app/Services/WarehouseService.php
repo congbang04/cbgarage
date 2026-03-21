@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Branch;
 use App\Models\Inventory;
 use App\Models\Part;
-use App\Models\Branch;
+use App\Models\PartRequest;
 use Illuminate\Support\Collection;
 
 class WarehouseService
@@ -143,6 +144,6 @@ class WarehouseService
      */
     public function getPendingPartRequestsCount(): int
     {
-        return \App\Models\PartRequest::where('status', 'pending')->count();
+        return \App\Models\PartRequest::where('status', PartRequest::STATUS_PENDING)->count();
     }
 }
