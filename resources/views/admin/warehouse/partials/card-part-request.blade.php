@@ -1,21 +1,28 @@
 @forelse($requests as $request)
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-6 col-lg-3">
         <div class="card h-100 border-top border-4" data-request-id="{{ $request->id }}"
             data-status="{{ $request->status }}">
             <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                <h6 class="mb-0 fw-bold">#REQ-{{ str_pad($request->id, 5, '0', STR_PAD_LEFT) }}</h6>
-                <span class="badge" id="status-{{ $request->id }}">
-                    @if ($request->status === 'PENDING')
-                        <span class="bg-warning text-dark">Chờ duyệt</span>
-                    @elseif ($request->status === 'COMPLETED')
-                        <span class="bg-success-subtle text-success">Đã xuất</span>
-                    @else
-                        <span class="bg-danger-subtle text-danger">Từ chối</span>
-                    @endif
+                <h5 class="mb-0 fw-bold">#REQ-{{ str_pad($request->id, 5, '0', STR_PAD_LEFT) }}</h5>
+                @php
+                    $statusClass = match ($request->status) {
+                        'PENDING' => 'bg-warning text-dark',
+                        'COMPLETED' => 'bg-success',
+                        'REJECTED' => 'bg-danger',
+                        default => 'bg-primary',
+                    };
+                @endphp
+                <span class="badge {{ $statusClass }} px-3 py-2 fs-6" id="status-{{ $request->id }}">
+                    {{ match ($request->status) {
+                        'PENDING' => 'Chờ duyệt',
+                        'COMPLETED' => 'Đã xuất',
+                        'REJECTED' => 'Từ chối',
+                        default => 'Không rõ',
+                    } }}
                 </span>
             </div>
 
-            <div class="card-body">
+            <div class="card-body d-flex flex-column">
                 <div class="d-flex mb-3">
                     <div class="me-3">
                         <div class="bg-light rounded p-2 text-center" style="width: 50px;">
@@ -48,16 +55,27 @@
                 </ul>
 
                 @if ($request->status === 'PENDING')
-                    <div class="d-grid gap-2">
+                    <div class="d-grid gap-2 mt-auto">
                         <button class="btn btn-success" onclick="approveRequest({{ $request->id }})">
-                            <i class="fas fa-check"></i> Xuất kho
+                            <i class="fas fa-check"></i>
+                            Xuất kho
                         </button>
-                        <button class="btn btn-outline-danger" onclick="rejectRequest({{ $request->id }})">
+                        <button class="border border-danger btn btn-outline-danger"
+                            onclick="rejectRequest({{ $request->id }})">
+                            <i class="fa-solid fa-x"></i>
                             Từ chối
                         </button>
                     </div>
+                @elseif ($request->status === 'REJECTED')
+                    <div class="d-grid gap-2 mt-auto">
+                        <button class="bg-danger-subtle btn btn-outline-danger btn btn-light w-100 border" disabled>
+                            Đã từ chối</button>
+                    </div>
                 @else
-                    <button class="btn btn-light w-100 border" disabled>Đã hoàn thành</button>
+                    <div class="d-grid gap-2 mt-auto">
+                        <button class="bg-success-subtle text-success btn btn-light w-100 border" disabled>
+                            Đã hoàn thành</button>
+                    </div>
                 @endif
             </div>
 
@@ -74,3 +92,21 @@
         </div>
     </div>
 @endforelse
+<!-- Pagination -->
+@if ($requests->total() > $requests->perPage())
+    <div class="card-footer bg-white border-top-0 d-flex justify-content-end py-3">
+        <style>
+            .pagination-container nav div:first-child {
+                display: none !important;
+            }
+
+            .pagination-container nav div:last-child {
+                display: flex !important;
+            }
+        </style>
+
+        <div class="pagination-container" data-type="part">
+            {{ $requests->links('pagination::bootstrap-5') }}
+        </div>
+    </div>
+@endif

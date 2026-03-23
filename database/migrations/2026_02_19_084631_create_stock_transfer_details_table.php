@@ -12,6 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stock_transfer_details', function (Blueprint $table) {
+            $table->id();
+
             $table->foreignId('stock_transfer_id')
                 ->constrained('stock_transfers')
                 ->cascadeOnDelete();
@@ -19,7 +21,6 @@ return new class extends Migration
 
             $table->integer('quantity');
 
-            $table->primary(['stock_transfer_id', 'part_id']);
             $table->timestamps();
         });
     }

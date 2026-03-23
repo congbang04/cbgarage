@@ -1,5 +1,8 @@
 @extends('layouts.admin')
 @section('title', 'Luân chuyển hàng hóa')
+@section('vite')
+    @vite(['resources/js/modules/warehouse/stock-transfer.js'])
+@endsection
 @section('styles')
     <link rel="stylesheet" href="{{ asset('assets/css/design-system.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}">
@@ -30,11 +33,11 @@
                                         <select class="form-select" name="from_branch_id" required>
                                             <option value="">-- Chọn kho --</option>
                                             @foreach ($branches as $branch)
-                                                @if ($branch->is_central_warehouse)
-                                                    <option value="{{ $branch->id }}" selected>
-                                                        {{ $branch->name }} (Kho Tổng)
+                                                @unless ($branch->id === auth()->user()->branch_id)
+                                                    <option value="{{ $branch->id }}">
+                                                        {{ $branch->name }}
                                                     </option>
-                                                @endif
+                                                @endunless
                                             @endforeach
                                         </select>
                                     </div>
@@ -43,9 +46,10 @@
                                         <select class="form-select" name="to_branch_id" required>
                                             <option value="">-- Chọn chi nhánh --</option>
                                             @foreach ($branches as $branch)
-                                                @unless ($branch->is_central_warehouse)
-                                                    <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                                                @endunless
+                                                @if ($branch->id === auth()->user()->branch_id)
+                                                    <option value="{{ $branch->id }}"selected>
+                                                        {{ $branch->name }}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>
@@ -144,8 +148,4 @@
         </div>
     </div>
     </div>
-
-    @push('scripts')
-        <script type="module" src="{{ asset('js/modules/warehouse/stock-transfer.js') }}"></script>
-    @endpush
 @endsection

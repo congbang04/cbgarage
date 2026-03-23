@@ -12,8 +12,18 @@ export function initStockTransferModule() {
     loadParts();
     setupEventListeners();
     setupRealTimeListener();
+    loadCardTransferRequest();
 }
-
+function loadCardTransferRequest() {
+    warehouseApi
+        .getTransferRequests()
+        .done(function (resHtml) {
+            $("#transferContainer").html(resHtml);
+        })
+        .fail(function () {
+            alert("Có lỗi xảy ra khi tải dữ liệu card!");
+        });
+}
 function loadParts() {
     warehouseApi
         .getSampleParts()

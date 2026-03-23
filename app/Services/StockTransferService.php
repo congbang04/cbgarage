@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\StockTransfer;
-use App\Models\Inventory;
+use App\Events\StockTransferUpdated;
 use App\Models\Branch;
+use App\Models\Inventory;
+use App\Models\StockTransfer;
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -13,7 +15,7 @@ class StockTransferService
     /**
      * Get stock transfers for current branch
      */
-    public function getTransfersForBranch(): Collection
+    public function getTransfersForBranch()
     {
         $userBranch = auth()->user()->branch_id;
 
@@ -22,11 +24,35 @@ class StockTransferService
                 $q->where('from_branch_id', $userBranch)
                     ->orWhere('to_branch_id', $userBranch);
             })
-            ->with(['fromBranch', 'toBranch', 'creator', 'creator.branch'])
+            ->with([
+                'fromBranch',
+                'toBranch',
+                'creator',
+                'creator.branch',
+                'details',
+                'details.part'
+            ])
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(8);
     }
-
+    /**
+     * Get part request by ID with all details
+     */
+    public function getStockTransferById(int $stockTransferId)
+    {
+        return StockTransfer::query()
+            ->where('id', $stockTransferId)
+            ->where('from_branch_id', auth()->user()->branch_id)
+            ->with([
+                'fromBranch',
+                'toBranch',
+                'creator',
+                'creator.branch',
+                'details',
+                'details.part'
+            ])
+            ->first();
+    }
     /**
      * Create stock transfer request
      */
@@ -36,7 +62,7 @@ class StockTransferService
             $transfer = StockTransfer::create([
                 'from_branch_id' => $data['from_branch_id'],
                 'to_branch_id' => $data['to_branch_id'],
-                'status' => 'pending', // pending, in_transit, completed
+                'status' => StockTransfer::STATUS_PENDING,
                 'created_by' => auth()->id(),
             ]);
 
@@ -51,7 +77,7 @@ class StockTransferService
             // Validate stock availability
             $this->validateStockAvailability($transfer);
 
-            broadcast(new \App\Events\StockTransferUpdated($transfer));
+            broadcast(new StockTransferUpdated($transfer));
 
             return $transfer;
         });
@@ -70,7 +96,7 @@ class StockTransferService
             $requiredQty = $part->pivot->quantity;
 
             if (!$inventory || $inventory->quantity < $requiredQty) {
-                throw new \Exception(
+                throw new Exception(
                     "Số lượng không đủ cho: {$part->name}. "
                         . "Yêu cầu: {$requiredQty}, Có: " . ($inventory->quantity ?? 0)
                 );
@@ -87,7 +113,7 @@ class StockTransferService
             $transfer = StockTransfer::findOrFail($transferId);
 
             if ($transfer->status === 'completed') {
-                throw new \Exception('Phiếu chuyển kho đã hoàn thành');
+                throw new Exception('Phiếu chuyển kho đã hoàn thành');
             }
 
             // Deduct from source
@@ -119,9 +145,9 @@ class StockTransferService
                 $destInventory->increment('quantity', $qty);
             }
 
-            $transfer->update(['status' => 'completed']);
+            $transfer->update(['status' => StockTransfer::STATUS_COMPLETED]);
 
-            broadcast(new \App\Events\StockTransferUpdated($transfer));
+            broadcast(new StockTransferUpdated($transfer));
 
             return $transfer;
         });
@@ -130,17 +156,20 @@ class StockTransferService
     /**
      * Cancel stock transfer
      */
-    public function cancelTransfer(int $transferId): StockTransfer
+    public function cancelTransfer(int $transferId, ?string $reason = null): StockTransfer
     {
         $transfer = StockTransfer::findOrFail($transferId);
 
-        if (in_array($transfer->status, ['completed', 'cancelled'])) {
-            throw new \Exception('Không thể hủy phiếu chuyển kho này');
+        if (in_array($transfer->status, [StockTransfer::STATUS_COMPLETED, StockTransfer::STATUS_CANCELED])) {
+            throw new Exception('Không thể hủy phiếu chuyển kho này');
         }
+        $transfer->update([
+            'status' => StockTransfer::STATUS_CANCELED,
+            'note' => $reason,
+            'updated_at' => now(),
+        ]);
 
-        $transfer->update(['status' => 'cancelled']);
-
-        broadcast(new \App\Events\StockTransferUpdated($transfer));
+        broadcast(new StockTransferUpdated($transfer));
 
         return $transfer;
     }

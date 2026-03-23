@@ -22,7 +22,7 @@
                 <a href="{{ route('warehouse.part-requests') }}" class="btn btn-outline-primary position-relative">
                     <i class="fas fa-bell"></i> Yêu cầu xuất
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                        id="pendingRequestBadge">{{ $countPartRequest }}</span>
+                        id="pendingRequestBadge">0</span>
                 </a>
             </div>
         </header>

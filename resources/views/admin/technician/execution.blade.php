@@ -26,7 +26,7 @@
                             'IN_PROGRESS' => '<span class="status-badge info">Đang thực hiện</span>',
                             'WAITING_PART' => '<span class="status-badge warning">Chờ phụ tùng</span>',
                             'COMPLETED' => '<span class="status-badge success">Hoàn thành</span>',
-                            default => '<span class="status-badge bg-secondary">Chưa làm</span>',
+                            default => '<span class="status-badge bg-secondary text-white">Chưa làm</span>',
                         };
                     @endphp
                     {!! $statusBadge !!}

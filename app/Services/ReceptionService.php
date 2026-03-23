@@ -12,8 +12,6 @@ use App\Services\CustomerService;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-use function PHPUnit\Framework\throwException;
-
 class ReceptionService
 {
     protected $customerService, $carService, $serviceService, $partService;

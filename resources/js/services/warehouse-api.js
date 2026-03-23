@@ -15,9 +15,26 @@ export function getInventories(
     });
 }
 
-export function getPendingRequests() {
+export function getPendingRequests(
+    url = window.routes.warehouseCardPartRequests,
+) {
     return $.ajax({
-        url: window.routes.warehouseCardPartRequests,
+        url: url,
+        method: "GET",
+    });
+}
+
+export function getTransferRequests(
+    url = window.routes.warehouseCardTransferRequests,
+) {
+    return $.ajax({
+        url: url,
+        method: "GET",
+    });
+}
+export function getPendingCount() {
+    return $.ajax({
+        url: window.routes.warehouseGetPendingCount,
         method: "GET",
     });
 }
@@ -49,7 +66,19 @@ export function rejectPartRequest(partRequestId, reason = "") {
         method: "POST",
         data: {
             reason,
-            _token: document.querySelector('meta[name="csrf-token"]').content,
+        },
+    });
+}
+export function cancelTransferRequest(stockTransferId, reason = "") {
+    const url = window.routes.warehouseCancelTransferRequest.replace(
+        ":stockTransferId",
+        stockTransferId,
+    );
+    return $.ajax({
+        url: url,
+        method: "POST",
+        data: {
+            reason,
         },
     });
 }

@@ -47,7 +47,6 @@
 </table>
 
 <!-- Pagination -->
-<!-- Pagination -->
 @if ($inventories->total() > $inventories->perPage())
     <div class="card-footer bg-white border-top-0 d-flex justify-content-end py-3">
         <style>

@@ -172,16 +172,21 @@ Route::prefix('warehouse')
         // Inventory management
         Route::get('/inventory', [WarehouseController::class, 'inventory'])->name('warehouse.inventory');
         Route::get('/inventory-list', [WarehouseController::class, 'inventoryList'])->name('warehouse.inventory-list');
+        Route::get('/pending-count', [WarehouseController::class, 'getPendingCount'])->name('warehouse.getPendingCount');
+
 
         // Part requests management
         Route::get('/part-requests', [WarehouseController::class, 'partRequests'])->name('warehouse.part-requests');
         Route::get('/card-part-requests', [WarehouseController::class, 'cardPartRequests'])->name('warehouse.card-part-requests');
         Route::get('/goods-issue/{partRequestId}', [WarehouseController::class, 'showGoodsIssue'])->name('warehouse.goods-issue');
+        Route::get('/goods-issue-transfer/{stockTransferId}', [WarehouseController::class, 'showTransferGoodsIssue'])->name('warehouse.goods-issue-transfer');
         Route::post('/approve-part-request/{partRequestId}', [WarehouseController::class, 'approvePartRequest'])->name('warehouse.approve-part-request');
         Route::post('/reject-part-request/{partRequestId}', [WarehouseController::class, 'rejectPartRequest'])->name('warehouse.reject-part-request');
+        Route::post('/cancel-transfer-request/{stockTransferId}', [WarehouseController::class, 'cancelTransferRequest'])->name('warehouse.cancel-transfer-request');
 
         // Stock transfer management
         Route::get('/stock-transfer', [WarehouseController::class, 'stockTransfer'])->name('warehouse.stock-transfer');
+        Route::get('/card-transfer-requests', [WarehouseController::class, 'cardTransferRequests'])->name('warehouse.card-transfer-requests');
         Route::post('/stock-transfer/create', [WarehouseController::class, 'createStockTransfer'])->name('warehouse.create-stock-transfer');
         Route::get('/parts', [WarehouseController::class, 'getSampleParts'])->name('warehouse.get-parts');
     });

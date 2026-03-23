@@ -30,11 +30,16 @@ class WarehouseController extends Controller
      */
     public function inventory(Request $request)
     {
-        $inventories = $this->warehouseService->getInventoriesByCentralBranch();
+        $inventories = $this->warehouseService->getInventoriesByBranch();
         $stats = $this->warehouseService->getInventoryStats();
-        $countPartRequest = $this->warehouseService->getPendingPartRequestsCount();
 
-        return view('admin.warehouse.inventory', compact('inventories', 'stats', 'countPartRequest'));
+        return view('admin.warehouse.inventory', compact('inventories', 'stats'));
+    }
+    public function getPendingCount()
+    {
+        return response()->json([
+            'count' => $this->warehouseService->getPendingPartRequestsCount()
+        ]);
     }
 
     /**
@@ -48,7 +53,7 @@ class WarehouseController extends Controller
         if (!empty(array_filter($filters))) {
             $inventories = $this->warehouseService->searchInventories($filters, $perPage);
         } else {
-            $inventories = $this->warehouseService->getInventoriesByCentralBranch($perPage);
+            $inventories = $this->warehouseService->getInventoriesByBranch($perPage);
         }
 
         return view('admin.warehouse.partial-inventory-list', compact('inventories'));
@@ -67,7 +72,12 @@ class WarehouseController extends Controller
 
         return view('admin.warehouse.partials.card-part-request', compact('requests'));
     }
+    public function cardTransferRequests()
+    {
+        $requests = $this->stockTransferService->getTransfersForBranch();
 
+        return view('admin.warehouse.partials.card-transfer-request', compact('requests'));
+    }
     /**
      * Show goods issue detail (Phiếu xuất kho)
      */
@@ -76,6 +86,11 @@ class WarehouseController extends Controller
         $partRequest = $this->partRequestService->getPartRequestById($partRequestId);
 
         return view('admin.warehouse.goods-issue', compact('partRequest'));
+    }
+    public function showTransferGoodsIssue($stockTransferId)
+    {
+        $stockTransfer = $this->stockTransferService->getStockTransferById($stockTransferId);
+        return view('admin.warehouse.goods-issue-transfer', compact('stockTransfer'));
     }
 
     /**
@@ -100,6 +115,14 @@ class WarehouseController extends Controller
     {
         $reason = $request->get('reason');
         $this->partRequestService->rejectRequest($partRequestId, $reason);
+
+        return response()->json(['message' => 'Từ chối yêu cầu thành công']);
+    }
+
+    public function cancelTransferRequest(Request $request, $partRequestId)
+    {
+        $reason = $request->get('reason');
+        $this->stockTransferService->cancelTransfer($partRequestId, $reason);
 
         return response()->json(['message' => 'Từ chối yêu cầu thành công']);
     }

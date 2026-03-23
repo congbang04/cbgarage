@@ -73,7 +73,7 @@
                     <div class="col-6">
                         <h4 class="fw-bold text-uppercase">Garage Pro System</h4>
                         <div class="small">
-                            Kho: <strong>Chi nhánh{{ optional($partRequest->order->branch)->name ?? 'Tổng' }}</strong>
+                            Kho: <strong>Chi nhánh {{ optional($partRequest->order->branch)->name ?? 'Tổng' }}</strong>
                         </div>
                         <div class="small">Địa chỉ: {{ optional($partRequest->order->branch)->address ?? 'N/A' }}</div>
                     </div>

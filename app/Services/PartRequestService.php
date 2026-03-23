@@ -15,10 +15,9 @@ class PartRequestService
     /**
      * Get all pending part requests
      */
-    public function getPendingRequests(): Collection
+    public function getPendingRequests()
     {
         return PartRequest::query()
-            ->where('status', PartRequest::STATUS_PENDING)
             ->where('branch_id', auth()->user()->branch_id)
             ->with([
                 'order',
@@ -32,7 +31,7 @@ class PartRequestService
                 'details.part'
             ])
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(8);
     }
 
     /**

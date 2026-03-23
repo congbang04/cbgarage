@@ -6,6 +6,7 @@ use App\Models\Branch;
 use App\Models\Inventory;
 use App\Models\Part;
 use App\Models\PartRequest;
+use App\Models\StockTransfer;
 use Illuminate\Support\Collection;
 
 class WarehouseService
@@ -13,16 +14,10 @@ class WarehouseService
     /**
      * Get all inventories for central warehouse with pagination
      */
-    public function getInventoriesByCentralBranch(int $perPage = 15)
+    public function getInventoriesByBranch(int $perPage = 15)
     {
-        $centralBranch = Branch::where('is_central_warehouse', true)->first();
-
-        if (!$centralBranch) {
-            return collect();
-        }
-
         return Inventory::query()
-            ->where('branch_id', $centralBranch->id)
+            ->where('branch_id', auth()->user()->branch_id)
             ->with(['part', 'branch'])
             ->orderBy('quantity', 'asc')
             ->paginate($perPage);
@@ -33,23 +28,14 @@ class WarehouseService
      */
     public function getInventoryStats(): array
     {
-        $centralBranch = Branch::where('is_central_warehouse', true)->first();
-
-        if (!$centralBranch) {
-            return [
-                'total_value' => 0,
-                'low_stock_count' => 0,
-            ];
-        }
-
         $totalValue = Inventory::query()
-            ->where('branch_id', $centralBranch->id)
+            ->where('branch_id', auth()->user()->branch_id)
             ->with('part')
             ->get()
             ->sum(fn($inv) => $inv->quantity * ($inv->part->price_sell ?? 0));
 
         $lowStockCount = Inventory::query()
-            ->where('branch_id', $centralBranch->id)
+            ->where('branch_id', auth()->user()->branch_id)
             ->whereRaw('quantity < min_stock')
             ->count();
 
@@ -64,15 +50,9 @@ class WarehouseService
      */
     public function searchInventories(array $filters = [], int $perPage = 15)
     {
-        $centralBranch = Branch::where('is_central_warehouse', true)->first();
-
-        if (!$centralBranch) {
-            return collect();
-        }
-
         $query = Inventory::query()
             ->select('id', 'part_id', 'branch_id', 'quantity', 'min_stock', 'created_at', 'updated_at')
-            ->where('branch_id', $centralBranch->id)
+            ->where('branch_id', auth()->user()->branch_id)
             ->with(['part:id,sku,name,unit,price_sell', 'branch:id,name']);
 
         // Tìm kiếm theo tên, SKU
@@ -144,8 +124,16 @@ class WarehouseService
      */
     public function getPendingPartRequestsCount(): int
     {
-        return PartRequest::where('status', PartRequest::STATUS_PENDING)
-            ->where('branch_id', auth()->user()->branch_id)
+        $user = auth()->user();
+        if (!$user) {
+            return 0;
+        }
+        $countPartRequest = PartRequest::where('status', PartRequest::STATUS_PENDING)
+            ->where('branch_id', $user->branch_id)
             ->count();
+        $countTransferRequest = StockTransfer::where('status', StockTransfer::STATUS_PENDING)
+            ->where('from_branch_id', $user->branch_id)
+            ->count();
+        return $countPartRequest + $countTransferRequest;
     }
 }

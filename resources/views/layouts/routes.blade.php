@@ -52,12 +52,24 @@
 
         'warehouseInventory' => route('warehouse.inventory'),
         'warehouseInventoryList' => route('warehouse.inventory-list'),
+        'warehouseGetPendingCount' => route('warehouse.getPendingCount'),
+
         'warehousePartRequests' => route('warehouse.part-requests'),
         'warehouseCardPartRequests' => route('warehouse.card-part-requests'),
         'warehouseGoodsIssue' => route('warehouse.goods-issue', ['partRequestId' => ':partRequestId']),
+
+        'warehouseGoodsIssueTransfer' => route('warehouse.goods-issue-transfer', [
+            'stockTransferId' => ':stockTransferId',
+        ]),
+
         'warehouseApprovePartRequest' => route('warehouse.approve-part-request', ['partRequestId' => ':partRequestId']),
         'warehouseRejectPartRequest' => route('warehouse.reject-part-request', ['partRequestId' => ':partRequestId']),
+        'warehouseCancelTransferRequest' => route('warehouse.cancel-transfer-request', [
+            'stockTransferId' => ':stockTransferId',
+        ]),
+
         'warehouseStockTransfer' => route('warehouse.stock-transfer'),
+        'warehouseCardTransferRequests' => route('warehouse.card-transfer-requests'),
         'warehouseCreateStockTransfer' => route('warehouse.create-stock-transfer'),
         'warehouseGetParts' => route('warehouse.get-parts'),
     ];

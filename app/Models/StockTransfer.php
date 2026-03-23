@@ -6,7 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class StockTransfer extends Model
 {
-    protected $fillable = ['from_branch_id', 'to_branch_id', 'status', 'created_by'];
+    const STATUS_PENDING = 'PENDING';
+    const STATUS_COMPLETED = 'COMPLETED';
+    const STATUS_IN_TRANSIT = 'IN_TRANSIT';
+    const STATUS_CANCELED = 'CANCELED';
+
+
+    public static function statuses(): array
+    {
+        return [
+            self::STATUS_PENDING,
+            self::STATUS_COMPLETED,
+            self::STATUS_IN_TRANSIT,
+            self::STATUS_CANCELED,
+        ];
+    }
+    protected $fillable = ['from_branch_id', 'to_branch_id', 'status', 'note', 'created_by'];
 
     public function fromBranch()
     {
@@ -25,7 +40,12 @@ class StockTransfer extends Model
 
     public function parts()
     {
-        return $this->belongsToMany(Part::class, 'stock_transfer_details')
-            ->withPivot('quantity');
+        return $this->belongsToMany(Part::class, 'stock_transfer_details', 'stock_transfer_id', 'part_id')
+            ->withPivot('quantity')
+            ->withTimestamps();
+    }
+    public function details()
+    {
+        return $this->hasMany(StockTransferDetail::class, 'stock_transfer_id');
     }
 }

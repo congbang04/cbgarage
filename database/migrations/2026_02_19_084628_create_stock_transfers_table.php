@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('stock_transfers', function (Blueprint $table) {
             $table->id();
+            $table->string('status', 50)->default('pending');
+            $table->text('note')->nullable();
 
             $table->foreignId('from_branch_id')->constrained('branches');
             $table->foreignId('to_branch_id')->constrained('branches');
             $table->foreignId('created_by')->constrained('users');
 
-            $table->string('status', 50)->default('pending');
             $table->timestamps();
         });
     }

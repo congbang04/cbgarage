@@ -12,6 +12,7 @@ export function initInventoryModule() {
     setupEventListeners();
     loadInventories();
     setupInventoryRealtime();
+    reloadPendingBadge();
 }
 function setupInventoryRealtime() {
     // ✅ Kiểm tra nếu đã setup rồi thì không setup lại
@@ -21,35 +22,27 @@ function setupInventoryRealtime() {
 
     realtimeListenerSetup = true;
 
-    window.Echo.channel("part-requests").listen(".PartRequestUpdated", (e) => {
-        console.log("🔔 inventory nhận event", e.partRequest);
-        updatePendingBadge(e.partRequest);
-    });
+    window.Echo.channel("part-requests")
+        .subscribed(() => {
+            console.log("✅ Connected: part-request");
+        })
+        .listen(".PartRequestUpdated", (e) => {
+            reloadPendingBadge();
+        });
+    window.Echo.channel("stock-transfers")
+        .subscribed(() => {
+            console.log("✅ Connected: stock-transfers");
+        })
+        .listen(".StockTransferUpdated", (e) => {
+            reloadPendingBadge();
+        });
 }
 
-function updatePendingBadge(partRequest) {
-    const badge = document.getElementById("pendingRequestBadge");
-    if (!badge) return;
-
-    let count = parseInt(badge.innerText) || 0;
-
-    const status = partRequest.status.toLowerCase();
-
-    // 👉 logic quan trọng
-    if (status === "pending") {
-        count++;
-    } else {
-        count = Math.max(0, count - 1);
-    }
-
-    badge.innerText = count;
-
-    // ẩn badge nếu = 0
-    if (count === 0) {
-        badge.style.display = "none";
-    } else {
-        badge.style.display = "inline-block";
-    }
+function reloadPendingBadge() {
+    warehouseApi.getPendingCount().done(function (res) {
+        const badge = $("#pendingRequestBadge");
+        badge.text(res.count);
+    });
 }
 
 function setupEventListeners() {
