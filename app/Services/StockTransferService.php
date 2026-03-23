@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\DB;
 class StockTransferService
 {
     /**
-     * Get stock transfers for current branch
+     * Get stock transfers for current branch with optional filters
      */
-    public function getTransfersForBranch()
+    public function getTransfersForBranch(array $filters = [])
     {
         $userBranch = auth()->user()->branch_id;
 
-        return StockTransfer::query()
+        $query = StockTransfer::query()
             ->where(function ($q) use ($userBranch) {
                 $q->where('from_branch_id', $userBranch)
                     ->orWhere('to_branch_id', $userBranch);
@@ -31,9 +31,23 @@ class StockTransferService
                 'creator.branch',
                 'details',
                 'details.part'
-            ])
-            ->orderBy('created_at', 'desc')
-            ->paginate(8);
+            ]);
+
+        // Filter by status
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        // Filter by date range
+        if (!empty($filters['date_from'])) {
+            $query->whereDate('created_at', '>=', $filters['date_from']);
+        }
+
+        if (!empty($filters['date_to'])) {
+            $query->whereDate('created_at', '<=', $filters['date_to']);
+        }
+
+        return $query->orderBy('created_at', 'desc')->paginate(8);
     }
     /**
      * Get part request by ID with all details

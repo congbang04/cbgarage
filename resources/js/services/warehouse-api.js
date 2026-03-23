@@ -15,21 +15,25 @@ export function getInventories(
     });
 }
 
-export function getPendingRequests(
+export function searchPartRequests(
     url = window.routes.warehouseCardPartRequests,
+    filters = {},
 ) {
     return $.ajax({
         url: url,
         method: "GET",
+        data: filters,
     });
 }
 
-export function getTransferRequests(
+export function searchTransferRequests(
     url = window.routes.warehouseCardTransferRequests,
+    filters = {},
 ) {
     return $.ajax({
         url: url,
         method: "GET",
+        data: filters,
     });
 }
 export function getPendingCount() {

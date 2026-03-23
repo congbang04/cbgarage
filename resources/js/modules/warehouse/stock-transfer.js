@@ -11,18 +11,6 @@ let rowCounter = 1;
 export function initStockTransferModule() {
     loadParts();
     setupEventListeners();
-    setupRealTimeListener();
-    loadCardTransferRequest();
-}
-function loadCardTransferRequest() {
-    warehouseApi
-        .getTransferRequests()
-        .done(function (resHtml) {
-            $("#transferContainer").html(resHtml);
-        })
-        .fail(function () {
-            alert("Có lỗi xảy ra khi tải dữ liệu card!");
-        });
 }
 function loadParts() {
     warehouseApi
@@ -43,11 +31,6 @@ function populatePartSelects() {
                 `<option value="${part.id}">${part.sku} - ${part.name}</option>`,
         )
         .join("");
-
-    // Update existing selects and future ones
-    $(document).on("click", "#addRowBtn", function () {
-        addTableRow();
-    });
 
     // Initial population
     $(".part-select").each(function () {
@@ -143,24 +126,6 @@ function submitTransfer() {
                 "error",
             );
         });
-}
-
-function setupRealTimeListener() {
-    if (typeof window.Echo !== "undefined") {
-        window.Echo.channel("stock-transfers").listen(
-            "StockTransferUpdated",
-            (event) => {
-                console.log("Stock transfer updated:", event.transfer);
-                // Reload transfer history
-                loadTransferHistory();
-            },
-        );
-    }
-}
-
-function loadTransferHistory() {
-    // Reload transfers via API if needed
-    location.reload();
 }
 
 // Initialize on document ready

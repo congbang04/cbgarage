@@ -66,15 +66,20 @@ class WarehouseController extends Controller
     {
         return view('admin.warehouse.part-requests');
     }
-    public function cardPartRequests()
+    /**
+     * Get part requests card view (with optional filters)
+     */
+    public function cardPartRequests(Request $request)
     {
-        $requests = $this->partRequestService->getPendingRequests();
+        $filters = $request->only(['status', 'date_from', 'date_to']);
+        $requests = $this->partRequestService->getPendingRequests($filters);
 
         return view('admin.warehouse.partials.card-part-request', compact('requests'));
     }
-    public function cardTransferRequests()
+    public function cardTransferRequests(Request $request)
     {
-        $requests = $this->stockTransferService->getTransfersForBranch();
+        $filters = $request->only(['status', 'date_from', 'date_to']);
+        $requests = $this->stockTransferService->getTransfersForBranch($filters);
 
         return view('admin.warehouse.partials.card-transfer-request', compact('requests'));
     }

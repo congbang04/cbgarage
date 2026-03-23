@@ -6,10 +6,70 @@
 import * as warehouseApi from "../../services/warehouse-api.js";
 
 let realtimeListenerSetup = false; // ✅ Flag để tránh duplicate listener
-
+let isTransferLoaded = false; // ✅ Thêm biến cờ cho Lazy Load
 export function initPartRequestsModule() {
     setupRealTimeListener();
     loadCardPartRequest();
+    setupTabLazyLoad();
+    setupSearchForm();
+    setupTransferSearchForm();
+}
+
+function setupTabLazyLoad() {
+    const branchTabEl = document.querySelector("#branch-tab");
+
+    if (branchTabEl) {
+        branchTabEl.addEventListener("shown.bs.tab", function (event) {
+            if (!isTransferLoaded) {
+                loadStockTransfers();
+                isTransferLoaded = true;
+            }
+        });
+    }
+}
+function setupSearchForm() {
+    $("#partRequestSearchForm").on("submit", function (e) {
+        e.preventDefault();
+
+        const filters = {
+            status: $("#statusFilter").val(),
+            date_from: $("#dateFromFilter").val(),
+            date_to: $("#dateToFilter").val(),
+        };
+
+        loadCardPartRequest(window.routes.warehouseSearchPartRequests, filters);
+    });
+
+    // Handle reset button
+    $("#partRequestSearchForm").on("reset", function () {
+        setTimeout(() => {
+            loadCardPartRequest();
+        }, 10);
+    });
+}
+
+function setupTransferSearchForm() {
+    $("#transferSearchForm").on("submit", function (e) {
+        e.preventDefault();
+
+        const filters = {
+            status: $("#transferStatusFilter").val(),
+            date_from: $("#transferDateFromFilter").val(),
+            date_to: $("#transferDateToFilter").val(),
+        };
+
+        loadStockTransfers(
+            window.routes.warehouseCardTransferRequests,
+            filters,
+        );
+    });
+
+    // Handle reset button
+    $("#transferSearchForm").on("reset", function () {
+        setTimeout(() => {
+            loadStockTransfers();
+        }, 10);
+    });
 }
 function setupRealTimeListener() {
     if (realtimeListenerSetup || typeof window.Echo === "undefined") return;
@@ -105,9 +165,15 @@ window.rejectTransferRequest = function (stockTransferId, type = "reject") {
         }
     });
 };
-function loadCardPartRequest(url = window.routes.warehouseCardPartRequests) {
+function loadCardPartRequest(
+    url = window.routes.warehouseCardPartRequests,
+    filters = {},
+) {
+    const queryParams = new URLSearchParams(filters).toString();
+    const fullUrl = queryParams ? `${url}?${queryParams}` : url;
+
     warehouseApi
-        .getPendingRequests(url)
+        .searchPartRequests(url, filters)
         .done(function (resHtml) {
             $("#requestsContainer").html(resHtml);
         })
@@ -115,9 +181,15 @@ function loadCardPartRequest(url = window.routes.warehouseCardPartRequests) {
             alert("Có lỗi xảy ra khi tải dữ liệu card!");
         });
 }
-function loadStockTransfers(url = window.routes.warehouseCardTransferRequests) {
+function loadStockTransfers(
+    url = window.routes.warehouseCardTransferRequests,
+    filters = {},
+) {
+    const queryParams = new URLSearchParams(filters).toString();
+    const fullUrl = queryParams ? `${url}?${queryParams}` : url;
+
     warehouseApi
-        .getTransferRequests(url)
+        .searchTransferRequests(url, filters)
         .done(function (resHtml) {
             $("#transferContainer").html(resHtml);
         })

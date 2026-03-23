@@ -56,6 +56,7 @@
 
         'warehousePartRequests' => route('warehouse.part-requests'),
         'warehouseCardPartRequests' => route('warehouse.card-part-requests'),
+        'warehouseSearchPartRequests' => route('warehouse.card-part-requests'),
         'warehouseGoodsIssue' => route('warehouse.goods-issue', ['partRequestId' => ':partRequestId']),
 
         'warehouseGoodsIssueTransfer' => route('warehouse.goods-issue-transfer', [

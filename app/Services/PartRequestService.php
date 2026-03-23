@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\DB;
 class PartRequestService
 {
     /**
-     * Get all pending part requests
+     * Get all pending part requests with optional filters
      */
-    public function getPendingRequests()
+    public function getPendingRequests(array $filters = [])
     {
-        return PartRequest::query()
+        $query = PartRequest::query()
             ->where('branch_id', auth()->user()->branch_id)
             ->with([
                 'order',
@@ -29,9 +29,23 @@ class PartRequestService
                 'technician.user',
                 'details',
                 'details.part'
-            ])
-            ->orderBy('created_at', 'desc')
-            ->paginate(8);
+            ]);
+
+        // Filter by status
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        // Filter by date range
+        if (!empty($filters['date_from'])) {
+            $query->whereDate('created_at', '>=', $filters['date_from']);
+        }
+
+        if (!empty($filters['date_to'])) {
+            $query->whereDate('created_at', '<=', $filters['date_to']);
+        }
+
+        return $query->orderBy('created_at', 'desc')->paginate(8);
     }
 
     /**
