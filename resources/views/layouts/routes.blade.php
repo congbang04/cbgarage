@@ -70,9 +70,13 @@
         ]),
 
         'warehouseStockTransfer' => route('warehouse.stock-transfer'),
+        'warehouseStockTransferHistory' => route('warehouse.stock-transfer-history'),
         'warehouseCardTransferRequests' => route('warehouse.card-transfer-requests'),
         'warehouseCreateStockTransfer' => route('warehouse.create-stock-transfer'),
         'warehouseGetParts' => route('warehouse.get-parts'),
+        'warehouseApproveTransferRequest' => route('warehouse.transfer-request.approve', [
+            'stockTransferId' => ':stockTransferId',
+        ]),
     ];
 @endphp
 

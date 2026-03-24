@@ -56,7 +56,7 @@ class WarehouseController extends Controller
             $inventories = $this->warehouseService->getInventoriesByBranch($perPage);
         }
 
-        return view('admin.warehouse.partial-inventory-list', compact('inventories'));
+        return view('admin.warehouse.partials.inventory-list', compact('inventories'));
     }
 
     /**
@@ -112,7 +112,26 @@ class WarehouseController extends Controller
             'goods_issue_id' => $goods['id']
         ], 201);
     }
+    /**
+     * Approve transfer request and create goods issue (Xuất kho điều chuyển)
+     */
+    public function approveTransferRequest(Request $request, $stockTransferId)
+    {
+        $request->validate([
+            'actual_quantities' => 'required|array',
+            'actual_quantities.*' => 'required|numeric|min:0',
+        ]);
 
+        $transfer = $this->stockTransferService->issueGoods(
+            $stockTransferId,
+            $request->all()
+        );
+
+        return response()->json([
+            'message' => 'Xuất kho điều chuyển thành công. Hàng đang được vận chuyển!',
+            'transfer_id' => $transfer['id']
+        ], 200);
+    }
     /**
      * Reject part request
      */
@@ -137,10 +156,15 @@ class WarehouseController extends Controller
      */
     public function stockTransfer()
     {
-        $transfers = $this->stockTransferService->getTransfersForBranch();
         $branches = $this->warehouseService->getBranches();
 
-        return view('admin.warehouse.stock-transfer', compact('transfers', 'branches'));
+        return view('admin.warehouse.stock-transfer', compact('branches'));
+    }
+    public function stockTransferHistory()
+    {
+        $transfers = $this->stockTransferService->getTransferHistoriesForBranch();
+
+        return view('admin.warehouse.partials.stock-transfer-history', compact('transfers'));
     }
 
     /**

@@ -6,6 +6,27 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('assets/css/design-system.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}">
+    <style>
+        /* Tùy chỉnh thanh cuộn cho danh sách lịch sử */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            /* Thanh cuộn mỏng */
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+    </style>
 @endsection
 @section('body-class', 'admin-wrapper')
 @section('sidebar')
@@ -74,7 +95,7 @@
                                                 </td>
                                                 <td>
                                                     <input type="number" class="form-control" name="items[0][quantity]"
-                                                        min="1" required>
+                                                        min="1" value="1">
                                                 </td>
                                                 <td><button type="button" class="btn btn-sm text-danger remove-row">
                                                         <i class="fas fa-trash"></i>
@@ -108,41 +129,8 @@
                 </div>
 
                 <!-- Lịch sử phiếu -->
-                <div class="col-lg-4">
-                    <div class="card h-100">
-                        <div class="card-header bg-white py-3">
-                            <h5 class="mb-0">Lịch sử phiếu</h5>
-                        </div>
-                        <div class="list-group list-group-flush" id="transferHistory">
-                            @forelse($transfers as $transfer)
-                                <a href="#" class="list-group-item list-group-item-action py-3">
-                                    <div class="d-flex justify-content-between align-items-center mb-1">
-                                        <strong
-                                            class="text-primary">#TRF-{{ str_pad($transfer->id, 3, '0', STR_PAD_LEFT) }}</strong>
-                                        <span
-                                            class="badge
-                                            @if ($transfer->status === 'pending') bg-warning text-dark
-                                            @elseif ($transfer->status === 'in_transit') bg-info text-white
-                                            @else bg-success-subtle text-success @endif">
-                                            @if ($transfer->status === 'pending')
-                                                Chờ gửi
-                                            @elseif ($transfer->status === 'in_transit')
-                                                Đang vận chuyển
-                                            @else
-                                                Hoàn thành
-                                            @endif
-                                        </span>
-                                    </div>
-                                    <div class="small text-muted mb-1">Từ: {{ $transfer->fromBranch->name }}</div>
-                                    <div class="small text-muted">{{ $transfer->created_at->format('d/m/Y H:i') }}</div>
-                                </a>
-                            @empty
-                                <div class="p-3 text-center text-muted">
-                                    <i class="fas fa-inbox"></i> Chưa có phiếu chuyển kho
-                                </div>
-                            @endforelse
-                        </div>
-                    </div>
+                <div class="col-lg-4" id="transfer-history">
+                    {{-- ajax render --}}
                 </div>
             </div>
         </div>

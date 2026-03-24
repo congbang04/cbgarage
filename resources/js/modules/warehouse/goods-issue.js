@@ -12,10 +12,14 @@ function initGoodsIssueModule() {
 }
 
 function setupEventListeners() {
-    // Xác nhận xuất kho
+    // Xác nhận xuất kho (Dùng chung cho cả KTV và Chi nhánh)
     $(document).on("click", "#confirmIssueBtn", function (e) {
         e.preventDefault();
+
+        // Lấy ID từ nút bấm (Tùy xem đang ở màn hình nào)
         const partRequestId = $(this).data("part-request-id");
+        const transferRequestId = $(this).data("transfer-request-id");
+
         const actualQties = {};
 
         document.querySelectorAll(".actual-qty").forEach((input) => {
@@ -34,32 +38,46 @@ function setupEventListeners() {
 
         Swal.fire({
             title: "Xác nhận xuất kho?",
-            text: "Bạn chắc chắn muốn xác nhận xuất kho?",
+            text: "Hàng sẽ được trừ khỏi kho và bắt đầu vận chuyển.",
             icon: "question",
             showCancelButton: true,
             confirmButtonText: "Xác nhận",
             cancelButtonText: "Hủy",
         }).then((result) => {
             if (result.isConfirmed) {
-                submitIssue(partRequestId, actualQties);
+                // Phân luồng gọi API
+                if (partRequestId) {
+                    submitIssue(partRequestId, actualQties, "part");
+                } else if (transferRequestId) {
+                    submitIssue(transferRequestId, actualQties, "transfer");
+                }
             }
         });
     });
 }
+// Thêm tham số type để biết đang xử lý loại phiếu nào
+function submitIssue(id, actualQties, type) {
+    // Xác định URL tùy theo loại phiếu
+    const url =
+        type === "part"
+            ? window.routes.warehouseApprovePartRequest.replace(
+                  ":partRequestId",
+                  id,
+              )
+            : window.routes.warehouseApproveTransferRequest.replace(
+                  ":stockTransferId",
+                  id,
+              );
 
-function submitIssue(partRequestId, actualQties) {
     $.ajax({
-        url: window.routes.warehouseApprovePartRequest.replace(
-            ":partRequestId",
-            partRequestId,
-        ),
+        url: url,
         method: "POST",
         data: {
-            part_request_id: partRequestId,
             actual_quantities: actualQties,
         },
         success: function (response) {
             Swal.fire("Thành công!", response.message, "success").then(() => {
+                // Quay về trang danh sách sau khi xuất thành công
                 window.location.href = window.routes.warehousePartRequests;
             });
         },

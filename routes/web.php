@@ -186,7 +186,9 @@ Route::prefix('warehouse')
 
         // Stock transfer management
         Route::get('/stock-transfer', [WarehouseController::class, 'stockTransfer'])->name('warehouse.stock-transfer');
+        Route::get('/stock-transfer-history', [WarehouseController::class, 'stockTransferHistory'])->name('warehouse.stock-transfer-history');
         Route::get('/card-transfer-requests', [WarehouseController::class, 'cardTransferRequests'])->name('warehouse.card-transfer-requests');
         Route::post('/stock-transfer/create', [WarehouseController::class, 'createStockTransfer'])->name('warehouse.create-stock-transfer');
         Route::get('/parts', [WarehouseController::class, 'getSampleParts'])->name('warehouse.get-parts');
+        Route::post('/warehouse/transfer-request/{stockTransferId}/approve', [WarehouseController::class, 'approveTransferRequest'])->name('warehouse.transfer-request.approve');
     });

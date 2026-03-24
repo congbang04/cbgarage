@@ -107,3 +107,12 @@ export function getSampleParts() {
         dataType: "json",
     });
 }
+
+export function transferHistory(
+    url = window.routes.warehouseStockTransferHistory,
+) {
+    return $.ajax({
+        url: url,
+        method: "GET",
+    });
+}

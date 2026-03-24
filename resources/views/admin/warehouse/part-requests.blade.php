@@ -2,7 +2,6 @@
 @section('title', 'Duyệt yêu cầu xuất kho')
 @section('vite')
     @vite(['resources/js/modules/warehouse/part-requests.js'])
-    @vite(['resources/js/modules/warehouse/stock-transfer.js'])
 @endsection
 @section('styles')
     <link rel="stylesheet" href="{{ asset('assets/css/design-system.css') }}">

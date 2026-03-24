@@ -10,6 +10,7 @@ let rowCounter = 1;
 
 export function initStockTransferModule() {
     loadParts();
+    loadHistory();
     setupEventListeners();
 }
 function loadParts() {
@@ -70,7 +71,7 @@ function addTableRow() {
                 </select>
             </td>
             <td>
-                <input type="number" class="form-control" name="items[${rowCounter - 1}][quantity]" min="1" required>
+                <input type="number" class="form-control" name="items[${rowCounter - 1}][quantity]" min="1" value="1">
             </td>
             <td>
                 <button type="button" class="btn btn-sm text-danger remove-row">
@@ -128,6 +129,16 @@ function submitTransfer() {
         });
 }
 
+function loadHistory(url = window.routes.warehouseStockTransferHistory) {
+    warehouseApi
+        .transferHistory(url)
+        .done(function (res) {
+            $("#transfer-history").html(res);
+        })
+        .fail(function (xhr) {
+            console.log(xhr.responseText);
+        });
+}
 // Initialize on document ready
 $(document).ready(function () {
     initStockTransferModule();

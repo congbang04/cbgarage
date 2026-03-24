@@ -11,6 +11,7 @@ export function initPartRequestsModule() {
     setupRealTimeListener();
     loadCardPartRequest();
     setupTabLazyLoad();
+    setupTabPersistence();
     setupSearchForm();
     setupTransferSearchForm();
 }
@@ -26,6 +27,30 @@ function setupTabLazyLoad() {
             }
         });
     }
+}
+
+function setupTabPersistence() {
+    const activeTabTarget = sessionStorage.getItem("activeWarehouseTab");
+
+    if (activeTabTarget) {
+        const tabBtn = document.querySelector(
+            `button[data-bs-target="${activeTabTarget}"]`,
+        );
+        if (tabBtn) {
+            const tabInstance = new bootstrap.Tab(tabBtn);
+            tabInstance.show();
+        }
+    }
+
+    const tabElements = document.querySelectorAll(
+        'button[data-bs-toggle="tab"]',
+    );
+    tabElements.forEach((tabEl) => {
+        tabEl.addEventListener("shown.bs.tab", function (event) {
+            const target = event.target.getAttribute("data-bs-target");
+            sessionStorage.setItem("activeWarehouseTab", target);
+        });
+    });
 }
 function setupSearchForm() {
     $("#partRequestSearchForm").on("submit", function (e) {

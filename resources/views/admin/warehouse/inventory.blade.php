@@ -19,6 +19,9 @@
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#importModal">
                     <i class="fas fa-plus"></i> Nhập hàng mới
                 </button>
+                <a href="{{ route('warehouse.stock-transfer') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Luân chuyển hàng(Nhập hàng)
+                </a>
                 <a href="{{ route('warehouse.part-requests') }}" class="btn btn-outline-primary position-relative">
                     <i class="fas fa-bell"></i> Yêu cầu xuất
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
