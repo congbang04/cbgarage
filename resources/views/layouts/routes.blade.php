@@ -71,6 +71,7 @@
 
         'warehouseStockTransfer' => route('warehouse.stock-transfer'),
         'warehouseStockTransferHistory' => route('warehouse.stock-transfer-history'),
+        'warehouseFullTransferHistoryTable' => route('warehouse.transfer.history-table'),
         'warehouseCardTransferRequests' => route('warehouse.card-transfer-requests'),
         'warehouseCreateStockTransfer' => route('warehouse.create-stock-transfer'),
         'warehouseGetParts' => route('warehouse.get-parts'),

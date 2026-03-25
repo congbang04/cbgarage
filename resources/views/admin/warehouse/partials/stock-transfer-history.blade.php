@@ -38,7 +38,7 @@
     </div>
     @if (count($transfers) > 0)
         <div class="card-footer bg-white text-center border-top">
-            <a href="#" class="text-decoration-none small fw-bold">
+            <a href="{{ route('warehouse.transfer.history') }}" class="text-decoration-none small fw-bold">
                 Xem tất cả lịch sử <i class="fas fa-arrow-right ms-1"></i>
             </a>
         </div>

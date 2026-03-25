@@ -33,7 +33,7 @@
 
             <!-- Data Table -->
             <div id="table-part">
-
+                {{-- ajax render --}}
             </div>
         </div>
     </div>

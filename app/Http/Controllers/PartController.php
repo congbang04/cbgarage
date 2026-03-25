@@ -22,9 +22,7 @@ class PartController extends Controller
      */
     public function index()
     {
-        $parts = $this->partService->getAll(10, request()->all());
-        $units = $this->partService->getAllUnits();
-        return view('admin.settings.parts', compact('parts', 'units'));
+        return view('admin.settings.parts');
     }
 
     public function partsList()

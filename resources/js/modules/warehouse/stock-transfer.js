@@ -7,10 +7,12 @@ import * as warehouseApi from "../../services/warehouse-api.js";
 
 let parts = [];
 let rowCounter = 1;
+let searchTimeout;
 
 export function initStockTransferModule() {
     loadParts();
     loadHistory();
+    loadTransfers();
     setupEventListeners();
 }
 function loadParts() {
@@ -56,6 +58,30 @@ function setupEventListeners() {
     // Add row button
     $("#addRowBtn").on("click", function () {
         addTableRow();
+    });
+
+    // Search input - debounce for better performance
+    $(document).on("keyup", "#searchInput", function () {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            loadTransfers();
+        }, 500);
+    });
+
+    // Status filter
+    $(document).on("change", "#statusFilter", function () {
+        loadTransfers();
+    });
+
+    // Date range filters
+    $(document).on("change", "#dateFromFilter, #dateToFilter", function () {
+        loadTransfers();
+    });
+    // Pagination click handler - prevent default and reload with new page
+    $(document).on("click", "#table-data .pagination a", function (e) {
+        e.preventDefault();
+        const url = $(this).attr("href");
+        loadTransfers(url);
     });
 }
 
@@ -129,7 +155,7 @@ function submitTransfer() {
         });
 }
 
-function loadHistory(url = window.routes.warehouseStockTransferHistory) {
+function loadHistory(url) {
     warehouseApi
         .transferHistory(url)
         .done(function (res) {
@@ -139,6 +165,28 @@ function loadHistory(url = window.routes.warehouseStockTransferHistory) {
             console.log(xhr.responseText);
         });
 }
+function loadTransfers(url) {
+    const filters = {
+        keyword: $("#searchInput").val(),
+        status: $("#statusFilter").val(),
+        date_from: $("#dateFromFilter").val(),
+        date_to: $("#dateToFilter").val(),
+    };
+    warehouseApi
+        .searchFullTransferHistoryTable(url, filters)
+        .done(function (res) {
+            $("#table-data").html(res);
+        })
+        .fail(function (xhr) {
+            console.log(xhr.responseText);
+        });
+}
+window.transferDetail = function (stockTransferId) {
+    window.location.href = window.routes.warehouseGoodsIssueTransfer.replace(
+        ":stockTransferId",
+        stockTransferId,
+    );
+};
 // Initialize on document ready
 $(document).ready(function () {
     initStockTransferModule();

@@ -190,5 +190,7 @@ Route::prefix('warehouse')
         Route::get('/card-transfer-requests', [WarehouseController::class, 'cardTransferRequests'])->name('warehouse.card-transfer-requests');
         Route::post('/stock-transfer/create', [WarehouseController::class, 'createStockTransfer'])->name('warehouse.create-stock-transfer');
         Route::get('/parts', [WarehouseController::class, 'getSampleParts'])->name('warehouse.get-parts');
-        Route::post('/warehouse/transfer-request/{stockTransferId}/approve', [WarehouseController::class, 'approveTransferRequest'])->name('warehouse.transfer-request.approve');
+        Route::post('/transfer-request/{stockTransferId}/approve', [WarehouseController::class, 'approveTransferRequest'])->name('warehouse.transfer-request.approve');
+        Route::get('/transfer-history', [WarehouseController::class, 'fullTransferHistory'])->name('warehouse.transfer.history');
+        Route::get('/transfer-history-table', [WarehouseController::class, 'TransferHistoryTable'])->name('warehouse.transfer.history-table');
     });

@@ -71,7 +71,7 @@ function setupEventListeners() {
         function (e) {
             e.preventDefault();
             const url = $(this).attr("href");
-            loadInventoriesFromUrl(url);
+            loadInventories(url);
         },
     );
 
@@ -81,25 +81,7 @@ function setupEventListeners() {
     });
 }
 
-function loadInventories() {
-    const filters = {
-        keyword: $("#searchInput").val(),
-        status: $("#statusFilter").val(),
-        price_from: $("#priceFromFilter").val(),
-        price_to: $("#priceToFilter").val(),
-    };
-
-    warehouseApi
-        .getInventories(window.routes.warehouseInventoryList, filters)
-        .done(function (html) {
-            $("#inventoryTableContainer").html(html);
-        })
-        .fail(function (xhr) {
-            Swal.fire("Lỗi!", "Không thể tải dữ liệu", "error");
-        });
-}
-
-function loadInventoriesFromUrl(url) {
+function loadInventories(url) {
     const filters = {
         keyword: $("#searchInput").val(),
         status: $("#statusFilter").val(),

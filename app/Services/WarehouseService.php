@@ -12,18 +12,6 @@ use Illuminate\Support\Collection;
 class WarehouseService
 {
     /**
-     * Get all inventories for central warehouse with pagination
-     */
-    public function getInventoriesByBranch(int $perPage = 15)
-    {
-        return Inventory::query()
-            ->where('branch_id', auth()->user()->branch_id)
-            ->with(['part', 'branch'])
-            ->orderBy('quantity', 'asc')
-            ->paginate($perPage);
-    }
-
-    /**
      * Get inventory statistics
      */
     public function getInventoryStats(): array

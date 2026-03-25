@@ -30,10 +30,9 @@ class WarehouseController extends Controller
      */
     public function inventory(Request $request)
     {
-        $inventories = $this->warehouseService->getInventoriesByBranch();
         $stats = $this->warehouseService->getInventoryStats();
 
-        return view('admin.warehouse.inventory', compact('inventories', 'stats'));
+        return view('admin.warehouse.inventory', compact('stats'));
     }
     public function getPendingCount()
     {
@@ -49,12 +48,9 @@ class WarehouseController extends Controller
     {
         $filters = $request->only(['keyword', 'status', 'price_from', 'price_to']);
         $perPage = $request->get('per_page', 15);
-        // Nếu không có filter, lấy tất cả theo pagination
-        if (!empty(array_filter($filters))) {
-            $inventories = $this->warehouseService->searchInventories($filters, $perPage);
-        } else {
-            $inventories = $this->warehouseService->getInventoriesByBranch($perPage);
-        }
+
+        $inventories = $this->warehouseService->searchInventories($filters, $perPage);
+
 
         return view('admin.warehouse.partials.inventory-list', compact('inventories'));
     }
@@ -166,7 +162,21 @@ class WarehouseController extends Controller
 
         return view('admin.warehouse.partials.stock-transfer-history', compact('transfers'));
     }
+    /**
+     * Hiển thị trang Lịch sử điều chuyển kho (Full màn hình)
+     */
+    public function fullTransferHistory()
+    {
+        $transfers = $this->stockTransferService->getAllTransfersForBranch();
 
+        return view('admin.warehouse.transfer-history', compact('transfers'));
+    }
+    public function TransferHistoryTable(Request $request)
+    {
+        $filters = $request->only(['keyword', 'status', 'date_from', 'date_to']);
+        $transfers = $this->stockTransferService->getAllTransfersForBranch($filters);
+        return view('admin.warehouse.partials.transfer-history-table', compact('transfers'));
+    }
     /**
      * Create stock transfer request
      */

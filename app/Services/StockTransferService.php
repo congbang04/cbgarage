@@ -48,6 +48,7 @@ class StockTransferService
 
         return $query->orderBy('created_at', 'desc')->paginate(8);
     }
+
     /**
      * Get stock transfers for current branch with optional filters
      */
@@ -70,18 +71,62 @@ class StockTransferService
             ->get();;
     }
     /**
-     * Get part request by ID with all details
+     * Get all stock transfers for current branch with optional filters
      */
-    public function getStockTransferById(int $stockTransferId)
+    public function getAllTransfersForBranch(array $filters = [])
     {
-        return StockTransfer::query()
-            ->where('id', $stockTransferId)
-            ->where('from_branch_id', auth()->user()->branch_id)
+        $userBranch = auth()->user()->branch_id;
+
+        $query = StockTransfer::query()
+            ->where(function ($q) use ($userBranch) {
+                $q->where('from_branch_id', $userBranch)
+                    ->orWhere('to_branch_id', $userBranch);
+            })
             ->with([
                 'fromBranch',
                 'toBranch',
                 'creator',
                 'creator.branch',
+                'details',
+                'details.part'
+            ]);
+        // Tìm kiếm theo tên, SKU
+        if (!empty($filters['keyword'])) {
+            $keyword = $filters['keyword'];
+            $query->where('id', 'like', "%{$keyword}%");
+        }
+        // Filter by status
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        // Filter by date range
+        if (!empty($filters['date_from'])) {
+            $query->whereDate('created_at', '>=', $filters['date_from']);
+        }
+
+        if (!empty($filters['date_to'])) {
+            $query->whereDate('created_at', '<=', $filters['date_to']);
+        }
+
+        return $query->orderBy('created_at', 'desc')->paginate(15);
+    }
+    /**
+     * Get part request by ID with all details
+     */
+    public function getStockTransferById(int $stockTransferId)
+    {
+        $userBranch = auth()->user()->branch_id;
+        return StockTransfer::query()
+            ->where('id', $stockTransferId)
+            ->where(function ($query) use ($userBranch) {
+                $query->where('from_branch_id', $userBranch)
+                    ->orWhere('to_branch_id', $userBranch);
+            })
+            ->with([
+                'fromBranch',
+                'toBranch',
+                'creator',
                 'details',
                 'details.part'
             ])

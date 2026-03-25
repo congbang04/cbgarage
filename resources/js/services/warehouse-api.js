@@ -116,3 +116,13 @@ export function transferHistory(
         method: "GET",
     });
 }
+export function searchFullTransferHistoryTable(
+    url = window.routes.warehouseFullTransferHistoryTable,
+    filters = {},
+) {
+    return $.ajax({
+        url: url,
+        method: "GET",
+        data: filters,
+    });
+}

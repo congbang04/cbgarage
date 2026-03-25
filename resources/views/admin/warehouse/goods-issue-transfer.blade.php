@@ -57,7 +57,11 @@
                 <button class="btn btn-outline-secondary no-print" onclick="window.print()">
                     <i class="fas fa-print"></i> In phiếu
                 </button>
-                @if ($stockTransfer->status === 'PENDING')
+                @php
+                    $userBranchId = auth()->user()->branch_id;
+                    $isSender = $stockTransfer->from_branch_id == $userBranchId;
+                @endphp
+                @if ($stockTransfer->status === 'PENDING' && $isSender)
                     <button class="btn btn-success no-print" id="confirmIssueBtn"
                         data-transfer-request-id="{{ $stockTransfer->id }}">
                         <i class="fas fa-check"></i> Xác nhận xuất
@@ -90,7 +94,9 @@
                         <table class="table table-borderless table-sm mb-0">
                             <tr>
                                 <td style="width: 150px;" class="text-secondary">Bên yêu cầu:</td>
-                                <td class="fw-bold">Chi nhánh {{ $stockTransfer->toBranch->name ?? 'N/A' }}</td>
+                                <td>Chi nhánh <strong>{{ $stockTransfer->toBranch->name ?? 'N/A' }}</strong>
+                                    <br>({{ $stockTransfer->creator->email }})
+                                </td>
                             </tr>
                             <tr>
                                 <td class="text-secondary">Lý do xuất:</td>
@@ -100,12 +106,12 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="text-secondary">Từ:</td>
+                                <td class="text-secondary">Kho xuất (Từ):</td>
                                 <td class="fst-italic">{{ $stockTransfer->fromBranch->name ?? 'N/A' }}
                                 </td>
                             </tr>
                             <tr>
-                                <td class="text-secondary">Đến:</td>
+                                <td class="text-secondary">Kho nhập (Đến):</td>
                                 <td class="fst-italic">
                                     {{ $stockTransfer->toBranch->name ?? 'N/A' }}</td>
                             </tr>
