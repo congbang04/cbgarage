@@ -75,10 +75,92 @@ function setupEventListeners() {
         },
     );
 
-    // Import form submit
     $(document).on("click", "#importSubmitBtn", function () {
         submitImportForm();
     });
+
+    $("#receiveTransferModal").on("show.bs.modal", function () {
+        loadIncomingTransfers();
+    });
+}
+
+$(document).on("click", ".btn-confirm-receive", function () {
+    const transferId = $(this).data("id");
+
+    Swal.fire({
+        title: "Xác nhận nhận hàng?",
+        text: "Số lượng sẽ được cộng trực tiếp vào tồn kho chi nhánh của bạn.",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Nhận hàng",
+        cancelButtonText: "Hủy",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Gọi API
+            warehouseApi
+                .completeTransfer(transferId)
+                .done(function (response) {
+                    Swal.fire("Thành công!", response.message, "success");
+                    // Load lại danh sách trong Modal
+                    loadIncomingTransfers();
+                    // Load lại bảng tồn kho chính bên ngoài
+                    loadInventories();
+                })
+                .fail(function (xhr) {
+                    Swal.fire(
+                        "Lỗi!",
+                        xhr.responseJSON?.message || "Có lỗi xảy ra",
+                        "error",
+                    );
+                });
+        }
+    });
+});
+// Hàm render danh sách phiếu đang giao vào Modal
+function loadIncomingTransfers() {
+    $("#incomingTransfersBody").html(
+        '<tr><td colspan="4" class="text-center"><i class="fas fa-spinner fa-spin"></i> Đang tải...</td></tr>',
+    );
+
+    warehouseApi
+        .getIncomingTransfers()
+        .done(function (data) {
+            if (data.length === 0) {
+                $("#incomingTransfersBody").html(
+                    '<tr><td colspan="4" class="text-center text-muted">Không có kiện hàng nào đang giao tới.</td></tr>',
+                );
+                return;
+            }
+
+            let html = "";
+            data.forEach((transfer) => {
+                // Render chi tiết các món hàng trong phiếu
+                let detailsHtml = '<ul class="mb-0 ps-3">';
+                transfer.details.forEach((d) => {
+                    detailsHtml += `<li><small>${d.part.name} (x${d.quantity} ${d.part.unit})</small></li>`;
+                });
+                detailsHtml += "</ul>";
+
+                html += `
+                <tr>
+                    <td class="fw-bold text-primary">#TRF-${String(transfer.id).padStart(4, "0")}</td>
+                    <td>${transfer.from_branch ? transfer.from_branch.name : "N/A"}</td>
+                    <td>${detailsHtml}</td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-success btn-confirm-receive" data-id="${transfer.id}">
+                            <i class="fas fa-check"></i> Xác nhận nhận
+                        </button>
+                    </td>
+                </tr>
+            `;
+            });
+            $("#incomingTransfersBody").html(html);
+        })
+        .fail(function () {
+            $("#incomingTransfersBody").html(
+                '<tr><td colspan="4" class="text-center text-danger">Lỗi tải dữ liệu</td></tr>',
+            );
+        });
 }
 
 function loadInventories(url) {

@@ -171,7 +171,7 @@ class WarehouseController extends Controller
 
         return view('admin.warehouse.transfer-history', compact('transfers'));
     }
-    public function TransferHistoryTable(Request $request)
+    public function transferHistoryTable(Request $request)
     {
         $filters = $request->only(['keyword', 'status', 'date_from', 'date_to']);
         $transfers = $this->stockTransferService->getAllTransfersForBranch($filters);
@@ -198,5 +198,30 @@ class WarehouseController extends Controller
         $parts = $this->warehouseService->getPartsForTransfer();
 
         return response()->json($parts);
+    }
+    /**
+     * Lấy danh sách phiếu điều chuyển ĐANG GIAO TỚI chi nhánh hiện tại
+     */
+    public function getIncomingTransfers()
+    {
+        $transfers = $this->stockTransferService->getIncomingTransfers();
+
+        return response()->json($transfers);
+    }
+
+    /**
+     * Xác nhận nhận hàng từ phiếu điều chuyển
+     */
+    public function completeTransferRequest($id)
+    {
+        try {
+            $transfer = $this->stockTransferService->completeTransfer($id);
+            return response()->json([
+                'message' => 'Nhận hàng thành công. Tồn kho đã được cập nhật!',
+                'transfer_id' => $transfer->id
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
     }
 }

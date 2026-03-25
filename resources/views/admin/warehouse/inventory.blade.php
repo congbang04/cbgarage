@@ -16,11 +16,11 @@
         <header class="top-navbar">
             <h4 class="mb-0 fw-bold">Quản lý tồn kho</h4>
             <div class="d-flex gap-2">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#importModal">
-                    <i class="fas fa-plus"></i> Nhập hàng mới
+                <button class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#receiveTransferModal">
+                    <i class="fas fa-truck-loading"></i> Nhận hàng luân chuyển
                 </button>
                 <a href="{{ route('warehouse.stock-transfer') }}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Luân chuyển hàng(Nhập hàng)
+                    <i class="fas fa-plus"></i> Yêu cầu luân chuyển
                 </a>
                 <a href="{{ route('warehouse.part-requests') }}" class="btn btn-outline-primary position-relative">
                     <i class="fas fa-bell"></i> Yêu cầu xuất
@@ -83,34 +83,31 @@
     </div>
 
     <!-- Import Modal -->
-    <div class="modal fade" id="importModal" tabindex="-1">
-        <div class="modal-dialog">
+    <div class="modal fade" id="receiveTransferModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Nhập hàng mới</h5>
+                    <h5 class="modal-title">Danh sách hàng đang luân chuyển tới</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="importForm">
-                        <div class="mb-3">
-                            <label class="form-label">Chọn phụ tùng</label>
-                            <select class="form-select" name="part_id" required>
-                                <option value="">-- Chọn --</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Số lượng</label>
-                            <input type="number" class="form-control" name="quantity" min="1" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Số lượng tối thiểu</label>
-                            <input type="number" class="form-control" name="min_stock" min="0" value="5">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary" id="importSubmitBtn">Thêm</button>
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-middle">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>Mã phiếu</th>
+                                    <th>Từ kho</th>
+                                    <th>Chi tiết vật tư</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="incomingTransfersBody">
+                                <tr>
+                                    <td colspan="4" class="text-center">Đang tải dữ liệu...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

@@ -78,6 +78,10 @@
         'warehouseApproveTransferRequest' => route('warehouse.transfer-request.approve', [
             'stockTransferId' => ':stockTransferId',
         ]),
+        'warehouseIncomingTransfers' => route('warehouse.incoming-transfer'),
+        'warehouseCompleteTransfer' => route('warehouse.complete-transfer-request', [
+            'stockTransferId' => ':stockTransferId',
+        ]),
     ];
 @endphp
 

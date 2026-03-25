@@ -126,3 +126,24 @@ export function searchFullTransferHistoryTable(
         data: filters,
     });
 }
+// Lấy danh sách phiếu đang giao tới
+export function getIncomingTransfers() {
+    return $.ajax({
+        url: window.routes.warehouseIncomingTransfers, // Khai báo route này ở file blade master
+        method: "GET",
+        dataType: "json",
+    });
+}
+
+// Xác nhận nhận hàng
+export function completeTransfer(stockTransferId) {
+    const url = window.routes.warehouseCompleteTransfer.replace(
+        ":stockTransferId",
+        stockTransferId,
+    );
+    return $.ajax({
+        url: url,
+        method: "POST",
+        dataType: "json",
+    });
+}

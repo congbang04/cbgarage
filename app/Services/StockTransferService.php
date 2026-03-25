@@ -183,6 +183,17 @@ class StockTransferService
             }
         }
     }
+    public function getIncomingTransfers()
+    {
+        $userBranch = auth()->user()->branch_id;
+
+        $transfers = StockTransfer::with(['fromBranch', 'details.part'])
+            ->where('to_branch_id', $userBranch)
+            ->where('status', 'IN_TRANSIT')
+            ->get();
+
+        return $transfers;
+    }
     /**
      * Complete stock transfer (Xác nhận nhận hàng tại kho đích)
      */
