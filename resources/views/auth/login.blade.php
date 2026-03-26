@@ -22,8 +22,9 @@
             <form class="auth-form" action="{{ route('store') }}" method="POST">@csrf
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="name@company.com"
-                        @error('email') is-invalid @enderror value="{{ old('email') }}" required autofocus>
+                    <input type="email" class="form-control" tabindex="1" id="email" name="email"
+                        placeholder="name@company.com" @error('email') is-invalid @enderror value="{{ old('email') }}"
+                        required autofocus>
                     @error('email')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
@@ -36,8 +37,8 @@
                         <a href="forgot-password.html" class="small text-primary-main fw-semibold">Quên mật khẩu?</a>
                     </div>
                     <div class="input-group">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="••••••••"
-                            @error('password') is-invalid @enderror required>
+                        <input type="password" class="form-control" tabindex="2" id="password" name="password"
+                            placeholder="••••••••" @error('password') is-invalid @enderror required>
                         <span class="input-group-text bg-surface cursor-pointer">
                             <i class="fa-regular fa-eye-slash text-muted"></i>
                         </span>

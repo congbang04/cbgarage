@@ -198,5 +198,19 @@ Route::prefix('warehouse')
         Route::post('/complete-transfer-request/{stockTransferId}', [WarehouseController::class, 'completeTransferRequest'])->name('warehouse.complete-transfer-request');
     });
 
-Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+Route::middleware(['auth'])->group(function () {
+    // View
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+
+    // AJAX API endpoints
+    Route::prefix('api/chat')->group(function () {
+        Route::get('/sessions', [ChatController::class, 'getSessions'])
+            ->name('chat.get-sessions');
+        Route::post('/session/create', [ChatController::class, 'createSession'])
+            ->name('chat.create-session');
+        Route::get('/messages/{sessionId}', [ChatController::class, 'getMessages'])
+            ->name('chat.get-messages-by-session');
+        Route::post('/send', [ChatController::class, 'sendMessage'])
+            ->name('chat.send');
+    });
+});

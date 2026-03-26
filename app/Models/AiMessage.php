@@ -6,7 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class AiMessage extends Model
 {
-    protected $fillable = ['sender', 'content', 'context_data', 'ai_chat_session_id'];
+    protected $fillable = [
+        'session_id',
+        'sender',
+        'content',
+        'context_data',
+    ];
     protected $casts = ['context_data' => 'array'];
 
     public function session()

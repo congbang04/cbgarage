@@ -12,11 +12,15 @@
     <div class="bg-primary text-white p-4 pb-5 rounded-bottom-4 shadow-sm">
         <div class="container" id="car_detail_header">
             <div class="d-flex align-items-center justify-content-between">
-                <a href="{{ route('customer.profile') }}" class="text-white mb-3 d-block"><i class="fas fa-arrow-left"></i>
-                    Quay
-                    lại</a>
+                <a href="{{ route('customer.profile') }}" class="text-white mb-3 d-block">
+                    <i class="fas fa-arrow-left"></i>
+                    Quay lại
+                </a>
                 <button type="button" class="btn btn-primary btn-sm rounded-pill" data-bs-toggle="modal"
-                    data-bs-target="#updateCarModal"><i class="fas fa-edit me-1"></i> Chỉnh sửa thông tin xe</button>
+                    data-bs-target="#updateCarModal">
+                    <i class="fas fa-edit me-1"></i>
+                    Chỉnh sửa thông tin xe
+                </button>
             </div>
             <div class="d-flex align-items-center">
                 <div class="bg-white text-primary rounded-circle p-3 me-3 shadow-sm">

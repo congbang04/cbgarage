@@ -12,35 +12,43 @@ class GeminiService
     public function __construct()
     {
         $this->apiKey = config('services.gemini.key');
-        // Sử dụng model gemini-2.5-flash
         $this->apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$this->apiKey}";
     }
 
-    public function generateChatResponse($userMessage)
+    public function generateChatResponse(array $chatHistory)
     {
+        $contents = [];
+        foreach ($chatHistory as $msg) {
+            $contents[] = [
+                "role" => $msg['role'], // 'user' hoặc 'model'
+                "parts" => [
+                    ["text" => $msg['content']]
+                ]
+            ];
+        }
         $payload = [
             "systemInstruction" => [
                 "parts" => [
                     [
-                        "text" => "Bạn là một thợ máy chuyên nghiệp và nhân viên chăm sóc khách hàng tại gara xe 'AutoCare'. \nNhiệm vụ của bạn là:\n1. Đưa ra chẩn đoán ngắn gọn các vấn đề hỏng hóc của xe dựa trên mô tả.\n2. Đưa ra nguyên nhân dự đoán và lời khuyên an toàn.\n3. Mời khách hàng mang xe đến AutoCare để kiểm tra.\n4. Nếu khách muốn đặt lịch, hãy thu thập đủ: Tên, SĐT, ngày giờ.\nLuôn giữ thái độ lịch sự, chuyên nghiệp và ngắn gọn."
+                        "text" => "Bạn là một thợ máy chuyên nghiệp và nhân viên chăm sóc khách hàng tại gara xe 'AutoCare'. 
+                        \nNhiệm vụ của bạn là:
+                        \n1. Đưa ra chẩn đoán ngắn gọn các vấn đề hỏng hóc của xe dựa trên mô tả.
+                        \n2. Đưa ra nguyên nhân dự đoán và lời khuyên an toàn.
+                        \n3. Mời khách hàng mang xe đến AutoCare để kiểm tra.
+                        \n4. Nếu khách muốn đặt lịch, hãy thu thập đủ: Tên, SĐT, ngày giờ.
+                        \nLuôn giữ thái độ lịch sự, chuyên nghiệp và ngắn gọn."
                     ]
                 ]
             ],
-            "contents" => [
-                [
-                    "role" => "user",
-                    "parts" => [
-                        ["text" => $userMessage]
-                    ]
-                ]
-            ],
+            "contents" => $contents,
             "generationConfig" => [
                 "temperature" => 0.7,
+                "maxOutputTokens" => 1024,
             ]
         ];
 
         try {
-            $response = Http::withHeaders([
+            $response = Http::timeout(30)->withHeaders([
                 'Content-Type' => 'application/json',
             ])->post($this->apiUrl, $payload);
 

@@ -82,6 +82,13 @@
         'warehouseCompleteTransfer' => route('warehouse.complete-transfer-request', [
             'stockTransferId' => ':stockTransferId',
         ]),
+
+        'chatGetSessions' => route('chat.get-sessions'),
+        'chatCreateSession' => route('chat.create-session'),
+        'chatGetMessagesBySession' => route('chat.get-messages-by-session', [
+            'sessionId' => ':sessionId',
+        ]),
+        'chatSend' => route('chat.send'),
     ];
 @endphp
 

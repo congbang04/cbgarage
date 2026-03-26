@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class AiChatSession extends Model
 {
-    protected $fillable = ['title', 'customer_id'];
+    protected $fillable = [
+        'title',
+        'customer_id'
+    ];
 
     public function messages()
     {
