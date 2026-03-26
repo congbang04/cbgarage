@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\ReceptionController;
@@ -196,3 +197,6 @@ Route::prefix('warehouse')
         Route::get('/incoming-transfer', [WarehouseController::class, 'getIncomingTransfers'])->name('warehouse.incoming-transfer');
         Route::post('/complete-transfer-request/{stockTransferId}', [WarehouseController::class, 'completeTransferRequest'])->name('warehouse.complete-transfer-request');
     });
+
+Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
