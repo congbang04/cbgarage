@@ -11,6 +11,7 @@
                 class="fas fa-building"></i> Chi nhánh</a>
         <a href="{{ route('staff.index') }}" class="nav-link @if (request()->routeIs('staff.index')) active @endif"><i
                 class="fas fa-users"></i> Nhân sự</a>
-        <a href="#" class="nav-link"><i class="fas fa-robot"></i> Quản trị AI</a>
+        <a href="{{ route('admin.ai-logs.index') }}" class="nav-link @if (request()->routeIs('admin.ai-logs.*')) active @endif"><i
+                class="fas fa-robot"></i> Quản trị AI</a>
     </div>
 </nav>

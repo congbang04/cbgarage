@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AiLogController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
@@ -215,4 +216,19 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/sessions/{id}', [ChatController::class, 'destroy'])
             ->name('chat.delete-session');
     });
+});
+
+/*
+    ===============================
+    ADMIN AI LOGS ROUTES
+    ===============================
+*/
+Route::prefix('admin/ai-logs')->name('admin.ai-logs.')->middleware(['auth'])->group(function () {
+    // Route View
+    Route::get('/', [AiLogController::class, 'index'])->name('index');
+
+    // API Endpoints
+    Route::get('/api/sessions', [AiLogController::class, 'getSessions'])->name('sessions');
+    Route::get('/api/messages/{sessionId}', [AiLogController::class, 'getMessages'])->name('messages');
+    Route::delete('/api/sessions/{sessionId}', [AiLogController::class, 'destroy'])->name('delete');
 });

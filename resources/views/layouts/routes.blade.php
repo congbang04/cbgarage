@@ -92,6 +92,10 @@
         'chatDeleteSession' => route('chat.delete-session', [
             'id' => ':id',
         ]),
+
+        'adminAiLogSessions' => route('admin.ai-logs.sessions'),
+        'adminAiLogMessages' => route('admin.ai-logs.messages', ['sessionId' => ':sessionId']),
+        'adminAiLogDelete' => route('admin.ai-logs.delete', ['sessionId' => ':sessionId']),
     ];
 @endphp
 
