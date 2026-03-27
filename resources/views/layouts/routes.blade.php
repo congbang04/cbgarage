@@ -89,6 +89,9 @@
             'sessionId' => ':sessionId',
         ]),
         'chatSend' => route('chat.send'),
+        'chatDeleteSession' => route('chat.delete-session', [
+            'id' => ':id',
+        ]),
     ];
 @endphp
 

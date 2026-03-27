@@ -2,6 +2,7 @@ import {
     getSessions,
     createSession,
     getMessages,
+    deleteSession,
 } from "../../services/chat-ai-api.js";
 import {
     processSendMessage,
@@ -43,6 +44,19 @@ $(document).ready(function () {
                     <div class="session-item ${activeClass}" data-id="${session.id}">
                         <i class="far fa-comment-alt me-3"></i> 
                         <span class="text-truncate flex-grow-1">${session.title}</span>
+                        
+                        <div class="dropdown session-options">
+                            <button class="btn-session-opt" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" style="font-size: 0.9rem;">
+                                <li>
+                                    <a class="dropdown-item text-danger btn-delete-session" href="#" data-id="${session.id}">
+                                        <i class="fas fa-trash-alt me-2"></i> Xóa cuộc trò chuyện
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 `);
                 if (savedSessionId && session.id == savedSessionId) {
@@ -157,6 +171,80 @@ $(document).ready(function () {
         }
     });
 
+    // Sự kiện click chọn đoạn chat
+    sessionListEl.on("click", ".session-item", function () {
+        let id = $(this).data("id");
+        if (id !== currentSessionId) switchSession(id);
+    });
+
+    // NGĂN CHẶN SỰ KIỆN: Khi click vào dấu 3 chấm, không được kích hoạt sự kiện chọn đoạn chat
+    sessionListEl.on("click", ".session-options", function (e) {
+        e.stopPropagation();
+    });
+
+    // Xử lý khi click vào nút Xóa
+    sessionListEl.on("click", ".btn-delete-session", function (e) {
+        e.preventDefault();
+        e.stopPropagation(); // Ngăn nổi bọt
+
+        let sessionIdToDelete = $(this).data("id");
+        let sessionElement = $(`.session-item[data-id="${sessionIdToDelete}"]`);
+
+        // Sử dụng SweetAlert để xác nhận
+        Swal.fire({
+            title: "Xóa cuộc trò chuyện?",
+            text: "Dữ liệu sẽ bị xóa vĩnh viễn và không thể khôi phục.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc3545",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Xóa",
+            cancelButtonText: "Hủy",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Hiển thị loading nhẹ trên item
+                sessionElement.css("opacity", "0.5");
+
+                deleteSession(sessionIdToDelete)
+                    .done(() => {
+                        // 1. Xóa phần tử khỏi giao diện (cực mượt, không cần reload trang)
+                        sessionElement.slideUp(300, function () {
+                            $(this).remove();
+                        });
+
+                        // 2. Xử lý logic hiển thị
+                        // NẾU user vừa xóa chính đoạn chat đang hiển thị trên màn hình lớn
+                        if (sessionIdToDelete == currentSessionId) {
+                            currentSessionId = null;
+                            localStorage.removeItem(STORAGE_KEY);
+                            messagesEl.html(welcomeScreenHTML); // Hiện lại màn hình Welcome
+                            inputEl.val("").focus();
+                        }
+
+                        // Nếu xóa hết sạch danh sách, hiện thông báo rỗng
+                        if ($(".session-item").length === 1) {
+                            // 1 vì cái bị xóa đang chạy animation slideUp chưa mất hẳn
+                            sessionListEl.html(
+                                '<div class="text-center p-3 text-muted small">Chưa có trò chuyện.</div>',
+                            );
+                        }
+
+                        Toast.fire({
+                            icon: "success",
+                            title: "Đã xóa đoạn chat",
+                        });
+                    })
+                    .fail(() => {
+                        sessionElement.css("opacity", "1");
+                        Swal.fire(
+                            "Lỗi!",
+                            "Không thể xóa đoạn chat lúc này.",
+                            "error",
+                        );
+                    });
+            }
+        });
+    });
     // Init
     loadSessions();
 });

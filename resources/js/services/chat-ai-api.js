@@ -32,3 +32,9 @@ export function sendChatMessage(sessionId, messageText) {
         },
     });
 }
+export function deleteSession(id) {
+    return $.ajax({
+        url: window.routes.chatDeleteSession.replace(":id", id),
+        type: "DELETE",
+    });
+}

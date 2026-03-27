@@ -212,5 +212,7 @@ Route::middleware(['auth'])->group(function () {
             ->name('chat.get-messages-by-session');
         Route::post('/send', [ChatController::class, 'sendMessage'])
             ->name('chat.send');
+        Route::delete('/sessions/{id}', [ChatController::class, 'destroy'])
+            ->name('chat.delete-session');
     });
 });

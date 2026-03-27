@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AiChatSession;
 use App\Services\ChatService;
 use Illuminate\Http\Request;
 
@@ -85,6 +86,27 @@ class ChatController extends Controller
             return response()->json(['error' => 'Session không hợp lệ hoặc không có quyền truy cập.'], 403);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Đã có lỗi xảy ra khi lưu trữ tin nhắn.'], 500);
+        }
+    }
+
+    public function destroy($id)
+    {
+        $customerId = $this->getCustomerId();
+        if (!$customerId) return response()->json(['error' => 'Not a customer'], 403);
+
+        try {
+            // Tìm và kiểm tra quyền sở hữu
+            $session = AiChatSession::where('id', $id)
+                ->where('customer_id', $customerId)
+                ->firstOrFail();
+
+            $session->delete(); // Sẽ tự động xóa cả AiMessage do đã set cascadeOnDelete trong DB
+
+            return response()->json(['status' => 'success', 'message' => 'Đã xóa đoạn chat']);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['error' => 'Không tìm thấy hoặc không có quyền xóa.'], 403);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Đã có lỗi xảy ra.'], 500);
         }
     }
 }

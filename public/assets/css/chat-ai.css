@@ -414,3 +414,46 @@ body {
         overflow: hidden;
     }
 }
+
+/* =========================================================
+   NÚT 3 CHẤM XÓA ĐOẠN CHAT (Bổ sung thêm)
+   ========================================================= */
+
+.session-item {
+    position: relative; /* Thêm relative để canh absolute dấu 3 chấm */
+    padding-right: 35px; /* Chừa khoảng trống để text không đè lên nút */
+}
+
+.session-options {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0; /* Ẩn mặc định */
+    transition: opacity 0.2s;
+    z-index: 10;
+}
+
+/* Hiện dấu 3 chấm khi hover chuột vào đoạn chat, hoặc khi menu dropdown đang được mở */
+.session-item:hover .session-options,
+.session-options.show {
+    opacity: 1;
+}
+
+.btn-session-opt {
+    background: transparent;
+    border: none;
+    color: #444746; /* Mã màu xám nhạt */
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.btn-session-opt:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: #1f1f1f; /* Đậm lên khi hover */
+}
