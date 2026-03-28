@@ -290,3 +290,80 @@
     background: #fef2f2;
     color: #dc2626;
 }
+/* ==========================================================================
+   SIDEBAR BOOTSTRAP DROPDOWN CUSTOMIZATION
+   ========================================================================== */
+
+/* Nút bấm Dropdown */
+.sidebar .dropdown-toggle {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    padding: 12px 25px;
+    color: #cbd5e1;
+    font-weight: 500;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+    cursor: pointer;
+}
+
+.sidebar .dropdown-toggle:hover,
+.sidebar .dropdown-toggle.active {
+    color: var(--white);
+    background: rgba(255, 255, 255, 0.05);
+    border-left-color: var(--primary);
+}
+
+.sidebar .dropdown-toggle i:first-child {
+    width: 24px;
+    margin-right: 10px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+/* Biểu tượng mũi tên thả xuống */
+.sidebar .dropdown-toggle::after {
+    margin-left: auto; /* Đẩy mũi tên sát lề phải */
+    transition: transform 0.3s ease;
+}
+
+.sidebar .dropdown-toggle[aria-expanded="true"]::after {
+    transform: rotate(180deg); /* Xoay mũi tên khi mở */
+}
+
+/* Khung Menu con (Ép tĩnh không cho bay đè lên giao diện) */
+.sidebar .dropdown-menu {
+    position: static !important; /* QUAN TRỌNG: Không bị bay đè */
+    transform: none !important;
+    background-color: rgba(0, 0, 0, 0.15) !important;
+    border: none;
+    padding: 5px 0;
+    margin: 0;
+    width: 100%;
+    box-shadow: none;
+}
+
+/* Các mục Menu con */
+.sidebar .dropdown-item {
+    color: #94a3b8;
+    padding: 10px 15px 10px 45px; /* Thụt lề vào trong */
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    white-space: normal;
+    transition: all 0.2s;
+}
+
+.sidebar .dropdown-item:hover,
+.sidebar .dropdown-item.active {
+    color: var(--white);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar .dropdown-item i {
+    font-size: 0.4rem; /* Icon chấm tròn nhỏ */
+    margin-right: 10px;
+}
