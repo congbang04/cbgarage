@@ -16,6 +16,8 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        $faker = \Faker\Factory::create('vi_VN');
+
         /*
         |--------------------------------
         | SUPER ADMIN (Admin tổng)
@@ -96,8 +98,8 @@ class UserSeeder extends Seeder
 
                     Technician::create([
                         'user_id' => $user->id,
-                        'name' => fake()->name(),
-                        'phone' => fake()->numerify('0#########'),
+                        'name' => $faker->lastName() . ' ' . $faker->firstName(),
+                        'phone' => $faker->phoneNumber(),
                         'specialization' => $specializations[array_rand($specializations)],
                         'is_actived' => true,
                         'created_at' => fake()->dateTimeBetween('-2 years', '-1 month'),
@@ -131,9 +133,9 @@ class UserSeeder extends Seeder
 
             Customer::create([
                 'user_id' => $user->id,
-                'name' => fake()->name(),
-                'phone' => fake()->numerify('0#########'),
-                'address' => fake()->address(),
+                'name' => $faker->lastName() . ' ' . $faker->firstName(),
+                'phone' => $faker->phoneNumber(),
+                'address' => $faker->address(),
                 'created_at' => fake()->dateTimeBetween('-2 years', '-1 month'),
                 'updated_at' => fake()->dateTimeBetween('-1 month', 'now'),
             ]);

@@ -6,16 +6,19 @@ use App\Http\Requests\CreateCarRequest;
 use App\Http\Requests\UpdateCarRequest;
 use App\Models\Brand;
 use App\Models\Car;
+use App\Models\Order;
 use App\Services\CarService;
+use App\Services\ReceptionService;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
-    protected $carService;
+    protected $carService, $receptionService;
 
-    public function __construct(CarService $carService)
+    public function __construct(CarService $carService, ReceptionService $receptionService)
     {
         $this->carService = $carService;
+        $this->receptionService = $receptionService;
     }
 
     public function store(CreateCarRequest $request)
@@ -42,9 +45,48 @@ class CarController extends Controller
         if ($car->customer->user_id !== auth()->id()) {
             abort(403);
         }
-        $brands = Brand::with('carModels')->get();
 
-        return view('customer.car-detail', compact('car', 'brands'));
+        $brands = Brand::with('carModels')->get();
+        $orders = $this->receptionService->getOrdersByCar($car->id);
+        return view('customer.car-detail', compact('car', 'brands', 'orders'));
+    }
+    public function carOrders(Car $car)
+    {
+        if ($car->customer->user_id !== auth()->id()) {
+            abort(403);
+        }
+        $orders = $this->receptionService->getOrdersByCar($car->id);
+        return view('customer.car-partials.car-detail-table', compact('orders'));
+    }
+    public function quotation(Request $request)
+    {
+        $orderId = $request->query('orderId');
+        $order = null;
+
+        if ($orderId) {
+            $order = Order::with([
+                'customer',
+                'car',
+                'car.brand',
+                'car.carModel',
+                'details'
+            ])->findOrFail($orderId);
+            $carId = $order->car->id;
+        }
+        return view('customer.car-quotation', compact('order', 'orderId', 'carId'));
+    }
+    public function getCarQuotationItems(int $orderId)
+    {
+        $quotation = $this->receptionService->getQuotation($orderId);
+
+        if (!$quotation) {
+            return response()->json(['error' => 'Báo giá không tìm thấy'], 404);
+        }
+
+        $items = $quotation->details ?? [];
+        $technicianId = $quotation->technician_id;
+
+        return view('customer.car-partials.car-quotation-items', compact('items', 'technicianId'));
     }
     public function update(UpdateCarRequest $request, Car $car)
     {

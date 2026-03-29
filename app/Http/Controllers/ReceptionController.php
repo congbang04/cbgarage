@@ -121,21 +121,6 @@ class ReceptionController extends Controller
     }
 
     /**
-     * Get quotation details
-     * GET /reception/quotation/{orderId}
-     */
-    public function showQuotation(int $orderId)
-    {
-        $quotation = $this->receptionService->getQuotation($orderId);
-
-        if (!$quotation) {
-            return response()->json(['error' => 'Báo giá không tìm thấy'], 404);
-        }
-
-        return response()->json($quotation);
-    }
-
-    /**
      * Get quotation items as HTML partial
      * GET /reception/quotation/{orderId}/items
      */

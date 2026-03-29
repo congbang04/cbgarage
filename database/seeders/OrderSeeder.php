@@ -9,12 +9,10 @@ class OrderSeeder extends Seeder
 {
     public function run(): void
     {
-        $users = DB::table('users')->pluck('id')->toArray();
-        $customers = DB::table('customers')->pluck('id')->toArray();
-        $cars = DB::table('cars')->pluck('id')->toArray();
-        $bookings = DB::table('bookings')->pluck('id')->toArray();
+        $faker = \Faker\Factory::create('vi_VN');
 
-        // Lấy technician kèm branch_id từ user
+        $cars = DB::table('cars')->get();
+
         $technicians = DB::table('technicians')
             ->join('users', 'technicians.user_id', '=', 'users.id')
             ->select(
@@ -22,65 +20,71 @@ class OrderSeeder extends Seeder
                 'users.branch_id as branch_id'
             )
             ->get()
-            ->toArray();
+            ->groupBy('branch_id');
 
-        $branches = DB::table('branches')->pluck('id')->toArray();
-
-        $statuses = [
+        $statusesFlow = [
             'RECEIVED',
             'QUOTED',
             'IN_PROGRESS',
             'WAITING_PART',
             'COMPLETED',
-            'PAID',
-            'CANCELLED'
+            'PAID'
         ];
 
-        for ($i = 0; $i < 400; $i++) {
+        foreach ($cars as $car) {
 
-            // 60% có technician
-            $hasTechnician = rand(0, 10) > 4;
+            // mỗi xe có 2–6 order
+            $orderCount = rand(2, 6);
 
-            $technicianId = null;
-            $branchId = null;
+            for ($i = 0; $i < $orderCount; $i++) {
 
-            if ($hasTechnician) {
-                $tech = $technicians[array_rand($technicians)];
+                $status = $statusesFlow[array_rand($statusesFlow)];
 
-                $technicianId = $tech->technician_id;
+                $branchId = DB::table('users')
+                    ->where('id', $car->customer_id)
+                    ->value('branch_id') ?? rand(1, 3);
 
-                // 🔥 branch phải theo technician
-                $branchId = $tech->branch_id;
-            } else {
-                // Không có technician thì random branch
-                $branchId = $branches[array_rand($branches)];
+                $techList = $technicians[$branchId] ?? collect();
+
+                $technicianId = $techList->isNotEmpty()
+                    ? $techList->random()->technician_id
+                    : null;
+
+                $createdAt = $faker->dateTimeBetween('-60 days', 'now');
+
+                $orderId = DB::table('orders')->insertGetId([
+                    'fuel_range' => rand(10, 90),
+                    'status' => $status,
+                    'total_amount' => 0,
+                    'description' => $this->generateDescription(),
+                    'note' => $faker->optional()->sentence(),
+
+                    'user_id' => $car->customer_id,
+                    'branch_id' => $branchId,
+                    'car_id' => $car->id,
+                    'customer_id' => $car->customer_id,
+
+                    'booking_id' => null,
+                    'technician_id' => $technicianId,
+
+                    'created_at' => $createdAt,
+                    'updated_at' => $createdAt,
+                ]);
+
+                app(OrderDetailSeeder::class)->createDetails($orderId, $status);
             }
-
-            DB::table('orders')->insert([
-                'fuel_range' => rand(10, 90),
-
-                'status' => $statuses[array_rand($statuses)],
-
-                'total_amount' => rand(0, 5000000),
-
-                'description' => fake()->optional()->sentence(),
-                'note' => fake()->optional()->sentence(),
-
-                'user_id' => $users[array_rand($users)],
-                'branch_id' => $branchId,
-                'car_id' => $cars[array_rand($cars)],
-                'customer_id' => $customers[array_rand($customers)],
-
-                // 70% order có booking
-                'booking_id' => rand(0, 10) > 3
-                    ? $bookings[array_rand($bookings)]
-                    : null,
-
-                'technician_id' => $technicianId,
-
-                'created_at' => now()->subDays(rand(0, 10)),
-                'updated_at' => now(),
-            ]);
         }
+    }
+
+    private function generateDescription()
+    {
+        return collect([
+            'Khách báo xe bị rung khi chạy tốc độ cao',
+            'Xe phát tiếng kêu lạ khi phanh',
+            'Bảo dưỡng định kỳ 10.000 km',
+            'Điều hòa không mát',
+            'Xe hao xăng bất thường',
+            'Kiểm tra tổng quát trước chuyến đi xa'
+        ])->random();
     }
 }

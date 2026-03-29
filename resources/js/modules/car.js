@@ -1,11 +1,39 @@
-import { createCar, deleteCar, updateCar } from "../services/car-api";
+import {
+    createCar,
+    deleteCar,
+    updateCar,
+    carOrders,
+} from "../services/car-api";
 import { clearErrors, showValidationErrors } from "../helpers/validation";
 import { reloadDOM, resetModal } from "../helpers/dom";
 import { confirmDelete } from "../helpers/sweetalert";
 $(document).ready(function () {
     resetModal("#updateCarModal", "#form_update_car");
     resetModal("#addCarModal", "#form_create_car");
+    loadCarOrders();
 });
+function loadCarOrders(url = window.routes.carOrders) {
+    const segments = window.location.pathname.split("/");
+    const carId = segments[2];
+
+    if (!carId) return;
+    console.log("carId", carId);
+
+    carOrders(carId, url)
+        .done(function (res) {
+            $("#table-data").html(res);
+        })
+        .fail(function (xhr) {
+            console.log(xhr.responseText);
+        });
+}
+
+$(document).on("click", ".pagination-container a", function (e) {
+    e.preventDefault();
+    const url = $(this).attr("href");
+    loadCarOrders(url);
+});
+
 $("#form_create_car").on("submit", function (e) {
     e.preventDefault();
 

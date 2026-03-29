@@ -5,7 +5,7 @@
                     <tr>
                         <th>Mã phiếu</th>
                         <th>Xe & Khách hàng</th>
-                        <th>Cố vấn</th>
+                        <th>Kỹ thuật viên</th>
                         <th class="ps-4">Ngày nhận</th>
                         <th class="ps-5">Trạng thái</th>
                         <th>Hành động</th>

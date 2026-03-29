@@ -64,8 +64,7 @@ export function saveQuotation(orderId, details, technicianId = null) {
  */
 export function getQuotation(orderId) {
     return $.ajax({
-        url: window.routes.receptionSaveQuotation.replace(":orderId", orderId),
+        url: window.routes.receptionQuotationItems.replace(":orderId", orderId),
         type: "GET",
-        dataType: "json",
     });
 }

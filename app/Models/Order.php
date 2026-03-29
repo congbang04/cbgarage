@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -53,7 +54,7 @@ class Order extends Model
         $user = auth()->user();
 
         // 2. Nếu là Admin Tổng (super_admin) -> Trả về toàn bộ (không gắn where)
-        if ($user->role === 'super_admin') {
+        if ($user->role === User::ROLE_BRANCH_ADMIN && $user->branch_id == 1) {
             return $query;
         }
 
@@ -64,6 +65,21 @@ class Order extends Model
 
         return $query;
     }
+    public function scopeForUser($query, $carId)
+    {
+        if (!auth()->check()) {
+            return $query;
+        }
+
+        $user = auth()->user();
+
+        if ($user->role === User::ROLE_CUSTOMER) {
+            return $query->where('car_id', $carId);
+        }
+
+        return $query;
+    }
+
     public function user()
     { // Người tạo đơn
         return $this->belongsTo(User::class);

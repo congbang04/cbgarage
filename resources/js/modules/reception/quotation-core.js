@@ -24,7 +24,7 @@ export function loadExistingQuotation(orderId) {
     if (!orderId) return;
 
     // Fetch quotation items as HTML partial
-    $.get(window.routes.receptionQuotationItems.replace(":orderId", orderId))
+    QuotationAPI.getQuotation(orderId)
         .done(function (html) {
             if (html && html.trim()) {
                 // Insert the partial HTML into the table
@@ -48,7 +48,7 @@ export function loadExistingQuotation(orderId) {
 /**
  * Calculate totals from existing table rows
  */
-function recalculateFromTable() {
+export function recalculateFromTable() {
     let totalGoods = 0;
     let totalLabor = 0;
 
@@ -322,12 +322,12 @@ function addItemToTable(index, item) {
             <td>${index}</td>
             <td>
                 <div class="fw-bold">${item.name}</div>
-                <div class="small text-muted">${item.item_id}</div>
+                <div class="small text-muted">id: ${item.item_id}</div>
             </td>
             <td>${badgeClass}</td>
             <td>cái</td>
             <td>
-                <input type="number" class="form-control form-control-sm text-center item-quantity" value="${item.quantity}" data-index="${index}">
+                <input class="form-control form-control-sm text-center item-quantity" value="${item.quantity}" data-index="${index}" disabled>
             </td>
             <td class="text-end item-price">${item.price.toLocaleString("vi-VN")}</td>
             <td class="text-end fw-bold item-total">${lineTotal.toLocaleString("vi-VN")}</td>

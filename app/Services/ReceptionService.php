@@ -85,7 +85,27 @@ class ReceptionService
             ->orderByDesc('updated_at')
             ->paginate($perPage);
     }
-
+    public function getOrdersByCar($carId, $perPage = 10)
+    {
+        return Order::select([
+            'id',
+            'customer_id',
+            'technician_id',
+            'car_id',
+            'status',
+            'created_at'
+        ])
+            ->with([
+                'customer:id,name,phone',
+                'car:id,brand_id,car_model_id,license_plate,manufacture_year,color,current_odo,vin_number',
+                'car.brand:id,name',
+                'car.carModel:id,name',
+                'technician:id,name'
+            ])
+            ->forUser($carId)
+            ->orderByDesc('updated_at')
+            ->paginate($perPage);
+    }
     /**
      * Get all services for quotation
      */

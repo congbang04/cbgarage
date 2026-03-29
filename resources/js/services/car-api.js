@@ -18,3 +18,15 @@ export function updateCar(carId, data) {
         data: data,
     });
 }
+export function carOrders(carId, url = window.routes.carOrders) {
+    return $.ajax({
+        url: url.replace(":id", carId),
+        method: "GET",
+    });
+}
+export function getCarQuotationItems(orderId) {
+    return $.ajax({
+        url: window.routes.carQuotationItems.replace(":orderId", orderId),
+        type: "GET",
+    });
+}

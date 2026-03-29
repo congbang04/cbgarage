@@ -344,3 +344,50 @@ section {
     background: var(--white);
     border-top: 1px solid #e9ecef;
 }
+
+/* --- Recent Orders Table Customization --- */
+.table-hover tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.status-badge {
+    display: inline-flex;
+    justify-content: center; /* căn giữa ngang */
+    align-items: center; /* căn giữa dọc */
+    min-width: 140px; /* 👈 QUAN TRỌNG: cùng kích thước */
+    height: 30px; /* 👈 chiều cao đồng đều */
+
+    padding: 6px 12px;
+    border-radius: 20px;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    gap: 6px; /* khoảng cách icon */
+    text-align: center;
+}
+
+.status-badge::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+.status-badge.warning {
+    background: #fff7ed;
+    color: #ea580c;
+}
+.status-badge.info {
+    background: #eff6ff;
+    color: #2563eb;
+}
+.status-badge.success {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+.status-badge.danger {
+    background: #fef2f2;
+    color: #dc2626;
+}

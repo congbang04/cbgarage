@@ -89,11 +89,16 @@
                                             <button class="btn btn-link text-muted btn-action-dots"
                                                 data-bs-toggle="dropdown"><i class="fas fa-ellipsis-v"></i></button>
                                             <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
-                                                <li><a class="dropdown-item"
-                                                        href="{{ route('customer.carDetail', $car->id) }}">Xem
-                                                        chi
-                                                        tiết</a></li>
-                                                <li><a class="dropdown-item" href="booking.html">Đặt lịch sửa xe này</a>
+                                                <li>
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('customer.carDetail', $car->id) }}">
+                                                        Xem chi tiết
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="booking.html">
+                                                        Đặt lịch sửa xe này
+                                                    </a>
                                                 </li>
                                                 <li>
                                                     <hr class="dropdown-divider">

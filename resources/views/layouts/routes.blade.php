@@ -3,6 +3,8 @@
         'customerUpdated' => route('customer.update'),
 
         'carStore' => route('car.store'),
+        'carOrders' => route('car.carOrders', ['car' => ':id']),
+        'carQuotationItems' => route('car.get-quotation-items', ['orderId' => ':orderId']),
         'carDestroy' => route('car.destroy', ['car' => ':id']),
         'carUpdate' => route('car.update', ['car' => ':id']),
 
@@ -85,13 +87,9 @@
 
         'chatGetSessions' => route('chat.get-sessions'),
         'chatCreateSession' => route('chat.create-session'),
-        'chatGetMessagesBySession' => route('chat.get-messages-by-session', [
-            'sessionId' => ':sessionId',
-        ]),
+        'chatGetMessagesBySession' => route('chat.get-messages-by-session', ['sessionId' => ':sessionId']),
         'chatSend' => route('chat.send'),
-        'chatDeleteSession' => route('chat.delete-session', [
-            'id' => ':id',
-        ]),
+        'chatDeleteSession' => route('chat.delete-session', ['id' => ':id']),
 
         'adminAiLogSessions' => route('admin.ai-logs.sessions'),
         'adminAiLogMessages' => route('admin.ai-logs.messages', ['sessionId' => ':sessionId']),

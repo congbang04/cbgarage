@@ -120,9 +120,11 @@ Route::put('/customer/update', [CustomerController::class, 'update'])
 */
 Route::prefix('car')->middleware(['auth', 'verified'])
     ->group(function () {
-        Route::get('/{car}', [CarController::class, 'carDetail'])
-            ->name('customer.carDetail');
+        Route::get('/quotation', [CarController::class, 'quotation'])->name('car.quotation');
         Route::post('/', [CarController::class, 'store'])->name('car.store');
+        Route::get('/{car}', [CarController::class, 'carDetail'])->name('customer.carDetail');
+        Route::get('/{car}/orders', [CarController::class, 'carOrders'])->name('car.carOrders');
+        Route::get('/quotation/{orderId}/items', [CarController::class, 'getCarQuotationItems'])->name('car.get-quotation-items');
         Route::put('/{car}', [CarController::class, 'update'])->name('car.update');
         Route::delete('/{car}', [CarController::class, 'destroy'])->name('car.destroy');
     });
@@ -172,7 +174,6 @@ Route::middleware(['auth', 'can:access-reception'])->group(
                 Route::get('/technicians', [ReceptionController::class, 'getTechnicians'])->name('reception.technicians');
                 Route::post('/quotation/{orderId}', [ReceptionController::class, 'saveQuotation'])->name('reception.save-quotation');
                 Route::get('/quotation/{orderId}/items', [ReceptionController::class, 'getQuotationItems'])->name('reception.quotation-items');
-                Route::get('/quotation/{orderId}', [ReceptionController::class, 'showQuotation'])->name('reception.show-quotation');
             });
     }
 );

@@ -12,7 +12,7 @@
             <td>{{ $index + 1 }}</td>
             <td>
                 <div class="fw-bold name-item">{{ $detail->item->name ?? 'N/A' }} </div>
-                <div class="small text-muted">{{ $detail->item_id }}</div>
+                <div class="small text-muted">id: {{ $detail->item_id }}</div>
             </td>
             <td class="text-start">{!! $badgeClass !!}</td>
             <td>cái</td>
