@@ -24,13 +24,48 @@ use Illuminate\Support\Facades\Route;
     ===============================
 */
 
-Route::resource('branches', BranchController::class);
-Route::get('/partial/branch-list', [BranchController::class, 'branchList'])->name('branchList');
-Route::resource('services', ServiceController::class);
-Route::get('/partial/service-list', [ServiceController::class, 'servicesList'])->name('serviceList');
-Route::resource('parts', PartController::class);
-Route::get('/partial/part-list', [PartController::class, 'partsList'])->name('partList');
-Route::get('/parts-json', [PartController::class, 'partsJson'])->name('partsJson');
+Route::middleware(['auth', 'can:is-super-admin'])->group(
+    function () {
+        Route::resource('branches', BranchController::class);
+        Route::get('/partial/branch-list', [BranchController::class, 'branchList'])->name('branchList');
+
+        Route::resource('services', ServiceController::class);
+        Route::get('/partial/service-list', [ServiceController::class, 'servicesList'])->name('serviceList');
+
+        Route::resource('parts', PartController::class);
+        Route::get('/partial/part-list', [PartController::class, 'partsList'])->name('partList');
+        Route::get('/parts-json', [PartController::class, 'partsJson'])->name('partsJson');
+        /*
+    ===============================
+    STAFF MANAGEMENT ROUTES (Settings)
+    ===============================
+*/
+        Route::prefix('staff')->group(function () {
+            Route::get('/', [StaffController::class, 'index'])->name('staff.index');
+            Route::get('/list', [StaffController::class, 'staffList'])->name('staff.list');
+            Route::post('/', [StaffController::class, 'store'])->name('staff.store');
+            Route::put('/{staff}', [StaffController::class, 'update'])->name('staff.update');
+            Route::delete('/{staff}', [StaffController::class, 'destroy'])->name('staff.destroy');
+            Route::post('/{staff}/toggle-status', [StaffController::class, 'toggleStatus'])->name('staff.toggle-status');
+        });
+        /*
+    ===============================
+    ADMIN AI LOGS ROUTES
+    ===============================
+*/
+        Route::prefix('admin/ai-logs')->name('admin.ai-logs.')->group(function () {
+            // Route View
+            Route::get('/', [AiLogController::class, 'index'])->name('index');
+
+            // API Endpoints
+            Route::get('/api/sessions', [AiLogController::class, 'getSessions'])->name('sessions');
+            Route::get('/api/messages/{sessionId}', [AiLogController::class, 'getMessages'])->name('messages');
+            Route::delete('/api/sessions/{sessionId}', [AiLogController::class, 'destroy'])->name('delete');
+        });
+    }
+);
+
+
 /*
     ===============================
     AUTHENTICATION ROUTES
@@ -110,36 +145,44 @@ Route::get('slots', [SlotController::class, 'index'])->name('slots.index');
     ADMIN DASHBOARD ROUTES
     ===============================
 */
-Route::get('/admin-dashboard', [AdminController::class, 'dashboard'])->name('adminDashboard');
-Route::get('/customer-search', [AdminController::class, 'customerSearch'])->name('customerSearch');
+Route::middleware(['auth', 'can:is-admin'])->group(
+    function () {
+        Route::get('/admin-dashboard', [AdminController::class, 'dashboard'])->name('adminDashboard');
+        Route::get('/customer-search', [AdminController::class, 'customerSearch'])->name('customerSearch');
+    }
+);
 /*
     ===============================
     RECEPTION ROUTES
     ===============================
 */
-Route::prefix('reception')
-    ->group(function () {
-        Route::get('/', [ReceptionController::class, 'list'])->name('reception.list');
-        Route::get('/partial/table-list', [ReceptionController::class, 'tableList'])->name('table');
-        Route::get('/create', [ReceptionController::class, 'create'])->name('reception.create');
-        Route::get('/quotation', [ReceptionController::class, 'quotation'])->name('reception.quotation');
-        Route::post('/store', [ReceptionController::class, 'storeReception'])->name('reception.store');
+Route::middleware(['auth', 'can:access-reception'])->group(
+    function () {
+        Route::prefix('reception')
+            ->group(function () {
+                Route::get('/', [ReceptionController::class, 'list'])->name('reception.list');
+                Route::get('/partial/table-list', [ReceptionController::class, 'tableList'])->name('table');
+                Route::get('/create', [ReceptionController::class, 'create'])->name('reception.create');
+                Route::get('/quotation', [ReceptionController::class, 'quotation'])->name('reception.quotation');
+                Route::post('/store', [ReceptionController::class, 'storeReception'])->name('reception.store');
 
-        // Quotation API endpoints
-        Route::get('/services', [ReceptionController::class, 'getServices'])->name('reception.services');
-        Route::get('/parts', [ReceptionController::class, 'getParts'])->name('reception.parts');
-        Route::get('/technicians', [ReceptionController::class, 'getTechnicians'])->name('reception.technicians');
-        Route::post('/quotation/{orderId}', [ReceptionController::class, 'saveQuotation'])->name('reception.save-quotation');
-        Route::get('/quotation/{orderId}/items', [ReceptionController::class, 'getQuotationItems'])->name('reception.quotation-items');
-        Route::get('/quotation/{orderId}', [ReceptionController::class, 'showQuotation'])->name('reception.show-quotation');
-    });
+                // Quotation API endpoints
+                Route::get('/services', [ReceptionController::class, 'getServices'])->name('reception.services');
+                Route::get('/parts', [ReceptionController::class, 'getParts'])->name('reception.parts');
+                Route::get('/technicians', [ReceptionController::class, 'getTechnicians'])->name('reception.technicians');
+                Route::post('/quotation/{orderId}', [ReceptionController::class, 'saveQuotation'])->name('reception.save-quotation');
+                Route::get('/quotation/{orderId}/items', [ReceptionController::class, 'getQuotationItems'])->name('reception.quotation-items');
+                Route::get('/quotation/{orderId}', [ReceptionController::class, 'showQuotation'])->name('reception.show-quotation');
+            });
+    }
+);
 /*
     ===============================
     TECHNICIAN JOB ROUTES
     ===============================
 */
 Route::prefix('technician-jobs')
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'can:is-technician'])
     ->group(function () {
         Route::get('/', [TechnicianJobController::class, 'jobs'])->name('technician.jobs');
         Route::get('/partial/table-list', [TechnicianJobController::class, 'tableList'])->name('technician.jobs.table');
@@ -148,57 +191,50 @@ Route::prefix('technician-jobs')
         Route::post('/execution/{orderId}/complete-item', [TechnicianJobController::class, 'completeItem'])->name('technician.jobs.completeItem');
         Route::post('/execution/{orderId}/request-part', [TechnicianJobController::class, 'requestPart'])->name('technician.jobs.requestPart');
     });
-/*
-    ===============================
-    STAFF MANAGEMENT ROUTES (Settings)
-    ===============================
-*/
-Route::prefix('staff')
-    ->group(function () {
-        Route::get('/', [StaffController::class, 'index'])->name('staff.index');
-        Route::get('/list', [StaffController::class, 'staffList'])->name('staff.list');
-        Route::post('/', [StaffController::class, 'store'])->name('staff.store');
-        Route::put('/{staff}', [StaffController::class, 'update'])->name('staff.update');
-        Route::delete('/{staff}', [StaffController::class, 'destroy'])->name('staff.destroy');
-        Route::post('/{staff}/toggle-status', [StaffController::class, 'toggleStatus'])->name('staff.toggle-status');
-    });
 
 /*
     ===============================
     WAREHOUSE MANAGEMENT ROUTES
     ===============================
 */
-Route::prefix('warehouse')
-    ->middleware(['auth', 'verified'])
-    ->group(function () {
-        // Inventory management
-        Route::get('/inventory', [WarehouseController::class, 'inventory'])->name('warehouse.inventory');
-        Route::get('/inventory-list', [WarehouseController::class, 'inventoryList'])->name('warehouse.inventory-list');
-        Route::get('/pending-count', [WarehouseController::class, 'getPendingCount'])->name('warehouse.getPendingCount');
+Route::middleware(['auth', 'can:access-warehouse'])->group(
+    function () {
+        Route::prefix('warehouse')
+            ->group(function () {
+                // Inventory management
+                Route::get('/inventory', [WarehouseController::class, 'inventory'])->name('warehouse.inventory');
+                Route::get('/inventory-list', [WarehouseController::class, 'inventoryList'])->name('warehouse.inventory-list');
+                Route::get('/pending-count', [WarehouseController::class, 'getPendingCount'])->name('warehouse.getPendingCount');
 
 
-        // Part requests management
-        Route::get('/part-requests', [WarehouseController::class, 'partRequests'])->name('warehouse.part-requests');
-        Route::get('/card-part-requests', [WarehouseController::class, 'cardPartRequests'])->name('warehouse.card-part-requests');
-        Route::get('/goods-issue/{partRequestId}', [WarehouseController::class, 'showGoodsIssue'])->name('warehouse.goods-issue');
-        Route::get('/goods-issue-transfer/{stockTransferId}', [WarehouseController::class, 'showTransferGoodsIssue'])->name('warehouse.goods-issue-transfer');
-        Route::post('/approve-part-request/{partRequestId}', [WarehouseController::class, 'approvePartRequest'])->name('warehouse.approve-part-request');
-        Route::post('/reject-part-request/{partRequestId}', [WarehouseController::class, 'rejectPartRequest'])->name('warehouse.reject-part-request');
-        Route::post('/cancel-transfer-request/{stockTransferId}', [WarehouseController::class, 'cancelTransferRequest'])->name('warehouse.cancel-transfer-request');
+                // Part requests management
+                Route::get('/part-requests', [WarehouseController::class, 'partRequests'])->name('warehouse.part-requests');
+                Route::get('/card-part-requests', [WarehouseController::class, 'cardPartRequests'])->name('warehouse.card-part-requests');
+                Route::get('/goods-issue/{partRequestId}', [WarehouseController::class, 'showGoodsIssue'])->name('warehouse.goods-issue');
+                Route::get('/goods-issue-transfer/{stockTransferId}', [WarehouseController::class, 'showTransferGoodsIssue'])->name('warehouse.goods-issue-transfer');
+                Route::post('/approve-part-request/{partRequestId}', [WarehouseController::class, 'approvePartRequest'])->name('warehouse.approve-part-request');
+                Route::post('/reject-part-request/{partRequestId}', [WarehouseController::class, 'rejectPartRequest'])->name('warehouse.reject-part-request');
+                Route::post('/cancel-transfer-request/{stockTransferId}', [WarehouseController::class, 'cancelTransferRequest'])->name('warehouse.cancel-transfer-request');
 
-        // Stock transfer management
-        Route::get('/stock-transfer', [WarehouseController::class, 'stockTransfer'])->name('warehouse.stock-transfer');
-        Route::get('/stock-transfer-history', [WarehouseController::class, 'stockTransferHistory'])->name('warehouse.stock-transfer-history');
-        Route::get('/card-transfer-requests', [WarehouseController::class, 'cardTransferRequests'])->name('warehouse.card-transfer-requests');
-        Route::post('/stock-transfer/create', [WarehouseController::class, 'createStockTransfer'])->name('warehouse.create-stock-transfer');
-        Route::get('/parts', [WarehouseController::class, 'getSampleParts'])->name('warehouse.get-parts');
-        Route::post('/transfer-request/{stockTransferId}/approve', [WarehouseController::class, 'approveTransferRequest'])->name('warehouse.transfer-request.approve');
-        Route::get('/transfer-history', [WarehouseController::class, 'fullTransferHistory'])->name('warehouse.transfer.history');
-        Route::get('/transfer-history-table', [WarehouseController::class, 'transferHistoryTable'])->name('warehouse.transfer.history-table');
-        Route::get('/incoming-transfer', [WarehouseController::class, 'getIncomingTransfers'])->name('warehouse.incoming-transfer');
-        Route::post('/complete-transfer-request/{stockTransferId}', [WarehouseController::class, 'completeTransferRequest'])->name('warehouse.complete-transfer-request');
-    });
-
+                // Stock transfer management
+                Route::get('/stock-transfer', [WarehouseController::class, 'stockTransfer'])->name('warehouse.stock-transfer');
+                Route::get('/stock-transfer-history', [WarehouseController::class, 'stockTransferHistory'])->name('warehouse.stock-transfer-history');
+                Route::get('/card-transfer-requests', [WarehouseController::class, 'cardTransferRequests'])->name('warehouse.card-transfer-requests');
+                Route::post('/stock-transfer/create', [WarehouseController::class, 'createStockTransfer'])->name('warehouse.create-stock-transfer');
+                Route::get('/parts', [WarehouseController::class, 'getSampleParts'])->name('warehouse.get-parts');
+                Route::post('/transfer-request/{stockTransferId}/approve', [WarehouseController::class, 'approveTransferRequest'])->name('warehouse.transfer-request.approve');
+                Route::get('/transfer-history', [WarehouseController::class, 'fullTransferHistory'])->name('warehouse.transfer.history');
+                Route::get('/transfer-history-table', [WarehouseController::class, 'transferHistoryTable'])->name('warehouse.transfer.history-table');
+                Route::get('/incoming-transfer', [WarehouseController::class, 'getIncomingTransfers'])->name('warehouse.incoming-transfer');
+                Route::post('/complete-transfer-request/{stockTransferId}', [WarehouseController::class, 'completeTransferRequest'])->name('warehouse.complete-transfer-request');
+            });
+    }
+);
+/*
+    ===============================
+    CHAT AI ROUTES
+    ===============================
+*/
 Route::middleware(['auth'])->group(function () {
     // View
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
@@ -216,19 +252,4 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/sessions/{id}', [ChatController::class, 'destroy'])
             ->name('chat.delete-session');
     });
-});
-
-/*
-    ===============================
-    ADMIN AI LOGS ROUTES
-    ===============================
-*/
-Route::prefix('admin/ai-logs')->name('admin.ai-logs.')->middleware(['auth'])->group(function () {
-    // Route View
-    Route::get('/', [AiLogController::class, 'index'])->name('index');
-
-    // API Endpoints
-    Route::get('/api/sessions', [AiLogController::class, 'getSessions'])->name('sessions');
-    Route::get('/api/messages/{sessionId}', [AiLogController::class, 'getMessages'])->name('messages');
-    Route::delete('/api/sessions/{sessionId}', [AiLogController::class, 'destroy'])->name('delete');
 });

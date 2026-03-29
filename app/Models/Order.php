@@ -40,7 +40,30 @@ class Order extends Model
         'technician_id'
     ];
 
-    // Các quan hệ belongsTo (Cực kỳ quan trọng để truy xuất thông tin đơn hàng)
+    /**
+     * Scope lọc dữ liệu theo quyền của User đang đăng nhập
+     */
+    public function scopeForCurrentAdmin($query)
+    {
+        // 1. Nếu chưa đăng nhập (tránh lỗi khi chạy command/job)
+        if (!auth()->check()) {
+            return $query;
+        }
+
+        $user = auth()->user();
+
+        // 2. Nếu là Admin Tổng (super_admin) -> Trả về toàn bộ (không gắn where)
+        if ($user->role === 'super_admin') {
+            return $query;
+        }
+
+        // 3. Nếu là các Role khác (Admin chi nhánh, Lễ tân...) -> Bắt buộc lọc theo nhánh
+        if ($user->branch_id) {
+            return $query->where('branch_id', $user->branch_id);
+        }
+
+        return $query;
+    }
     public function user()
     { // Người tạo đơn
         return $this->belongsTo(User::class);

@@ -11,7 +11,24 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    const ROLE_BRANCH_ADMIN = 'BRANCH_ADMIN';
+    const ROLE_TECHNICIAN = 'TECHNICIAN';
+    const ROLE_CUSTOMER = 'CUSTOMER';
+    const ROLE_ADVISOR = 'ADVISOR';
+    const ROLE_WAREHOUSE = 'WAREHOUSE';
+    const ROLE_CASHIER = 'CASHIER';
 
+    public static function statuses(): array
+    {
+        return [
+            self::ROLE_BRANCH_ADMIN,
+            self::ROLE_TECHNICIAN,
+            self::ROLE_CUSTOMER,
+            self::ROLE_ADVISOR,
+            self::ROLE_WAREHOUSE,
+            self::ROLE_CASHIER,
+        ];
+    }
     /**
      * The attributes that are mass assignable.
      *

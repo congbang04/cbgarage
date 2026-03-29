@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Middleware\NoCacheHeaders;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\User;
 use App\Services\AuthService;
 use Exception;
 use Illuminate\Auth\Events\Registered;
@@ -63,13 +64,13 @@ class AuthController extends Controller implements HasMiddleware
             // Lấy thông tin người dùng vừa được xác thực
             $user = Auth::user();
 
-            // Kiểm tra group_role và điều hướng
-            if ($user && $user->group_role == 'ADMIN') {
-                return redirect()->route('admin.dashboard')
+            // Kiểm tra role và điều hướng
+            if ($user && $user->role == User::ROLE_BRANCH_ADMIN) {
+                return redirect()->route('adminDashboard')
                     ->with('success', 'Chào mừng Admin, đăng nhập thành công!');
             }
-            if ($user && $user->group_role == 'TECHNICIAN') {
-                return redirect()->route('toDoList')
+            if ($user && $user->role == User::ROLE_TECHNICIAN) {
+                return redirect()->route('technician.jobs')
                     ->with('success', 'Chào mừng Technician, đăng nhập thành công!');
             }
 

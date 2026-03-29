@@ -81,7 +81,7 @@ class ReceptionService
                 'car.carModel:id,name',
                 'technician:id,name'
             ])
-            ->where('branch_id', auth()->user()->branch_id)
+            ->forCurrentAdmin()
             ->orderByDesc('updated_at')
             ->paginate($perPage);
     }
@@ -193,7 +193,7 @@ class ReceptionService
                 'car.carModel:id,name',
                 'technician:id,name'
             ])
-            ->where('branch_id', auth()->user()->branch_id);
+            ->forCurrentAdmin();
 
         // Lọc theo từ khóa (Biển số xe hoặc Tên khách hàng)
         if (!empty($filters['keyword'])) {

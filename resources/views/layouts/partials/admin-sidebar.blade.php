@@ -76,14 +76,15 @@
         <a href="cashier/payments.html" class="nav-link">
             <i class="fas fa-cash-register"></i> <span>Thu ngân</span>
         </a>
-
-        <div class="menu-header">Hệ thống</div>
-        <a href="{{ route('services.index') }}" class="nav-link">
-            <i class="fas fa-cogs"></i> <span>Cấu hình (Thiết lập)</span>
-        </a>
-        <a href="{{ route('admin.ai-logs.index') }}" class="nav-link">
-            <i class="fas fa-robot"></i> <span>Quản trị AI</span>
-        </a>
+        @can('is-super-admin')
+            <div class="menu-header">Hệ thống</div>
+            <a href="{{ route('services.index') }}" class="nav-link">
+                <i class="fas fa-cogs"></i> <span>Cấu hình (Thiết lập)</span>
+            </a>
+            <a href="{{ route('admin.ai-logs.index') }}" class="nav-link">
+                <i class="fas fa-robot"></i> <span>Quản trị AI</span>
+            </a>
+        @endcan
     </div>
 
     <div class="sidebar-footer">
