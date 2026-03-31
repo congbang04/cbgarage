@@ -55,7 +55,7 @@
                     <!-- Default Password Notice -->
                     <div class="alert alert-info small mb-0">
                         <i class="fas fa-info-circle"></i>
-                        <strong>Mật khẩu mặc định:</strong> Garage@123
+                        <strong>Mật khẩu mặc định:</strong> CBAUTO@123
                     </div>
 
                 </div>

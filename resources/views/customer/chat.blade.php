@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Trợ lý AI | Garage Pro')
+@section('title', 'Trợ lý AI | CBAUTO')
 
 @section('vite')
     @vite(['resources/js/modules/chat-ai/chat-ai.js'])
@@ -45,7 +45,7 @@
                         <i class="fas fa-bars"></i>
                     </button>
                     <div class="model-selector">
-                        <span>Garage AI Pro</span>
+                        <span>CBAUTO AI</span>
                         <i class="fas fa-caret-down fs-6"></i>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
                     </button>
                 </div>
                 <div class="disclaimer-text">
-                    Garage AI có thể đưa ra chẩn đoán không chính xác tuyệt đối. Vui lòng mang xe đến trung tâm để được kỹ
+                    CBAUTO AI có thể đưa ra chẩn đoán không chính xác tuyệt đối. Vui lòng mang xe đến trung tâm để được kỹ
                     thuật viên kiểm tra thực tế.
                 </div>
             </div>

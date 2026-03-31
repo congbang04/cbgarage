@@ -15,7 +15,11 @@ section {
 
 /* --- Hero Section (Home) --- */
 .hero-section {
-    background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary) 0%,
+        var(--primary-hover) 100%
+    );
     color: var(--white);
     padding: 4rem 0 6rem;
     border-radius: 0 0 30px 30px;
@@ -83,8 +87,8 @@ section {
 
 /* icon image */
 .service-icon img {
-    width: 40px;
-    height: 40px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
 }
 /* preview container giống icon */

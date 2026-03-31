@@ -71,7 +71,7 @@
                 <!-- Header Phiếu -->
                 <div class="row mb-4 border-bottom pb-3">
                     <div class="col-6">
-                        <h4 class="fw-bold text-uppercase">Garage Pro System</h4>
+                        <h4 class="fw-bold text-uppercase">CBAUTO</h4>
                         <div class="small">
                             Kho: <strong>Chi nhánh {{ optional($partRequest->order->branch)->name ?? 'Tổng' }}</strong>
                         </div>

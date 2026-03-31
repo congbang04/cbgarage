@@ -1,8 +1,8 @@
 <nav class="sidebar">
-    <div class="sidebar-header">
-        <a href="#" class="sidebar-brand">
-            <i class="fas fa-wrench text-primary"></i>
-            <span>GARAGE PRO</span>
+    <div class="sidebar-header d-flex align-items-center justify-content-center">
+        <a href="{{ route('adminDashboard') }}" class="sidebar-brand fw-bold text-decoration-none">
+            <i class="fas fa-wrench"></i>
+            <span>CBAUTO</span>
         </a>
     </div>
 

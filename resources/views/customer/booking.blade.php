@@ -32,8 +32,10 @@
 
             <!-- Step 1: Chọn chi nhánh -->
             <div id="branch-section" class="mb-4">
-                <h6 class="fw-bold mb-3"><i class="fas fa-map-marker-alt text-primary me-2"></i>Chọn Chi
-                    nhánh</h6>
+                <h6 class="fw-bold mb-3">
+                    <i class="fas fa-map-marker-alt text-danger me-2"></i>
+                    Chọn chi nhánh
+                </h6>
                 <div id="branches-list" class="row g-2">
                     @include('customer.booking-partials.branches')
                 </div>
@@ -41,7 +43,10 @@
 
             <!-- Step 2: Chọn Dịch vụ -->
             <div id="service-section" class="mb-4">
-                <h6 class="fw-bold mb-3"><i class="fas fa-tools text-primary me-2"></i>Chọn Dịch vụ</h6>
+                <h6 class="fw-bold mb-3">
+                    <i class="fas fa-tools text-danger me-2"></i>
+                    Chọn Dịch vụ
+                </h6>
                 <div id="services-list" class="row g-2">
                     @include('customer.booking-partials.services')
                 </div>
@@ -49,7 +54,10 @@
 
             <!-- Step 3: Chọn Ngày Giờ -->
             <div id="time-section" class="mb-4">
-                <h6 class="fw-bold mb-3"><i class="far fa-clock text-primary me-2"></i>Thời gian hẹn</h6>
+                <h6 class="fw-bold mb-3">
+                    <i class="far fa-clock text-danger me-2"></i>
+                    Thời gian hẹn
+                </h6>
                 <div id="date-input" class="mb-3">
                     <label class="form-label small text-muted">Ngày đến</label>
                     <input type="date" class="form-control" name="date" value="{{ date('Y-m-d') }}">
@@ -62,7 +70,10 @@
 
             <!-- Step 4: Thông tin khách -->
             <div class="mb-5">
-                <h6 class="fw-bold mb-3"><i class="far fa-user text-primary me-2"></i>Thông tin liên hệ</h6>
+                <h6 class="fw-bold mb-3">
+                    <i class="far fa-user text-danger me-2"></i>
+                    Thông tin liên hệ
+                </h6>
                 <div id="contact-information" class="card shadow-sm border-0">
                     @include('customer.booking-partials.contact-information')
                 </div>
@@ -73,16 +84,6 @@
 
             <!-- Sticky Summary -->
             <div class="booking-summary-sticky">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <div class="small">
-                        <div class="text-muted">Tổng tạm tính:</div>
-                        <div class="fw-bold text-primary fs-5">450.000đ</div>
-                    </div>
-                    <div class="text-end small text-muted">
-                        <div>1 Dịch vụ</div>
-                        <div>09:00 - 25/10</div>
-                    </div>
-                </div>
                 <button type="submit" class="btn btn-primary w-100 fw-bold py-2 rounded-pill shadow">
                     XÁC NHẬN ĐẶTLỊCH
                 </button>

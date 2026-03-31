@@ -8,7 +8,6 @@
                     <span class="fw-bold d-block">{{ $branch->name }}</span>
                     <span class="text-muted small"><i class="fas fa-location-arrow me-1"></i>
                         {{ $branch->address }}</span>
-                    <span class="badge bg-success float-end mt-n4">Gần bạn (2km)</span>
                 </label>
             </div>
         </div>

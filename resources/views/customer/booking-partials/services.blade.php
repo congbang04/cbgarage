@@ -10,7 +10,8 @@
                 @endif
             </div>
             <div class="fw-bold small">{{ $service->name }}</div>
-            <div class="text-primary fw-bold mt-1">{{ number_format($service->price) }}đ</div>
+            <div class="text-danger fw-bold mt-1">{{ number_format($service->price) }}đ</div>
+            <div class="text-muted small">Thời gian ước tính: {{ $service->estimated_duration }} phút</div>
         </label>
     </div>
 @endforeach

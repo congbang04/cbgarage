@@ -1,0 +1,331 @@
+/* =========================================
+           TÙY CHỈNH THEO DESIGN CBAUTO
+========================================= */
+:root {
+    --brand-red: #cc2929;
+    /* Màu đỏ chủ đạo của PrimeAuto */
+    --brand-dark: #111111;
+    --brand-light: #f8f9fa;
+    --text-color: #333333;
+    --text-gray: #666666;
+    --font-family: "Montserrat", sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    color: var(--text-color);
+    background-color: #ffffff;
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+    color: var(--brand-dark);
+}
+
+/* --- Nút Bấm (Buttons) --- */
+.btn-brand {
+    background-color: var(--brand-red);
+    color: white;
+    border-radius: 50px;
+    padding: 10px 25px;
+    font-weight: 600;
+    border: 2px solid var(--brand-red);
+    transition: all 0.3s ease;
+}
+
+.btn-brand:hover {
+    background-color: transparent;
+    color: var(--brand-red);
+    font-weight: 600;
+    border: 2px solid var(--brand-red);
+}
+
+.btn-brand:focus,
+.btn-brand:active,
+.btn-brand.show {
+    background-color: transparent;
+    color: var(--brand-red);
+    font-weight: 600;
+    border: 2px solid var(--brand-red);
+    box-shadow: none;
+}
+
+.btn-brand:focus:not(.show):not(:hover) {
+    background-color: var(--brand-red);
+    color: white;
+    box-shadow: none;
+}
+
+.btn-outline-brand {
+    background-color: transparent;
+    color: white;
+    border-radius: 50px;
+    padding: 10px 25px;
+    font-weight: 600;
+    border: 2px solid white;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-brand:hover {
+    background-color: white;
+    color: var(--brand-dark);
+}
+
+/* --- Navbar --- */
+.navbar {
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--brand-dark);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar-brand i {
+    color: var(--brand-red);
+}
+
+.nav-link {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--brand-dark);
+    padding: 0.5rem 1rem !important;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.navbar .nav-link {
+    color: var(--brand-dark);
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+}
+
+.navbar-collapse {
+    flex-grow: 1;
+}
+
+.navbar-nav {
+    display: flex !important;
+    flex-direction: row;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--brand-red);
+    text-decoration: underline;
+    text-decoration-color: var(--brand-red);
+    text-decoration-thickness: 2px;
+}
+
+/* Cố định Navbar khi cuộn */
+.sticky-top {
+    top: 0;
+    z-index: 1020;
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    background:
+        linear-gradient(
+            to right,
+            rgba(17, 17, 17, 0.95) 0%,
+            rgba(17, 17, 17, 0.7) 100%
+        ),
+        url("/storage/home/hero-bg.png") no-repeat center/cover;
+    padding: 120px 0 150px;
+    color: white;
+    position: relative;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: #dddddd;
+    margin-bottom: 40px;
+    max-width: 500px;
+}
+
+/* --- Section Tiêu đề --- */
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-title h2 {
+    font-size: 2.2rem;
+}
+
+.section-title p {
+    color: var(--text-gray);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* --- Card Trắng Viền Đỏ (Stats & Services) --- */
+.brand-card {
+    background: white;
+    border: 1px solid #eeeeee;
+    border-left: 4px solid var(--brand-red);
+    border-radius: 8px;
+    padding: 30px 20px;
+    height: 100%;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.brand-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.brand-card h4 {
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+}
+
+.brand-card p {
+    color: var(--text-gray);
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* --- Về Chúng Tôi (About) --- */
+.about-section {
+    background-color: var(--brand-light);
+    padding: 80px 0;
+}
+
+.feature-icon {
+    color: var(--brand-red);
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+/* --- Bảng Giá (Accordion) --- */
+.accordion-item {
+    border: none;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0 !important;
+    background: transparent;
+}
+
+.accordion-button {
+    background: transparent !important;
+    font-weight: 700;
+    color: var(--brand-dark) !important;
+    box-shadow: none !important;
+    padding: 20px 0;
+    font-size: 1.1rem;
+}
+
+.accordion-button:not(.collapsed) {
+    color: var(--brand-red) !important;
+}
+
+.accordion-body {
+    padding: 0 0 20px 0;
+    color: var(--text-gray);
+}
+
+.price-tag {
+    font-weight: 700;
+    color: var(--brand-dark);
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* --- Khách Hàng (Testimonials) --- */
+.review-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 30px 20px;
+    text-align: center;
+    height: 100%;
+}
+
+.stars {
+    color: var(--brand-red);
+    margin-bottom: 15px;
+}
+
+.review-text {
+    font-style: italic;
+    color: var(--brand-dark);
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.review-author {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+}
+
+/* --- Footer --- */
+.footer-bottom {
+    background: var(--brand-dark);
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background: var(--brand-red);
+    color: white;
+    border-radius: 50%;
+    margin: 0 5px;
+    transition: 0.3s;
+}
+
+.social-icons a:hover {
+    background: white;
+    color: var(--brand-red);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .booking-form-wrapper {
+        padding: 20px;
+    }
+
+    .hero-section {
+        padding: 100px 0;
+    }
+}
+@media (max-width: 991px) {
+    .navbar-nav {
+        flex-direction: column;
+        text-align: center;
+    }
+}

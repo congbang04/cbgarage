@@ -11,7 +11,7 @@
 
             <!-- Brand Logo -->
             <div class="auth-brand">
-                <i class="fas fa-wrench"></i> CB GARAGE
+                <i class="fas fa-wrench"></i> CBAUTO
             </div>
 
             <!-- Mail Icon -->

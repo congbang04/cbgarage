@@ -1,7 +1,8 @@
 <nav class="sidebar">
-    <div class="sidebar-header">
-        <a href="{{ route('adminDashboard') }}" class="sidebar-brand">
-            <i class="fas fa-wrench text-primary"></i> <span>GARAGE PRO</span>
+    <div class="sidebar-header d-flex align-items-center justify-content-center">
+        <a href="{{ route('adminDashboard') }}" class="sidebar-brand fw-bold text-decoration-none">
+            <i class="fas fa-wrench"></i>
+            <span>CBAUTO</span>
         </a>
     </div>
     <div class="sidebar-menu">
@@ -29,7 +30,7 @@
         <div class="mt-4 px-3">
             <a href="{{ route('adminDashboard') }}" class="btn btn-outline-secondary w-100 btn-sm text-start"
                 style="color: #cbd5e1; border-color: #cbd5e1;">
-                <i class="fas fa-arrow-left"></i> Quay lại Vận hành
+                <i class="fas fa-arrow-left" style="margin-top: 4px"></i> Quay lại Vận hành
             </a>
         </div>
     </div>

@@ -11,7 +11,7 @@
             <!-- Brand -->
             <div class="auth-brand">
                 <i class="fa-solid fa-layer-group"></i>
-                <span>CB GARAGE</span>
+                <span>CBAUTO</span>
             </div>
 
             <!-- Header -->

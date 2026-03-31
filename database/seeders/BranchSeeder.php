@@ -15,7 +15,7 @@ class BranchSeeder extends Seeder
     {
         DB::table('branches')->insert([
             [
-                'name' => 'Kho Trung Tâm CB Garage',
+                'name' => 'Kho Trung Tâm CBAUTO',
                 'address' => '123 Quốc lộ 13, Thủ Đức, TP.HCM',
                 'is_central_warehouse' => true,
                 'phone' => '02838889999',
@@ -24,7 +24,7 @@ class BranchSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'CB Garage Quận 1',
+                'name' => 'CBAUTO Quận 1',
                 'address' => '25 Nguyễn Huệ, Quận 1, TP.HCM',
                 'is_central_warehouse' => false,
                 'phone' => '02837778888',
@@ -33,7 +33,7 @@ class BranchSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'CB Garage Quận 7',
+                'name' => 'CBAUTO Quận 7',
                 'address' => '88 Nguyễn Thị Thập, Quận 7, TP.HCM',
                 'is_central_warehouse' => false,
                 'phone' => '02836667777',
@@ -42,7 +42,7 @@ class BranchSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'CB Garage Thủ Đức',
+                'name' => 'CBAUTO Thủ Đức',
                 'address' => '45 Võ Văn Ngân, Thủ Đức, TP.HCM',
                 'is_central_warehouse' => false,
                 'phone' => '02835556666',

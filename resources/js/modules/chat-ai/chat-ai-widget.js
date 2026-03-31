@@ -60,10 +60,40 @@ $(document).ready(function () {
 
                     sendData();
                 })
-                .fail(() => {
+                .fail((xhr) => {
                     inputEl.prop("disabled", false);
                     sendBtn.prop("disabled", false);
-                    alert("Đã có lỗi xảy ra khi khởi tạo cuộc trò chuyện.");
+
+                    if (xhr.status === 401) {
+                        Swal.fire({
+                            icon: "warning",
+                            title: "Yêu cầu đăng nhập",
+                            text: "Bạn cần đăng nhập hoặc tạo tài khoản để sử dụng tính năng chat.",
+                            showCancelButton: true,
+                            confirmButtonText: "Đăng nhập",
+                            cancelButtonText: "Tạo tài khoản",
+                            reverseButtons: true,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "/login";
+                            } else if (
+                                result.dismiss === Swal.DismissReason.cancel
+                            ) {
+                                window.location.href = "/register";
+                            }
+                        });
+
+                        return;
+                    }
+
+                    // 👉 Lỗi khác
+                    Swal.fire({
+                        icon: "error",
+                        title: "Rất tiếc...",
+                        text:
+                            xhr.responseJSON?.message ??
+                            "Có lỗi xảy ra, vui lòng thử lại.",
+                    });
                 });
         } else {
             // Nếu đã có widgetSessionId (đang chat các câu tiếp theo), gửi luôn
