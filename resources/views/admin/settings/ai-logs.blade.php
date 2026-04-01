@@ -62,21 +62,23 @@
     @include('layouts.partials.admin-setting-sidebar')
 @endsection
 
+@section('topbar_actions')
+    <div class="date-navigator shadow-sm">
+        <button id="btn-prev-day" class="btn-date-nav" title="Ngày hôm trước">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <input type="date" id="filter-date" title="Chọn ngày cụ thể">
+        <button id="btn-next-day" class="btn-date-nav" title="Ngày hôm sau" disabled>
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+@endsection
+
 @section('content')
     <div class="main-content">
-        <!-- Header -->
-        <header class="top-navbar justify-content-between">
-            <h4 class="mb-0 fw-bold">Giám sát hội thoại AI</h4>
-            <div class="date-navigator shadow-sm">
-                <button id="btn-prev-day" class="btn-date-nav" title="Ngày hôm trước">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <input type="date" id="filter-date" title="Chọn ngày cụ thể">
-                <button id="btn-next-day" class="btn-date-nav" title="Ngày hôm sau" disabled>
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-        </header>
+        @include('layouts.partials.admin-top-navbar', [
+            'headerTitle' => 'Giám sát hội thoại AI',
+        ])
 
         <!-- Main Area -->
         <div class="p-4" style="height: calc(100vh - 80px);">

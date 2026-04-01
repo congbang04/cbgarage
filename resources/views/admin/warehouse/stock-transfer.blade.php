@@ -34,9 +34,9 @@
 @endsection
 @section('content')
     <div class="main-content">
-        <header class="top-navbar">
-            <h4 class="mb-0 fw-bold">Luân chuyển hàng hóa</h4>
-        </header>
+        @include('layouts.partials.admin-top-navbar', [
+            'headerTitle' => 'Luân chuyển hàng hóa',
+        ])
 
         <div class="p-4">
             <div class="row g-4">

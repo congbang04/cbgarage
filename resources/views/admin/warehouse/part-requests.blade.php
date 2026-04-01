@@ -30,14 +30,9 @@
 @endsection
 @section('content')
     <div class="main-content">
-        <header class="top-navbar">
-            <div class="d-flex align-items-center">
-                <a href="{{ route('warehouse.inventory') }}" class="btn btn-light me-3">
-                    <i class="fas fa-arrow-left"></i>
-                </a>
-                <h5 class="fw-bold mb-0">Duyệt yêu cầu xuất kho</h5>
-            </div>
-        </header>
+        @include('layouts.partials.admin-top-navbar', [
+            'headerTitle' => 'Duyệt yêu cầu xuất kho',
+        ])
         <div class="p-4">
             <ul class="nav nav-tabs mb-4" id="requestTabs" role="tablist">
                 <li class="nav-item" role="presentation">

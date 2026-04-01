@@ -1,34 +1,67 @@
 @extends('layouts.admin')
+
 @section('title', 'Quản lý tồn kho')
+
 @section('vite')
     @vite(['resources/js/modules/warehouse/inventory.js'])
 @endsection
+
 @section('styles')
     <link rel="stylesheet" href="{{ asset('assets/css/design-system.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}">
 @endsection
+
 @section('body-class', 'admin-wrapper')
+
 @section('sidebar')
     @include('layouts.partials.admin-sidebar')
 @endsection
+
+@section('topbar_actions')
+    <div class="d-none d-md-flex gap-2">
+        <button class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#receiveTransferModal">
+            <i class="fas fa-truck-loading"></i> Nhận hàng
+        </button>
+        <a href="{{ route('warehouse.stock-transfer') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Luân chuyển
+        </a>
+        <a href="{{ route('warehouse.part-requests') }}" class="btn btn-outline-primary position-relative">
+            <i class="fas fa-bell"></i> Yêu cầu xuất
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                id="pendingRequestBadge">0</span>
+        </a>
+    </div>
+
+    <div class="d-md-none dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            <i class="fas fa-ellipsis-v"></i> Thao tác
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#receiveTransferModal">
+                    <i class="fas fa-truck-loading me-2"></i> Nhận hàng
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ route('warehouse.stock-transfer') }}">
+                    <i class="fas fa-plus me-2"></i> Luân chuyển
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item position-relative" href="{{ route('warehouse.part-requests') }}">
+                    <i class="fas fa-bell me-2"></i> Yêu cầu xuất
+                    <span class="badge rounded-pill bg-danger ms-1">0</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+@endsection
+
 @section('content')
     <div class="main-content">
-        <header class="top-navbar">
-            <h4 class="mb-0 fw-bold">Quản lý tồn kho</h4>
-            <div class="d-flex gap-2">
-                <button class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#receiveTransferModal">
-                    <i class="fas fa-truck-loading"></i> Nhận hàng luân chuyển
-                </button>
-                <a href="{{ route('warehouse.stock-transfer') }}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Yêu cầu luân chuyển
-                </a>
-                <a href="{{ route('warehouse.part-requests') }}" class="btn btn-outline-primary position-relative">
-                    <i class="fas fa-bell"></i> Yêu cầu xuất
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                        id="pendingRequestBadge">0</span>
-                </a>
-            </div>
-        </header>
+        @include('layouts.partials.admin-top-navbar', [
+            'headerTitle' => 'Quản lý tồn kho',
+        ])
 
         <div class="p-4">
             <!-- Stats -->

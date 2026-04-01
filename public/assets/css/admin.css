@@ -15,7 +15,7 @@
 .sidebar {
     min-width: 260px;
     max-width: 260px;
-    background: var(--dark);
+    background: var(--dark) !important;
     color: #cbd5e1;
     transition: all 0.3s;
     display: flex;
@@ -366,4 +366,19 @@
 .sidebar .dropdown-item i {
     font-size: 0.4rem; /* Icon chấm tròn nhỏ */
     margin-right: 10px;
+}
+
+/* Trên màn hình nhỏ (Mobile/Tablet) */
+@media (max-width: 991.98px) {
+    .sidebar {
+        width: 280px;
+        background-color: var(--dark); /* Màu tối của sidebar */
+    }
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+#fuel-range::-webkit-slider-thumb {
+    background-color: var(--primary);
 }

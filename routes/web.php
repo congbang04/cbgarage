@@ -34,7 +34,6 @@ Route::middleware(['auth', 'can:is-super-admin'])->group(
 
         Route::resource('parts', PartController::class);
         Route::get('/partial/part-list', [PartController::class, 'partsList'])->name('partList');
-        Route::get('/parts-json', [PartController::class, 'partsJson'])->name('partsJson');
         /*
     ===============================
     STAFF MANAGEMENT ROUTES (Settings)
@@ -64,6 +63,7 @@ Route::middleware(['auth', 'can:is-super-admin'])->group(
         });
     }
 );
+Route::get('/parts-json', [PartController::class, 'partsJson'])->name('partsJson');
 
 
 /*

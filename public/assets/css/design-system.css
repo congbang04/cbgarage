@@ -332,6 +332,13 @@ a:hover {
     font-size: 0.8rem;
 }
 
+.btn-action-fixed {
+    width: 140px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* ==========================================================================
    6. COMPONENTS: FORMS
    ========================================================================== */

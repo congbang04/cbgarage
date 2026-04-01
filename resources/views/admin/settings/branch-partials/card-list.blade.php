@@ -40,7 +40,7 @@
 
 <div class="row g-4">
     @forelse ($branches as $branch)
-        <div class="col-md-6">
+        <div class="col-md-6 mb-4">
             <div class="card h-100">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-3">
@@ -98,22 +98,4 @@
         </div>
     @endforelse
 </div>
-
-<!-- Pagination -->
-@if ($branches->total() > $branches->perPage())
-    <div class="d-flex justify-content-end py-3 mt-4">
-        <style>
-            .pagination-container nav div:first-child {
-                display: none !important;
-            }
-
-            .pagination-container nav div:last-child {
-                display: flex !important;
-            }
-        </style>
-
-        <div class="pagination-container">
-            {{ $branches->links('pagination::bootstrap-5') }}
-        </div>
-    </div>
-@endif
+@include('layouts.partials.pagination', ['items' => $branches])

@@ -11,16 +11,16 @@
 @section('sidebar')
     @include('layouts.partials.admin-sidebar')
 @endsection
+@section('topbar_actions')
+    <a href="{{ route('warehouse.stock-transfer') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Luân chuyển
+    </a>
+@endsection
 @section('content')
     <div class="main-content">
-        <header class="top-navbar">
-            <h4 class="mb-0 fw-bold">Lịch sử điều chuyển kho</h4>
-            <div class="d-flex align-items-center">
-                <a href="{{ route('warehouse.stock-transfer') }}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Tạo phiếu chuyển
-                </a>
-            </div>
-        </header>
+        @include('layouts.partials.admin-top-navbar', [
+            'headerTitle' => 'Lịch sử luân chuyển kho',
+        ])
 
         <div class="p-4">
             <div class="card mb-4">

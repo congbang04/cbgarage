@@ -4,22 +4,22 @@
             <table class="table table-hover align-middle mb-0">
                 <thead class="bg-light">
                     <tr>
-                        <th>Email</th>
-                        <th>Họ tên</th>
-                        <th>Vai trò</th>
-                        <th>Chuyên môn</th>
-                        <th>Chi nhánh</th>
-                        <th>Trạng thái</th>
-                        <th>Hành động</th>
+                        <th class="text-start">Email</th>
+                        <th class="text-center">Họ tên</th>
+                        <th class="text-center">Vai trò</th>
+                        <th class="text-center">Chuyên môn</th>
+                        <th class="text-center">Chi nhánh</th>
+                        <th class="text-center">Trạng thái</th>
+                        <th class="text-end">Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($staff as $item)
                         <tr>
-                            <td class="fw-bold">{{ $item->email }}</td>
-                            <td class="fw-bold">{{ optional($item->technician)->name }}</td>
+                            <td class="fw-bold text-start">{{ $item->email }}</td>
+                            <td class="fw-bold text-center">{{ optional($item->technician)->name }}</td>
 
-                            <td>
+                            <td class="text-center">
                                 @php
                                     $roleLabels = [
                                         'TECHNICIAN' => 'Kỹ thuật viên',
@@ -37,12 +37,14 @@
                                         default => 'bg-secondary',
                                     };
                                 @endphp
-                                <span class="badge {{ $badgeClass }}">
+                                <span class="badge {{ $badgeClass }}" style="width: 100px">
                                     {{ $roleLabels[$item->role] ?? $item->role }}
                                 </span>
                             </td>
-                            <td class="fw-bold">{{ optional($item->technician)->specialization }}</td>
-                            <td>
+                            <td class="text-center">
+                                {{ optional($item->technician)->specialization }}
+                            </td>
+                            <td class="text-center">
                                 @if ($item->branch)
                                     <span class="small">{{ $item->branch->name }}</span>
                                 @else
@@ -50,7 +52,7 @@
                                 @endif
                             </td>
 
-                            <td>
+                            <td class="text-center">
                                 <button type="button" class="btn btn-sm btn-link toggle-staff-status"
                                     data-id="{{ $item->id }}" data-active="{{ $item->is_actived }}">
                                     <i class="fas {{ $item->is_actived ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
@@ -75,7 +77,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center text-muted py-4">
+                            <td colspan="7" class="text-center text-muted py-4">
                                 Chưa có nhân viên nào
                             </td>
                         </tr>
@@ -84,23 +86,5 @@
             </table>
         </div>
     </div>
-
-    <!-- Pagination -->
-    @if ($staff->total() > $staff->perPage())
-        <div class="card-footer bg-white border-top-0 d-flex justify-content-end py-3">
-            <style>
-                .pagination-container nav div:first-child {
-                    display: none !important;
-                }
-
-                .pagination-container nav div:last-child {
-                    display: flex !important;
-                }
-            </style>
-
-            <div class="pagination-container">
-                {{ $staff->links('pagination::bootstrap-5') }}
-            </div>
-        </div>
-    @endif
+    @include('layouts.partials.pagination', ['items' => $staff])
 </div>

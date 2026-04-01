@@ -64,9 +64,9 @@ class ReceptionService
             return $order;
         });
     }
-    public function getOrders($perPage = 10)
+    public function searchOrders(array $filters, int $perPage = 10)
     {
-        return Order::select([
+        $query = Order::select([
             'id',
             'customer_id',
             'technician_id',
@@ -76,14 +76,40 @@ class ReceptionService
         ])
             ->with([
                 'customer:id,name,phone',
-                'car:id,brand_id,car_model_id,license_plate,manufacture_year,color,current_odo,vin_number',
+                'car:id,brand_id,car_model_id,license_plate',
                 'car.brand:id,name',
                 'car.carModel:id,name',
                 'technician:id,name'
             ])
-            ->forCurrentAdmin()
-            ->orderByDesc('updated_at')
-            ->paginate($perPage);
+            ->forCurrentAdmin();
+
+        // Lọc theo từ khóa (Biển số xe hoặc Tên khách hàng)
+        if (!empty($filters['keyword'])) {
+            $keyword = $filters['keyword'];
+            $query->where(function ($q) use ($keyword) {
+                $q->whereHas('car', function ($carQuery) use ($keyword) {
+                    $carQuery->where('license_plate', 'like', "%{$keyword}%");
+                })
+                    ->orWhereHas('customer', function ($customerQuery) use ($keyword) {
+                        $customerQuery->where('name', 'like', "%{$keyword}%");
+                    })
+                    ->orWhereHas('customer', function ($customerQuery) use ($keyword) {
+                        $customerQuery->where('phone', 'like', "%{$keyword}%");
+                    });
+            });
+        }
+
+        // Lọc theo trạng thái
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        // Lọc theo ngày tạo (Ngày nhận xe)
+        if (!empty($filters['date'])) {
+            $query->whereDate('created_at', $filters['date']);
+        }
+
+        return $query->orderByDesc('updated_at')->paginate($perPage);
     }
     public function getOrdersByCar($carId, $perPage = 10)
     {
@@ -163,7 +189,7 @@ class ReceptionService
                     'quantity' => $quantity,
                     'price' => $price,
                     'discount' => $discount,
-                    'status' => 'PENDING',
+                    'status' => Order::STATUS_RECEIVED,
                 ]);
             }
 
@@ -195,52 +221,5 @@ class ReceptionService
             'car.carModel:id,name',
             'technician:id,name'
         ])->find($orderId);
-    }
-    public function searchOrders(array $filters, int $perPage = 10)
-    {
-        $query = Order::select([
-            'id',
-            'customer_id',
-            'technician_id',
-            'car_id',
-            'status',
-            'created_at'
-        ])
-            ->with([
-                'customer:id,name,phone',
-                'car:id,brand_id,car_model_id,license_plate',
-                'car.brand:id,name',
-                'car.carModel:id,name',
-                'technician:id,name'
-            ])
-            ->forCurrentAdmin();
-
-        // Lọc theo từ khóa (Biển số xe hoặc Tên khách hàng)
-        if (!empty($filters['keyword'])) {
-            $keyword = $filters['keyword'];
-            $query->where(function ($q) use ($keyword) {
-                $q->whereHas('car', function ($carQuery) use ($keyword) {
-                    $carQuery->where('license_plate', 'like', "%{$keyword}%");
-                })
-                    ->orWhereHas('customer', function ($customerQuery) use ($keyword) {
-                        $customerQuery->where('name', 'like', "%{$keyword}%");
-                    })
-                    ->orWhereHas('customer', function ($customerQuery) use ($keyword) {
-                        $customerQuery->where('phone', 'like', "%{$keyword}%");
-                    });
-            });
-        }
-
-        // Lọc theo trạng thái
-        if (!empty($filters['status'])) {
-            $query->where('status', $filters['status']);
-        }
-
-        // Lọc theo ngày tạo (Ngày nhận xe)
-        if (!empty($filters['date'])) {
-            $query->whereDate('created_at', $filters['date']);
-        }
-
-        return $query->orderByDesc('updated_at')->paginate($perPage);
     }
 }

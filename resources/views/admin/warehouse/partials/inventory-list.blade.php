@@ -45,22 +45,4 @@
         @endforelse
     </tbody>
 </table>
-
-<!-- Pagination -->
-@if ($inventories->total() > $inventories->perPage())
-    <div class="card-footer bg-white border-top-0 d-flex justify-content-end py-3">
-        <style>
-            .pagination-container nav div:first-child {
-                display: none !important;
-            }
-
-            .pagination-container nav div:last-child {
-                display: flex !important;
-            }
-        </style>
-
-        <div class="pagination-container">
-            {{ $inventories->links('pagination::bootstrap-5') }}
-        </div>
-    </div>
-@endif
+@include('layouts.partials.pagination', ['items' => $inventories])

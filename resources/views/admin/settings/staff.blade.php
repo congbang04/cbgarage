@@ -11,15 +11,17 @@
 @section('sidebar')
     @include('layouts.partials.admin-setting-sidebar')
 @endsection
+@section('topbar_actions')
+    <button type="button" class="btn btn-primary add-staff" data-bs-toggle="modal" data-bs-target="#create-staff">
+        <i class="fas fa-user-plus"></i>
+        Thêm nhân viên
+    </button>
+@endsection
 @section('content')
     <div class="main-content">
-        <header class="top-navbar justify-content-between">
-            <h4 class="mb-0 fw-bold">Quản lý Nhân viên</h4>
-            <button type="button" class="btn btn-primary add-staff" data-bs-toggle="modal" data-bs-target="#create-staff">
-                <i class="fas fa-user-plus"></i>
-                Thêm nhân viên
-            </button>
-        </header>
+        @include('layouts.partials.admin-top-navbar', [
+            'headerTitle' => 'Quản lý Nhân viên',
+        ])
 
         <div class="p-4">
             <!-- Filters -->

@@ -1,24 +1,28 @@
 @extends('layouts.admin')
+
 @section('title', 'Tiếp nhận xe')
+
 @section('vite')
     @vite(['resources/js/modules/reception.js'])
 @endsection
+
 @section('styles')
     <link rel="stylesheet" href={{ asset('assets/css/design-system.css') }}>
     <link rel="stylesheet" href={{ asset('assets/css/admin.css') }}>
 @endsection
+
 @section('body-class', 'admin-wrapper')
+
 @section('sidebar')
     @include('layouts.partials.admin-sidebar')
 @endsection
+
 @section('content')
     <div class="main-content">
-        <header class="top-navbar">
-            <div class="d-flex align-items-center">
-                <a href="list.html" class="btn btn-light me-3"><i class="fas fa-arrow-left"></i></a>
-                <h4 class="mb-0 fw-bold">Tiếp nhận xe mới</h4>
-            </div>
-        </header>
+        @include('layouts.partials.admin-top-navbar', [
+            'headerTitle' => 'Tiếp nhận xe mới',
+        ])
+
         <form id="create-reception" method="POST" action="">@csrf
             <div class="p-4">
                 <div class="row g-4">
@@ -120,7 +124,7 @@
                     <!-- Cột Phải: Tình trạng tiếp nhận -->
                     <div class="col-lg-4">
                         <div class="card h-100">
-                            <div class="card-header bg-primary text-white">
+                            <div class="card-header text-white" style="background-color: var(--primary)">
                                 <h5 class="text-white mb-0"><i class="fas fa-clipboard-check me-2"></i>Tình trạng xe
                                 </h5>
                             </div>
@@ -137,7 +141,7 @@
                                 <div class="mb-4">
                                     <label class="form-label d-flex justify-content-between">
                                         <span>Mức nhiên liệu</span>
-                                        <span id="fuel-value" name="fuel_range" class="fw-bold text-primary">50%</span>
+                                        <span id="fuel-value" name="fuel_range" class="fw-bold text-danger">50%</span>
                                     </label>
                                     <input id="fuel-range" name="fuel_range" type="range" class="form-range"
                                         min="0" max="100" step="10" value="50">

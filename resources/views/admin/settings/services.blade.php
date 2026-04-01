@@ -11,16 +11,17 @@
 @section('sidebar')
     @include('layouts.partials.admin-setting-sidebar')
 @endsection
+@section('topbar_actions')
+    <button type="button" class="btn btn-primary add-service" data-bs-toggle="modal" data-bs-target="#create-service">
+        <i class="fas fa-plus"></i>
+        Thêm mới
+    </button>
+@endsection
 @section('content')
     <div class="main-content">
-        <header class="top-navbar justify-content-between">
-            <h4 class="mb-0 fw-bold">Danh mục Dịch vụ & Phụ tùng</h4>
-            <button type="button" class="btn btn-primary add-service" data-bs-toggle="modal" data-bs-target="#create-service">
-                <i class="fas fa-plus"></i>
-                Thêm mới
-            </button>
-        </header>
-
+        @include('layouts.partials.admin-top-navbar', [
+            'headerTitle' => 'Danh mục Dịch vụ & Phụ tùng',
+        ])
         <div class="p-4">
             <ul class="nav nav-tabs mb-4">
                 <li class="nav-item">

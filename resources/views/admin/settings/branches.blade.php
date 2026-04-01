@@ -11,15 +11,17 @@
 @section('sidebar')
     @include('layouts.partials.admin-setting-sidebar')
 @endsection
+@section('topbar_actions')
+    <button type="button" class="btn btn-primary add-branch" data-bs-toggle="modal" data-bs-target="#create-branch">
+        <i class="fas fa-plus"></i>
+        Thêm chi nhánh
+    </button>
+@endsection
 @section('content')
     <div class="main-content">
-        <header class="top-navbar justify-content-between">
-            <h4 class="mb-0 fw-bold">Quản lý Chi nhánh</h4>
-            <button type="button" class="btn btn-primary add-branch" data-bs-toggle="modal" data-bs-target="#create-branch">
-                <i class="fas fa-plus"></i>
-                Thêm chi nhánh
-            </button>
-        </header>
+        @include('layouts.partials.admin-top-navbar', [
+            'headerTitle' => 'Quản lý Chi nhánh',
+        ])
 
         <div class="p-4">
             <!-- Data Container -->

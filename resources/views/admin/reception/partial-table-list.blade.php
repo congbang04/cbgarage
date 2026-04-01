@@ -8,7 +8,7 @@
                         <th>Kỹ thuật viên</th>
                         <th class="ps-4">Ngày nhận</th>
                         <th class="ps-5">Trạng thái</th>
-                        <th>Hành động</th>
+                        <th class="ps-5">Hành động</th>
                     </tr>
                 </thead>
 
@@ -74,17 +74,16 @@
                             </td>
 
                             <td>
-                                @if ($order->status === 'RECEIVED')
-                                    <a href="{{ route('reception.quotation') }}?orderId={{ $order->id }}"
-                                        class="btn btn-sm btn-primary">
-                                        <i class="fas fa-file-invoice-dollar me-1"></i> Lập báo giá
-                                    </a>
-                                @else
-                                    <a href="{{ route('reception.quotation') }}?orderId={{ $order->id }}"
-                                        class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-eye"></i> Chi tiết
-                                    </a>
-                                @endif
+                                @php
+                                    $btnClass = $order->status === 'RECEIVED' ? 'btn-primary' : 'btn-outline-primary';
+                                    $btnText = $order->status === 'RECEIVED' ? 'Lập báo giá' : 'Chi tiết';
+                                    $btnIcon = $order->status === 'RECEIVED' ? 'fa-file-invoice-dollar' : 'fa-eye';
+                                @endphp
+
+                                <a href="{{ route('reception.quotation') }}?orderId={{ $order->id }}"
+                                    class="btn btn-sm {{ $btnClass }} btn-action-fixed">
+                                    <i class="fas {{ $btnIcon }} me-1"></i> {{ $btnText }}
+                                </a>
                             </td>
                         </tr>
                     @empty
@@ -98,23 +97,5 @@
 
             </table>
         </div>
-
-        <!-- Pagination -->
-        @if ($orders->total() > $orders->perPage())
-            <div class="card-footer bg-white border-top-0 d-flex justify-content-end py-3">
-                <style>
-                    .pagination-container nav div:first-child {
-                        display: none !important;
-                    }
-
-                    .pagination-container nav div:last-child {
-                        display: flex !important;
-                    }
-                </style>
-
-                <div class="pagination-container">
-                    {{ $orders->links('pagination::bootstrap-5') }}
-                </div>
-            </div>
-        @endif
+        @include('layouts.partials.pagination', ['items' => $orders])
     </div>

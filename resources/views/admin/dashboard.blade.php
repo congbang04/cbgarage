@@ -14,33 +14,7 @@
 @section('content')
     <!-- MAIN CONTENT -->
     <div class="main-content">
-
-        <!-- Topbar -->
-        <header class="top-navbar">
-            <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-light d-lg-none"><i class="fas fa-bars"></i></button>
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" class="form-control" placeholder="Tìm kiếm phiếu, biển số...">
-                </div>
-            </div>
-
-            <div class="d-flex align-items-center gap-4">
-                <div class="position-relative">
-                    <i class="far fa-bell fs-5 text-secondary"></i>
-                    <span
-                        class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
-                </div>
-                <div class="user-dropdown">
-                    <div class="text-end d-none d-md-block">
-                        <div class="fw-bold text-dark">Admin Quản lý</div>
-                        <small class="text-muted">Chi nhánh Quận 7</small>
-                    </div>
-                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=0D8ABC&color=fff" class="user-avatar"
-                        alt="Admin">
-                </div>
-            </div>
-        </header>
+        @include('layouts.partials.admin-top-navbar', ['headerTitle' => 'Bảng điều khiển'])
 
         <!-- Dashboard Content -->
         <div class="p-4">

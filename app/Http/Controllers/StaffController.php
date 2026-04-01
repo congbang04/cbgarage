@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStaffRequest;
 use App\Http\Requests\UpdateStaffRequest;
-use App\Models\User;
 use App\Models\Branch;
+use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 
 class StaffController extends Controller
@@ -110,12 +111,28 @@ class StaffController extends Controller
      */
     public function destroy(User $staff)
     {
-        $staff->delete();
+        try {
+            $staff->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Xóa nhân viên thành công'
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Xóa nhân viên thành công'
+            ]);
+        } catch (Exception $e) {
+
+            // Lỗi foreign key (MySQL: 1451)
+            if ($e->getCode() == 23000) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không thể xóa nhân viên vì đã có dữ liệu liên quan (đơn hàng, lịch sử, ...)'
+                ], 400);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Đã xảy ra lỗi khi xóa nhân viên'
+            ], 500);
+        }
     }
 
     /**

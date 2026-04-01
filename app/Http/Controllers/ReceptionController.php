@@ -23,11 +23,8 @@ class ReceptionController extends Controller
     {
         $filters = $request->only(['keyword', 'status', 'date']);
 
-        if (!empty(array_filter($filters))) {
-            $orders = $this->receptionService->searchOrders($filters);
-        } else {
-            $orders = $this->receptionService->getOrders();
-        }
+        $orders = $this->receptionService->searchOrders($filters);
+
 
         // Luôn trả về cùng một partial view để jQuery nạp vào DOM
         return view('admin.reception.partial-table-list', compact('orders'));

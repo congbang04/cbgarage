@@ -13,12 +13,9 @@
 @endsection
 @section('content')
     <div class="main-content">
-        <header class="top-navbar">
-            <h4 class="mb-0 fw-bold">Quản lý tiếp nhận</h4>
-            <div class="user-dropdown">
-                <img src="https://ui-avatars.com/api/?name=Admin&background=random" class="user-avatar" alt="Admin">
-            </div>
-        </header>
+        @include('layouts.partials.admin-top-navbar', [
+            'headerTitle' => 'Quản lý tiếp nhận',
+        ])
 
         <div class="p-4">
             <!-- Filters -->
@@ -48,9 +45,10 @@
                             <input type="date" class="form-control" name="date">
                         </div>
                         <div class="col-md-2 text-end">
-                            <a href="{{ route('reception.create') }}" class="btn btn-primary w-100"><i
-                                    class="fas fa-plus"></i> Tiếp
-                                nhận</a>
+                            <a href="{{ route('reception.create') }}" class="btn btn-primary w-100">
+                                <i class="fas fa-plus"></i>
+                                Tiếp nhận
+                            </a>
                         </div>
                     </div>
                 </div>

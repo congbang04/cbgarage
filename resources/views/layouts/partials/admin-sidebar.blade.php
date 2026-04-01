@@ -1,9 +1,11 @@
-<nav class="sidebar">
-    <div class="sidebar-header d-flex align-items-center justify-content-center">
+<nav class="sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="adminSidebar">
+    <div class="sidebar-header d-flex align-items-center justify-content-between">
         <a href="{{ route('adminDashboard') }}" class="sidebar-brand fw-bold text-decoration-none">
             <i class="fas fa-wrench"></i>
             <span>CBAUTO</span>
         </a>
+        <button type="button" class="btn-close btn-close-white d-lg-none" data-bs-dismiss="offcanvas"
+            data-bs-target="#adminSidebar"></button>
     </div>
 
     <div class="sidebar-menu">

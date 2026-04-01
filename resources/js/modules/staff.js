@@ -224,7 +224,18 @@ $(document).on("click", ".delete-staff", function (e) {
                     loadStaff();
                 })
                 .fail(function (xhr) {
-                    Swal.fire("Lỗi!", "Không thể xóa nhân viên.", "error");
+                    let message = "Không thể xóa nhân viên.";
+
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        message = xhr.responseJSON.message;
+                    }
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "Lỗi!",
+                        text: message,
+                        confirmButtonText: "Đóng",
+                    });
                 });
         },
     });

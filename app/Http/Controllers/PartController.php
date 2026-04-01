@@ -40,7 +40,6 @@ class PartController extends Controller
         $parts = Part::select('id', 'sku', 'name', 'price_sell as unit_price')
             ->orderBy('name')
             ->get();
-
         return response()->json($parts);
     }
 
