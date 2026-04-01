@@ -3,18 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomerSearchRequest;
+use App\Services\AdminService;
 use App\Services\CustomerSearchService;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    protected $customerSearchService;
-    public function __construct(CustomerSearchService $customerSearchService)
+    protected $customerSearchService, $adminService;
+    public function __construct(CustomerSearchService $customerSearchService, AdminService $adminService)
     {
         $this->customerSearchService = $customerSearchService;
+        $this->adminService = $adminService;
     }
     public function dashboard()
     {
-        return view('admin.dashboard');
+        $carStats = $this->adminService->getDashboardStats();
+
+        return view('admin.dashboard', compact('carStats'));
     }
     public function customerSearch(CustomerSearchRequest $request)
     {
@@ -22,5 +27,14 @@ class AdminController extends Controller
 
         $data = $this->customerSearchService->customerSearch($phone);
         return response()->json($data);
+    }
+    public function getStatsApi(Request $request)
+    {
+        // Lấy stats dựa trên ngày từ input AJAX
+        $carStats = $this->adminService->getDashboardStats($request->date);
+
+        return response()->json([
+            'carStats' => $carStats
+        ]);
     }
 }

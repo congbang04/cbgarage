@@ -1,16 +1,22 @@
 @extends('layouts.admin')
+
 @section('title', 'Trang quản trị')
+
 @section('vite')
-    {{-- @vite(['resources/js/modules/booking.js', 'resources/js/modules/booking-lock.js', 'resources/js/modules/booking-tooltip.js']) --}}
+    @vite(['resources/js/modules/admin-dashboard.js'])
 @endsection
+
 @section('styles')
     <link rel="stylesheet" href={{ asset('assets/css/design-system.css') }}>
     <link rel="stylesheet" href={{ asset('assets/css/admin.css') }}>
 @endsection
+
 @section('body-class', 'admin-wrapper')
+
 @section('sidebar')
     @include('layouts.partials.admin-sidebar')
 @endsection
+
 @section('content')
     <!-- MAIN CONTENT -->
     <div class="main-content">
@@ -20,10 +26,15 @@
         <div class="p-4">
 
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="mb-0 fw-bold">Tổng quan hôm nay</h4>
+                <h4 class="mb-0 fw-bold">Tổng quan theo ngày</h4>
                 <div class="d-flex gap-2">
-                    <input type="date" class="form-control form-control-sm" value="2023-10-25">
-                    <button class="btn btn-primary btn-sm"><i class="fas fa-filter me-1"></i> Lọc</button>
+                    <button id="btn-prev-day" class="btn-date-nav" title="Ngày hôm trước">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <input type="date" class="form-control form-control-sm" value="{{ now()->format('Y-m-d') }}">
+                    <button id="btn-next-day" class="btn-date-nav" title="Ngày hôm sau">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
             </div>
 
@@ -49,9 +60,9 @@
                     <div class="stat-card">
                         <div class="stat-content">
                             <h6>Xe tại xưởng</h6>
-                            <h3>8 xe</h3>
-                            <div class="stat-trend text-muted">
-                                4 xe đang chờ
+                            <h3 id="in-workshop-count">{{ $carStats['in_workshop'] }} xe</h3>
+                            <div class="stat-trend text-muted" id="waiting-count">
+                                {{ $carStats['waiting'] }} xe đang chờ
                             </div>
                         </div>
                         <div class="stat-icon-wrapper bg-primary bg-opacity-10 text-primary">

@@ -382,3 +382,80 @@
 #fuel-range::-webkit-slider-thumb {
     background-color: var(--primary);
 }
+
+/* ==========================================================================
+   DATE NAVIGATION COMPONENT (Dashboard)
+   ========================================================================== */
+
+/* 1. Style cho 2 nút Previous / Next */
+.btn-date-nav {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--white);
+    border: 1px solid #cbd5e1;
+    border-radius: var(--border-radius-sm);
+    color: var(--secondary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Hiệu ứng Hover - Sử dụng màu Primary của bạn (#cc2929) */
+.btn-date-nav:hover:not(:disabled) {
+    background-color: var(--primary-light);
+    color: var(--primary);
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+
+.btn-date-nav:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+/* Trạng thái khóa (Disabled) */
+.btn-date-nav:disabled {
+    background-color: #f1f5f9;
+    color: #94a3b8;
+    border-color: #e2e8f0;
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.7;
+}
+
+/* 2. Style cho ô Input chọn ngày */
+input[type="date"].form-control-sm {
+    height: 36px; /* Ép đồng bộ chiều cao với nút bấm */
+    border: 1px solid #cbd5e1;
+    border-radius: var(--border-radius-sm);
+    font-weight: 600;
+    color: var(--dark);
+    text-align: center;
+    padding: 0 12px;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    background-color: var(--white);
+    min-width: 140px;
+    transition: var(--transition-base);
+}
+
+/* Hiệu ứng Focus - Focus ring màu đỏ nhạt */
+input[type="date"].form-control-sm:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(204, 41, 41, 0.15); /* Dựa trên var(--primary) */
+    outline: none;
+}
+
+/* 3. Tinh chỉnh lại icon cuốn lịch mặc định của trình duyệt */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.5;
+    transition: var(--transition-base);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}

@@ -151,6 +151,7 @@ Route::middleware(['auth', 'can:is-admin'])->group(
     function () {
         Route::get('/admin-dashboard', [AdminController::class, 'dashboard'])->name('adminDashboard');
         Route::get('/customer-search', [AdminController::class, 'customerSearch'])->name('customerSearch');
+        Route::get('/admin/api/dashboard-stats', [AdminController::class, 'getStatsApi'])->name('admin.stats.api');
     }
 );
 /*

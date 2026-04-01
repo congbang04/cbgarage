@@ -15,6 +15,7 @@
         'slotsIndex' => route('slots.index'),
 
         'customerSearch' => route('customerSearch'),
+        'adminStatsApi' => route('admin.stats.api'),
 
         'serviceList' => route('serviceList'),
         'serviceStore' => route('services.store'),
