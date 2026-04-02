@@ -22,22 +22,18 @@ $(document).on("click", "#btn-customer-search", function () {
 
             renderCars(res.cars);
 
-            // nếu có xe
+            const bookingCarId = res?.car_id || "";
+
+            if (bookingCarId && res.cars?.length) {
+                const car = res.cars.find((c) => c.id == bookingCarId);
+
+                if (car) {
+                    fillCarToForm(car);
+                    return; // đã chọn xe rồi thì dừng
+                }
+            }
             if (res.data?.car) {
-                const car = res.data.car;
-
-                $("#license_plate").val(car.license_plate);
-                $("#vin_number").val(car.vin_number);
-                $("#manufacture_year").val(car.manufacture_year);
-                $("#color").val(car.color);
-
-                // gán brand
-                $("#brand_id").val(car.brand_id).trigger("change");
-
-                // đợi model load xong rồi set
-                setTimeout(() => {
-                    $("#car_model_id").val(car.car_model_id);
-                }, 50);
+                fillCarToForm(res.data.car);
             }
         })
         .fail(function (xhr) {
@@ -72,10 +68,10 @@ function renderCars(cars) {
                
                <div class="d-flex justify-content-between">
                     <strong>${car.license_plate}</strong>
-                    <span class="text-muted">${car.brand.name} ${car.car_model.name}</span>
+                    <span>${car.brand.name} ${car.car_model.name}</span>
                </div>
                
-               <small class="text-muted">
+               <small>
                    ${car.color} • ${car.manufacture_year}
                </small>
 
@@ -83,6 +79,27 @@ function renderCars(cars) {
         `);
     });
     $("#customer-cars").removeClass("d-none");
+}
+function fillCarToForm(car) {
+    $("#license_plate").val(car.license_plate);
+    $("#vin_number").val(car.vin_number);
+    $("#manufacture_year").val(car.manufacture_year);
+    $("#color").val(car.color);
+
+    $("#brand_id").val(car.brand_id).trigger("change");
+
+    setTimeout(() => {
+        $("#car_model_id").val(car.car_model_id);
+    }, 50);
+
+    // 👉 highlight luôn trong list (optional xịn hơn)
+    $(".car-item").removeClass("active");
+    $(`.car-item`).each(function () {
+        const data = $(this).data("car");
+        if (data.id == car.id) {
+            $(this).addClass("active");
+        }
+    });
 }
 const brands = window.brands || [];
 $(document).on("change", "#brand_id", function () {
@@ -103,6 +120,9 @@ $(document).on("change", "#brand_id", function () {
 });
 $(document).on("click", ".car-item", function (e) {
     e.preventDefault();
+    $(".car-item").removeClass("active");
+
+    $(this).addClass("active");
 
     const car = $(this).data("car");
 
@@ -137,6 +157,7 @@ $(document).on("submit", "#create-reception", function (e) {
             });
 
             form[0].reset();
+            $("#customer-cars").addClass("d-none");
         })
         .fail(function (xhr) {
             if (xhr.status === 422) {

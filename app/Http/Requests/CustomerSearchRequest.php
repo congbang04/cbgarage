@@ -22,7 +22,7 @@ class CustomerSearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phone' => 'required|string|digits_between:10,15',
+            'phone' => 'required|string',
         ];
     }
     public function messages(): array

@@ -16,12 +16,31 @@ class CustomerSearchService
     }
     public function customerSearch(string $keyword)
     {
-        // 1. Tìm trong users
-        $customer = Customer::where('phone', $keyword)
+        $customer = Customer::where('phone', $keyword)->first();
+
+        $booking = Booking::where('contact_phone', $keyword)
+            ->latest()
             ->first();
 
+        // CASE 1: Có cả customer + booking
+        if ($customer && $booking) {
+            $cars = $this->carService->getCarsByCustomer($customer->id);
+
+            return [
+                'type' => 'customer_with_booking',
+                'data' => $customer,
+                'cars' => $cars,
+                'booking_id' => $booking->id,
+                'car_id' => $booking->car_id,
+                'name' => $customer->name,
+                'phone' => $customer->phone,
+            ];
+        }
+
+        // CASE 2: Chỉ có customer
         if ($customer) {
             $cars = $this->carService->getCarsByCustomer($customer->id);
+
             return [
                 'type' => 'customer',
                 'data' => $customer,
@@ -31,11 +50,7 @@ class CustomerSearchService
             ];
         }
 
-        // 2. Tìm trong booking guest
-        $booking = Booking::where('contact_phone', $keyword)
-            ->latest()
-            ->first();
-
+        // CASE 3: Chỉ có booking (guest chưa tạo order)
         if ($booking) {
             return [
                 'type' => 'booking',

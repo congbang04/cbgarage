@@ -51,7 +51,7 @@ class BookingService
                 'service_id' => $service_id,
                 'start_time' => $startTime,
                 'end_time' => $endTime,
-                'status' => 'PENDING',
+                'status' => Booking::STATUS_PENDING,
                 'description' => $description,
                 'bay_id' => $bayId,
                 'customer_id' => $customerId,

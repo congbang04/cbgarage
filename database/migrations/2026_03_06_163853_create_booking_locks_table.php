@@ -20,7 +20,7 @@ return new class extends Migration
 
             $table->foreignId('customer_id')
                 ->nullable()
-                ->constrained('customers', 'user_id');
+                ->constrained('customers');
 
             $table->timestamp('start_time');
             $table->timestamp('end_time');

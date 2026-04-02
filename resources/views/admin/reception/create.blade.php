@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="row g-3">
 
-                                    <input type="hidden" name="booking_id" id="booking-id">
+                                    <input name="booking_id" type="hidden" id="booking_id" value="">
 
                                     <div class="col-md-6">
                                         <label class="form-label">Họ và tên <span class="text-danger">*</span></label>
@@ -131,11 +131,8 @@
                             <div class="card-body">
                                 <div class="mb-3">
                                     <label class="form-label">Số ODO hiện tại (Km)</label>
-                                    <div class="input-group">
-                                        <input type="number" class="form-control fw-bold" id="current_odo"
-                                            name="current_odo" placeholder="Nhập số ODO hiện tại">
-                                        <span class="input-group-text">Km</span>
-                                    </div>
+                                    <input type="number" class="form-control fw-bold" id="current_odo"
+                                        name="current_odo" placeholder="Nhập số ODO hiện tại">
                                 </div>
 
                                 <div class="mb-4">

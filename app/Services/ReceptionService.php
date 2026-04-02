@@ -2,13 +2,15 @@
 
 namespace App\Services;
 
+use App\Models\Booking;
 use App\Models\Order;
 use App\Models\OrderDetail;
-use App\Models\Service;
 use App\Models\Part;
+use App\Models\Service;
 use App\Models\Technician;
 use App\Services\CarService;
 use App\Services\CustomerService;
+use App\Services\ServiceService;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -60,7 +62,14 @@ class ReceptionService
                 'status' => $status,
                 'total_amount' => 0
             ]);
-
+            if (!is_null($data['booking_id'])) {
+                $booking = Booking::find($data['booking_id']);
+                if ($booking) {
+                    $booking->update([
+                        'status' => Booking::STATUS_CONFIRMED,
+                    ]);
+                }
+            }
             return $order;
         });
     }

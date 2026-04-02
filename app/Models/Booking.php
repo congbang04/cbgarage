@@ -6,6 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
+    const STATUS_PENDING = 'PENDING';
+    const STATUS_CONFIRMED = 'CONFIRMED';
+    const STATUS_CANCELED = 'CANCELED';
+
+    public static function statuses(): array
+    {
+        return [
+            self::STATUS_PENDING,
+            self::STATUS_CONFIRMED,
+            self::STATUS_CANCELED,
+        ];
+    }
     protected $fillable = [
         'contact_name',
         'contact_phone',

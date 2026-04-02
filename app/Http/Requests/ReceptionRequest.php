@@ -36,7 +36,7 @@ class ReceptionRequest extends FormRequest
             'color' => 'required|string|max:50',
 
             // RECEPTION INFO
-            'current_odo' => 'nullable|integer|min:0',
+            'current_odo' => 'required|integer|min:0',
             'fuel_range' => 'nullable|integer|min:0|max:100',
             'description' => 'nullable|string',
             'note' => 'nullable|string',
@@ -63,6 +63,7 @@ class ReceptionRequest extends FormRequest
             'car_model_id.exists' => 'Dòng xe không hợp lệ',
 
             // odo
+            'current_odo.required' => 'Vui lòng nhập số ODO',
             'current_odo.integer' => 'Số ODO phải là số',
             'current_odo.min' => 'Số ODO không hợp lệ',
 

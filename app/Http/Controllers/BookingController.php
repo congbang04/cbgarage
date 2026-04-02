@@ -35,14 +35,16 @@ class BookingController extends Controller
     {
         $branches = $this->branchService->getActiveBranches();
         $services = $this->serviceService->getAll();
-        $cars = $this->carService->getCarsByCustomer(auth()->id());
+        $customerId = auth()->user()->customer->id ?? null;
+
+        $cars = $this->carService->getCarsByCustomer($customerId);
         return view('customer.booking', compact('branches', 'services', 'cars'));
     }
     public function createLock(CreateBookingLockRequest $request)
     {
         $branchId = $request->branch_id;
         $serviceId = $request->service_id;
-        $customerId = auth()->id() ?? null;
+        $customerId = auth()->user()->customer->id ?? null;
         $startTime = $request->start_time;
 
         $lock = $this->bookingLockService->createLock($branchId, $serviceId, $customerId, $startTime);
