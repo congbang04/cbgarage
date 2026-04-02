@@ -99,7 +99,7 @@ class UserSeeder extends Seeder
                     Technician::create([
                         'user_id' => $user->id,
                         'name' => $faker->lastName() . ' ' . $faker->firstName(),
-                        'phone' => $faker->phoneNumber(),
+                        'phone' => fakeVietnamPhone($faker),
                         'specialization' => $specializations[array_rand($specializations)],
                         'is_actived' => true,
                         'created_at' => fake()->dateTimeBetween('-2 years', '-1 month'),
@@ -134,11 +134,18 @@ class UserSeeder extends Seeder
             Customer::create([
                 'user_id' => $user->id,
                 'name' => $faker->lastName() . ' ' . $faker->firstName(),
-                'phone' => $faker->phoneNumber(),
+                'phone' => fakeVietnamPhone($faker),
                 'address' => $faker->address(),
                 'created_at' => fake()->dateTimeBetween('-2 years', '-1 month'),
                 'updated_at' => fake()->dateTimeBetween('-1 month', 'now'),
             ]);
         }
     }
+}
+
+function fakeVietnamPhone($faker)
+{
+    $prefixes = ['032', '033', '034', '035', '036', '037', '038', '039', '070', '076', '077', '078', '079', '081', '082', '083', '084', '085', '086', '088', '089', '090', '091', '092', '093', '094', '096', '097', '098', '099'];
+
+    return $faker->randomElement($prefixes) . $faker->numerify('#######');
 }

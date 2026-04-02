@@ -459,10 +459,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 input[type="date"]::-webkit-calendar-picker-indicator:hover {
     opacity: 1;
 }
+
 .list-group-item.active {
     z-index: 2;
     color: var(--light);
     background-color: var(--primary);
     border-color: var(--primary);
     font-weight: 600;
+}
+
+.btn.disabled,
+.btn:disabled,
+fieldset:disabled .btn {
+    color: var(--primary);
+    pointer-events: none;
+    background-color: transparent;
+    border-color: var(--primary);
+    opacity: var(--bs-btn-disabled-opacity);
 }

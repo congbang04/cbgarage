@@ -17,6 +17,11 @@
 
         <div class="menu-header">Vận hành</div>
 
+        <a href="{{ route('admin.booking') }}"
+            class="nav-link {{ request()->routeIs('admin.booking') ? 'active' : '' }}">
+            <i class="fa-solid fa-calendar-days"></i> <span>Quản lý đặt lịch</span>
+        </a>
+
         @php $isReceptionActive = request()->routeIs('reception.*'); @endphp
         <div class="dropdown w-100">
             <button class="dropdown-toggle {{ $isReceptionActive ? 'active' : '' }}" type="button"
@@ -28,13 +33,13 @@
                 <li>
                     <a class="dropdown-item {{ request()->routeIs('reception.create') ? 'active' : '' }}"
                         href="{{ route('reception.create') }}">
-                        <i class="fas fa-circle"></i> Tạo cố vấn dịch vụ mới
+                        <i class="fas fa-circle"></i> Tạo đơn tiếp nhận mới
                     </a>
                 </li>
                 <li>
                     <a class="dropdown-item {{ request()->routeIs('reception.list') ? 'active' : '' }}"
                         href="{{ route('reception.list') }}">
-                        <i class="fas fa-circle"></i> Danh sách xe đang xử lý
+                        <i class="fas fa-circle"></i> Danh sách tiếp nhận
                     </a>
                 </li>
             </ul>

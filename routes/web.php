@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\AiLogController;
+use App\Http\Controllers\AdminBookingController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AiLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BranchController;
@@ -152,6 +153,9 @@ Route::middleware(['auth', 'can:is-admin'])->group(
         Route::get('/admin-dashboard', [AdminController::class, 'dashboard'])->name('adminDashboard');
         Route::get('/customer-search', [AdminController::class, 'customerSearch'])->name('customerSearch');
         Route::get('/admin/api/dashboard-stats', [AdminController::class, 'getStatsApi'])->name('admin.stats.api');
+
+        Route::get('/admin/booking', [AdminBookingController::class, 'index'])->name('admin.booking');
+        Route::get('/admin/booking/table', [AdminBookingController::class, 'tableList'])->name('admin.booking.table');
     }
 );
 /*

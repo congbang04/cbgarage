@@ -7,6 +7,17 @@ import { showValidationErrors } from "../helpers/validation";
 $(document).ready(function () {
     loadOrders();
     initReceptionSearch();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const phone = urlParams.get("phone");
+
+    if (phone) {
+        // set vào input
+        $("#customer-phone-search").val(phone);
+
+        // trigger click search
+        $("#btn-customer-search").trigger("click");
+    }
 });
 $("#fuel-range").on("input", function () {
     $("#fuel-value").text($(this).val() + "%");
@@ -35,6 +46,7 @@ $(document).on("click", "#btn-customer-search", function () {
             if (res.data?.car) {
                 fillCarToForm(res.data.car);
             }
+            phone = "";
         })
         .fail(function (xhr) {
             if (xhr.status === 422) {

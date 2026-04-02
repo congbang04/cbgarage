@@ -52,3 +52,12 @@ export function releaseLock(lockId) {
         },
     });
 }
+
+export function tableList(url = window.routes.adminBookingTable, data = {}) {
+    return $.ajax({
+        url: url,
+        method: "GET",
+        data: data,
+        dataType: "html",
+    });
+}

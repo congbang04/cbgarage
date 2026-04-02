@@ -31,11 +31,9 @@ class Booking extends Model
         'customer_id',
         'car_id'
     ];
-
-    public function services()
+    public function service()
     {
-        return $this->belongsToMany(Service::class, 'booking_services')
-            ->withPivot('price');
+        return $this->belongsTo(Service::class);
     }
 
     public function order()
@@ -63,5 +61,26 @@ class Booking extends Model
             ->where('start_time', '<', $date->copy()->endOfDay())
             ->where('end_time', '>', $date->copy()->startOfDay())
             ->get();
+    }
+    public function scopeForCurrentAdmin($query)
+    {
+        // 1. Nếu chưa đăng nhập (tránh lỗi khi chạy command/job)
+        if (!auth()->check()) {
+            return $query;
+        }
+
+        $user = auth()->user();
+
+        // 2. Nếu là Admin Tổng (super_admin) -> Trả về toàn bộ (không gắn where)
+        if ($user->role === User::ROLE_BRANCH_ADMIN && $user->branch_id == 1) {
+            return $query;
+        }
+
+        // 3. Nếu là các Role khác (Admin chi nhánh, Lễ tân...) -> Bắt buộc lọc theo nhánh
+        if ($user->branch_id) {
+            return $query->where('branch_id', $user->branch_id);
+        }
+
+        return $query;
     }
 }
