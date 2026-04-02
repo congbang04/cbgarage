@@ -75,7 +75,7 @@
                     <div class="stat-card">
                         <div class="stat-content">
                             <h6>Lịch đặt mới</h6>
-                            <h3>5 lịch</h3>
+                            <h3 id="pending-bookings-count">{{ $carStats['pending_bookings'] }} lịch</h3>
                             <div class="stat-trend text-warning">
                                 Cần xác nhận ngay
                             </div>
@@ -90,7 +90,7 @@
                     <div class="stat-card">
                         <div class="stat-content">
                             <h6>Cảnh báo kho</h6>
-                            <h3>3 mã</h3>
+                            <h3 id="low-stock-parts-count">{{ $carStats['low_stock_parts'] }} mã</h3>
                             <div class="stat-trend down">
                                 Dưới định mức
                             </div>

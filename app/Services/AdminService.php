@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Booking;
+use App\Models\Inventory;
 use App\Models\Order;
 use Illuminate\Support\Carbon;
 
@@ -55,7 +57,32 @@ class AdminService
             ])
             ->count();
     }
+    public function countBookingPendingToday($date = null): int
+    {
+        $targetDate = $date ? Carbon::parse($date) : Carbon::today();
+        $branchId = $this->getBranchId();
 
+        return Booking::with('bay')
+            ->whereHas('bay', function ($q) use ($branchId) {
+                if ($branchId) {
+                    $q->where('branch_id', $branchId);
+                }
+            })
+            ->where('status', Booking::STATUS_PENDING)
+            ->whereDate('start_time', $targetDate)
+            ->count();
+    }
+    public function countLowStockParts(): int
+    {
+        $branchId = $this->getBranchId();
+
+        return Inventory::query()
+            ->when($branchId, function ($q) use ($branchId) {
+                $q->where('branch_id', $branchId);
+            })
+            ->whereColumn('quantity', '<=', 'min_stock')
+            ->count();
+    }
     /**
      * Dashboard
      */
@@ -64,6 +91,8 @@ class AdminService
         return [
             'in_workshop' => $this->countCarsInWorkshopToday($date),
             'waiting' => $this->countCarsWaitingToday($date),
+            'pending_bookings' => $this->countBookingPendingToday($date),
+            'low_stock_parts' => $this->countLowStockParts(),
         ];
     }
 }

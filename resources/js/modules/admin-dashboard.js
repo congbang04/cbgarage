@@ -28,6 +28,12 @@ $(document).ready(function () {
                     $waitingCount.text(
                         `${response.carStats.waiting} xe đang chờ`,
                     );
+                    $("#pending-bookings-count").text(
+                        `${response.carStats.pending_bookings} lịch`,
+                    );
+                    $("#low-stock-parts-count").text(
+                        `${response.carStats.low_stock_parts} mã`,
+                    );
                 }
                 updateNavButtons(date);
             })
