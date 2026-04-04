@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             TechnicianSeeder::class,
             OrderSeeder::class,
             OrderDetailSeeder::class,
+            TransactionSeeder::class,
             InventorySeeder::class,
             PartRequestSeeder::class,
             StockTransferSeeder::class,

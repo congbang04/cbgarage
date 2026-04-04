@@ -80,8 +80,8 @@
             </ul>
         </div>
 
-        <a href="cashier/payments.html" class="nav-link">
-            <i class="fas fa-cash-register"></i> <span>Thu ngân</span>
+        <a href="{{ route('payment.index') }}" class="nav-link {{ request()->routeIs('payment.*') ? 'active' : '' }}">
+            <i class="fas fa-credit-card"></i> <span>Quản lý thanh toán</span>
         </a>
         @can('is-super-admin')
             <div class="menu-header">Hệ thống</div>

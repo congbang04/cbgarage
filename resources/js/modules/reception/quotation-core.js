@@ -88,12 +88,10 @@ export function recalculateFromTable() {
     });
 
     // Update display with calculated totals
-    const vat = (totalGoods + totalLabor) * 0.08;
-    const finalTotal = totalGoods + totalLabor + vat;
+    const finalTotal = totalGoods + totalLabor;
 
     $(".total-goods").html(totalGoods.toLocaleString("vi-VN"));
     $(".total-labor").html(totalLabor.toLocaleString("vi-VN"));
-    $(".total-vat").html(vat.toLocaleString("vi-VN"));
     $(".total-payment").html(finalTotal.toLocaleString("vi-VN"));
 }
 
@@ -383,13 +381,11 @@ export function updateQuotationTotal() {
         }
     });
 
-    const vat = (totalGoods + totalLabor) * 0.08;
-    const finalTotal = totalGoods + totalLabor + vat;
+    const finalTotal = totalGoods + totalLabor;
 
     // Update display
     $(".total-goods").html(totalGoods.toLocaleString("vi-VN"));
     $(".total-labor").html(totalLabor.toLocaleString("vi-VN"));
-    $(".total-vat").html(vat.toLocaleString("vi-VN"));
     $(".total-payment").html(finalTotal.toLocaleString("vi-VN"));
 }
 
@@ -421,9 +417,6 @@ export function handleSaveQuotation(orderId, form) {
                 icon: "success",
                 title: "Thành công",
                 text: response.message,
-            }).then(() => {
-                // Reload or redirect
-                window.location.href = "/reception";
             });
         })
         .fail(function (xhr) {
@@ -499,8 +492,7 @@ function generatePrintHTML() {
         }
     });
 
-    const vat = (totalGoods + totalLabor) * 0.08;
-    const finalTotal = totalGoods + totalLabor + vat;
+    const finalTotal = totalGoods + totalLabor;
 
     return `
         <!DOCTYPE html>
@@ -545,7 +537,6 @@ function generatePrintHTML() {
             <div class="totals">
                 <p>Tổng tiền hàng: <strong>${totalGoods.toLocaleString("vi-VN")}</strong></p>
                 <p>Tổng tiền công: <strong>${totalLabor.toLocaleString("vi-VN")}</strong></p>
-                <p>VAT (8%): <strong>${vat.toLocaleString("vi-VN")}</strong></p>
                 <p class="total-amount">Tổng thanh toán: ${finalTotal.toLocaleString("vi-VN")} ₫</p>
             </div>
 
@@ -623,8 +614,7 @@ function generateQuotationMessage() {
         }
     });
 
-    const vat = (totalGoods + totalLabor) * 0.08;
-    const finalTotal = totalGoods + totalLabor + vat;
+    const finalTotal = totalGoods + totalLabor;
 
     return `*BÁO GIÁ SỬA CHỮA*
 
@@ -632,7 +622,6 @@ ${itemsText}
 ━━━━━━━━━━━━━━━
 Tổng tiền hàng: ${totalGoods.toLocaleString("vi-VN")}₫
 Tổng tiền công: ${totalLabor.toLocaleString("vi-VN")}₫
-VAT (8%): ${vat.toLocaleString("vi-VN")}₫
 *Tổng cộng: ${finalTotal.toLocaleString("vi-VN")}₫*`;
 }
 

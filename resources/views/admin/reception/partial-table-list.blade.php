@@ -8,7 +8,7 @@
                         <th>Kỹ thuật viên</th>
                         <th class="ps-4">Ngày nhận</th>
                         <th class="ps-5">Trạng thái</th>
-                        <th class="ps-5">Hành động</th>
+                        <th class="text-center">Hành động</th>
                     </tr>
                 </thead>
 
@@ -73,16 +73,24 @@
                                 {!! $badgeClass !!}
                             </td>
 
-                            <td>
+                            <td class="text-end">
                                 @php
                                     $btnClass = $order->status === 'RECEIVED' ? 'btn-primary' : 'btn-outline-primary';
-                                    $btnText = $order->status === 'RECEIVED' ? 'Lập báo giá' : 'Chi tiết';
                                     $btnIcon = $order->status === 'RECEIVED' ? 'fa-file-invoice-dollar' : 'fa-eye';
+                                    $tooltipText = $order->status === 'RECEIVED' ? 'Báo giá' : 'Chi tiết';
                                 @endphp
 
+                                @if ($order->status === \App\Models\Order::STATUS_COMPLETED)
+                                    <button class="btn btn-success btn-action-fixed btn-pay"
+                                        data-order-id="{{ $order->id }}" data-tooltip="Thanh toán">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                    </button>
+                                @endif
+
                                 <a href="{{ route('reception.quotation') }}?orderId={{ $order->id }}"
-                                    class="btn btn-sm {{ $btnClass }} btn-action-fixed">
-                                    <i class="fas {{ $btnIcon }} me-1"></i> {{ $btnText }}
+                                    class="btn {{ $btnClass }} btn-action-fixed"
+                                    data-tooltip="{{ $tooltipText }}">
+                                    <i class="fas {{ $btnIcon }}"></i>
                                 </a>
                             </td>
                         </tr>

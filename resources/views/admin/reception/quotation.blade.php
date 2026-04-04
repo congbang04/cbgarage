@@ -32,9 +32,40 @@
                     @endif
                 </div>
             </div>
-            <div>
-                <span class="badge bg-warning text-dark fs-6 px-3"
-                    id="quotation-status">{{ $order?->status ?? 'Chờ báo giá' }}</span>
+            <div class="d-flex align-items-center">
+                @if ($order->status === \App\Models\Order::STATUS_COMPLETED)
+                    <button class="btn btn-success btn-pay me-3" data-order-id="{{ $order->id }}">
+                        <i class="fas fa-money-bill-wave"></i> Thanh toán
+                    </button>
+                @endif
+                @php
+                    $badgeClass = match ($order->status) {
+                        'RECEIVED' => '<span class="status-badge fs-6 px-3 fw-bold info">Đã tiếp nhận</span>',
+
+                        'QUOTED' => '<span class="status-badge fs-6 px-3 fw-bold warning">Đã báo giá</span>',
+
+                        'IN_PROGRESS'
+                            => '<span class="status-badge fs-6 px-3 fw-bold bg-primary-subtle text-primary">Đang thực hiện</span>',
+
+                        'WAITING_PART'
+                            => '<span class="status-badge fs-6 px-3 fw-bold bg-secondary-subtle text-secondary">Chờ phụ tùng</span>',
+
+                        'COMPLETED' => '<span class="status-badge fs-6 px-3 fw-bold success">Hoàn thành</span>',
+
+                        'PAID'
+                            => '<span class="status-badge fs-6 px-3 fw-bold bg-success text-light">Đã thanh toán</span>',
+
+                        'CANCELLED' => '<span class="status-badge fs-6 px-3 fw-bold danger">Đã huỷ</span>',
+
+                        default
+                            => '<span class="status-badge fs-6 px-3 fw-bold bg-dark text-light">Không xác định</span>',
+                    };
+                @endphp
+                <div>
+                    <span id="quotation-status">
+                        {!! $badgeClass !!}
+                    </span>
+                </div>
             </div>
         </header>
 
@@ -88,10 +119,6 @@
                                 <div class="d-flex justify-content-between mb-2">
                                     <span class="text-muted">Tổng tiền công:</span>
                                     <span class="total-labor">0</span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-3">
-                                    <span class="text-muted">VAT (8%):</span>
-                                    <span class="total-vat">0</span>
                                 </div>
                                 <hr>
                                 <div class="d-flex justify-content-between align-items-center">

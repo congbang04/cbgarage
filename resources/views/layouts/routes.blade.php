@@ -97,6 +97,15 @@
         'adminAiLogDelete' => route('admin.ai-logs.delete', ['sessionId' => ':sessionId']),
 
         'adminBookingTable' => route('admin.booking.table'),
+
+        'paymentIndex' => route('payment.index'),
+        'paymentTable' => route('payment.table'),
+        'paymentDetail' => route('payment.detail', ['id' => ':id']),
+        'paymentPay' => route('payment.api.pay'),
+        'paymentProcessPayment' => route('payment.api.process-payment'),
+        'paymentRefund' => route('payment.api.refund'),
+        'paymentOrderDetails' => route('payment.api.order-details'),
+        'paymentBranches' => route('payment.api.branches'),
     ];
 @endphp
 

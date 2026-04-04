@@ -10,6 +10,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PartController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReceptionController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SlotController;
@@ -234,6 +235,30 @@ Route::middleware(['auth', 'can:access-warehouse'])->group(
                 Route::get('/incoming-transfer', [WarehouseController::class, 'getIncomingTransfers'])->name('warehouse.incoming-transfer');
                 Route::post('/complete-transfer-request/{stockTransferId}', [WarehouseController::class, 'completeTransferRequest'])->name('warehouse.complete-transfer-request');
             });
+    }
+);
+/*
+    ===============================
+    PAYMENT MANAGEMENT ROUTES
+    ===============================
+*/
+Route::middleware(['auth', 'can:is-admin'])->group(
+    function () {
+        Route::prefix('payment')->name('payment.')->group(function () {
+            // View
+            Route::get('/', [PaymentController::class, 'index'])->name('index');
+            Route::get('/table', [PaymentController::class, 'table'])->name('table');
+            Route::get('/detail/{id}', [PaymentController::class, 'detail'])->name('detail');
+
+            // API endpoints
+            Route::prefix('api')->name('api.')->group(function () {
+                Route::post('/pay', [PaymentController::class, 'pay'])->name('pay');
+                Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('process-payment');
+                Route::post('/refund', [PaymentController::class, 'refund'])->name('refund');
+                Route::get('/order-details', [PaymentController::class, 'getOrderDetails'])->name('order-details');
+                Route::get('/branches', [PaymentController::class, 'getBranches'])->name('branches');
+            });
+        });
     }
 );
 /*

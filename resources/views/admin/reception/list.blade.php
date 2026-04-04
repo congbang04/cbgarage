@@ -56,7 +56,7 @@
 
             <!-- Data Table -->
             <div id="table-data">
-
+                {{-- ajax render --}}
             </div>
         </div>
     </div>

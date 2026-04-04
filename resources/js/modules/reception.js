@@ -4,6 +4,7 @@ import {
     tableList,
 } from "../services/reception-api";
 import { showValidationErrors } from "../helpers/validation";
+
 $(document).ready(function () {
     loadOrders();
     initReceptionSearch();
@@ -19,9 +20,11 @@ $(document).ready(function () {
         $("#btn-customer-search").trigger("click");
     }
 });
+
 $("#fuel-range").on("input", function () {
     $("#fuel-value").text($(this).val() + "%");
 });
+
 $(document).on("click", "#btn-customer-search", function () {
     const phone = $("#customer-phone-search").val();
     customerSearch(phone)
@@ -65,6 +68,7 @@ $(document).on("click", "#btn-customer-search", function () {
             }
         });
 });
+
 function renderCars(cars) {
     const box = $("#car-list");
     box.empty();
@@ -92,6 +96,7 @@ function renderCars(cars) {
     });
     $("#customer-cars").removeClass("d-none");
 }
+
 function fillCarToForm(car) {
     $("#license_plate").val(car.license_plate);
     $("#vin_number").val(car.vin_number);
@@ -113,6 +118,7 @@ function fillCarToForm(car) {
         }
     });
 }
+
 const brands = window.brands || [];
 $(document).on("change", "#brand_id", function () {
     let brandId = $(this).val();
@@ -130,6 +136,7 @@ $(document).on("change", "#brand_id", function () {
         });
     }
 });
+
 $(document).on("click", ".car-item", function (e) {
     e.preventDefault();
     $(".car-item").removeClass("active");
@@ -149,6 +156,7 @@ $(document).on("click", ".car-item", function (e) {
         $("#car_model_id").val(car.car_model_id).trigger("change");
     }, 50);
 });
+
 $(document).on("submit", "#create-reception", function (e) {
     e.preventDefault();
 
@@ -186,6 +194,7 @@ $(document).on("submit", "#create-reception", function (e) {
             btn.prop("disabled", false).html(originalText);
         });
 });
+
 function loadOrders(url = window.routes.tableList) {
     const filters = {
         keyword: $('input[name="keyword"]').val(),
@@ -206,6 +215,7 @@ $(document).on("click", ".pagination a", function (e) {
     let url = $(this).attr("href");
     loadOrders(url);
 });
+
 function initReceptionSearch() {
     let debounceTimer;
     $(document).on("input", 'input[name="keyword"]', function () {
@@ -222,4 +232,14 @@ function initReceptionSearch() {
             loadOrders();
         },
     );
+
+    $(document).on("click", ".btn-pay", function (e) {
+        e.preventDefault();
+        const orderId = $(this).data("order-id");
+
+        window.location.href = window.routes.paymentDetail.replace(
+            ":id",
+            orderId,
+        );
+    });
 }
