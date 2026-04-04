@@ -72,24 +72,13 @@ class PaymentService {
         filters = {},
         url = window.routes.paymentTable,
     ) {
-        // Check if URL already contains query parameters (from pagination)
-        const hasQueryParams = url.includes("?");
-
-        // If URL has params, don't pass data (pagination URL is complete)
-        // Otherwise, pass filters as data
-        const ajaxConfig = {
+        return $.ajax({
             url: url,
             type: "GET",
             dataType: "html",
-        };
-
-        if (!hasQueryParams && Object.keys(filters).length > 0) {
-            ajaxConfig.data = filters;
-        }
-
-        return $.ajax(ajaxConfig);
+            data: filters, // luôn gửi
+        });
     }
-
     /**
      * Get list of branches for super admin filter
      */

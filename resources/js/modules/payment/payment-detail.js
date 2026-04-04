@@ -6,81 +6,47 @@
 
 import PaymentService from "../../services/payment.js";
 
-class PaymentDetailModule {
-    constructor() {
-        this.selectedPaymentMethod = "cash";
-        this.init();
-    }
+// Store selected payment method
+let selectedPaymentMethod = "cash";
 
-    init() {
-        this.bindEvents();
-    }
+/**
+ * Initialize payment detail module
+ * Entry point for payment detail page
+ */
+export function initPaymentDetailModule() {
+    bindPaymentMethodSelection();
+    bindProcessPayment();
+    bindConfirmRefund();
+    bindRefundModalEvents();
+}
 
-    bindEvents() {
-        // Select payment method
-        $(document).on(
-            "click",
-            ".payment-method-btn",
-            this.selectPaymentMethod.bind(this),
-        );
-
-        // Process payment button
-        $(document).on(
-            "click",
-            ".btn-process-payment",
-            this.processPayment.bind(this),
-        );
-
-        $(document).on(
-            "click",
-            "#confirmRefund",
-            this.confirmRefund.bind(this),
-        );
-
-        $(document).on("show.bs.modal", "#refundModal", function (event) {
-            const button = $(event.relatedTarget); // Lấy nút đã kích hoạt modal
-            const orderId = button.data("order-id");
-
-            $("#refundOrderId").val(orderId);
-
-            $("#refundReason").val("");
-            $("#refundNotes").val("");
-        });
-
-        $(document).on("hidden.bs.modal", "#refundModal", function () {
-            $("#refundOrderId").val("");
-            $("#refundReason").val("");
-            $("#refundNotes").val("");
-
-            $("#confirmRefund")
-                .prop("disabled", false)
-                .html('<i class="fas fa-undo"></i> Xác nhận hoàn tiền');
-        });
-    }
-
-    /**
-     * Select payment method
-     */
-    selectPaymentMethod(e) {
-        const $btn = $(e.currentTarget);
-        const method = $btn.data("method");
+/**
+ * Bind payment method selection
+ */
+function bindPaymentMethodSelection() {
+    $(document).on("click", ".payment-method-btn", function (e) {
+        e.preventDefault();
+        const method = $(this).data("method");
 
         // Update active state
         $(".payment-method-btn").removeClass("active");
-        $btn.addClass("active");
+        $(this).addClass("active");
 
         // Store selected method
-        this.selectedPaymentMethod = method;
+        selectedPaymentMethod = method;
         $("#selectedPaymentMethod").val(method);
-    }
+    });
+}
 
-    /**
-     * Process payment
-     */
-    processPayment(e) {
-        const $btn = $(e.currentTarget);
+/**
+ * Bind process payment button
+ */
+function bindProcessPayment() {
+    $(document).on("click", ".btn-process-payment", function (e) {
+        e.preventDefault();
+        const $btn = $(this);
         const orderId = $btn.data("order-id");
-        const method = this.selectedPaymentMethod || "cash";
+        const method = selectedPaymentMethod || "cash";
 
         Swal.fire({
             title: "Xác nhận thanh toán?",
@@ -146,13 +112,16 @@ class PaymentDetailModule {
                     );
                 });
         });
-    }
+    });
+}
 
-    /**
-     * Confirm refund action
-     */
-    confirmRefund(e) {
-        const $btn = $(e.currentTarget);
+/**
+ * Bind confirm refund button
+ */
+function bindConfirmRefund() {
+    $(document).on("click", "#confirmRefund", function (e) {
+        e.preventDefault();
+        const $btn = $(this);
         const orderId = $("#refundOrderId").val();
         const reason = $("#refundReason").val();
         const notes = $("#refundNotes").val();
@@ -235,59 +204,36 @@ class PaymentDetailModule {
                     );
                 });
         });
-    }
-    /**
-     * Show success toast
-     */
-    showSuccess(message) {
-        this.showToast(message, "success");
-    }
+    });
+}
 
-    /**
-     * Show error toast
-     */
-    showError(message) {
-        this.showToast(message, "error");
-    }
+/**
+ * Bind refund modal events
+ */
+function bindRefundModalEvents() {
+    $(document).on("show.bs.modal", "#refundModal", function (event) {
+        const button = $(event.relatedTarget);
+        const orderId = button.data("order-id");
 
-    /**
-     * Display toast notification
-     */
-    showToast(message, type = "info") {
-        const icon =
-            type === "success" ? "fa-check-circle" : "fa-exclamation-circle";
-        const className = `toast-${type}`;
+        $("#refundOrderId").val(orderId);
+        $("#refundReason").val("");
+        $("#refundNotes").val("");
+    });
 
-        const toastHtml = `
-            <div class="toast-notification ${className}">
-                <i class="fas ${icon}"></i>
-                <span>${message}</span>
-            </div>
-        `;
+    $(document).on("hidden.bs.modal", "#refundModal", function () {
+        $("#refundOrderId").val("");
+        $("#refundReason").val("");
+        $("#refundNotes").val("");
 
-        const $container = $("#toastContainer");
-        if ($container.length === 0) {
-            $("body").append(
-                '<div id="toastContainer" class="toast-container"></div>',
-            );
-        }
-
-        const $toast = $(toastHtml);
-        $("#toastContainer").append($toast);
-
-        setTimeout(() => {
-            $toast.addClass("show");
-        }, 10);
-
-        setTimeout(() => {
-            $toast.remove();
-        }, 3500);
-    }
+        $("#confirmRefund")
+            .prop("disabled", false)
+            .html('<i class="fas fa-undo"></i> Xác nhận hoàn tiền');
+    });
 }
 
 // Initialize on document ready
 $(document).ready(function () {
-    new PaymentDetailModule();
+    initPaymentDetailModule();
 });
 
-export default PaymentDetailModule;
+export default initPaymentDetailModule;

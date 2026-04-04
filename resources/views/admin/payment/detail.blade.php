@@ -226,7 +226,7 @@
                             <button type="button" class="btn btn-success btn-lg btn-process-payment"
                                 data-order-id="{{ $order->id }}">
                                 <i class="fas fa-check-circle"></i> Xác nhận thanh toán
-                                {{ number_format($paymentSummary['remaining']) }} đ
+                                {{ number_format($order->total_amount) }} đ
                             </button>
                         </div>
                     @endif
