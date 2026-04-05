@@ -9,17 +9,16 @@
                     : '<span class="badge bg-secondary-subtle text-secondary">Vật tư</span>';
         @endphp
         <tr data-item-id="{{ $detail->item_type }}-{{ $detail->item_id }}" data-index="{{ $index + 1 }}">
-            <td>{{ $index + 1 }}</td>
+            <td class="text-center">{{ $index + 1 }}</td>
             <td>
-                <div class="fw-bold name-item">{{ $detail->item->name ?? 'N/A' }} </div>
+                <div class="text-start fw-bold name-item">{{ $detail->item->name ?? 'N/A' }} </div>
             </td>
-            <td class="text-start">{!! $badgeClass !!}</td>
-            <td>cái</td>
-            <td>
-                <input class="form-control form-control-sm text-center item-quantity" disabled
-                    value="{{ $detail->quantity }}" data-index="{{ $index + 1 }}">
+            <td class="text-center">{!! $badgeClass !!}</td>
+            <td class="text-center">cái</td>
+            <td class="text-center">
+                <input class="text-center" disabled value="{{ $detail->quantity }}" data-index="{{ $index + 1 }}">
             </td>
-            <td class="text-end item-price">{{ number_format($detail->price, 0, ',', '.') }}</td>
+            <td class="text-center item-price">{{ number_format($detail->price, 0, ',', '.') }}</td>
             <td class="text-end fw-bold item-total">{{ number_format($lineTotal, 0, ',', '.') }}</td>
         </tr>
     @empty

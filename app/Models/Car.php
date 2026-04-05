@@ -10,6 +10,7 @@ class Car extends Model
         'customer_id',
         'brand_id',
         'car_model_id',
+        'image',
         'license_plate',
         'manufacture_year',
         'color',

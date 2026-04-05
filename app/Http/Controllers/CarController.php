@@ -24,7 +24,7 @@ class CarController extends Controller
     public function store(CreateCarRequest $request)
     {
         $data = [
-            'customer_id' => auth()->id(),
+            'customer_id' => auth()->user()->customer->id ?? null,
             'brand_id' => $request->brand_id,
             'car_model_id' => $request->car_model_id,
             'license_plate' => $request->license_plate,

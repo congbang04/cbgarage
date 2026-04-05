@@ -395,3 +395,10 @@ section {
     background: #fef2f2;
     color: #dc2626;
 }
+
+.car-img {
+    width: 100%;
+    height: 200px; /* fix chiều cao */
+    object-fit: cover; /* ảnh fill mà không méo */
+    border-radius: 8px; /* bo góc đẹp */
+}

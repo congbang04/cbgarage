@@ -36,7 +36,7 @@
                         };
                     @endphp
                     <tr>
-                        <td class="fw-bold text-primary">
+                        <td class="fw-bold">
                             #ORD-{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}
                         </td>
 

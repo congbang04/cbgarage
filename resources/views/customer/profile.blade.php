@@ -11,7 +11,7 @@
     <nav class="navbar navbar-light bg-white shadow-sm mb-4">
         <div class="container">
             <a class="navbar-brand fw-bold text-primary" href="{{ route('home') }}">
-                <i class="fas fa-chevron-left me-2 text-dark fs-6"></i> Quay lại trang chủ
+                <i class="fas fa-chevron-left me-1 fs-6"></i> Quay lại trang chủ
             </a>
         </div>
     </nav>
@@ -23,15 +23,24 @@
             <div id="profileSidebar" class="col-md-4 mb-4">
                 <div class="card border-0 shadow-sm text-center p-4 h-100">
                     <div class="mb-3 position-relative d-block mx-auto" style="width: max-content;">
-                        <img src="https://ui-avatars.com/api/?name=Le+Cong+Bang&amp;size=128"
-                            class="rounded-circle shadow-sm" alt="Avatar">
+                        @if (!empty(auth()->user()->customer->image))
+                            <img src="{{ asset('storage/' . auth()->user()->customer->image) }}"
+                                class="rounded-circle shadow-sm" alt="Avatar"
+                                style="width: 128px; height: 128px; object-fit: cover;">
+                        @else
+                            <div class="bg-secondary text-white rounded-circle shadow-sm d-flex align-items-center justify-content-center"
+                                style="width: 128px; height: 128px;">
+                                <i class="fas fa-user fa-3x"></i>
+                            </div>
+                        @endif
+
                         <span
                             class="position-absolute bg-primary text-white rounded-circle p-2 border border-2 border-white d-flex align-items-center justify-content-center"
                             style="cursor: pointer; bottom: 5px; right: 5px;">
                             <i class="fas fa-camera small"></i>
                         </span>
                     </div>
-                    <h5 class="fw-bold mb-1"> {{ auth()->user()->name }}</h5>
+                    <h5 class="fw-bold mb-1"> {{ auth()->user()->customer->name }}</h5>
                     <p class="text-muted small mb-3">Thành viên Bạc <i class="fas fa-star text-warning"></i></p>
 
                     <button type="button" class="btn btn-outline-primary btn-sm rounded-pill" data-bs-toggle="modal"
@@ -64,13 +73,20 @@
                         Thêm xe
                     </button>
                 </div>
+                <hr>
                 @foreach ($cars as $car)
                     <!-- Car 1 -->
                     <div class="card border-0 shadow-sm mb-3 ">
                         <div class="row g-0">
-                            <div class="col-4 bg-light d-flex align-items-center justify-content-center">
-                                <i class="fas fa-car fa-3x text-secondary opacity-50"></i>
-                            </div>
+                            @if (!empty($car->image))
+                                <div class="col-4 bg-light d-flex align-items-center justify-content-center">
+                                    <img src="{{ asset('storage/' . $car->image) }}" alt="car" class="car-img">
+                                </div>
+                            @else
+                                <div class="col-4 bg-light d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-car fa-3x text-secondary opacity-50"></i>
+                                </div>
+                            @endif
                             <div class="col-8">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-start">

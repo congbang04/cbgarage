@@ -6,10 +6,137 @@ use App\Models\Brand;
 use App\Models\Car;
 use App\Models\Customer;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CarSeeder extends Seeder
 {
+    private array $carsData = [
+
+        // Toyota
+        ['brand' => 'Toyota', 'model' => 'Camry'],
+        ['brand' => 'Toyota', 'model' => 'Vios'],
+        ['brand' => 'Toyota', 'model' => 'Corolla Cross'],
+        ['brand' => 'Toyota', 'model' => 'Fortuner'],
+        ['brand' => 'Toyota', 'model' => 'Hilux'],
+        ['brand' => 'Toyota', 'model' => 'Raize'],
+
+        // Honda
+        ['brand' => 'Honda', 'model' => 'Civic'],
+        ['brand' => 'Honda', 'model' => 'City'],
+        ['brand' => 'Honda', 'model' => 'CR-V'],
+        ['brand' => 'Honda', 'model' => 'HR-V'],
+
+        // Hyundai
+        ['brand' => 'Hyundai', 'model' => 'Accent'],
+        ['brand' => 'Hyundai', 'model' => 'Elantra'],
+        ['brand' => 'Hyundai', 'model' => 'Tucson'],
+        ['brand' => 'Hyundai', 'model' => 'Santa Fe'],
+        ['brand' => 'Hyundai', 'model' => 'Creta'],
+
+        // Kia
+        ['brand' => 'Kia', 'model' => 'K3'],
+        ['brand' => 'Kia', 'model' => 'K5'],
+        ['brand' => 'Kia', 'model' => 'Seltos'],
+        ['brand' => 'Kia', 'model' => 'Sonet'],
+        ['brand' => 'Kia', 'model' => 'Carnival'],
+
+        // Mazda
+        ['brand' => 'Mazda', 'model' => 'Mazda3'],
+        ['brand' => 'Mazda', 'model' => 'Mazda6'],
+        ['brand' => 'Mazda', 'model' => 'CX-3'],
+        ['brand' => 'Mazda', 'model' => 'CX-5'],
+        ['brand' => 'Mazda', 'model' => 'CX-8'],
+
+        // Mitsubishi
+        ['brand' => 'Mitsubishi', 'model' => 'Xpander'],
+        ['brand' => 'Mitsubishi', 'model' => 'Xpander Cross'],
+        ['brand' => 'Mitsubishi', 'model' => 'Attrage'],
+        ['brand' => 'Mitsubishi', 'model' => 'Triton'],
+
+        // Ford
+        ['brand' => 'Ford', 'model' => 'Ranger'],
+        ['brand' => 'Ford', 'model' => 'Everest'],
+        ['brand' => 'Ford', 'model' => 'Territory'],
+
+        // Chevrolet
+        ['brand' => 'Chevrolet', 'model' => 'Spark'],
+        ['brand' => 'Chevrolet', 'model' => 'Cruze'],
+        ['brand' => 'Chevrolet', 'model' => 'Colorado'],
+
+        // Mercedes
+        ['brand' => 'Mercedes-Benz', 'model' => 'C200'],
+        ['brand' => 'Mercedes-Benz', 'model' => 'C300'],
+        ['brand' => 'Mercedes-Benz', 'model' => 'E300'],
+        ['brand' => 'Mercedes-Benz', 'model' => 'GLC'],
+
+        // BMW
+        ['brand' => 'BMW', 'model' => '320i'],
+        ['brand' => 'BMW', 'model' => '520i'],
+        ['brand' => 'BMW', 'model' => 'X3'],
+        ['brand' => 'BMW', 'model' => 'X5'],
+
+        // Audi
+        ['brand' => 'Audi', 'model' => 'A4'],
+        ['brand' => 'Audi', 'model' => 'A6'],
+        ['brand' => 'Audi', 'model' => 'Q5'],
+
+        // Lexus
+        ['brand' => 'Lexus', 'model' => 'ES250'],
+        ['brand' => 'Lexus', 'model' => 'RX350'],
+        ['brand' => 'Lexus', 'model' => 'NX350'],
+
+        // VinFast
+        ['brand' => 'VinFast', 'model' => 'Fadil'],
+        ['brand' => 'VinFast', 'model' => 'VF e34'],
+        ['brand' => 'VinFast', 'model' => 'VF 5'],
+        ['brand' => 'VinFast', 'model' => 'VF 8'],
+
+        // Isuzu
+        ['brand' => 'Isuzu', 'model' => 'D-Max'],
+        ['brand' => 'Isuzu', 'model' => 'mu-X'],
+
+        // Suzuki
+        ['brand' => 'Suzuki', 'model' => 'Swift'],
+        ['brand' => 'Suzuki', 'model' => 'XL7'],
+        ['brand' => 'Suzuki', 'model' => 'Ertiga'],
+    ];
+
+    private function downloadCarImage($brand, $model)
+    {
+        $fileName = 'cars/' . Str::slug($brand . '-' . $model) . '.jpg';
+
+        // ✅ Nếu đã có rồi thì không tải lại
+        if (Storage::disk('public')->exists($fileName)) {
+            return $fileName;
+        }
+
+        $query = $brand . ' ' . $model . ' car';
+
+        $response = Http::get('https://api.unsplash.com/search/photos', [
+            'query' => $query,
+            'per_page' => 1,
+            'client_id' => env('UNSPLASH_ACCESS_KEY'),
+        ]);
+
+        if ($response->successful() && !empty($response['results'])) {
+            $imageUrl = $response['results'][0]['urls']['regular'];
+
+            try {
+                $image = file_get_contents($imageUrl);
+                Storage::disk('public')->put($fileName, $image);
+
+                sleep(1); // tránh rate limit
+
+                return $fileName;
+            } catch (\Exception $e) {
+                return 'cars/default.jpg';
+            }
+        }
+
+        return 'cars/default.jpg';
+    }
     /**
      * Run the database seeds.
      */
@@ -20,59 +147,51 @@ class CarSeeder extends Seeder
         $customers = Customer::all();
         $brands = Brand::with('carModels')->get();
 
-        if ($customers->isEmpty() || $brands->isEmpty()) {
-            return;
-        }
-
         foreach ($customers as $customer) {
 
-            // mỗi khách có 1–3 xe
-            $carCount = rand(1, 3);
+            $cars = collect($this->carsData)
+                ->unique(fn($c) => $c['brand'] . '-' . $c['model'])
+                ->random(rand(2, 4));
 
-            for ($i = 0; $i < $carCount; $i++) {
+            foreach ($cars as $carData) {
 
-                $brand = $brands->random();
-                $model = $brand->carModels->random();
+                $brand = $brands->where('name', $carData['brand'])->first();
 
-                $year = rand(2015, now()->year);
+                if (!$brand) continue;
+
+                $model = $brand->carModels
+                    ->where('name', $carData['model'])
+                    ->first();
+
+                if (!$model) continue;
 
                 Car::create([
                     'customer_id'   => $customer->id,
                     'brand_id'      => $brand->id,
                     'car_model_id'  => $model->id,
 
-                    // Biển số VN: 51A-123.45
-                    'license_plate' => $this->generateVietnamPlate(),
+                    'image' => $this->downloadCarImage(
+                        $carData['brand'],
+                        $carData['model']
+                    ),
 
-                    'manufacture_year' => $year,
+                    'license_plate' => $this->generateVietnamPlate(),
+                    'manufacture_year' => rand(2018, 2023),
 
                     'color' => $faker->randomElement([
                         'Trắng',
                         'Đen',
-                        'Bạc',
-                        'Xám',
                         'Đỏ',
-                        'Xanh',
-                        'Nâu',
-                        'Vàng'
+                        'Xám'
                     ]),
 
-                    // ODO hợp lý: 10k - 25k / năm
-                    'current_odo' => rand(
-                        ($year - 2015) * 10000,
-                        ($year - 2015) * 25000 + 20000
-                    ),
+                    'current_odo' => rand(10000, 80000),
 
-                    // VIN giả lập (17 ký tự)
                     'vin_number' => strtoupper(Str::random(17)),
-
-                    'created_at' => $faker->dateTimeBetween('-2 years', '-1 month'),
-                    'updated_at' => $faker->dateTimeBetween('-1 month', 'now'),
                 ]);
             }
         }
     }
-
     /**
      * Generate biển số xe Việt Nam
      */

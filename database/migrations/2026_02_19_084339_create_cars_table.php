@@ -26,6 +26,7 @@ return new class extends Migration
                 ->constrained('car_models')
                 ->cascadeOnDelete();
 
+            $table->string('image')->nullable();
             $table->string('license_plate')->unique();
             $table->year('manufacture_year');
             $table->string('color', 50);
