@@ -13,6 +13,12 @@ class CarService
             ->orderBy('created_at', 'desc')
             ->get();
     }
+    public function getCarsByCarId($carId)
+    {
+        return Car::with(['brand', 'carModel'])
+            ->where('id', $carId)
+            ->first();
+    }
     public function create(array $data): Car
     {
         return Car::create([

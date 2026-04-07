@@ -52,10 +52,17 @@ class CustomerSearchService
 
         // CASE 3: Chỉ có booking (guest chưa tạo order)
         if ($booking) {
+            if ($booking->car_id) {
+                $car = $this->carService->getCarsByCarId($booking->car_id);
+            } else {
+                $car = null;
+            }
             return [
                 'type' => 'booking',
                 'data' => $booking,
+                'car' => $car,
                 'booking_id' => $booking->id,
+                'car_id' => $booking->car_id,
                 'name' => $booking->contact_name,
                 'phone' => $booking->contact_phone,
             ];

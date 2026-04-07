@@ -11,7 +11,7 @@
                     <th style="width: 160px;" class="text-center">Bắt đầu</th>
                     <th style="width: 160px;" class="text-center">Kết thúc</th>
                     <th style="width: 140px;" class="text-center">Trạng thái</th>
-                    <th style="width: 120px;" class="text-center">Hành động</th>
+                    <th class="text-center">Hành động</th>
                 </tr>
             </thead>
 
@@ -84,7 +84,8 @@
                             @if ($booking->status === 'CANCELLED')
                             @else
                                 <a href="{{ route('reception.create') }}?bookingId={{ $booking->id }}&phone={{ $booking->contact_phone }}"
-                                    class="btn btn-sm {{ $btnClass }} btn-action-fixed {{ $isDisabled ? 'disabled' : '' }}">
+                                    class="btn btn-sm {{ $btnClass }} {{ $isDisabled ? 'disabled' : '' }}"
+                                    style="width: 140px; height: 40px;">
                                     <i class="fas {{ $btnIcon }} me-1"></i> {{ $btnText }}
                                 </a>
                             @endif

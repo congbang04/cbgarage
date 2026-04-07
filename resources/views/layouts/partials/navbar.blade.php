@@ -15,24 +15,9 @@
                 <li class="nav-item"><a class="nav-link" href="{{ route('booking.index') }}">Đặt lịch</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('chat.index') }}">CBAUTO Chat</a></li>
             </ul>
-
-            <div class="d-lg-none mt-3 pt-3 border-top text-center">
-                @auth
-                    <div class="fw-bold mb-2" style="color: var(--prime-dark);">
-                        <i class="fas fa-user-circle me-1"></i> {{ optional(auth()->user())->customer->name ?? '-' }}
-                    </div>
-                    <a class="nav-link d-block py-2" href="{{ route('customer.profile') }}">Thông tin cá nhân</a>
-                    <a class="nav-link d-block py-2 text-danger fw-bold" href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); $('#logout-form').submit();">
-                        Đăng xuất <i class="fas fa-sign-out-alt ms-1"></i>
-                    </a>
-                @else
-                    <a href="{{ route('login') }}" class="btn btn-brand w-100 mt-2">Đăng nhập</a>
-                @endauth
-            </div>
         </div>
 
-        <div class="d-none d-lg-block">
+        <div>
             @auth
                 <div class="btn-group">
                     <button type="button" class="btn btn-brand dropdown-toggle" data-bs-toggle="dropdown"
@@ -41,6 +26,7 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="{{ route('customer.profile') }}">Thông tin cá nhân</a></li>
+                        <li><a class="dropdown-item" href="{{ route('customer-bookings.index') }}">Lịch đặt của tôi</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

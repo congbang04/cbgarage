@@ -6,6 +6,43 @@
 @section('styles')
     <link rel="stylesheet" href={{ asset('assets/css/design-system.css') }}>
     <link rel="stylesheet" href={{ asset('assets/css/customer.css') }}>
+    <style>
+        :root {
+            --brand-red: #cc2929;
+        }
+
+        .btn-brand {
+            background-color: var(--brand-red);
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            border: 2px solid var(--brand-red);
+            transition: all 0.3s ease;
+        }
+
+        .btn-brand:hover {
+            background-color: transparent;
+            color: var(--brand-red);
+            font-weight: 600;
+            border: 2px solid var(--brand-red);
+        }
+
+        .btn-brand:focus,
+        .btn-brand:active,
+        .btn-brand.show {
+            background-color: transparent;
+            color: var(--brand-red);
+            font-weight: 600;
+            border: 2px solid var(--brand-red);
+            box-shadow: none;
+        }
+
+        .btn-brand:focus:not(.show):not(:hover) {
+            background-color: var(--brand-red);
+            color: white;
+            box-shadow: none;
+        }
+    </style>
 @endsection
 @section('header')
     <nav class="navbar navbar-light bg-white shadow-sm mb-4">
@@ -13,6 +50,27 @@
             <a class="navbar-brand fw-bold text-primary" href="{{ route('home') }}">
                 <i class="fas fa-chevron-left me-1 fs-6"></i> Quay lại trang chủ
             </a>
+            <div class="btn-group">
+                <button type="button" class="btn btn-brand dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ optional(auth()->user())->customer->name ?? '-' }}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="{{ route('customer.profile') }}">Thông tin cá nhân</a></li>
+                    <li><a class="dropdown-item" href="{{ route('customer-bookings.index') }}">Lịch đặt của tôi</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item text-danger" id="btn-logout" href="{{ route('logout') }}"
+                            onclick="event.preventDefault(); $('#logout-form').submit();">
+                            Đăng xuất
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 @endsection

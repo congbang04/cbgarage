@@ -8,6 +8,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\CustomerBookingController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\PaymentController;
@@ -144,6 +145,19 @@ Route::prefix('booking')
     });
 
 Route::get('slots', [SlotController::class, 'index'])->name('slots.index');
+
+/*
+    ===============================
+    CUSTOMER BOOKING ROUTES
+    ===============================
+*/
+Route::middleware(['auth', 'verified'])->prefix('customer-bookings')
+    ->name('customer-bookings.')
+    ->group(function () {
+        Route::get('/', [CustomerBookingController::class, 'index'])->name('index');
+        Route::get('/table', [CustomerBookingController::class, 'tableList'])->name('table');
+        Route::post('/{id}/cancel', [CustomerBookingController::class, 'cancel'])->name('cancel');
+    });
 /*
     ===============================
     ADMIN DASHBOARD ROUTES

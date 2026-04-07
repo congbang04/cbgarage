@@ -3,7 +3,7 @@ import {
     receptionStore,
     tableList,
 } from "../services/reception-api";
-import { showValidationErrors } from "../helpers/validation";
+import { showValidationErrors, clearErrors } from "../helpers/validation";
 
 $(document).ready(function () {
     loadOrders();
@@ -38,18 +38,19 @@ $(document).on("click", "#btn-customer-search", function () {
 
             const bookingCarId = res?.car_id || "";
 
+            console.log(bookingCarId, res.cars);
+
             if (bookingCarId && res.cars?.length) {
                 const car = res.cars.find((c) => c.id == bookingCarId);
 
                 if (car) {
                     fillCarToForm(car);
-                    return; // đã chọn xe rồi thì dừng
+                    return;
                 }
             }
-            if (res.data?.car) {
-                fillCarToForm(res.data.car);
+            if (res.car) {
+                fillCarToForm(res.car);
             }
-            phone = "";
         })
         .fail(function (xhr) {
             if (xhr.status === 422) {
@@ -109,7 +110,6 @@ function fillCarToForm(car) {
         $("#car_model_id").val(car.car_model_id);
     }, 50);
 
-    // 👉 highlight luôn trong list (optional xịn hơn)
     $(".car-item").removeClass("active");
     $(`.car-item`).each(function () {
         const data = $(this).data("car");
@@ -177,6 +177,7 @@ $(document).on("submit", "#create-reception", function (e) {
             });
 
             form[0].reset();
+            clearErrors(form);
             $("#customer-cars").addClass("d-none");
         })
         .fail(function (xhr) {

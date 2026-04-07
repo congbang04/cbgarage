@@ -190,7 +190,7 @@ a:hover {
 
 #btn-logout:hover {
     background: red;
-    color: white;
+    color: white !important;
     font-weight: bold;
     border-radius: 5px;
 }

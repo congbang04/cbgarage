@@ -98,6 +98,9 @@
 
         'adminBookingTable' => route('admin.booking.table'),
 
+        'customerBookingTable' => route('customer-bookings.table'),
+        'customerBookingCancel' => route('customer-bookings.cancel', ['id' => ':id']),
+
         'paymentIndex' => route('payment.index'),
         'paymentTable' => route('payment.table'),
         'paymentDetail' => route('payment.detail', ['id' => ':id']),
