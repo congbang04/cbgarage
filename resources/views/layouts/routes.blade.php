@@ -98,6 +98,11 @@
 
         'adminBookingTable' => route('admin.booking.table'),
 
+        'adminCustomersList' => route('admin.customers.list'),
+        'adminCustomersStore' => route('admin.customers.store'),
+        'adminCustomersUpdate' => route('admin.customers.update', ['customer' => ':customer']),
+        'adminCustomersDestroy' => route('admin.customers.destroy', ['customer' => ':customer']),
+
         'customerBookingTable' => route('customer-bookings.table'),
         'customerBookingCancel' => route('customer-bookings.cancel', ['id' => ':id']),
 

@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Services\CarService;
 use App\Services\ReceptionService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
@@ -50,7 +51,10 @@ class CarController extends Controller
     }
     public function carDetail(Car $car)
     {
-        if ($car->customer->user_id !== auth()->id()) {
+        if (
+            $car->customer->user_id !== auth()->id() &&
+            !Gate::allows('is-admin')
+        ) {
             abort(403);
         }
 

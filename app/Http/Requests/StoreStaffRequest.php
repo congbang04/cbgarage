@@ -9,7 +9,6 @@ class StoreStaffRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        // return auth()->check() && auth()->user()->role === 'admin';
         return true;
     }
 
@@ -17,7 +16,7 @@ class StoreStaffRequest extends FormRequest
     {
         return [
             'email' => ['required', 'email', 'unique:users,email'],
-            'role' => ['required', Rule::in(['technician', 'advisor', 'warehouse', 'cashier', 'admin'])],
+            'role' => ['required', Rule::in(['TECHNICIAN', 'ADVISOR', 'WAREHOUSE', 'CASHIER', 'BRANCH_ADMIN'])],
             'branch_id' => ['required', 'exists:branches,id'],
         ];
     }

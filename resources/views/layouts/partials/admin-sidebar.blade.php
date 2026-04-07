@@ -21,6 +21,12 @@
             class="nav-link {{ request()->routeIs('admin.booking') ? 'active' : '' }}">
             <i class="fa-solid fa-calendar-days"></i> <span>Quản lý đặt lịch</span>
         </a>
+        @can('is-super-admin')
+            <a href="{{ route('admin.customers.index') }}"
+                class="nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
+                <i class="fas fa-users"></i> <span>Quản lý khách hàng</span>
+            </a>
+        @endcan
 
         @php $isReceptionActive = request()->routeIs('reception.*'); @endphp
         <div class="dropdown w-100">

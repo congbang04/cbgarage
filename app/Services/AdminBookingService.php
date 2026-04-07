@@ -32,21 +32,25 @@ class AdminBookingService
         if (!empty($filters['keyword'])) {
             $keyword = trim($filters['keyword']);
 
-            $query->where(function ($q) use ($keyword) {
-                $q->where('contact_name', 'like', "%{$keyword}%")
-                    ->orWhere('contact_phone', 'like', "%{$keyword}%")
+            if (is_numeric($keyword)) {
+                $query->where('id', $keyword);
+            } else {
+                $query->where(function ($q) use ($keyword) {
+                    $q->orWhere('contact_name', 'like', "%{$keyword}%")
+                        ->orWhere('contact_phone', 'like', "%{$keyword}%")
 
-                    ->orWhereHas('car', function ($car) use ($keyword) {
-                        $car->where('license_plate', 'like', "%{$keyword}%");
-                    })
+                        ->orWhereHas('car', function ($car) use ($keyword) {
+                            $car->where('license_plate', 'like', "%{$keyword}%");
+                        })
 
-                    ->orWhereHas('customer', function ($customer) use ($keyword) {
-                        $customer->where(function ($sub) use ($keyword) {
-                            $sub->where('name', 'like', "%{$keyword}%")
-                                ->orWhere('phone', 'like', "%{$keyword}%");
+                        ->orWhereHas('customer', function ($customer) use ($keyword) {
+                            $customer->where(function ($sub) use ($keyword) {
+                                $sub->where('name', 'like', "%{$keyword}%")
+                                    ->orWhere('phone', 'like', "%{$keyword}%");
+                            });
                         });
-                    });
-            });
+                });
+            }
         }
 
         if (!empty($filters['status'])) {

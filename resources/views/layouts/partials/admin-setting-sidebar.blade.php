@@ -12,6 +12,11 @@
     <div class="sidebar-menu">
         <div class="menu-header">Cấu hình danh mục</div>
 
+        <a href="{{ route('admin.customers.index') }}"
+            class="nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
+            <i class="fas fa-users"></i> <span>Quản lý khách hàng</span>
+        </a>
+
         <a href="{{ route('services.index') }}" class="nav-link @if (request()->routeIs('services.*')) active @endif">
             <i class="fas fa-tag"></i> <span>Dịch vụ & Giá</span>
         </a>

@@ -18,7 +18,7 @@
                         <label class="form-label">
                             Email (Tên đăng nhập) <span class="text-danger">*</span>
                         </label>
-                        <input type="email" class="form-control" name="email" placeholder="nhap@example.com">
+                        <input type="email" class="form-control" name="email" placeholder="nhap@garage.com">
                         <div class="invalid-feedback d-block"></div>
                     </div>
 
@@ -29,6 +29,7 @@
                         </label>
                         <select class="form-select" name="role">
                             <option value="">-- Chọn vai trò --</option>
+                            <option value="BRANCH_ADMIN">Quản lý chi nhánh</option>
                             <option value="TECHNICIAN">Kỹ thuật viên</option>
                             <option value="ADVISOR">Cố vấn dịch vụ</option>
                             <option value="WAREHOUSE">Thủ kho</option>
@@ -54,6 +55,11 @@
 
                     <!-- Default Password Notice -->
                     <div class="alert alert-info small mb-0">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Là Quản lý tổng</strong> khi Vai trò là <strong>"Quản lý chi nhánh"</strong>
+                        <br>
+                        và Chi nhánh là <strong>"Kho trung tâm CBAUTO"</strong>
+                        <br><br>
                         <i class="fas fa-info-circle"></i>
                         <strong>Mật khẩu mặc định:</strong> CBAUTO@123
                     </div>

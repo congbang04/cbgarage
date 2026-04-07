@@ -21,6 +21,16 @@ function initAdminBookingSearch() {
             loadBookings();
         },
     );
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const bookingId = urlParams.get("booking_id");
+    console.log(bookingId);
+
+    if (bookingId) {
+        const input = $('input[name="keyword"]');
+        input.val(bookingId);
+        input.trigger("input");
+    }
 }
 
 function loadBookings(url) {

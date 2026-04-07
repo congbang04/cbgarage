@@ -66,17 +66,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Order::class);
     }
 
-    // public function stockTransfers()
-    // {
-    //     return $this->hasMany(StockTransfer::class, 'created_by');
-    // }
-
-    // public function issuedPartRequests()
-    // {
-    //     return $this->belongsToMany(PartRequest::class, 'goods_issues', 'user_id', 'part_request_id')
-    //         ->withPivot('created_at');
-    // }
-
     /**
      * Get the attributes that should be cast.
      *

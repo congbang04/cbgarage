@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminBookingController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminCustomerController;
 use App\Http\Controllers\AiLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
@@ -49,6 +50,21 @@ Route::middleware(['auth', 'can:is-super-admin'])->group(
             Route::put('/{staff}', [StaffController::class, 'update'])->name('staff.update');
             Route::delete('/{staff}', [StaffController::class, 'destroy'])->name('staff.destroy');
             Route::post('/{staff}/toggle-status', [StaffController::class, 'toggleStatus'])->name('staff.toggle-status');
+        });
+        /*
+    ===============================
+    ADMIN CUSTOMER MANAGEMENT ROUTES
+    ===============================
+*/
+        Route::prefix('admin/customers')->name('admin.customers.')->group(function () {
+            Route::get('/', [AdminCustomerController::class, 'index'])->name('index');
+            Route::get('/list', [AdminCustomerController::class, 'customerList'])->name('list');
+            Route::get('/create', [AdminCustomerController::class, 'create'])->name('create');
+            Route::post('/', [AdminCustomerController::class, 'store'])->name('store');
+            Route::get('/{customer}', [AdminCustomerController::class, 'show'])->name('show');
+            Route::get('/{customer}/edit', [AdminCustomerController::class, 'edit'])->name('edit');
+            Route::put('/{customer}', [AdminCustomerController::class, 'update'])->name('update');
+            Route::delete('/{customer}', [AdminCustomerController::class, 'destroy'])->name('destroy');
         });
         /*
     ===============================
