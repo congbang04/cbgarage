@@ -80,6 +80,7 @@ class ReceptionService
             'customer_id',
             'technician_id',
             'car_id',
+            'branch_id',
             'status',
             'created_at'
         ])
@@ -88,9 +89,9 @@ class ReceptionService
                 'car:id,brand_id,car_model_id,license_plate',
                 'car.brand:id,name',
                 'car.carModel:id,name',
-                'technician:id,name'
-            ])
-            ->forCurrentAdmin();
+                'technician:id,name',
+                'branch:id,name'
+            ]);
 
         // Lọc theo từ khóa (Biển số xe hoặc Tên khách hàng)
         if (!empty($filters['keyword'])) {

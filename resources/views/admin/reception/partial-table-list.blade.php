@@ -3,12 +3,13 @@
             <table class="table table-hover align-middle mb-0">
                 <thead class="bg-light">
                     <tr>
-                        <th>Mã phiếu</th>
-                        <th>Xe & Khách hàng</th>
-                        <th>Kỹ thuật viên</th>
-                        <th class="ps-4">Ngày nhận</th>
-                        <th class="ps-5">Trạng thái</th>
-                        <th class="text-center">Hành động</th>
+                        <th class="text-center">Mã phiếu</th>
+                        <th class="text-center">Xe & Khách hàng</th>
+                        <th class="text-center">Kỹ thuật viên</th>
+                        <th class="text-center">Ngày nhận</th>
+                        <th class="text-center">Trạng thái</th>
+                        <th class="text-center">Chi nhánh</th>
+                        <th class="text-end">Hành động</th>
                     </tr>
                 </thead>
 
@@ -36,11 +37,11 @@
                             };
                         @endphp
                         <tr>
-                            <td class="fw-bold text-primary">
+                            <td class="fw-bold text-primary text-center">
                                 #ORD-{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}
                             </td>
 
-                            <td>
+                            <td class="text-start">
                                 <div class="d-flex align-items-center">
                                     <div class="bg-light rounded p-2 me-3">
                                         <i class="fas fa-car"></i>
@@ -61,16 +62,20 @@
                                 </div>
                             </td>
 
-                            <td>
+                            <td class="text-start">
                                 {{ $order->technician->name ?? '-' }}
                             </td>
 
-                            <td>
+                            <td class="text-center">
                                 {{ $order->created_at?->format('d/m/Y H:i') }}
                             </td>
 
-                            <td>
+                            <td class="text-center">
                                 {!! $badgeClass !!}
+                            </td>
+
+                            <td class="text-start">
+                                {{ $order->branch->name ?? '-' }}
                             </td>
 
                             <td class="text-end">

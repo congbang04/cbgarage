@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Thông tin cá nhân')
 @section('vite')
-    @vite(['resources/js/modules/profile.js', 'resources/js/modules/car.js'])
+    @vite(['resources/js/modules/profile.js', 'resources/js/modules/car.js', 'resources/js/modules/car-crop.js'])
 @endsection
 @section('styles')
     <link rel="stylesheet" href={{ asset('assets/css/design-system.css') }}>

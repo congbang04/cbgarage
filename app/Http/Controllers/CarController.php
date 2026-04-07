@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Services\CarService;
 use App\Services\ReceptionService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
 {
@@ -33,6 +34,13 @@ class CarController extends Controller
             'current_odo' => $request->current_odo,
             'vin_number' => $request->vin_number,
         ];
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('cars', 'public');
+            $data['image'] = $path;
+        }
+
         $car = $this->carService->create($data);
 
         return response()->json([
@@ -95,6 +103,18 @@ class CarController extends Controller
         }
 
         $validated = $request->validated();
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($car->image && Storage::exists('public/' . $car->image)) {
+                Storage::delete('public/' . $car->image);
+            }
+
+            // Store new image
+            $path = $request->file('image')->store('cars', 'public');
+            $validated['image'] = $path;
+        }
 
         $car->update($validated);
 

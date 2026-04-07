@@ -16,7 +16,8 @@
             <td class="text-center">{!! $badgeClass !!}</td>
             <td class="text-center">cái</td>
             <td class="text-center">
-                <input class="text-center" disabled value="{{ $detail->quantity }}" data-index="{{ $index + 1 }}">
+                <input class="text-center" style="max-width: 60px;" disabled value="{{ $detail->quantity }}"
+                    data-index="{{ $index + 1 }}">
             </td>
             <td class="text-center item-price">{{ number_format($detail->price, 0, ',', '.') }}</td>
             <td class="text-end fw-bold item-total">{{ number_format($lineTotal, 0, ',', '.') }}</td>

@@ -317,19 +317,19 @@ function addItemToTable(index, item) {
 
     const rowHtml = `
         <tr data-item-id="${item.item_type}-${item.item_id}" data-index="${index}">
-            <td>${index}</td>
-            <td>
+            <td class="text-center">${index}</td>
+            <td class="text-start">
                 <div class="fw-bold">${item.name}</div>
                 <div class="small text-muted">id: ${item.item_id}</div>
             </td>
-            <td>${badgeClass}</td>
-            <td>cái</td>
-            <td>
-                <input class="form-control form-control-sm text-center item-quantity" value="${item.quantity}" data-index="${index}" disabled>
+            <td class="text-center">${badgeClass}</td>
+            <td class="text-center">cái</td>
+            <td class="text-center">
+                <input class="text-center" style="max-width: 60px;" value="${item.quantity}" data-index="${index}" disabled>
             </td>
             <td class="text-end item-price">${item.price.toLocaleString("vi-VN")}</td>
             <td class="text-end fw-bold item-total">${lineTotal.toLocaleString("vi-VN")}</td>
-            <td>
+            <td class="text-center">
                 <button type="button" class="btn btn-sm text-danger btn-remove-item" data-index="${index}">
                     <i class="fas fa-trash"></i>
                 </button>

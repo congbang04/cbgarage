@@ -29,6 +29,7 @@ class UpdateCarRequest extends FormRequest
             'manufacture_year'  => 'required|digits:4|integer|min:1900|max:' . date('Y'),
             'color'             => 'required|string|max:50',
             'current_odo'       => 'required|numeric|min:0',
+            'image'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ];
     }
     public function messages()
@@ -59,7 +60,11 @@ class UpdateCarRequest extends FormRequest
 
             'current_odo.required' => 'ODO không được để trống',
             'current_odo.numeric' => 'ODO phải là số',
-            'current_odo.min' => 'ODO phải lớn hơn hoặc bằng 0'
+            'current_odo.min' => 'ODO phải lớn hơn hoặc bằng 0',
+
+            'image.image' => 'File phải là hình ảnh.',
+            'image.mimes' => 'Chỉ hỗ trợ định dạng: jpeg, png, jpg, gif.',
+            'image.max' => 'Kích thước hình ảnh không được vượt quá 5MB.',
         ];
     }
 }

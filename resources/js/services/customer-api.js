@@ -1,7 +1,9 @@
 export function updateCustomer(data) {
     return $.ajax({
         url: window.routes.customerUpdated,
-        method: "PUT",
+        method: "POST",
         data: data,
+        processData: false,
+        contentType: false,
     });
 }

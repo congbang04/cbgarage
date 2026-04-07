@@ -19,6 +19,12 @@
     @include('layouts.partials.admin-sidebar')
 @endsection
 
+@section('topbar_actions')
+    <button class="btn btn-outline-secondary" id="btn-print-invoice">
+        <i class="fas fa-print"></i> In hóa đơn
+    </button>
+@endsection
+
 @section('content')
     <div class="main-content">
         @include('layouts.partials.admin-top-navbar', ['headerTitle' => 'Chi tiết thanh toán'])
@@ -26,29 +32,47 @@
         <div class="p-4">
             <!-- Order Header Info -->
             <div class="row g-3 mb-4">
-                <div class="col-md-6">
-                    <div class="info-box">
-                        <div class="small opacity-75">Mã đơn hàng</div>
-                        <h3 class="mb-2">#ORD-{{ $order->id }}</h3>
-                        <div class="small">
-                            <i class="fas fa-building"></i> {{ $order->branch?->name ?? 'N/A' }}
+                <div class="col-md-6 d-flex">
+                    <div class="info-box w-100 h-100 d-flex justify-content-between">
+                        <div>
+                            <div class="small opacity-75">Mã đơn hàng</div>
+                            <h3>#ORD-{{ $order->id }}</h3>
+                        </div>
+                        <div>
+                            <div class="small opacity-75">Chi nhánh</div>
+                            <h5> <i class="fas fa-building me-1"></i>
+                                {{ $order->branch?->name ?? 'N/A' }}</h5>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="info-box success">
-                        <div class="small opacity-75">Tổng tiền dịch vụ</div>
-                        <h3 class="mb-2">{{ number_format($order->total_amount) }} đ</h3>
-                        @php
-                            $badgeClass = match ($order->status) {
-                                'COMPLETED' => '<span class="status-badge info fw-bold">Chờ thanh toán</span>',
+                <div class="col-md-6 d-flex">
+                    @php
+                        $badgeClass = match ($order->status) {
+                            'COMPLETED' => '<span class="status-badge info fw-bold">Chờ thanh toán</span>',
 
-                                'PAID' => '<span class="status-badge bg-success text-light">Đã thanh toán</span>',
+                            'PAID' => '<span class="status-badge bg-success text-light">Đã thanh toán</span>',
 
-                                default => '<span class="status-badge bg-dark text-light">Không xác định</span>',
-                            };
-                        @endphp
-                        {!! $badgeClass !!}
+                            default => '<span class="status-badge bg-dark text-light">Không xác định</span>',
+                        };
+                        $hasRefund = $order->transactions()->where('type', 'refund')->exists();
+
+                        $infoBoxClass = match (true) {
+                            $hasRefund => 'danger',
+                            $order->status === 'COMPLETED' => 'warning',
+                            $order->status === 'PAID' => 'success',
+                            default => 'secondary',
+                        };
+                    @endphp
+                    <div class="info-box {{ $infoBoxClass }} w-100 h-100 d-flex justify-content-between">
+                        <div>
+                            <div class="small opacity-75">Tổng tiền dịch vụ</div>
+                            <h3>{{ number_format($order->total_amount) }} đ</h3>
+                        </div>
+
+                        <div>
+                            <div class="small opacity-75">Trạng thái</div>
+                            {!! $badgeClass !!}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -85,14 +85,14 @@
                                 <table class="table table-hover align-middle mb-0">
                                     <thead class="bg-light">
                                         <tr>
-                                            <th style="width: 50px;">#</th>
-                                            <th>Mã & Tên hạng mục</th>
-                                            <th class="text-start ps-4">Loại</th>
-                                            <th style="width: 100px;">ĐVT</th>
-                                            <th style="width: 120px;">Số lượng</th>
-                                            <th class="text-end">Đơn giá</th>
+                                            <th class="text-center" style="width: 50px;">#</th>
+                                            <th class="text-start">Mã & Tên hạng mục</th>
+                                            <th class="text-center">Loại</th>
+                                            <th class="text-center">ĐVT</th>
+                                            <th class="text-center">Số lượng</th>
+                                            <th class="text-center">Đơn giá</th>
                                             <th class="text-end">Thành tiền</th>
-                                            <th style="width: 50px;"></th>
+                                            <th class="text-end"></th>
                                         </tr>
                                     </thead>
                                     <tbody id="quotation-items">

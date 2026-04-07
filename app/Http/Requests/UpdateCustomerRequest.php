@@ -25,6 +25,7 @@ class UpdateCustomerRequest extends FormRequest
             'name' => 'required|string|min:5|max:255',
             'phone' => 'nullable|digits_between:10,15',
             'address' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ];
     }
     public function messages(): array
@@ -39,6 +40,10 @@ class UpdateCustomerRequest extends FormRequest
 
             'address.string' => 'Địa chỉ không hợp lệ.',
             'address.max' => 'Dài quá số ký tự quy định.',
+
+            'image.image' => 'File phải là hình ảnh.',
+            'image.mimes' => 'Chỉ hỗ trợ định dạng: jpeg, png, jpg, gif.',
+            'image.max' => 'Kích thước hình ảnh không được vượt quá 5MB.',
         ];
     }
 }

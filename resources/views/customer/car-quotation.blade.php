@@ -81,8 +81,7 @@
                                             <th class="text-center">Loại</th>
                                             <th class="text-center">ĐVT</th>
                                             <th class="text-center">Số lượng</th>
-                                            <th class="text-center">
-                                                Đơn giá</th>
+                                            <th class="text-center">Đơn giá</th>
                                             <th class="text-end">Thành tiền</th>
                                         </tr>
                                     </thead>
