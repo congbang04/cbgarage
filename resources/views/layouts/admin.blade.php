@@ -26,7 +26,7 @@
 
     {{-- nhúng file css và js --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+
     @yield('vite')
 
     @yield('styles')

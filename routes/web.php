@@ -184,6 +184,9 @@ Route::middleware(['auth', 'can:is-admin'])->group(
         Route::get('/admin-dashboard', [AdminController::class, 'dashboard'])->name('adminDashboard');
         Route::get('/customer-search', [AdminController::class, 'customerSearch'])->name('customerSearch');
         Route::get('/admin/api/dashboard-stats', [AdminController::class, 'getStatsApi'])->name('admin.stats.api');
+        Route::get('/admin/api/daily-revenue', [AdminController::class, 'getDailyRevenueApi'])->name('admin.daily.revenue.api');
+        Route::get('/admin/api/chart-revenue', [AdminController::class, 'getChartRevenueApi'])->name('admin.chart.revenue.api');
+        Route::get('/admin/api/chart-service-distribution', [AdminController::class, 'getChartServiceDistributionApi'])->name('admin.chart.service-distribution.api');
 
         Route::get('/admin/booking', [AdminBookingController::class, 'index'])->name('admin.booking');
         Route::get('/admin/booking/table', [AdminBookingController::class, 'tableList'])->name('admin.booking.table');

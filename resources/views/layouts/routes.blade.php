@@ -16,6 +16,9 @@
 
         'customerSearch' => route('customerSearch'),
         'adminStatsApi' => route('admin.stats.api'),
+        'adminDailyRevenueApi' => route('admin.daily.revenue.api'),
+        'adminChartRevenueApi' => route('admin.chart.revenue.api'),
+        'adminChartServiceDistributionApi' => route('admin.chart.service-distribution.api'),
 
         'serviceList' => route('serviceList'),
         'serviceStore' => route('services.store'),

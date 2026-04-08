@@ -1,4 +1,7 @@
-import { fetchDashboardStats } from "../services/admin-dashboard-api";
+import {
+    fetchDashboardStats,
+    fetchDailyRevenue,
+} from "../services/admin-dashboard-api";
 
 $(document).ready(function () {
     const $dateInput = $('input[type="date"]');
@@ -6,10 +9,21 @@ $(document).ready(function () {
     const $waitingCount = $("#waiting-count");
     const $btnPrevDay = $("#btn-prev-day");
     const $btnNextDay = $("#btn-next-day");
+    const $dailyRevenueAmount = $("#daily-revenue-amount");
 
     // Hàm hỗ trợ định dạng Date object thành chuỗi YYYY-MM-DD
     function formatDate(date) {
         return date.toISOString().split("T")[0];
+    }
+
+    // Format tiền tệ Việt Nam
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(amount);
     }
 
     function loadDashboard(date) {
@@ -18,27 +32,37 @@ $(document).ready(function () {
         // Hiệu ứng chờ
         $inWorkshopCount.text("...");
         $waitingCount.text("...");
+        $dailyRevenueAmount.text("...");
 
+        // Gọi stats API
         fetchDashboardStats(date)
-            .done(function (response) {
-                if (response.carStats) {
-                    $inWorkshopCount.text(
-                        `${response.carStats.in_workshop} xe`,
-                    );
-                    $waitingCount.text(
-                        `${response.carStats.waiting} xe đang chờ`,
-                    );
+            .done(function (res) {
+                console.log(res);
+
+                if (res.carStats) {
+                    $inWorkshopCount.text(`${res.carStats.in_workshop} xe`);
+                    $waitingCount.text(`${res.carStats.waiting} xe đang chờ`);
                     $("#pending-bookings-count").text(
-                        `${response.carStats.pending_bookings} lịch`,
+                        `${res.carStats.pending_bookings} lịch`,
                     );
                     $("#low-stock-parts-count").text(
-                        `${response.carStats.low_stock_parts} mã`,
+                        `${res.carStats.low_stock_parts} mã`,
                     );
                 }
-                updateNavButtons(date);
             })
             .fail(function (xhr) {
                 console.error("Lỗi API:", xhr);
+            });
+
+        // Gọi daily revenue API
+        fetchDailyRevenue(date)
+            .done(function (res) {
+                if (res.dailyRevenue !== undefined) {
+                    $dailyRevenueAmount.text(formatCurrency(res.dailyRevenue));
+                }
+            })
+            .fail(function (xhr) {
+                console.error("Lỗi khi lấy doanh thu:", xhr);
             });
     }
 

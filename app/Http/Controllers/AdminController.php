@@ -37,4 +37,40 @@ class AdminController extends Controller
             'carStats' => $carStats
         ]);
     }
+
+    /**
+     * Lấy doanh thu ngày
+     */
+    public function getDailyRevenueApi(Request $request)
+    {
+        $dailyRevenue = $this->adminService->getDailyRevenue($request->date);
+
+        return response()->json([
+            'dailyRevenue' => $dailyRevenue
+        ]);
+    }
+
+    /**
+     * Lấy doanh thu tuần cho biểu đồ
+     */
+    public function getChartRevenueApi(Request $request)
+    {
+        $weeklyRevenue = $this->adminService->getWeeklyRevenue($request->date);
+
+        return response()->json([
+            'weeklyRevenue' => $weeklyRevenue
+        ]);
+    }
+
+    /**
+     * Lấy phân bổ dịch vụ - biểu đồ tròn
+     */
+    public function getChartServiceDistributionApi(Request $request)
+    {
+        $serviceDistribution = $this->adminService->getServiceDistribution($request->date);
+
+        return response()->json([
+            'services' => $serviceDistribution
+        ]);
+    }
 }

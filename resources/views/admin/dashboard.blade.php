@@ -3,12 +3,13 @@
 @section('title', 'Trang quản trị')
 
 @section('vite')
-    @vite(['resources/js/modules/admin-dashboard.js'])
+    @vite(['resources/js/modules/admin-dashboard.js', 'resources/js/modules/admin-dashboard-chart.js'])
 @endsection
 
 @section('styles')
     <link rel="stylesheet" href={{ asset('assets/css/design-system.css') }}>
     <link rel="stylesheet" href={{ asset('assets/css/admin.css') }}>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 @endsection
 
 @section('body-class', 'admin-wrapper')
@@ -45,9 +46,9 @@
                     <div class="stat-card">
                         <div class="stat-content">
                             <h6>Doanh thu ngày</h6>
-                            <h3>12.5tr</h3>
+                            <h3 id="daily-revenue-amount">...</h3>
                             <div class="stat-trend up">
-                                <i class="fas fa-arrow-up"></i> 15% so với hqua
+                                <i class="fas fa-arrow-up"></i> Cập nhật từ transaction
                             </div>
                         </div>
                         <div class="stat-icon-wrapper bg-success bg-opacity-10 text-success">
@@ -110,11 +111,7 @@
                             <h5 class="mb-0">Biểu đồ doanh thu tuần</h5>
                         </div>
                         <div class="card-body">
-                            <!-- Placeholder cho ChartJS -->
-                            <div class="chart-container">
-                                <i class="fas fa-chart-area fs-1 mb-2"></i>
-                                <span>Khu vực hiển thị biểu đồ Chart.js</span>
-                            </div>
+                            <canvas id="revenue-chart" height="80"></canvas>
                         </div>
                     </div>
                 </div>
@@ -124,86 +121,8 @@
                             <h5 class="mb-0">Tỷ trọng dịch vụ</h5>
                         </div>
                         <div class="card-body">
-                            <!-- Placeholder cho Pie Chart -->
-                            <div class="chart-container">
-                                <i class="fas fa-chart-pie fs-1 mb-2"></i>
-                                <span>Biểu đồ tròn phân bổ</span>
-                            </div>
+                            <canvas id="service-chart" height="80"></canvas>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recent Orders Table -->
-            <div class="card">
-                <div class="card-header border-0 bg-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Xe đang xử lý gần nhất</h5>
-                    <a href="reception/list.html" class="btn btn-sm btn-outline-primary">Xem tất cả</a>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th>Mã phiếu</th>
-                                    <th>Khách hàng & Xe</th>
-                                    <th>Dịch vụ chính</th>
-                                    <th>Cố vấn / Thợ</th>
-                                    <th>Trạng thái</th>
-                                    <th>Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="fw-bold text-primary">#ORD-8821</td>
-                                    <td>
-                                        <div class="fw-bold">Nguyễn Văn A</div>
-                                        <div class="small text-muted">Vios - 51G-123.45</div>
-                                    </td>
-                                    <td>Thay dầu, Lọc nhớt</td>
-                                    <td>
-                                        <div class="small">CVDV: Tuấn Anh</div>
-                                        <div class="small text-muted">Thợ: Hùng</div>
-                                    </td>
-                                    <td><span class="status-badge info">Đang sửa</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-light border"><i class="fas fa-eye"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-bold text-primary">#ORD-8822</td>
-                                    <td>
-                                        <div class="fw-bold">Trần Thị B</div>
-                                        <div class="small text-muted">CX-5 - 30F-999.88</div>
-                                    </td>
-                                    <td>Sơn cản sau</td>
-                                    <td>
-                                        <div class="small">CVDV: Minh</div>
-                                        <div class="small text-muted">Thợ: Chưa gán</div>
-                                    </td>
-                                    <td><span class="status-badge warning">Chờ duyệt giá</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-light border"><i class="fas fa-eye"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-bold text-primary">#ORD-8820</td>
-                                    <td>
-                                        <div class="fw-bold">Lê Văn C</div>
-                                        <div class="small text-muted">Ranger - 59C-123.12</div>
-                                    </td>
-                                    <td>Bảo dưỡng cấp 1</td>
-                                    <td>
-                                        <div class="small">CVDV: Tuấn Anh</div>
-                                        <div class="small text-muted">Thợ: Nam</div>
-                                    </td>
-                                    <td><span class="status-badge success">Chờ giao xe</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-light border"><i class="fas fa-print"></i></button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
