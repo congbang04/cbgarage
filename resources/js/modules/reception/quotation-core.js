@@ -430,7 +430,68 @@ export function handleSaveQuotation(orderId, form) {
             $btn.prop("disabled", false).html(originalText);
         });
 }
+/**
+ * Handle cancel quotation
+ */
+$(document).on("click", ".btn-cancel-order", function () {
+    const orderId = $(this).data("id");
 
+    Swal.fire({
+        title: "Bạn chắc chắn muốn hủy?",
+        text: "Hành động này không thể hoàn tác!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Hủy đơn",
+        cancelButtonText: "Đóng",
+    }).then((result) => {
+        if (!result.isConfirmed) return;
+
+        QuotationAPI.cancelOrder(orderId)
+            .done(function (res) {
+                Swal.fire("Thành công", res.message, "success");
+                updateQuotationHeader(res.data);
+            })
+            .fail(function (xhr) {
+                Swal.fire(
+                    "Lỗi",
+                    xhr.responseJSON?.message ?? "Có lỗi xảy ra",
+                    "error",
+                );
+            });
+    });
+});
+function updateQuotationHeader(order) {
+    const statusHtml = renderStatusBadge(order.status);
+    $("#quotation-status").html(statusHtml);
+
+    if (order.status === "CANCELLED") {
+        $(".btn-cancel-order").remove();
+    }
+
+    if (order.status !== "COMPLETED") {
+        $(".btn-pay").remove();
+    }
+}
+function renderStatusBadge(status) {
+    switch (status) {
+        case "RECEIVED":
+            return `<span class="status-badge fs-6 px-3 fw-bold info">Đã tiếp nhận</span>`;
+        case "QUOTED":
+            return `<span class="status-badge fs-6 px-3 fw-bold warning">Đã báo giá</span>`;
+        case "IN_PROGRESS":
+            return `<span class="status-badge fs-6 px-3 fw-bold bg-primary-subtle text-primary">Đang thực hiện</span>`;
+        case "WAITING_PART":
+            return `<span class="status-badge fs-6 px-3 fw-bold bg-secondary-subtle text-secondary">Chờ phụ tùng</span>`;
+        case "COMPLETED":
+            return `<span class="status-badge fs-6 px-3 fw-bold success">Hoàn thành</span>`;
+        case "PAID":
+            return `<span class="status-badge fs-6 px-3 fw-bold bg-success text-light">Đã thanh toán</span>`;
+        case "CANCELLED":
+            return `<span class="status-badge fs-6 px-3 fw-bold danger">Đã huỷ</span>`;
+        default:
+            return `<span class="status-badge fs-6 px-3 fw-bold bg-dark text-light">Không xác định</span>`;
+    }
+}
 /**
  * Handle print quotation
  */

@@ -232,4 +232,31 @@ class ReceptionService
             'technician:id,name'
         ])->find($orderId);
     }
+    public function cancelOrder($orderId)
+    {
+        $order = Order::forCurrentAdmin()->findOrFail($orderId);
+
+        if (in_array($order->status, [
+            Order::STATUS_COMPLETED,
+            Order::STATUS_PAID
+        ])) {
+            throw new Exception("Không thể hủy đơn 'ĐÃ HOÀN THÀNH' hoặc 'ĐÃ THANH TOÁN'.");
+        }
+
+        if ($order->status === Order::STATUS_CANCELLED) {
+            throw new Exception("Đơn này đã được hủy trước đó.");
+        }
+
+        $order->update([
+            'status' => Order::STATUS_CANCELLED
+        ]);
+
+        if ($order->booking) {
+            $order->booking->update([
+                'status' => Booking::STATUS_CANCELED
+            ]);
+        }
+
+        return $order;
+    }
 }

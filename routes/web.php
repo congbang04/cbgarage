@@ -210,6 +210,7 @@ Route::middleware(['auth', 'can:access-reception'])->group(
                 Route::get('/technicians', [ReceptionController::class, 'getTechnicians'])->name('reception.technicians');
                 Route::post('/quotation/{orderId}', [ReceptionController::class, 'saveQuotation'])->name('reception.save-quotation');
                 Route::get('/quotation/{orderId}/items', [ReceptionController::class, 'getQuotationItems'])->name('reception.quotation-items');
+                Route::post('/orders/{id}/cancel', [ReceptionController::class, 'cancel'])->name('orders.cancel');
             });
     }
 );

@@ -135,4 +135,22 @@ class ReceptionController extends Controller
 
         return view('admin.reception.partials.quotation-items', compact('items', 'technicianId'));
     }
+
+    public function cancel($id)
+    {
+        try {
+            $order = $this->receptionService->cancelOrder($id);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Hủy đơn thành công',
+                'data' => $order
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 400);
+        }
+    }
 }

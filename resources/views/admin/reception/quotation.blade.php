@@ -33,6 +33,12 @@
                 </div>
             </div>
             <div class="d-flex align-items-center">
+                @if ($order->status !== \App\Models\Order::STATUS_CANCELLED)
+                    <button class="btn btn-danger btn-cancel-order me-3" data-id="{{ $order->id }}">
+                        <i class="fa-solid fa-x"></i> Hủy đơn
+                    </button>
+                @endif
+
                 @if ($order->status === \App\Models\Order::STATUS_COMPLETED)
                     <button class="btn btn-success btn-pay me-3" data-order-id="{{ $order->id }}">
                         <i class="fas fa-money-bill-wave"></i> Thanh toán
@@ -66,6 +72,7 @@
                         {!! $badgeClass !!}
                     </span>
                 </div>
+
             </div>
         </header>
 

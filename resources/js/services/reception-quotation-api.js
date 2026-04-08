@@ -68,3 +68,12 @@ export function getQuotation(orderId) {
         type: "GET",
     });
 }
+
+export function cancelOrder(orderId) {
+    const url = window.routes.receptionCancelOrder.replace(":id", orderId);
+
+    return $.ajax({
+        url: url,
+        type: "POST",
+    });
+}

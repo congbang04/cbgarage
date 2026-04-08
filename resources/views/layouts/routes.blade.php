@@ -47,6 +47,7 @@
         'receptionTechnicians' => route('reception.technicians'),
         'receptionSaveQuotation' => route('reception.save-quotation', ['orderId' => ':orderId']),
         'receptionQuotationItems' => route('reception.quotation-items', ['orderId' => ':orderId']),
+        'receptionCancelOrder' => route('orders.cancel', ['id' => ':id']),
 
         'technicianJobsTable' => route('technician.jobs.table'),
         'technicianJobsUpdateStatus' => route('technician.jobs.updateStatus', ['orderId' => ':orderId']),
