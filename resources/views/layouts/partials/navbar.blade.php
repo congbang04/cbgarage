@@ -1,6 +1,8 @@
 <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="#"><i class="fa-solid fa-gear"></i> CBAUTO</a>
+        <a class="navbar-brand" href="#">
+            <img src="{{ asset('storage/logo/logo-full.png') }}" alt="CBAUTO" class="logo-full-img">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>

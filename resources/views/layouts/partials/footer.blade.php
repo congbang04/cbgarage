@@ -5,11 +5,12 @@
                 <a href="#"><i class="fa-brands fa-tiktok"></i></a>
                 <a href="#"><i class="fa-brands fa-instagram"></i></a>
             </div>
-            <div class="fw-bold fs-5 mb-2 mb-md-0">
-                <i class="fa-solid fa-gear" style="color: var(--brand-red);"></i> CBAUTO
+            <div class="fw-bold fs-5 mb-2 mb-md-0 d-flex align-items-center">
+                <img src="{{ asset('storage/logo/logo-icon.png') }}" alt="CBAUTO" class="logo-icon-img me-2">
+                CBAUTO
             </div>
             <div>
-                &copy; 2024 by PrimeAuto. All rights reserved.
+                &copy; 2024 Bản quyền thuộc về CBAUTO.
             </div>
         </div>
     </footer>

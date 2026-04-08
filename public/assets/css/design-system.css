@@ -827,3 +827,35 @@ input[type="file"]::file-selector-button:hover {
         width: 100%;
     }
 }
+
+/* Logo Full (1200x400px - Tỷ lệ 3:1 ngang) */
+.logo-full-img {
+    height: 70px;
+    width: auto;
+    max-width: 210px;
+    object-fit: contain;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+/* Logo Icon (512x512px - Tỷ lệ 1:1 vuông) */
+.logo-icon-img {
+    height: 55px;
+    width: 55px;
+    object-fit: contain;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+/* Responsive: Thu nhỏ logo lại khi xem trên màn hình điện thoại (< 768px) */
+@media (max-width: 768px) {
+    .logo-full-img {
+        height: 35px; /* Thu nhỏ chiều cao trên điện thoại */
+        max-width: 120px;
+    }
+
+    .logo-icon-img {
+        height: 35px;
+        width: 35px; /* Giữ nguyên dạng vuông */
+    }
+}

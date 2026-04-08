@@ -26,7 +26,7 @@
     {{-- AOS animation --}}
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    {{-- <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}"> --}}
+    <link rel="icon" type="image/png" href="{{ asset('storage/logo/logo-favicon.png') }}">
 
     @include('layouts.routes')
     {{-- nhúng file css và js --}}
