@@ -14,6 +14,7 @@ class BayService
         foreach ($bays as $bay) {
 
             $exists = Booking::where('bay_id', $bay->id)
+                ->whereIn('status', [Booking::STATUS_PENDING, Booking::STATUS_CONFIRMED])
                 ->where(function ($query) use ($startTime, $endTime) {
                     $query->whereBetween('start_time', [$startTime, $endTime])
                         ->orWhereBetween('end_time', [$startTime, $endTime])

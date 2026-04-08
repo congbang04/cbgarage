@@ -40,9 +40,14 @@
                 <input type="radio" name="slot_time" data-time="{{ $slot['time'] }}">
                 {{ $slot['time'] }}
             </label>
-        @elseif ($slot['status'] === 'locked_by_you')
+        @elseif ($slot['status'] === 'selected')
             <label class="time-slot-btn">
                 <input type="radio" name="slot_time" checked>
+                {{ $slot['time'] }}
+            </label>
+        @elseif ($slot['status'] === 'locked_by_you')
+            <label class="time-slot-btn">
+                <input type="radio" name="slot_time" data-time="{{ $slot['time'] }}">
                 {{ $slot['time'] }}
             </label>
         @elseif ($slot['status'] === 'locked')

@@ -10,52 +10,56 @@ export function initBookingLock() {
 
     $(document).on("click", "input[name='slot_time']", function () {
         const newTime = $(this).data("time");
-
+        $(this).prop("disabled", true);
         if (timeSlot === newTime) {
             return;
         }
-        releaseCurrentLock(currentLockId);
+        releaseCurrentLock(currentLockId).always(() => {
+            const { branchId, serviceId, date } = getBookingData();
 
-        const { branchId, serviceId, date } = getBookingData();
+            timeSlot = $(this).data("time");
+            const startTime = `${date} ${timeSlot}`;
 
-        timeSlot = $(this).data("time");
-        const startTime = `${date} ${timeSlot}`;
+            $("#start-time").val(startTime);
 
-        $("#start-time").val(startTime);
+            createLock(branchId, serviceId, startTime)
+                .done(function (res) {
+                    $("#lock-id").val(res.id);
+                    currentLockId = res.id;
+                    setCurrentLock(res.id, startTime);
 
-        createLock(branchId, serviceId, startTime)
-            .done(function (res) {
-                $("#lock-id").val(res.id);
-                currentLockId = res.id;
-                setCurrentLock(res.id, startTime);
-
-                Swal.fire({
-                    icon: "success",
-                    title: "Đang giữ khung giờ " + timeSlot + " trong 5 phút",
-                });
-                loadSlots();
-            })
-            .fail(function (xhr) {
-                if (xhr.status === 422) {
-                    showValidationErrors(xhr.responseJSON.errors, form);
-                } else {
                     Swal.fire({
-                        icon: "error",
-                        title: "Rất tiếc...",
-                        text:
-                            xhr.responseJSON.message ??
-                            "Có lỗi xảy ra, vui lòng thử lại.",
-                        didClose: () => {
-                            $(this).prop("disabled", false).html(originalText);
-                        },
+                        icon: "success",
+                        title:
+                            "Đang giữ khung giờ " + timeSlot + " trong 5 phút",
                     });
-                }
-            });
+                    loadSlots();
+                })
+                .fail(function (xhr) {
+                    if (xhr.status === 422) {
+                        showValidationErrors(xhr.responseJSON.errors, form);
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Rất tiếc...",
+                            text:
+                                xhr.responseJSON.message ??
+                                "Có lỗi xảy ra, vui lòng thử lại.",
+                            didClose: () => {
+                                $(this)
+                                    .prop("disabled", false)
+                                    .html(originalText);
+                            },
+                        });
+                    }
+                });
+        });
     });
     function releaseCurrentLock(currentLockId) {
-        if (!currentLockId) return;
-
-        releaseLock(currentLockId)
+        if (!currentLockId) {
+            return $.Deferred().resolve();
+        }
+        return releaseLock(currentLockId)
             .done(function () {
                 console.log("Lock released");
                 currentLockId = null;

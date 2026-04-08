@@ -36,22 +36,27 @@ class SlotService
         $lunch = $workingHours['lunch'];
 
         $currentSession = $this->bookingSessionId();
-        logger('SESSION', [
-            'laravel_session' => session()->getId(),
-            'booking_session_id' => $currentSession
-        ]);
+
         $potentialSlots = $this->generateSlots($workingHours['start'], $workingHours['end'], $lunch);
         $availableSlots = [];
+        $selectedSlot = null;
         $now = Carbon::now();
+
         foreach ($potentialSlots as $slot) {
             $slotEnd = $slot->copy()->addMinutes($service->estimated_duration);
             $status = 'available';
             $expiresAt = null;
             $lock = $this->slotLockService->getLockForSlot($slot, $slotEnd, $locksOnDate);
+
             $myLock = $locksOnDate->first(function ($lock) use ($slot, $slotEnd, $currentSession) {
+                $lockStart = Carbon::parse($lock->start_time);
+                $lockEnd   = Carbon::parse($lock->end_time);
+
                 return $lock->session_id === $currentSession &&
-                    Carbon::parse($lock->start_time)->eq($slot); // Khớp chính xác giờ bắt đầu
+                    $slot->lt($lockEnd) &&
+                    $slotEnd->gt($lockStart);
             });
+
             $isFull = $this->isSlotUnavailable(
                 $branchId,
                 $slot,
@@ -59,11 +64,20 @@ class SlotService
                 $bookingsOnDate,
                 $lunch,
             );
+
+            foreach ($locksOnDate as $lock) {
+                if ($lock->session_id === $currentSession) {
+                    $selectedSlot = Carbon::parse($lock->start_time);
+                    break;
+                }
+            }
+
             if ($slotEnd->gt($workingHours['end'])) {
                 continue;
             }
-
-            if ($myLock) {
+            if ($selectedSlot && $slot->eq($selectedSlot)) {
+                $status = 'selected';
+            } elseif ($myLock) {
                 $status = 'locked_by_you';
             } elseif ($isFull) {
                 $status = 'unavailable';
@@ -123,7 +137,10 @@ class SlotService
         foreach ($existingBookings as $booking) {
             $bookingStart = Carbon::parse($booking->start_time);
             $bookingEnd   = Carbon::parse($booking->end_time);
-            if ($newBookingStart->lt($bookingEnd) && $newBookingEnd->gt($bookingStart)) {
+            if (
+                in_array($booking->status, [Booking::STATUS_PENDING, Booking::STATUS_CONFIRMED]) &&
+                $newBookingStart->lt($bookingEnd) && $newBookingEnd->gt($bookingStart)
+            ) {
                 $concurrentBookings++;
             }
         }
@@ -166,7 +183,10 @@ class SlotService
             $start = Carbon::parse($booking->start_time);
             $end = Carbon::parse($booking->end_time);
 
-            if ($newBookingStart->lt($end) && $newBookingEnd->gt($start)) {
+            if (
+                in_array($booking->status, [Booking::STATUS_PENDING, Booking::STATUS_CONFIRMED]) &&
+                $newBookingStart->lt($end) && $newBookingEnd->gt($start)
+            ) {
                 $concurrent++;
             }
         }

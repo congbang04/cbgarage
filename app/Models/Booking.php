@@ -24,7 +24,6 @@ class Booking extends Model
         'service_id',
         'start_time',
         'end_time',
-        'lock_expires_at',
         'status',
         'description',
         'bay_id',
