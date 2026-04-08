@@ -41,7 +41,7 @@ class ReceptionController extends Controller
         $order = null;
 
         if ($orderId) {
-            $order = Order::with(['customer', 'car', 'car.brand', 'car.carModel', 'details'])->findOrFail($orderId);
+            $order = Order::with(['customer', 'car', 'car.brand', 'car.carModel', 'details', 'branch'])->findOrFail($orderId);
         }
 
         return view('admin.reception.quotation', compact('order', 'orderId'));

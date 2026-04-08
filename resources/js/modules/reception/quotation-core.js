@@ -497,6 +497,9 @@ function renderStatusBadge(status) {
  */
 export function handlePrintQuotation() {
     const orderId = $('input[name="order_id"]').val();
+    const branchName = $('input[name="branch_name"]').val();
+    const branchPhone = $('input[name="branch_phone"]').val();
+    const branchAddress = $('input[name="branch_address"]').val();
 
     if (quotationData.items.length === 0) {
         Swal.fire({
@@ -510,7 +513,12 @@ export function handlePrintQuotation() {
     // Generate print window
     const printWindow = window.open("", "", "height=600,width=800");
 
-    const quotationHTML = generatePrintHTML();
+    const quotationHTML = generatePrintHTML(
+        orderId,
+        branchName,
+        branchAddress,
+        branchPhone,
+    );
 
     printWindow.document.write(quotationHTML);
     printWindow.document.close();
@@ -523,7 +531,12 @@ export function handlePrintQuotation() {
 /**
  * Generate print HTML
  */
-function generatePrintHTML() {
+function generatePrintHTML(
+    orderId = "---",
+    branchName = "---",
+    branchAddress = "---",
+    branchPhone = "---",
+) {
     let totalGoods = 0;
     let totalLabor = 0;
     let itemsHTML = "";
@@ -574,9 +587,33 @@ function generatePrintHTML() {
             </style>
         </head>
         <body>
-            <div class="header">
-                <h1>BÁO GIÁ SỬA CHỮA</h1>
-                <p>Ngày: ${new Date().toLocaleDateString("vi-VN")}</p>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2px solid #000; padding-bottom:10px; margin-bottom:20px;">
+
+                <!-- LEFT -->
+                <div style="width:55%;">
+                    <div style="font-size:18px; font-weight:bold; text-transform:uppercase;">
+                        CBAUTO GARAGE
+                    </div>
+
+                    <div style="font-size:13px; margin-top:5px;">
+                        <div>Chi nhánh: <strong>${branchName}</strong></div>
+                        <div>Địa chỉ: ${branchAddress}</div>
+                        <div>Điện thoại: <strong>${branchPhone}</strong></div>
+                    </div>
+                </div>
+
+                <!-- RIGHT -->
+                <div style="width:45%; text-align:right;">
+                    <div style="font-size:20px; font-weight:bold;">
+                        BÁO GIÁ SỬA CHỮA
+                    </div>
+
+                    <div style="font-size:13px; margin-top:5px;">
+                        <div>Số: <strong>ORD-${orderId}</strong></div>
+                        <div>Ngày: ${new Date().toLocaleDateString("vi-VN")}</div>
+                    </div>
+                </div>
+
             </div>
 
             <table>
