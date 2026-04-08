@@ -11,9 +11,20 @@ $(document).ready(function () {
     const $btnNextDay = $("#btn-next-day");
     const $dailyRevenueAmount = $("#daily-revenue-amount");
 
+    // Tracking tuần hiện tại để detect week change
+    let currentWeekStart = null;
+
     // Hàm hỗ trợ định dạng Date object thành chuỗi YYYY-MM-DD
     function formatDate(date) {
         return date.toISOString().split("T")[0];
+    }
+
+    // Lấy Monday của tuần (start of week)
+    function getStartOfWeek(dateStr) {
+        const date = new Date(dateStr + "T00:00:00");
+        const day = date.getDay();
+        const diff = date.getDate() - day + (day === 0 ? -6 : 1); // Monday
+        return formatDate(new Date(date.setDate(diff)));
     }
 
     // Format tiền tệ Việt Nam
@@ -77,8 +88,10 @@ $(document).ready(function () {
         date.setDate(date.getDate() - 1);
 
         const newDateStr = formatDate(date);
-        $dateInput.val(newDateStr); // Cập nhật lại input
-        loadDashboard(newDateStr);
+        $dateInput.val(newDateStr);
+
+        // Trigger change event để cả dashboard và chart reload
+        $dateInput.trigger("change");
     });
 
     // Xử lý nút Ngày kế tiếp
@@ -87,8 +100,10 @@ $(document).ready(function () {
         date.setDate(date.getDate() + 1);
 
         const newDateStr = formatDate(date);
-        $dateInput.val(newDateStr); // Cập nhật lại input
-        loadDashboard(newDateStr);
+        $dateInput.val(newDateStr);
+
+        // Trigger change event để cả dashboard và chart reload
+        $dateInput.trigger("change");
     });
 
     // Load lần đầu khi trang vừa tải xong

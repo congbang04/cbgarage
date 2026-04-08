@@ -10,6 +10,19 @@ let serviceChart = null;
 $(document).ready(function () {
     const $dateInput = $('input[type="date"]');
 
+    // Tracking tuần hiện tại để detect week change
+    let currentWeekStart = null;
+
+    /**
+     * Lấy Monday của tuần (start of week)
+     */
+    function getStartOfWeek(dateStr) {
+        const date = new Date(dateStr + "T00:00:00");
+        const day = date.getDay();
+        const diff = date.getDate() - day + (day === 0 ? -6 : 1); // Monday
+        return new Date(date.setDate(diff)).toISOString().split("T")[0];
+    }
+
     /**
      * Format ngày thành label (Mon, Tue, ...)
      */
@@ -234,9 +247,20 @@ $(document).ready(function () {
 
     // Sự kiện khi thay đổi input date
     $dateInput.on("change", function () {
-        loadCharts($(this).val());
+        const newDate = $(this).val();
+        const newWeekStart = getStartOfWeek(newDate);
+
+        // Kiểm tra xem có nhảy qua tuần mới không
+        if (currentWeekStart === null || currentWeekStart !== newWeekStart) {
+            console.log(`Tuần thay đổi: ${currentWeekStart} → ${newWeekStart}`);
+            currentWeekStart = newWeekStart;
+            // Reload charts nếu nhảy qua tuần
+            loadCharts(newDate);
+        }
     });
 
     // Load lần đầu
-    loadCharts($dateInput.val());
+    const initialDate = $dateInput.val();
+    currentWeekStart = getStartOfWeek(initialDate);
+    loadCharts(initialDate);
 });
