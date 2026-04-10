@@ -69,7 +69,7 @@
 
                         <td>
                             <a href="{{ route('technician.jobs.execution', $order->id) }}"
-                                class="btn btn-sm btn-primary">
+                                class="btn btn-sm btn-primary" style="width: 156px; height: 32px;">
                                 @if ($order->status === 'IN_PROGRESS')
                                     <i class="fas fa-play me-1"></i> Cập nhật tiến độ
                                 @else

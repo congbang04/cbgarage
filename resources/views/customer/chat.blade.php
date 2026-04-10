@@ -45,8 +45,10 @@
                         <i class="fas fa-bars"></i>
                     </button>
                     <div class="model-selector">
-                        <span>CBAUTO AI</span>
-                        <i class="fas fa-caret-down fs-6"></i>
+                        <a class="navbar-brand" href="{{ url('/') }}">
+                            <img src="{{ asset('storage/logo/logo-full.png') }}" alt="CBAUTO" class="logo-full-img">
+                        </a>
+                        <span>| CBAUTO AI</span>
                     </div>
                 </div>
 
@@ -54,10 +56,6 @@
                     <a href="{{ url('/') }}" class="text-secondary text-decoration-none" title="Trở về trang chủ">
                         <i class="fas fa-home fs-5"></i>
                     </a>
-                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
-                        style="width: 35px; height: 35px;">
-                        A
-                    </div>
                 </div>
             </header>
 

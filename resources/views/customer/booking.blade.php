@@ -62,7 +62,7 @@
                     <label class="form-label small text-muted">Ngày đến</label>
                     <input type="date" class="form-control" name="date" value="{{ date('Y-m-d') }}">
                 </div>
-                <label class="form-label small text-muted">Giờ đến (Dự kiến 60 phút)</label>
+                <label class="form-label small text-muted">Thời gian làm việc: 08:00 - 18:00</label>
                 <div id="slot-list" class="time-slot-grid">
                     {{-- ajax render slots list --}}
                 </div>

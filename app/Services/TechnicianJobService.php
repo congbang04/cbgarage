@@ -13,40 +13,6 @@ use Illuminate\Support\Facades\DB;
 class TechnicianJobService
 {
     /**
-     * Get all orders assigned to the current technician
-     * Filtered by technician_id and branch_id
-     */
-    public function getAssignedOrders($perPage = 10)
-    {
-        $technician = auth()->user()->technician;
-        if (!$technician) {
-            return collect();
-        }
-
-        return Order::select([
-            'id',
-            'customer_id',
-            'technician_id',
-            'car_id',
-            'status',
-            'created_at',
-            'total_amount'
-        ])
-            ->with([
-                'customer:id,name,phone',
-                'car:id,brand_id,car_model_id,license_plate,manufacture_year,color',
-                'car.brand:id,name',
-                'car.carModel:id,name',
-                'details:id,order_id,item_type,item_id,quantity,price,discount,status',
-                'details.item',
-            ])
-            ->where('technician_id', $technician->id)
-            ->where('branch_id', auth()->user()->branch_id)
-            ->orderByDesc('updated_at')
-            ->paginate($perPage);
-    }
-
-    /**
      * Search assigned orders by keyword, status, date
      */
     public function searchOrders(array $filters, $perPage = 10)
@@ -70,11 +36,15 @@ class TechnicianJobService
         // Filter by keyword: customer name, phone, license plate
         if (!empty($filters['keyword'])) {
             $keyword = $filters['keyword'];
-            $query->whereHas('customer', function ($q) use ($keyword) {
-                $q->where('name', 'like', "%{$keyword}%")
-                    ->orWhere('phone', 'like', "%{$keyword}%");
-            })->orWhereHas('car', function ($q) use ($keyword) {
-                $q->where('license_plate', 'like', "%{$keyword}%");
+
+            $query->where(function ($q) use ($keyword) {
+                $q->whereHas('customer', function ($q2) use ($keyword) {
+                    $q2->where('name', 'like', "%{$keyword}%")
+                        ->orWhere('phone', 'like', "%{$keyword}%");
+                })
+                    ->orWhereHas('car', function ($q2) use ($keyword) {
+                        $q2->where('license_plate', 'like', "%{$keyword}%");
+                    });
             });
         }
 

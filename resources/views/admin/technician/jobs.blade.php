@@ -56,7 +56,7 @@
                             <div class="search-box">
                                 <i class="fas fa-search"></i>
                                 <input type="text" class="form-control" name="keyword"
-                                    placeholder="Tìm tên khách, biển số...">
+                                    placeholder="Tìm tên khách, số điện thoại, biển số xe">
                             </div>
                         </div>
                         <div class="col-md-3">

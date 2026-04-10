@@ -10,7 +10,7 @@
                 CBAUTO
             </div>
             <div>
-                &copy; 2024 Bản quyền thuộc về CBAUTO.
+                &copy; 2026 Bản quyền thuộc về CBAUTO.
             </div>
         </div>
     </footer>

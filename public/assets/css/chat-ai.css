@@ -260,16 +260,17 @@ body {
 
 /* Thêm icon Sparkle cho Bot bằng pseudo-element */
 .chat-bubble.bot::before {
-    content: "\f004"; /* Icon hình trái tim hoặc ngôi sao tùy font awesome */
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    color: transparent;
-    background: linear-gradient(135deg, #4285f4, #d96570, #9b72cb);
-    -webkit-background-clip: text;
-    background-clip: text;
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+    content: "";
     display: block;
+    width: 24px; /* chỉnh to nhỏ tại đây */
+    height: 24px;
+
+    background-image: url("/storage/logo/logo-favicon.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    margin-bottom: 10px;
 }
 
 /* Welcome Screen */
@@ -456,4 +457,36 @@ body {
 .btn-session-opt:hover {
     background: rgba(0, 0, 0, 0.1);
     color: #1f1f1f; /* Đậm lên khi hover */
+}
+
+/* Logo Full (1200x400px - Tỷ lệ 3:1 ngang) */
+.logo-full-img {
+    height: 45px;
+    width: auto;
+    max-width: 210px;
+    object-fit: contain;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+/* Logo Icon (512x512px - Tỷ lệ 1:1 vuông) */
+.logo-icon-img {
+    height: 55px;
+    width: 55px;
+    object-fit: contain;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+/* Responsive: Thu nhỏ logo lại khi xem trên màn hình điện thoại (< 768px) */
+@media (max-width: 768px) {
+    .logo-full-img {
+        height: 35px; /* Thu nhỏ chiều cao trên điện thoại */
+        max-width: 120px;
+    }
+
+    .logo-icon-img {
+        height: 35px;
+        width: 35px; /* Giữ nguyên dạng vuông */
+    }
 }

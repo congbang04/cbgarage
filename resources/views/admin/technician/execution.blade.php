@@ -32,11 +32,6 @@
                     {!! $statusBadge !!}
                 </div>
             </div>
-            <div class="d-flex gap-2">
-                <button class="btn btn-warning text-white" id="issueReportBtn">
-                    <i class="fas fa-exclamation-triangle"></i> Báo phát sinh
-                </button>
-            </div>
         </header>
 
         <div class="p-4">

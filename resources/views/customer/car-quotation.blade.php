@@ -100,11 +100,11 @@
                         <div class="card-body">
                             <h6 class="fw-bold mb-3">Tổng hợp chi phí</h6>
                             <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Tổng tiền hàng:</span>
+                                <span class="text-muted">Tổng vật tư:</span>
                                 <span class="total-goods">0</span>
                             </div>
                             <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Tổng tiền công:</span>
+                                <span class="text-muted">Tổng tiền dịch vụ:</span>
                                 <span class="total-labor">0</span>
                             </div>
                             <hr>

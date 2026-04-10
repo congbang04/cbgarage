@@ -33,11 +33,8 @@ class TechnicianJobController extends Controller
     {
         $filters = $request->only(['keyword', 'status', 'date']);
 
-        if (!empty(array_filter($filters))) {
-            $orders = $this->jobService->searchOrders($filters);
-        } else {
-            $orders = $this->jobService->getAssignedOrders();
-        }
+        $orders = $this->jobService->searchOrders($filters);
+
         return view('admin.technician.partials.jobs-table-list', compact('orders'));
     }
 
