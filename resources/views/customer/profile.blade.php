@@ -82,7 +82,7 @@
                 <div class="card border-0 shadow-sm text-center p-4 h-100">
                     <div class="mb-3 position-relative d-block mx-auto" style="width: max-content;">
                         @if (!empty(auth()->user()->customer->image))
-                            <img src="{{ asset('storage/' . auth()->user()->customer->image) }}"
+                            <img src="{{ Storage::disk('s3')->url(auth()->user()->customer->image) }}"
                                 class="rounded-circle shadow-sm" alt="Avatar"
                                 style="width: 128px; height: 128px; object-fit: cover;">
                         @else
@@ -138,7 +138,7 @@
                         <div class="row g-0">
                             @if (!empty($car->image))
                                 <div class="col-4 bg-light d-flex align-items-center justify-content-center">
-                                    <img src="{{ asset('storage/' . $car->image) }}" alt="car" class="car-img">
+                                    <img src="{{ Storage::disk('s3')->url($car->image) }}" alt="car" class="car-img">
                                 </div>
                             @else
                                 <div class="col-4 bg-light d-flex align-items-center justify-content-center">

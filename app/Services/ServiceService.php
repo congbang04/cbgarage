@@ -20,7 +20,7 @@ class ServiceService
     public function create(array $data): Service
     {
         if (isset($data['icon']) && $data['icon'] instanceof UploadedFile) {
-            $data['icon'] = $data['icon']->store('services', 'public');
+            $data['icon'] = $data['icon']->store('services', 's3');
         }
 
         return Service::create($data);
@@ -30,7 +30,7 @@ class ServiceService
         $service = $this->find($id);
 
         if ($service->icon) {
-            Storage::disk('public')->delete($service->icon);
+            Storage::disk('s3')->delete($service->icon);
         }
 
         return $service->delete();
