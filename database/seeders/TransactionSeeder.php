@@ -15,18 +15,23 @@ class TransactionSeeder extends Seeder
      */
     public function run(): void
     {
-        $paymentMethods = ['cash', 'bank_transfer', 'card'];
+        $faker = \Faker\Factory::create('vi_VN');
 
-        // Get all COMPLETED and PAID orders grouped by branch
-        $orders = Order::whereIn('status', ['COMPLETED', 'PAID'])
-            ->with('branch')
-            ->get();
+        $paymentMethods = ['cash', 'bank_transfer', 'card', 'e_wallet'];
+
+        // Lấy tất cả orders đã COMPLETED hoặc PAID
+        $orders = Order::whereIn('status', ['COMPLETED', 'PAID'])->get();
+
+        if ($orders->isEmpty()) {
+            echo 'Không có Orders ở trạng thái COMPLETED hoặc PAID để seed transactions.' . PHP_EOL;
+            return;
+        }
 
         foreach ($orders as $order) {
-            // 50% chance to have payment transaction
-            if ($order->status === 'PAID' || rand(1, 100) <= 50) {
-                // Create payment transaction
-                $createdAt = now()->subDays(rand(0, 30));
+            // 75% orders COMPLETED/PAID sẽ có transaction thanh toán
+            if (rand(1, 100) <= 75) {
+                // Payment transaction được tạo 1-5 ngày sau khi order completed
+                $paymentDate = $order->updated_at->copy()->addDays(rand(1, 5));
 
                 DB::table('transactions')->insert([
                     'order_id' => $order->id,
@@ -34,13 +39,14 @@ class TransactionSeeder extends Seeder
                     'type' => 'payment',
                     'payment_method' => $paymentMethods[array_rand($paymentMethods)],
                     'transaction_code' => $this->generateTransactionCode(),
-                    'created_at' => $createdAt,
-                    'updated_at' => $createdAt,
+                    'created_at' => $paymentDate,
+                    'updated_at' => $paymentDate,
                 ]);
 
-                // 20% chance for refund
-                if (rand(1, 100) <= 20) {
-                    $refundAmount = $order->total_amount * (rand(20, 100) / 100);
+                // 15% orders có refund
+                if (rand(1, 100) <= 15) {
+                    $refundAmount = $order->total_amount * (rand(10, 50) / 100);
+                    $refundDate = $paymentDate->copy()->addDays(rand(2, 15));
 
                     DB::table('transactions')->insert([
                         'order_id' => $order->id,
@@ -48,14 +54,12 @@ class TransactionSeeder extends Seeder
                         'type' => 'refund',
                         'payment_method' => $paymentMethods[array_rand($paymentMethods)],
                         'transaction_code' => $this->generateTransactionCode(),
-                        'created_at' => $createdAt->addDays(rand(1, 10)),
-                        'updated_at' => $createdAt->addDays(rand(1, 10)),
+                        'created_at' => $refundDate,
+                        'updated_at' => $refundDate,
                     ]);
                 }
             }
         }
-
-        $this->command->info('✅ TransactionSeeder: ' . DB::table('transactions')->count() . ' transactions created.');
     }
 
     /**

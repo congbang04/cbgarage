@@ -32,22 +32,23 @@ class BaySeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            // [
-            //     'name' => 'Bay Q1-03',
-            //     'status' => 'available',
-            //     'type' => 'car',
-            //     'branch_id' => 2,
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            // ],
-            // [
-            //     'name' => 'Bay Q1-04',
-            //     'status' => 'available',
-            //     'type' => 'car',
-            //     'branch_id' => 2,
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            // ],
+            // Branch 1 - Trung tâm
+            [
+                'name' => 'Bay TT-01',
+                'status' => 'available',
+                'type' => 'car',
+                'branch_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Bay TT-02',
+                'status' => 'available',
+                'type' => 'car',
+                'branch_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
 
             // Branch 3 - Quận 7
             [
@@ -60,22 +61,6 @@ class BaySeeder extends Seeder
             ],
             [
                 'name' => 'Bay Q7-02',
-                'status' => 'available',
-                'type' => 'car',
-                'branch_id' => 3,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Bay Q7-03',
-                'status' => 'available',
-                'type' => 'car',
-                'branch_id' => 3,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Bay Q7-04',
                 'status' => 'available',
                 'type' => 'car',
                 'branch_id' => 3,
@@ -100,23 +85,6 @@ class BaySeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'name' => 'Bay TD-03',
-                'status' => 'available',
-                'type' => 'car',
-                'branch_id' => 4,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Bay TD-04',
-                'status' => 'available',
-                'type' => 'car',
-                'branch_id' => 4,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-
         ]);
     }
 }

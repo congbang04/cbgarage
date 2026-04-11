@@ -56,10 +56,10 @@ class UserSeeder extends Seeder
 |--------------------------------
 */
         $staffPerRole = [
-            'TECHNICIAN' => 40,
-            'ADVISOR' => 10,
-            'WAREHOUSE' => 6,
-            'CASHIER' => 6,
+            'TECHNICIAN' => 20,
+            'ADVISOR' => 4,
+            'WAREHOUSE' => 4,
+            'CASHIER' => 4,
             'BRANCH_ADMIN' => 4,
         ];
 
@@ -96,15 +96,28 @@ class UserSeeder extends Seeder
                         'updated_at' => fake()->dateTimeBetween('-1 month', 'now'),
                     ]);
 
-                    Technician::create([
-                        'user_id' => $user->id,
-                        'name' => $faker->lastName() . ' ' . $faker->firstName(),
-                        'phone' => fakeVietnamPhone($faker),
-                        'specialization' => $specializations[array_rand($specializations)],
-                        'is_actived' => true,
-                        'created_at' => fake()->dateTimeBetween('-2 years', '-1 month'),
-                        'updated_at' => fake()->dateTimeBetween('-1 month', 'now'),
-                    ]);
+                    if ($role === 'TECHNICIAN') {
+                        Technician::create([
+                            'user_id' => $user->id,
+                            'name' => $faker->firstName('male') . ' ' . $faker->lastName(),
+                            'phone' => fakeVietnamPhone($faker),
+                            'specialization' => $specializations[array_rand($specializations)],
+                            'is_actived' => true,
+                            'created_at' => fake()->dateTimeBetween('-2 years', '-1 month'),
+                            'updated_at' => fake()->dateTimeBetween('-1 month', 'now'),
+                        ]);
+                    } else {
+                        // Staff roles (ADVISOR, WAREHOUSE, CASHIER, BRANCH_ADMIN)
+                        Technician::create([
+                            'user_id' => $user->id,
+                            'name' => $faker->firstName() . ' ' . $faker->lastName(),
+                            'phone' => fakeVietnamPhone($faker),
+                            'specialization' => $role === 'ADVISOR' ? 'Tư vấn khách hàng' : ($role === 'WAREHOUSE' ? 'Quản lý kho' : ($role === 'CASHIER' ? 'Thanh toán' : 'Quản lý chi nhánh')),
+                            'is_actived' => true,
+                            'created_at' => fake()->dateTimeBetween('-2 years', '-1 month'),
+                            'updated_at' => fake()->dateTimeBetween('-1 month', 'now'),
+                        ]);
+                    }
 
 
                     $techIndex++;
@@ -133,7 +146,7 @@ class UserSeeder extends Seeder
 
             Customer::create([
                 'user_id' => $user->id,
-                'name' => $faker->lastName() . ' ' . $faker->firstName(),
+                'name' => $faker->firstName() . ' ' . $faker->lastName(),
                 'phone' => fakeVietnamPhone($faker),
                 'address' => $faker->address(),
                 'created_at' => fake()->dateTimeBetween('-2 years', '-1 month'),

@@ -10,7 +10,7 @@
         <div class="auth-card">
             <!-- Brand -->
             <div class="auth-brand">
-                <i class="fa-solid fa-layer-group"></i>
+                <img src="{{ asset('storage/logo/logo-icon.png') }}" alt="CBAUTO" class="logo-icon-img">
                 <span>CBAUTO</span>
             </div>
 

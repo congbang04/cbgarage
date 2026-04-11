@@ -19,11 +19,11 @@ class BookingSeeder extends Seeder
             ->select('id', 'name', 'phone')
             ->get();
 
-        $statuses = ['PENDING', 'CONFIRMED', 'CANCELLED'];
+        $baseDate = Carbon::now();
 
-        for ($i = 0; $i < 50; $i++) {
-
-            /** 🔥 70% có account - 30% khách lẻ */
+        // Tạo 80 bookings (từ -30 đến +30 ngày)
+        for ($i = 0; $i < 80; $i++) {
+            /** 70% customers có account - 30% khách lẻ */
             $isGuest = $faker->boolean(30);
 
             $customerId = null;
@@ -45,26 +45,35 @@ class BookingSeeder extends Seeder
                     ->pluck('id')
                     ->toArray();
 
-                if (empty($cars)) {
-                    continue; // bỏ nếu không có xe
+                if (!empty($cars)) {
+                    $carId = $cars[array_rand($cars)];
                 }
-
-                $carId = $cars[array_rand($cars)];
             } else {
                 /** ✅ Khách lẻ */
-                $contactName = $faker->name();
+                $contactName = $faker->firstName() . ' ' . $faker->lastName();
                 $contactPhone = $this->fakeVietnamPhone($faker);
 
-                // có thể có hoặc không có xe
-                $carId = DB::table('cars')->inRandomOrder()->value('id');
+                // 50% khách lẻ có xe
+                if ($faker->boolean(50)) {
+                    $carId = DB::table('cars')->inRandomOrder()->value('id');
+                }
             }
 
-            /** 🔹 Thời gian hợp lý */
-            $start = Carbon::now()
-                ->addDays(rand(-3, 5))
-                ->setTime(rand(8, 16), [0, 30][rand(0, 1)]);
+            /** 🔹 Thời gian hợp lý: -30 ngày đến +30 ngày từ hôm nay */
+            $daysOffset = rand(-30, 30);
+            $start = $baseDate->copy()
+                ->addDays($daysOffset)
+                ->setTime(rand(8, 17), [0, 30][rand(0, 1)]);
 
-            $durationList = [30, 60, 90, 120];
+            // Nếu quá khứ, thì CONFIRMED (75%) hoặc CANCELLED (25%)
+            // Nếu tương lai, thì PENDING (66%) hoặc CONFIRMED (34%)
+            if ($start < now()) {
+                $status = $faker->randomElement(['CONFIRMED', 'CONFIRMED', 'CONFIRMED', 'CANCELLED']);
+            } else {
+                $status = $faker->randomElement(['PENDING', 'PENDING', 'CONFIRMED']);
+            }
+
+            $durationList = [30, 60, 90, 120, 150];
             $duration = $durationList[array_rand($durationList)];
 
             $end = (clone $start)->addMinutes($duration);
@@ -77,8 +86,75 @@ class BookingSeeder extends Seeder
                 'start_time' => $start,
                 'end_time' => $end,
 
-                'status' => $statuses[array_rand($statuses)],
-                'description' => $faker->boolean(70) ? $faker->sentence() : null,
+                'status' => $status,
+                'description' => $faker->boolean(60) ? $faker->sentence() : null,
+
+                'bay_id' => $bays[array_rand($bays)],
+
+                'customer_id' => $customerId,
+                'car_id' => $carId,
+
+                'created_at' => $start->copy()->subDays(rand(1, 7)),
+                'updated_at' => now(),
+            ]);
+        }
+
+        // Thêm 20 bookings từ hôm nay để dashboard có pending bookings
+        for ($i = 0; $i < 20; $i++) {
+            $isGuest = $faker->boolean(30);
+
+            $customerId = null;
+            $contactName = null;
+            $contactPhone = null;
+            $carId = null;
+
+            if (!$isGuest && $customers->isNotEmpty()) {
+                $customer = $customers->random();
+                $customerId = $customer->id;
+                $contactName = $customer->name;
+                $contactPhone = $customer->phone;
+
+                $cars = DB::table('cars')
+                    ->where('customer_id', $customerId)
+                    ->pluck('id')
+                    ->toArray();
+
+                if (!empty($cars)) {
+                    $carId = $cars[array_rand($cars)];
+                }
+            } else {
+                $contactName = $faker->firstName() . ' ' . $faker->lastName();
+                $contactPhone = $this->fakeVietnamPhone($faker);
+
+                if ($faker->boolean(50)) {
+                    $carId = DB::table('cars')->inRandomOrder()->value('id');
+                }
+            }
+
+            // Từ hôm nay đến +14 ngày
+            $daysOffset = rand(0, 14);
+            $start = now()->copy()
+                ->addDays($daysOffset)
+                ->setTime(rand(8, 17), [0, 30][rand(0, 1)]);
+
+            // Hôm nay: PENDING (80%) hoặc CONFIRMED (20%)
+            $status = $faker->randomElement(['PENDING', 'PENDING', 'PENDING', 'PENDING', 'CONFIRMED']);
+
+            $durationList = [30, 60, 90, 120, 150];
+            $duration = $durationList[array_rand($durationList)];
+
+            $end = (clone $start)->addMinutes($duration);
+
+            DB::table('bookings')->insert([
+                'contact_name' => $contactName,
+                'contact_phone' => $contactPhone,
+
+                'service_id' => $services[array_rand($services)],
+                'start_time' => $start,
+                'end_time' => $end,
+
+                'status' => $status,
+                'description' => $faker->boolean(60) ? $faker->sentence() : null,
 
                 'bay_id' => $bays[array_rand($bays)],
 

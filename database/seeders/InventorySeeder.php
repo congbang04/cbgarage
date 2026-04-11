@@ -116,34 +116,58 @@ class InventorySeeder extends Seeder
             'P-060' => ['quantity' => 50, 'min_stock' => 15],     // Relay điện
         ];
 
-        // Get all parts from PartSeeder
+        // Get all parts and branches
         $parts = Part::all();
+        $branches = Branch::all();
 
         foreach ($parts as $part) {
             // Get inventory data from mapping, or use defaults
             if (isset($inventoryData[$part->sku])) {
-                $data = $inventoryData[$part->sku];
+                $baseQuantity = $inventoryData[$part->sku]['quantity'];
+                $baseMinStock = $inventoryData[$part->sku]['min_stock'];
             } else {
                 // Default values for any additional parts
-                $data = [
-                    'quantity' => rand(5, 30),
-                    'min_stock' => rand(2, 8),
-                ];
+                $baseQuantity = rand(5, 30);
+                $baseMinStock = rand(2, 8);
             }
 
-            // Create or update inventory
-            Inventory::updateOrCreate(
-                [
-                    'part_id' => $part->id,
-                    'branch_id' => $centralBranch->id,
-                ],
-                [
-                    'quantity' => $data['quantity'],
-                    'min_stock' => $data['min_stock'],
-                ]
-            );
+            // Seed inventory cho mỗi branch (giảm dần từ kho trung tâm)
+            foreach ($branches as $branch) {
+                $isLowStock = rand(1, 100) <= 15; // 15% parts có low stock để dashboard alert
+
+                if ($isLowStock) {
+                    // Part này sẽ low stock: quantity ≤ min_stock
+                    $quantity = $branch->is_central_warehouse
+                        ? max(1, $baseMinStock - rand(0, 2))  // Kho tổng: min_stock - 0 to 2
+                        : max(1, (int)($baseMinStock * 0.5)   - rand(0, 1)); // Chi nhánh: ~50% min_stock - 0 to 1
+
+                    $minStock = $branch->is_central_warehouse
+                        ? $baseMinStock
+                        : max(1, (int)($baseMinStock * 0.5));
+                } else {
+                    // Normal stock
+                    $quantity = $branch->is_central_warehouse
+                        ? $baseQuantity
+                        : max(1, (int)($baseQuantity * 0.6)) + rand(-2, 2);
+
+                    $minStock = $branch->is_central_warehouse
+                        ? $baseMinStock
+                        : max(1, (int)($baseMinStock * 0.5));
+                }
+
+                Inventory::updateOrCreate(
+                    [
+                        'part_id' => $part->id,
+                        'branch_id' => $branch->id,
+                    ],
+                    [
+                        'quantity' => max(0, $quantity),
+                        'min_stock' => $minStock,
+                    ]
+                );
+            }
         }
 
-        $this->command->info('✅ Inventory seeded for ' . $parts->count() . ' parts!');
+        echo '✅ Inventory seeded cho ' . $parts->count() . ' phụ tùng, ' . $branches->count() . ' chi nhánh!' . PHP_EOL;
     }
 }

@@ -16,7 +16,7 @@
                 <span class="badge {{ $statusClass }} px-3 py-2 fs-6" id="status-{{ $request->id }}">
                     {{ match ($request->status) {
                         'PENDING' => 'Chờ duyệt',
-                        'COMPLETED' => 'Đã xuất',
+                        'COMPLETED' => 'Hoàn thành',
                         'CANCELED' => 'Đã hủy',
                         default => 'Đang vận chuyển',
                     } }}

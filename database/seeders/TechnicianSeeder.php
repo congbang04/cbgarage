@@ -10,13 +10,19 @@ class TechnicianSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     * 
+     * Seeders này không cần chạy vì Technician đã được tạo trong UserSeeder
+     * Giữ lại để reference hoặc update lại nếu cần
      */
     public function run(): void
     {
+        // Technicians được tạo trong UserSeeder đã, không cần seed lại
+
+        // Nếu muốn thêm technicians khác:
         // $users = DB::table('users')
         //     ->where('role', 'TECHNICIAN')
         //     ->get();
-
+        //
         // foreach ($users as $user) {
         //     DB::table('technicians')->insert([
         //         'user_id' => $user->id,

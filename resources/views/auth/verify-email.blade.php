@@ -11,7 +11,8 @@
 
             <!-- Brand Logo -->
             <div class="auth-brand">
-                <i class="fas fa-wrench"></i> CBAUTO
+                <img src="{{ asset('storage/logo/logo-icon.png') }}" alt="CBAUTO" class="logo-icon-img">
+                <span>CBAUTO</span>
             </div>
 
             <!-- Mail Icon -->

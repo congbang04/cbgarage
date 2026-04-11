@@ -17,17 +17,17 @@ class OrderDetailSeeder extends Seeder
     }
     public function createDetails($orderId, $orderStatus)
     {
-        $services = DB::table('services')->get()->keyBy('name');
-        $parts = DB::table('parts')->get()->keyBy('name');
+        $services = DB::table('services')->get();
+        $parts = DB::table('parts')->get();
 
         $total = 0;
 
-        // 🔥 chọn 1–3 service chính
-        $selectedServices = $services->random(rand(1, 3));
+        // Chọn 1–3 services chính
+        $serviceCount = rand(1, 3);
+        $selectedServices = $services->random(min($serviceCount, count($services)));
 
         foreach ($selectedServices as $service) {
-
-            // SERVICE
+            // Thêm SERVICE
             DB::table('order_details')->insert([
                 'order_id' => $orderId,
                 'item_type' => 'App\Models\Service',
@@ -42,49 +42,24 @@ class OrderDetailSeeder extends Seeder
 
             $total += $service->price;
 
-            // 🔥 LOGIC COMBO THỰC TẾ
-
-            // Thay dầu → luôn có lọc dầu + dầu
-            if ($service->name === 'Thay dầu động cơ') {
-
-                $this->addPart($orderId, $parts, 'Lọc dầu động cơ', 1, $total);
-                $this->addPart($orderId, $parts, 'Dầu động cơ 5W30', rand(3, 5), $total);
-            }
-
-            // Phanh → má phanh
-            if ($service->name === 'Kiểm tra hệ thống phanh') {
-
-                $this->addPart($orderId, $parts, 'Má phanh trước', 1, $total);
-            }
-
-            // Điều hòa → gas lạnh
-            if ($service->name === 'Vệ sinh khoang máy') {
-
-                if (rand(0, 1)) {
-                    $this->addPart($orderId, $parts, 'Gas lạnh R134a', 1, $total);
-                }
-            }
+            // LOGIC COMBO THỰC TẾ - match parts theo service
+            $this->addRelevantParts($orderId, $service->name, $parts, $total, $orderStatus);
         }
 
-        // 🔥 random thêm part ngoài
+        // Thêm 0-3 parts random ngoài combo
         for ($i = 0; $i < rand(0, 3); $i++) {
-
-            $part = $parts->random();
-
-            $quantity = rand(1, 2);
-
-            $discount = rand(0, 100) < 20 ? rand(10000, 50000) : 0;
-
-            $amount = ($part->price_sell * $quantity) - $discount;
-
+            $randomly = $parts->random();
+            $quantity = rand(1, 3);
+            $discount = rand(0, 100) < 20 ? rand(10000, 150000) : 0;
+            $amount = ($randomly->price_sell * $quantity) - $discount;
             $total += $amount;
 
             DB::table('order_details')->insert([
                 'order_id' => $orderId,
                 'item_type' => 'App\Models\Part',
-                'item_id' => $part->id,
+                'item_id' => $randomly->id,
                 'quantity' => $quantity,
-                'price' => $part->price_sell,
+                'price' => $randomly->price_sell,
                 'discount' => $discount,
                 'status' => $this->mapStatus($orderStatus),
                 'created_at' => now(),
@@ -97,27 +72,64 @@ class OrderDetailSeeder extends Seeder
             ->update(['total_amount' => $total]);
     }
 
-    private function addPart($orderId, $parts, $name, $quantity, &$total)
+    /**
+     * Thêm parts tương ứng với service
+     */
+    private function addRelevantParts($orderId, $serviceName, $parts, &$total, $orderStatus)
     {
-        if (!$parts->has($name)) return;
+        $partMappings = [
+            'Thay dầu động cơ' => ['Lọc dầu động cơ', 'Dầu động cơ 5W30', 'Dầu động cơ 10W40'],
+            'Kiểm tra hệ thống phanh' => ['Má phanh trước', 'Má phanh sau', 'Dầu phanh DOT4'],
+            'Kiểm tra & thay thế ắc quy' => ['Ắc quy 12V'],
+            'Dịch vụ lốp' => ['Lốp xe 15 inch', 'Lốp xe 16 inch', 'Lốp xe 17 inch', 'Van lốp'],
+            'Bảo dưỡng hệ thống điều hòa' => ['Gas lạnh R134a', 'Lốc điều hòa'],
+            'Bảo dưỡng & thay dầu hộp số' => ['Dầu hộp số tự động ATF', 'Dầu hộp số sàn'],
+        ];
 
-        $part = $parts[$name];
+        $relevantParts = [];
 
-        $amount = $part->price_sell * $quantity;
+        // Try direct match first
+        if (isset($partMappings[$serviceName])) {
+            $relevantParts = $partMappings[$serviceName];
+        } else {
+            // Try partial match
+            foreach ($partMappings as $serviceKey => $partNames) {
+                if (
+                    str_contains(strtolower($serviceName), strtolower($serviceKey)) ||
+                    str_contains(strtolower($serviceKey), strtolower($serviceName))
+                ) {
+                    $relevantParts = $partNames;
+                    break;
+                }
+            }
+        }
 
-        $total += $amount;
+        // Thêm relevant parts
+        if (!empty($relevantParts)) {
+            $count = rand(1, min(2, count($relevantParts)));
+            $selectedPartNames = array_slice($relevantParts, 0, $count);
 
-        DB::table('order_details')->insert([
-            'order_id' => $orderId,
-            'item_type' => 'App\Models\Part',
-            'item_id' => $part->id,
-            'quantity' => $quantity,
-            'price' => $part->price_sell,
-            'discount' => 0,
-            'status' => 'IN_PROGRESS',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+            foreach ($selectedPartNames as $partName) {
+                $part = $parts->firstWhere('name', $partName);
+                if ($part) {
+                    $quantity = rand(1, 2);
+                    $amount = $part->price_sell * $quantity;
+                    $total += $amount;
+
+                    DB::table('order_details')->insert([
+                        'order_id' => $orderId,
+                        'item_type' => 'App\Models\Part',
+                        'item_id' => $part->id,
+                        'quantity' => $quantity,
+                        'price' => $part->price_sell,
+                        'discount' => 0,
+                        'status' => $this->mapStatus($orderStatus),
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
+        }
     }
 
     private function mapStatus($orderStatus)

@@ -21,7 +21,7 @@
                     <span class="badge {{ $statusClass }}" id="status-{{ $transfer->id }}">
                         {{ match ($transfer->status) {
                             'PENDING' => 'Chờ duyệt',
-                            'COMPLETED' => 'Đã xuất',
+                            'COMPLETED' => 'Hoàn thành',
                             'CANCELED' => 'Đã hủy',
                             default => 'Đang vận chuyển',
                         } }}

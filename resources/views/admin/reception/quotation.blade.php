@@ -114,10 +114,10 @@
                 <!-- Cột Phải: Tổng tiền & Action -->
                 <div class="col-lg-3">
                     <form id="quotation-form">
-                        <input name="order_id" value="{{ $order?->id }}">
-                        <input name="branch_name" value="{{ $order?->branch->name }}">
-                        <input name="branch_address" value="{{ $order?->branch->address }}">
-                        <input name="branch_phone" value="{{ $order?->branch->phone }}">
+                        <input type="hidden" name="order_id" value="{{ $order?->id }}">
+                        <input type="hidden" name="branch_name" value="{{ $order?->branch->name }}">
+                        <input type="hidden" name="branch_address" value="{{ $order?->branch->address }}">
+                        <input type="hidden" name="branch_phone" value="{{ $order?->branch->phone }}">
 
                         <div class="card mb-3">
                             <div class="card-body">

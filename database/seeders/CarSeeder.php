@@ -182,7 +182,13 @@ class CarSeeder extends Seeder
                         'Trắng',
                         'Đen',
                         'Đỏ',
-                        'Xám'
+                        'Xám',
+                        'Bạc',
+                        'Nâu',
+                        'Xanh đậm',
+                        'Xanh lam',
+                        'Vàng',
+                        'Cam'
                     ]),
 
                     'current_odo' => rand(10000, 80000),
@@ -193,7 +199,8 @@ class CarSeeder extends Seeder
         }
     }
     /**
-     * Generate biển số xe Việt Nam
+     * Generate biển số xe Việt Nam - Format: [Tỉnh][Letter]-[Số]
+     * VD: 30A-12345 (TP.HCM), 29B-45678 (Bà Rịa - Vũng Tàu)
      */
     private function generateVietnamPlate(): string
     {
@@ -214,8 +221,8 @@ class CarSeeder extends Seeder
             '25',
             '26',
             '27',
-            '28',
-            '29',
+            '28', // Miền Bắc & Trung
+            '29', // Bà Rịa - Vũng Tàu
             '30',
             '31',
             '32',
@@ -225,7 +232,7 @@ class CarSeeder extends Seeder
             '36',
             '37',
             '38',
-            '39',
+            '39', // TP.HCM & xung quanh
             '40',
             '41',
             '43',
@@ -241,7 +248,7 @@ class CarSeeder extends Seeder
             '56',
             '57',
             '58',
-            '59',
+            '59', // Miền Nam
             '60',
             '61',
             '62',
@@ -283,7 +290,8 @@ class CarSeeder extends Seeder
 
         $code = $provinceCodes[array_rand($provinceCodes)];
         $letter = chr(rand(65, 90)); // A-Z
+        $number = str_pad(rand(1000, 99999), 5, '0', STR_PAD_LEFT);
 
-        return $code . $letter . '-' . rand(100, 999) . '.' . rand(10, 99);
+        return $code . $letter . '-' . $number;
     }
 }

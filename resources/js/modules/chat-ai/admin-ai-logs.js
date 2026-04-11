@@ -139,7 +139,7 @@ $(document).ready(function () {
             let initial = res.session_info.name.charAt(0).toUpperCase();
 
             res.messages.forEach((msg) => {
-                if (msg.sender === "model") {
+                if (msg.sender === "bot") {
                     chatContentEl.append(`
                         <div class="d-flex flex-row mb-3">
                             <div class="p-2 me-3 border bg-white rounded-circle d-flex align-items-center justify-content-center" style="width:40px; height:40px;">🤖</div>
