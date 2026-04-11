@@ -2,3 +2,7 @@
 !private/
 !public/
 !.gitignore
+!booking-icon/
+!booking-icon/**
+!logo/
+!logo/**
