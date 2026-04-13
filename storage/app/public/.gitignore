@@ -1,2 +1,8 @@
 *
 !.gitignore
+!booking-icon/
+!booking-icon/**
+!logo/
+!logo/**
+!home/
+!home/**
