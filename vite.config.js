@@ -8,7 +8,11 @@ const moduleScripts = globSync("resources/js/modules/**/*.js");
 export default defineConfig({
     plugins: [
         laravel({
-            input: ["resources/css/app.css", "resources/js/app.js"],
+            input: [
+                "resources/css/app.css",
+                "resources/js/app.js",
+                ...moduleScripts,
+            ],
             refresh: true,
         }),
         tailwindcss(),

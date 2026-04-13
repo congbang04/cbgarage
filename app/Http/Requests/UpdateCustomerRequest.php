@@ -22,7 +22,7 @@ class UpdateCustomerRequest extends FormRequest
      */
     public function rules(): array
     {
-        $customerId = \App\Models\Customer::where('user_id', auth()->id())->value('id');
+        $customerId = $this->route('customer')?->id ?? $this->input('id');
 
         return [
             'name' => ['required', 'string', 'min:3', 'max:255'],
