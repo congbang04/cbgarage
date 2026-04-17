@@ -26,8 +26,8 @@ class OrderDetailSeeder extends Seeder
         $serviceCount = rand(1, 3);
         $selectedServices = $services->random(min($serviceCount, count($services)));
 
+        // BƯỚC 1: LUÔN GÁN SERVICE (Vì lúc tiếp nhận khách đã báo muốn làm gì)
         foreach ($selectedServices as $service) {
-            // Thêm SERVICE
             DB::table('order_details')->insert([
                 'order_id' => $orderId,
                 'item_type' => 'App\Models\Service',
@@ -41,32 +41,40 @@ class OrderDetailSeeder extends Seeder
             ]);
 
             $total += $service->price;
-
-            // LOGIC COMBO THỰC TẾ - match parts theo service
-            $this->addRelevantParts($orderId, $service->name, $parts, $total, $orderStatus);
         }
 
-        // Thêm 0-3 parts random ngoài combo
-        for ($i = 0; $i < rand(0, 3); $i++) {
-            $randomly = $parts->random();
-            $quantity = rand(1, 3);
-            $discount = rand(0, 100) < 20 ? rand(10000, 150000) : 0;
-            $amount = ($randomly->price_sell * $quantity) - $discount;
-            $total += $amount;
+        // BƯỚC 2: CHỈ GÁN PHỤ TÙNG KHI TRẠNG THÁI ĐÃ VƯỢT QUA MỨC 'RECEIVED'
+        // (Tương đương với việc đã lên báo giá - QUOTED trở đi)
+        if ($orderStatus !== 'RECEIVED') {
 
-            DB::table('order_details')->insert([
-                'order_id' => $orderId,
-                'item_type' => 'App\Models\Part',
-                'item_id' => $randomly->id,
-                'quantity' => $quantity,
-                'price' => $randomly->price_sell,
-                'discount' => $discount,
-                'status' => $this->mapStatus($orderStatus),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            // Lặp lại các service để match phụ tùng tương ứng
+            foreach ($selectedServices as $service) {
+                $this->addRelevantParts($orderId, $service->name, $parts, $total, $orderStatus);
+            }
+
+            // Thêm 0-3 parts random ngoài combo
+            for ($i = 0; $i < rand(0, 3); $i++) {
+                $randomly = $parts->random();
+                $quantity = rand(1, 3);
+                $discount = rand(0, 100) < 20 ? rand(10000, 150000) : 0;
+                $amount = ($randomly->price_sell * $quantity) - $discount;
+                $total += $amount;
+
+                DB::table('order_details')->insert([
+                    'order_id' => $orderId,
+                    'item_type' => 'App\Models\Part',
+                    'item_id' => $randomly->id,
+                    'quantity' => $quantity,
+                    'price' => $randomly->price_sell,
+                    'discount' => $discount,
+                    'status' => $this->mapStatus($orderStatus),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
         }
 
+        // Cập nhật tổng tiền vào Order
         DB::table('orders')
             ->where('id', $orderId)
             ->update(['total_amount' => $total]);

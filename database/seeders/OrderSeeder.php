@@ -25,7 +25,6 @@ class OrderSeeder extends Seeder
                 ->toArray();
         }
 
-        // Cache danh sách xe (Mỗi xe đã chứa sẵn customer_id là chủ xe hợp lệ từ CarSeeder)
         $cars = DB::table('cars')->get();
 
         // ==========================================
@@ -47,13 +46,15 @@ class OrderSeeder extends Seeder
 
             $branchId = DB::table('users')->where('id', $orderCustomerId)->value('branch_id') ?? 1;
 
-            $technicianId = null;
-            if (!empty($techniciansByBranch[$branchId])) {
-                $technicianId = $techniciansByBranch[$branchId][array_rand($techniciansByBranch[$branchId])];
-            }
-
+            // XÁC ĐỊNH STATUS TRƯỚC
             $createdAt = Carbon::parse($booking->start_time);
             $status = $this->determineOrderStatus($createdAt, $faker);
+
+            // CHỈ GÁN KTV KHI TRẠNG THÁI KHÁC 'RECEIVED'
+            $technicianId = null;
+            if ($status !== Order::STATUS_RECEIVED && !empty($techniciansByBranch[$branchId])) {
+                $technicianId = $techniciansByBranch[$branchId][array_rand($techniciansByBranch[$branchId])];
+            }
 
             $orderId = DB::table('orders')->insertGetId([
                 'fuel_range' => rand(10, 90),
@@ -63,8 +64,8 @@ class OrderSeeder extends Seeder
                 'note' => 'Tiếp nhận từ mã đặt lịch: #' . $booking->id,
                 'user_id' => $orderCustomerId,
                 'branch_id' => $branchId,
-                'car_id' => $orderCarId,             // Xe chuẩn
-                'customer_id' => $orderCustomerId,   // Khớp 100% với chủ xe ở trên
+                'car_id' => $orderCarId,
+                'customer_id' => $orderCustomerId,
                 'booking_id' => $booking->id,
                 'technician_id' => $technicianId,
                 'created_at' => $createdAt,
@@ -78,8 +79,6 @@ class OrderSeeder extends Seeder
         // PHA 2: TẠO ORDER KHÁCH VÃNG LAI WALK-IN
         // ==========================================
         $baseDate = Carbon::now()->subDays(60);
-
-        // Lấy ngẫu nhiên 30 xe để tạo order vãng lai
         $walkInCars = $cars->random(min(30, $cars->count()));
 
         foreach ($walkInCars as $car) {
@@ -90,10 +89,13 @@ class OrderSeeder extends Seeder
                 $createdAt = (clone $baseDate)->addDays($daysOffset);
 
                 $branchId = DB::table('users')->where('id', $car->customer_id)->value('branch_id') ?? 1;
+
+                // XÁC ĐỊNH STATUS TRƯỚC
                 $status = $this->determineOrderStatus($createdAt, $faker);
 
+                // CHỈ GÁN KTV KHI TRẠNG THÁI KHÁC 'RECEIVED'
                 $technicianId = null;
-                if (!empty($techniciansByBranch[$branchId])) {
+                if ($status !== Order::STATUS_RECEIVED && !empty($techniciansByBranch[$branchId])) {
                     $technicianId = $techniciansByBranch[$branchId][array_rand($techniciansByBranch[$branchId])];
                 }
 
@@ -105,8 +107,8 @@ class OrderSeeder extends Seeder
                     'note' => 'Khách vãng lai (Không qua đặt lịch)',
                     'user_id' => $car->customer_id,
                     'branch_id' => $branchId,
-                    'car_id' => $car->id,                   // Xe vãng lai
-                    'customer_id' => $car->customer_id,     // Luôn luôn là chủ của chiếc xe đó
+                    'car_id' => $car->id,
+                    'customer_id' => $car->customer_id,
                     'booking_id' => null,
                     'technician_id' => $technicianId,
                     'created_at' => $createdAt,

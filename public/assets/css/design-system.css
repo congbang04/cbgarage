@@ -19,7 +19,7 @@
     --success: #10b981; /* Completed, Paid */
     --info: #0ea5e9; /* Processing, Fixing */
     --warning: #f59e0b; /* Pending, Quoting */
-    --danger: #ef4444; /* Cancelled, Rejected, Overdue */
+    --danger: #ef4444; /* canceled, Rejected, Overdue */
     --dark: #111111; /* Sidebar, Headings */
     --light: #f8fafc; /* Background */
     --white: #ffffff;
@@ -528,7 +528,7 @@ a:hover {
     color: #16a34a;
 }
 
-.status-cancelled,
+.status-canceled,
 .status-rejected {
     background-color: #fee2e2;
     color: #dc2626;

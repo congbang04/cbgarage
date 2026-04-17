@@ -21,7 +21,7 @@ class ReceptionController extends Controller
     }
     public function tableList(Request $request)
     {
-        $filters = $request->only(['keyword', 'status', 'date']);
+        $filters = $request->only(['keyword', 'status', 'date', 'branch_id']);
 
         $orders = $this->receptionService->searchOrders($filters);
 

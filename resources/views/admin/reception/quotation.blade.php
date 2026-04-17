@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="d-flex align-items-center">
-                @if ($order->status !== \App\Models\Order::STATUS_CANCELLED)
+                @if ($order->status !== \App\Models\Order::STATUS_CANCELED)
                     <button class="btn btn-danger btn-cancel-order me-3" data-id="{{ $order->id }}">
                         <i class="fa-solid fa-x"></i> Hủy đơn
                     </button>
@@ -61,7 +61,7 @@
                         'PAID'
                             => '<span class="status-badge fs-6 px-3 fw-bold bg-success text-light">Đã thanh toán</span>',
 
-                        'CANCELLED' => '<span class="status-badge fs-6 px-3 fw-bold danger">Đã huỷ</span>',
+                        'CANCELED' => '<span class="status-badge fs-6 px-3 fw-bold danger">Đã huỷ</span>',
 
                         default
                             => '<span class="status-badge fs-6 px-3 fw-bold bg-dark text-light">Không xác định</span>',

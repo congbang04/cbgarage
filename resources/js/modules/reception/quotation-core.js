@@ -464,7 +464,7 @@ function updateQuotationHeader(order) {
     const statusHtml = renderStatusBadge(order.status);
     $("#quotation-status").html(statusHtml);
 
-    if (order.status === "CANCELLED") {
+    if (order.status === "CANCELED") {
         $(".btn-cancel-order").remove();
     }
 
@@ -486,7 +486,7 @@ function renderStatusBadge(status) {
             return `<span class="status-badge fs-6 px-3 fw-bold success">Hoàn thành</span>`;
         case "PAID":
             return `<span class="status-badge fs-6 px-3 fw-bold bg-success text-light">Đã thanh toán</span>`;
-        case "CANCELLED":
+        case "CANCELED":
             return `<span class="status-badge fs-6 px-3 fw-bold danger">Đã huỷ</span>`;
         default:
             return `<span class="status-badge fs-6 px-3 fw-bold bg-dark text-light">Không xác định</span>`;

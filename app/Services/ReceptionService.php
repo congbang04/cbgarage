@@ -93,7 +93,7 @@ class ReceptionService
                 'branch:id,name'
             ]);
 
-        // Lọc theo từ khóa (Biển số xe hoặc Tên khách hàng)
+
         if (!empty($filters['keyword'])) {
             $keyword = $filters['keyword'];
             $query->where(function ($q) use ($keyword) {
@@ -109,14 +109,16 @@ class ReceptionService
             });
         }
 
-        // Lọc theo trạng thái
         if (!empty($filters['status'])) {
             $query->where('status', $filters['status']);
         }
 
-        // Lọc theo ngày tạo (Ngày nhận xe)
         if (!empty($filters['date'])) {
             $query->whereDate('created_at', $filters['date']);
+        }
+
+        if (!empty($filters['branch_id'])) {
+            $query->where('branch_id', $filters['branch_id']);
         }
 
         return $query->orderByDesc('updated_at')->paginate($perPage);
@@ -243,12 +245,12 @@ class ReceptionService
             throw new Exception("Không thể hủy đơn 'ĐÃ HOÀN THÀNH' hoặc 'ĐÃ THANH TOÁN'.");
         }
 
-        if ($order->status === Order::STATUS_CANCELLED) {
+        if ($order->status === Order::STATUS_CANCELED) {
             throw new Exception("Đơn này đã được hủy trước đó.");
         }
 
         $order->update([
-            'status' => Order::STATUS_CANCELLED
+            'status' => Order::STATUS_CANCELED
         ]);
 
         if ($order->booking) {

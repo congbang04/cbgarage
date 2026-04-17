@@ -30,7 +30,7 @@
 
                             'PAID' => '<span class="status-badge bg-success text-light">Đã thanh toán</span>',
 
-                            'CANCELLED' => '<span class="status-badge danger">Đã huỷ</span>',
+                            'CANCELED' => '<span class="status-badge danger">Đã huỷ</span>',
 
                             default => '<span class="status-badge bg-dark text-light">Không xác định</span>',
                         };
