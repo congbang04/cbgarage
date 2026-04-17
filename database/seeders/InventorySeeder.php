@@ -167,7 +167,5 @@ class InventorySeeder extends Seeder
                 );
             }
         }
-
-        echo '✅ Inventory seeded cho ' . $parts->count() . ' phụ tùng, ' . $branches->count() . ' chi nhánh!' . PHP_EOL;
     }
 }

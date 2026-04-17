@@ -151,7 +151,7 @@ class CarSeeder extends Seeder
 
             $cars = collect($this->carsData)
                 ->unique(fn($c) => $c['brand'] . '-' . $c['model'])
-                ->random(rand(2, 4));
+                ->random(rand(1, 3));
 
             foreach ($cars as $carData) {
 

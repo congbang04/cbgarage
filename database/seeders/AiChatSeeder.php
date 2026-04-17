@@ -65,8 +65,6 @@ class AiChatSeeder extends Seeder
                 }
             }
         }
-
-        echo "✅ AiChatSeeder: Tạo " . $customers->count() * 3 . "+ chat sessions với dữ liệu production-like!" . PHP_EOL;
     }
 
     /**
