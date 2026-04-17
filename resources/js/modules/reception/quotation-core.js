@@ -331,6 +331,59 @@ export function handleAddItem(itemType, itemId, itemName, price) {
     if (modal) {
         modal.hide();
     }
+    if (itemType === "App\\Models\\Part") {
+        // 1. Tìm phụ tùng vừa chọn trong mảng data đã load từ API
+        const selectedPart = quotationData.parts.find((p) => p.id === itemId);
+
+        // 2. Kiểm tra xem phụ tùng này có tiền công gợi ý đi kèm không
+        if (
+            selectedPart &&
+            selectedPart.suggested_labors &&
+            selectedPart.suggested_labors.length > 0
+        ) {
+            // Lấy công đầu tiên trong danh sách gợi ý
+            const labor = selectedPart.suggested_labors[0];
+
+            // 3. Hiển thị popup hỏi người dùng
+            Swal.fire({
+                title: "Thêm tiền công tương ứng?",
+                text: `Hệ thống nhận thấy bạn vừa thêm "${itemName}". Bạn có muốn thêm "${labor.name}" với giá ${parseFloat(labor.price).toLocaleString("vi-VN")} ₫ không?`,
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Có, thêm vào báo giá!",
+                cancelButtonText: "Không cần",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Tạo object tiền công
+                    const laborItem = {
+                        item_type: "App\\Models\\Labor",
+                        item_id: labor.id,
+                        name: labor.name,
+                        quantity: 1, // Mặc định số lượng công là 1
+                        price: parseFloat(labor.price) || 0,
+                        discount: 0,
+                    };
+
+                    // Push thẳng vào mảng items và render lại bảng
+                    quotationData.items.push(laborItem);
+                    addItemToTable(quotationData.items.length, laborItem);
+                    updateQuotationTotal();
+
+                    // Thông báo thêm thành công (Toast mượt mà)
+                    Swal.fire({
+                        icon: "success",
+                        title: "Đã thêm tiền công",
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                }
+            });
+        }
+    }
 }
 
 /**
@@ -371,13 +424,13 @@ function addItemToTable(index, item) {
     let badgeClass = "";
     if (item.item_type === "App\\Models\\Service") {
         badgeClass =
-            '<span class="badge bg-info-subtle text-info">Dịch vụ</span>';
+            '<span class="badge bg-info-subtle text-info fw-bold" style="width: 75px">Dịch vụ</span>';
     } else if (item.item_type === "App\\Models\\Labor") {
         badgeClass =
-            '<span class="badge bg-primary-subtle text-primary">Tiền công</span>';
+            '<span class="badge bg-primary-subtle text-primary fw-bold" style="width: 75px">Tiền công</span>';
     } else {
         badgeClass =
-            '<span class="badge bg-secondary-subtle text-secondary">Vật tư</span>';
+            '<span class="badge bg-secondary-subtle text-secondary fw-bold" style="width: 75px">Vật tư</span>';
     }
 
     const rowHtml = `
