@@ -26,10 +26,10 @@
         <div class="p-4">
             <ul class="nav nav-tabs mb-4">
                 <li class="nav-item">
-                    <a class="nav-link text-secondary fw-bold" href="{{ route('services.index') }}">Dịch vụ (Công)</a>
+                    <a class="nav-link text-secondary fw-bold" href="{{ route('services.index') }}">Dịch vụ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active fw-bold" href="{{ route('parts.index') }}">Phụ tùng (Vật tư)</a>
+                    <a class="nav-link active fw-bold" href="{{ route('parts.index') }}">Phụ tùng, vật tư</a>
                 </li>
             </ul>
 

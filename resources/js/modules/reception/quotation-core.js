@@ -13,6 +13,7 @@ import {
 let quotationData = {
     services: [],
     parts: [],
+    labors: [],
     technicians: [],
     items: [], // Current items in quotation
 };
@@ -51,6 +52,7 @@ export function loadExistingQuotation(orderId) {
 export function recalculateFromTable() {
     let totalGoods = 0;
     let totalLabor = 0;
+    let totalService = 0;
 
     // Clear items array before rebuilding
     quotationData.items = [];
@@ -80,18 +82,21 @@ export function recalculateFromTable() {
             discount: discount,
         });
 
-        if (itemType.includes("Service")) {
+        if (itemType.includes("Labor")) {
             totalLabor += lineTotal;
+        } else if (itemType.includes("Service")) {
+            totalService += lineTotal;
         } else {
             totalGoods += lineTotal;
         }
     });
 
     // Update display with calculated totals
-    const finalTotal = totalGoods + totalLabor;
+    const finalTotal = totalGoods + totalLabor + totalService;
 
     $(".total-goods").html(totalGoods.toLocaleString("vi-VN"));
     $(".total-labor").html(totalLabor.toLocaleString("vi-VN"));
+    $(".total-service").html(totalService.toLocaleString("vi-VN"));
     $(".total-payment").html(finalTotal.toLocaleString("vi-VN"));
 }
 
@@ -211,7 +216,59 @@ export function filterParts(query) {
         }
     });
 }
-
+/**
+ * Load Labors from backend
+ */
+export function loadLabors() {
+    QuotationAPI.getLabors()
+        .done(function (labors) {
+            quotationData.labors = labors;
+            renderLaborsModal(labors);
+        })
+        .fail(function (xhr) {
+            handleAjaxError(xhr, "#quotation-container");
+        });
+}
+/**
+ * Render Labors in modal
+ */
+function renderLaborsModal(labors) {
+    let html = "";
+    labors.forEach((labor) => {
+        html += `
+            <div class="list-group-item d-flex justify-content-between align-items-center cursor-pointer"
+                 data-type="App\\Models\\Labor" 
+                 data-id="${labor.id}" 
+                 data-name="${labor.name}" 
+                 data-price="${labor.price}">
+                <div>
+                    <div class="fw-bold">${labor.name}</div>
+                    <small class="text-muted">${labor.sku} | Giá: ${labor.price.toLocaleString("vi-VN")} ₫</small>
+                </div>
+                <i class="fas fa-chevron-right text-muted"></i>
+            </div>
+        `;
+    });
+    $("#labors-list").html(html);
+}
+/**
+ * Filter Labors by search
+ */
+export function filterLabors(query) {
+    const allLabors = $("#labors-list").find(".list-group-item");
+    allLabors.each(function () {
+        const name = $(this).find(".fw-bold").text().toLowerCase();
+        const sku = $(this).find(".text-muted").text().toLowerCase();
+        if (
+            name.includes(query.toLowerCase()) ||
+            sku.includes(query.toLowerCase())
+        ) {
+            $(this).removeClass("d-none");
+        } else {
+            $(this).addClass("d-none");
+        }
+    });
+}
 /**
  * Load technicians from backend
  */
@@ -310,10 +367,18 @@ function addItemToTable(index, item) {
     const lineTotal =
         item.quantity * item.price -
         item.quantity * item.price * (item.discount / 100);
-    const badgeClass =
-        item.item_type === "App\\Models\\Service"
-            ? '<span class="badge bg-info-subtle text-info">Công</span>'
-            : '<span class="badge bg-secondary-subtle text-secondary">Vật tư</span>';
+
+    let badgeClass = "";
+    if (item.item_type === "App\\Models\\Service") {
+        badgeClass =
+            '<span class="badge bg-info-subtle text-info">Dịch vụ</span>';
+    } else if (item.item_type === "App\\Models\\Labor") {
+        badgeClass =
+            '<span class="badge bg-primary-subtle text-primary">Tiền công</span>';
+    } else {
+        badgeClass =
+            '<span class="badge bg-secondary-subtle text-secondary">Vật tư</span>';
+    }
 
     const rowHtml = `
         <tr data-item-id="${item.item_type}-${item.item_id}" data-index="${index}">
@@ -350,32 +415,20 @@ export function handleRemoveItem(index) {
 }
 
 /**
- * Handle quantity change
- */
-export function handleQuantityChange(event) {
-    const index = $(event.target).data("index");
-    const newQuantity = parseFloat($(event.target).val()) || 0;
-
-    if (newQuantity > 0) {
-        quotationData.items[index - 1].quantity = newQuantity;
-        updateQuotationTotal();
-    }
-}
-
-/**
  * Update quotation total and VAT
  */
 export function updateQuotationTotal() {
     let totalGoods = 0;
     let totalLabor = 0;
+    let totalService = 0;
 
     quotationData.items.forEach((item) => {
-        const lineTotal =
-            item.quantity * item.price -
-            item.quantity * item.price * (item.discount / 100);
+        const lineTotal = item.quantity * item.price;
 
-        if (item.item_type === "App\\Models\\Service") {
+        if (item.item_type === "App\\Models\\Labor") {
             totalLabor += lineTotal;
+        } else if (item.item_type === "App\\Models\\Service") {
+            totalService += lineTotal;
         } else {
             totalGoods += lineTotal;
         }
@@ -460,6 +513,7 @@ $(document).on("click", ".btn-cancel-order", function () {
             });
     });
 });
+
 function updateQuotationHeader(order) {
     const statusHtml = renderStatusBadge(order.status);
     $("#quotation-status").html(statusHtml);
@@ -472,6 +526,7 @@ function updateQuotationHeader(order) {
         $(".btn-pay").remove();
     }
 }
+
 function renderStatusBadge(status) {
     switch (status) {
         case "RECEIVED":
@@ -496,11 +551,6 @@ function renderStatusBadge(status) {
  * Handle print quotation
  */
 export function handlePrintQuotation() {
-    const orderId = $('input[name="order_id"]').val();
-    const branchName = $('input[name="branch_name"]').val();
-    const branchPhone = $('input[name="branch_phone"]').val();
-    const branchAddress = $('input[name="branch_address"]').val();
-
     if (quotationData.items.length === 0) {
         Swal.fire({
             icon: "warning",
@@ -513,12 +563,7 @@ export function handlePrintQuotation() {
     // Generate print window
     const printWindow = window.open("", "", "height=600,width=800");
 
-    const quotationHTML = generatePrintHTML(
-        orderId,
-        branchName,
-        branchAddress,
-        branchPhone,
-    );
+    const quotationHTML = generatePrintHTML();
 
     printWindow.document.write(quotationHTML);
     printWindow.document.close();
@@ -531,23 +576,37 @@ export function handlePrintQuotation() {
 /**
  * Generate print HTML
  */
-function generatePrintHTML(
-    orderId = "---",
-    branchName = "---",
-    branchAddress = "---",
-    branchPhone = "---",
-) {
+function generatePrintHTML() {
+    const config = window.QuotationConfig;
+    const orderId = config.orderId;
+
+    const branchName = config.branch.name;
+    const branchPhone = config.branch.phone;
+    const branchAddress = config.branch.address;
+
+    const customerName = config.customer.name;
+    const customerPhone = config.customer.phone;
+    const customerAddress = config.customer.address;
+
+    const carName = config.car.name;
+    const carLicensePlate = config.car.license_plate;
+
     let totalGoods = 0;
     let totalLabor = 0;
+    let totalService = 0;
     let itemsHTML = "";
 
     quotationData.items.forEach((item, index) => {
-        const lineTotal =
-            item.quantity * item.price -
-            item.quantity * item.price * (item.discount / 100);
-        const itemType =
-            item.item_type === "App\\Models\\Service" ? "Dịch vụ" : "Phụ tùng";
+        const lineTotal = item.quantity * item.price;
 
+        let itemType = "N/A";
+        if (item.item_type === "App\\Models\\Service") {
+            itemType = "Dịch vụ";
+        } else if (item.item_type === "App\\Models\\Labor") {
+            itemType = "Tiền công";
+        } else {
+            itemType = "Vật tư";
+        }
         itemsHTML += `
             <tr>
                 <td>${index + 1}</td>
@@ -559,14 +618,16 @@ function generatePrintHTML(
             </tr>
         `;
 
-        if (item.item_type === "App\\Models\\Service") {
+        if (item.item_type === "App\\Models\\Labor") {
             totalLabor += lineTotal;
+        } else if (item.item_type === "App\\Models\\Service") {
+            totalService += lineTotal;
         } else {
             totalGoods += lineTotal;
         }
     });
 
-    const finalTotal = totalGoods + totalLabor;
+    const finalTotal = totalGoods + totalLabor + totalService;
 
     return `
         <!DOCTYPE html>
@@ -615,6 +676,34 @@ function generatePrintHTML(
                 </div>
 
             </div>
+            
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2px solid #000; padding-bottom:10px; margin-bottom:20px;">
+
+                <!-- LEFT -->
+                <div style="width:45%;">
+                    <div style="font-size:16px; font-weight:bold; text-transform:uppercase;">
+                        Thông tin khách hàng
+                    </div>
+
+                    <div style="font-size:13px; margin-top:5px;">
+                        <div>Khách hàng: <strong>${customerName}</strong></div>
+                        <div>Điện thoại: <strong>${customerPhone}</strong></div>
+                        <div>Địa chỉ: ${customerAddress}</div>
+                    </div>
+                </div>
+
+                <div style="width:45%; margin-left: 10px">
+                    <div style="font-size:16px; font-weight:bold; text-transform:uppercase;">
+                        Thông tin xe
+                    </div>
+
+                    <div style="font-size:13px; margin-top:5px;">
+                        <div>Xe: <strong>${carName}</strong></div>
+                        <div>Biển số: <strong>${carLicensePlate}</strong></div>
+                    </div>
+                </div>
+
+            </div>
 
             <table>
                 <thead>
@@ -632,13 +721,14 @@ function generatePrintHTML(
                 </tbody>
             </table>
 
-            <div class="totals">
-                <p>Tổng tiền hàng: <strong>${totalGoods.toLocaleString("vi-VN")}</strong></p>
+            <div class="totals" style="border-top:2px solid #000; padding-top:10px; margin-top:20px;">
+                <p>Tổng tiền dịch vụ: <strong>${totalService.toLocaleString("vi-VN")}</strong></p>
+                <p>Tổng tiền vật tư: <strong>${totalGoods.toLocaleString("vi-VN")}</strong></p>
                 <p>Tổng tiền công: <strong>${totalLabor.toLocaleString("vi-VN")}</strong></p>
                 <p class="total-amount">Tổng thanh toán: ${finalTotal.toLocaleString("vi-VN")} ₫</p>
             </div>
 
-            <div style="clear: both; margin-top: 50px; text-align: center; color: #999;">
+            <div style="clear: both; margin-top: 180px; text-align: center; color: #999;">
                 <p>Cảm ơn quý khách sử dụng dịch vụ của chúng tôi!</p>
             </div>
         </body>
@@ -694,33 +784,42 @@ export function handleSendWhatsApp() {
 function generateQuotationMessage() {
     let totalGoods = 0;
     let totalLabor = 0;
+    let totalService = 0;
     let itemsText = "";
 
     quotationData.items.forEach((item, index) => {
-        const lineTotal =
-            item.quantity * item.price -
-            item.quantity * item.price * (item.discount / 100);
-        const itemType =
-            item.item_type === "App\\Models\\Service" ? "Dịch vụ" : "Phụ tùng";
+        const lineTotal = item.quantity * item.price;
+        let itemType = "N/A";
+        if (item.item_type === "App\\Models\\Service") {
+            itemType = "Dịch vụ";
+        } else if (item.item_type === "App\\Models\\Labor") {
+            itemType = "Tiền công";
+        } else {
+            itemType = "Vật tư";
+        }
 
         itemsText += `${index + 1}. ${item.name} (${itemType}) - SL: ${item.quantity} - ${lineTotal.toLocaleString("vi-VN")}₫\n`;
 
-        if (item.item_type === "App\\Models\\Service") {
+        if (item.item_type === "App\\Models\\Labor") {
             totalLabor += lineTotal;
+        } else if (item.item_type === "App\\Models\\Service") {
+            totalService += lineTotal;
         } else {
             totalGoods += lineTotal;
         }
     });
 
-    const finalTotal = totalGoods + totalLabor;
+    const finalTotal = totalGoods + totalLabor + totalService;
 
     return `*BÁO GIÁ SỬA CHỮA*
 
 ${itemsText}
 ━━━━━━━━━━━━━━━
-Tổng tiền hàng: ${totalGoods.toLocaleString("vi-VN")}₫
+Tổng tiền dịch vụ: ${totalService.toLocaleString("vi-VN")}₫
+Tổng tiền vật tư: ${totalGoods.toLocaleString("vi-VN")}₫
 Tổng tiền công: ${totalLabor.toLocaleString("vi-VN")}₫
-*Tổng cộng: ${finalTotal.toLocaleString("vi-VN")}₫*`;
+━━━━━━━━━━━━━━━
+***Tổng cộng: ${finalTotal.toLocaleString("vi-VN")}₫***`;
 }
 
 /**

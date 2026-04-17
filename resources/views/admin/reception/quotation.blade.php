@@ -1,11 +1,50 @@
 @extends('layouts.admin')
 @section('title', 'Báo giá')
 @section('vite')
+    <script>
+        window.QuotationConfig = @js([
+    'orderId' => $order?->id,
+    'branch' => [
+        'name' => $order?->branch?->name ?? 'N/A',
+        'address' => $order?->branch?->address ?? 'N/A',
+        'phone' => $order?->branch?->phone ?? 'N/A',
+    ],
+    'customer' => [
+        'name' => $order?->customer?->name ?? 'N/A',
+        'address' => $order?->customer?->address ?? 'N/A',
+        'phone' => $order?->customer?->phone ?? 'N/A',
+    ],
+    'car' => [
+        'name' => $order?->car?->brand?->name . ' ' . $order?->car?->carModel?->name ?? 'N/A',
+        'license_plate' => $order?->car?->license_plate ?? 'N/A',
+    ],
+]);
+    </script>
+
     @vite(['resources/js/modules/reception/quotation-app.js'])
 @endsection
+
 @section('styles')
     <link rel="stylesheet" href={{ asset('assets/css/design-system.css') }}>
     <link rel="stylesheet" href={{ asset('assets/css/admin.css') }}>
+
+    <style>
+        .nav-tabs .nav-link {
+            color: #6c757d;
+        }
+
+        .nav-tabs .nav-link:hover:not(.active) {
+            background-color: #f1f3f5 !important;
+            color: #0d6efd !important;
+            border-color: transparent;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--bs-nav-tabs-link-active-color);
+            background-color: var(--bs-nav-tabs-link-active-bg);
+            border-color: var(--bs-nav-tabs-link-active-border-color);
+        }
+    </style>
 @endsection
 @section('body-class', 'admin-wrapper')
 @section('sidebar')
@@ -115,15 +154,16 @@
                 <div class="col-lg-3">
                     <form id="quotation-form">
                         <input type="hidden" name="order_id" value="{{ $order?->id }}">
-                        <input type="hidden" name="branch_name" value="{{ $order?->branch->name }}">
-                        <input type="hidden" name="branch_address" value="{{ $order?->branch->address }}">
-                        <input type="hidden" name="branch_phone" value="{{ $order?->branch->phone }}">
 
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h6 class="fw-bold mb-3">Tổng hợp chi phí</h6>
                                 <div class="d-flex justify-content-between mb-2">
-                                    <span class="text-muted">Tổng tiền hàng:</span>
+                                    <span class="text-muted">Tổng tiền dịch vụ:</span>
+                                    <span class="total-service">0</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Tổng tiền vật tư:</span>
                                     <span class="total-goods">0</span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
@@ -186,6 +226,12 @@
                                 <i class="fas fa-boxes me-2"></i> Phụ tùng
                             </button>
                         </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="tab-labors" data-bs-toggle="tab" data-bs-target="#labors-tab"
+                                type="button" role="tab">
+                                <i class="fas fa-wrench me-2"></i> Tiền công
+                            </button>
+                        </li>
                     </ul>
 
                     <div class="tab-content">
@@ -208,6 +254,16 @@
                             </div>
                             <div id="parts-list" class="list-group">
                                 <!-- Parts loaded dynamically -->
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="labors-tab" role="tabpanel">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="search-labors"
+                                    placeholder="Tìm tiền công...">
+                            </div>
+                            <div id="labors-list" class="list-group">
+                                <!-- Labors loaded dynamically -->
                             </div>
                         </div>
                     </div>

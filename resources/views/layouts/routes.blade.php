@@ -47,6 +47,7 @@
 
         'receptionServices' => route('reception.services'),
         'receptionParts' => route('reception.parts'),
+        'receptionLabors' => route('reception.labors'),
         'receptionTechnicians' => route('reception.technicians'),
         'receptionSaveQuotation' => route('reception.save-quotation', ['orderId' => ':orderId']),
         'receptionQuotationItems' => route('reception.quotation-items', ['orderId' => ':orderId']),

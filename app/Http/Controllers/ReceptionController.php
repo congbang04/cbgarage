@@ -38,11 +38,10 @@ class ReceptionController extends Controller
     public function quotation(Request $request)
     {
         $orderId = $request->query('orderId');
-        $order = null;
 
-        if ($orderId) {
-            $order = Order::with(['customer', 'car', 'car.brand', 'car.carModel', 'details', 'branch'])->findOrFail($orderId);
-        }
+        $order = $orderId
+            ? $this->receptionService->getQuotation($orderId)
+            : null;
 
         return view('admin.reception.quotation', compact('order', 'orderId'));
     }
@@ -77,6 +76,15 @@ class ReceptionController extends Controller
         $parts = $this->receptionService->getParts();
         return response()->json($parts);
     }
+    /**
+     * Get all labors for quotation
+     * GET /reception/labors
+     */
+    public function getLabors()
+    {
+        $labors = $this->receptionService->getLabors();
+        return response()->json($labors);
+    }
 
     /**
      * Get all technicians for assignment (filtered by user's branch)
@@ -98,7 +106,7 @@ class ReceptionController extends Controller
 
         $validated = $request->validate([
             'details' => 'required|array|min:1',
-            'details.*.item_type' => 'required|in:App\Models\Service,App\Models\Part',
+            'details.*.item_type' => 'required|in:App\Models\Service,App\Models\Part,App\Models\Labor',
             'details.*.item_id' => 'required|integer',
             'details.*.quantity' => 'required|numeric|min:1',
             'details.*.price' => 'required|numeric|min:0',

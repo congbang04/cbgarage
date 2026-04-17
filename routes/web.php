@@ -210,6 +210,7 @@ Route::middleware(['auth', 'can:access-reception'])->group(
                 // Quotation API endpoints
                 Route::get('/services', [ReceptionController::class, 'getServices'])->name('reception.services');
                 Route::get('/parts', [ReceptionController::class, 'getParts'])->name('reception.parts');
+                Route::get('/labors', [ReceptionController::class, 'getLabors'])->name('reception.labors');
                 Route::get('/technicians', [ReceptionController::class, 'getTechnicians'])->name('reception.technicians');
                 Route::post('/quotation/{orderId}', [ReceptionController::class, 'saveQuotation'])->name('reception.save-quotation');
                 Route::get('/quotation/{orderId}/items', [ReceptionController::class, 'getQuotationItems'])->name('reception.quotation-items');

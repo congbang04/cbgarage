@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Booking;
+use App\Models\Labor;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Part;
@@ -157,7 +158,10 @@ class ReceptionService
      */
     public function getParts()
     {
-        return Part::select('id', 'sku', 'name', 'price_sell', 'unit')->orderBy('name')->get();
+        return Part::select('id', 'sku', 'name', 'price_sell', 'unit')
+            ->with('suggestedLabors')
+            ->orderBy('name')
+            ->get();
     }
 
     /**
@@ -172,7 +176,13 @@ class ReceptionService
             ->orderBy('name')
             ->get(['id', 'name', 'user_id']);
     }
-
+    public function getLabors()
+    {
+        return Labor::select('id', 'sku', 'name', 'price')
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get();
+    }
     /**
      * Save quotation with order details
      * Lưu báo giá kèm theo chi tiết hạng mục
@@ -205,13 +215,9 @@ class ReceptionService
                 ]);
             }
 
-            // Calculate VAT (8%)
-            $vat = $totalAmount * 0.08;
-            $finalAmount = $totalAmount + $vat;
-
             // Update order
             $order->update([
-                'total_amount' => $finalAmount,
+                'total_amount' => $totalAmount,
                 'technician_id' => $technicianId,
                 'status' => $quoted,
             ]);
@@ -231,7 +237,8 @@ class ReceptionService
             'car:id,brand_id,car_model_id,license_plate,manufacture_year,color',
             'car.brand:id,name',
             'car.carModel:id,name',
-            'technician:id,name'
+            'technician:id,name',
+            'branch:id,name,address,phone'
         ])->find($orderId);
     }
     public function cancelOrder($orderId)

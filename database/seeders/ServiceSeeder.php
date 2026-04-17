@@ -41,7 +41,7 @@ class ServiceSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Chẩn đoán tổng thể bằng máy chuyên dụng',
+                'name' => 'Kiểm tra tổng thể bằng máy chuyên dụng',
                 'icon' => 'booking-icon/bao-tri.png',
                 'price' => 500000,
                 'estimated_duration' => 60,
