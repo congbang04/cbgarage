@@ -55,8 +55,7 @@ class OrderDetailSeeder extends Seeder
             for ($i = 0; $i < rand(0, 3); $i++) {
                 $randomly = $parts->random();
                 $quantity = rand(1, 3);
-                $discount = rand(0, 100) < 20 ? rand(10000, 150000) : 0;
-                $amount = ($randomly->price_sell * $quantity) - $discount;
+                $amount = ($randomly->price_sell * $quantity);
                 $total += $amount;
 
                 DB::table('order_details')->insert([
@@ -65,7 +64,6 @@ class OrderDetailSeeder extends Seeder
                     'item_id' => $randomly->id,
                     'quantity' => $quantity,
                     'price' => $randomly->price_sell,
-                    'discount' => $discount,
                     'status' => $this->mapStatus($orderStatus),
                     'created_at' => now(),
                     'updated_at' => now(),

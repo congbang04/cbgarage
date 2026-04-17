@@ -199,9 +199,8 @@ class ReceptionService
             foreach ($details as $detail) {
                 $quantity = $detail['quantity'] ?? 1;
                 $price = $detail['price'] ?? 0;
-                $discount = $detail['discount'] ?? 0;
 
-                $lineTotal = ($quantity * $price) - ($quantity * $price * ($discount / 100));
+                $lineTotal = ($quantity * $price);
                 $totalAmount += $lineTotal;
 
                 OrderDetail::create([
@@ -210,7 +209,6 @@ class ReceptionService
                     'item_id' => $detail['item_id'],
                     'quantity' => $quantity,
                     'price' => $price,
-                    'discount' => $discount,
                     'status' => Order::STATUS_RECEIVED,
                 ]);
             }

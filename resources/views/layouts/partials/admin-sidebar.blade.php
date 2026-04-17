@@ -62,13 +62,13 @@
                 <li>
                     <a class="dropdown-item {{ request()->routeIs('warehouse.part-requests') ? 'active' : '' }}"
                         href="{{ route('warehouse.part-requests') }}">
-                        <i class="fas fa-circle"></i> Yêu cầu cấp vật tư
+                        <i class="fas fa-circle"></i> Duyệt yêu cầu
                     </a>
                 </li>
                 <li>
                     <a class="dropdown-item {{ request()->routeIs('warehouse.stock-transfer') ? 'active' : '' }}"
                         href="{{ route('warehouse.stock-transfer') }}">
-                        <i class="fas fa-circle"></i> Luân chuyển kho
+                        <i class="fas fa-circle"></i> Luân chuyển
                     </a>
                 </li>
                 <li>
