@@ -113,6 +113,7 @@
 
         'paymentIndex' => route('payment.index'),
         'paymentTable' => route('payment.table'),
+        'paymentStats' => route('payment.stats'),
         'paymentDetail' => route('payment.detail', ['id' => ':id']),
         'paymentPay' => route('payment.api.pay'),
         'paymentProcessPayment' => route('payment.api.process-payment'),

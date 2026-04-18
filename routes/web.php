@@ -283,6 +283,7 @@ Route::middleware(['auth', 'can:is-admin'])->group(
             // View
             Route::get('/', [PaymentController::class, 'index'])->name('index');
             Route::get('/table', [PaymentController::class, 'table'])->name('table');
+            Route::get('/stats', [PaymentController::class, 'stats'])->name('stats');
             Route::get('/detail/{id}', [PaymentController::class, 'detail'])->name('detail');
 
             // API endpoints

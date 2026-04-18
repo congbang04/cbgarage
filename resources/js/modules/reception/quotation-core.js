@@ -67,10 +67,8 @@ export function recalculateFromTable() {
         const quantity = parseFloat($row.find(".item-quantity").val()) || 1;
         const price =
             parseFloat($row.find(".item-price").text().replace(/\./g, "")) || 0;
-        const discount = 0; // Default discount
 
-        const lineTotal =
-            quantity * price - quantity * price * (discount / 100);
+        const lineTotal = quantity * price;
 
         // Update quotation data with complete item info
         quotationData.items.push({
@@ -79,7 +77,6 @@ export function recalculateFromTable() {
             item_id: itemId,
             quantity: quantity,
             price: price,
-            discount: discount,
         });
 
         if (itemType.includes("Labor")) {
@@ -417,9 +414,7 @@ function addItemToTable(index, item) {
     // Hide empty state
     $("#empty-state").hide();
 
-    const lineTotal =
-        item.quantity * item.price -
-        item.quantity * item.price * (item.discount / 100);
+    const lineTotal = item.quantity * item.price;
 
     let badgeClass = "";
     if (item.item_type === "App\\Models\\Service") {

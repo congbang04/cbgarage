@@ -38,14 +38,48 @@ class TransactionService
 
         return Transaction::create($data);
     }
+    private function buildTransactionQuery(array $filters = [])
+    {
+        $query = Transaction::query();
+        $user = Auth::user();
 
+        // Permission
+        if ($user->role !== 'BRANCH_ADMIN' || $user->branch_id != 1) {
+            $query->whereHas('order', fn($q) => $q->where('branch_id', $user->branch_id));
+        }
+
+        // Date
+        if (!empty($filters['date_from'])) {
+            $query->whereDate('created_at', '>=', $filters['date_from']);
+        }
+        if (!empty($filters['date_to'])) {
+            $query->whereDate('created_at', '<=', $filters['date_to']);
+        }
+
+        // Payment method
+        if (!empty($filters['payment_method'])) {
+            $query->where('payment_method', $filters['payment_method']);
+        }
+
+        // Type
+        if (!empty($filters['type'])) {
+            $query->where('type', $filters['type']);
+        }
+
+        // Super admin filter branch
+        if (!empty($filters['branch_id']) && $user->role === 'BRANCH_ADMIN' && $user->branch_id == 1) {
+            $query->whereHas('order', fn($q) => $q->where('branch_id', $filters['branch_id']));
+        }
+
+        return $query;
+    }
     /**
      * Get all transactions for current admin
      * Filtered by branch if not super admin
      */
     public function getAllTransactions(array $filters = [], int $perPage = 20)
     {
-        $query = Transaction::query()
+        $query = $this->buildTransactionQuery($filters)
             ->with([
                 'order' => fn($q) => $q->select('id', 'status', 'total_amount', 'branch_id', 'customer_id')
                     ->with([
@@ -54,35 +88,6 @@ class TransactionService
                     ]),
             ])
             ->latest();
-        // Filter by order branch (permission check)
-        $user = Auth::user();
-        if ($user->role !== 'BRANCH_ADMIN' || $user->branch_id != 1) {
-            // Not super admin, filter by branch
-            $query->whereHas('order', fn($q) => $q->where('branch_id', $user->branch_id));
-        }
-
-        // Filter by date range
-        if (!empty($filters['date_from'])) {
-            $query->whereDate('created_at', '>=', $filters['date_from']);
-        }
-        if (!empty($filters['date_to'])) {
-            $query->whereDate('created_at', '<=', $filters['date_to']);
-        }
-
-        // Filter by payment method
-        if (!empty($filters['payment_method'])) {
-            $query->where('payment_method', $filters['payment_method']);
-        }
-
-        // Filter by transaction type
-        if (!empty($filters['type'])) {
-            $query->where('type', $filters['type']);
-        }
-
-        // Super admin: filter by branch
-        if (!empty($filters['branch_id']) && $user->role === 'BRANCH_ADMIN' && $user->branch_id == 1) {
-            $query->whereHas('order', fn($q) => $q->where('branch_id', $filters['branch_id']));
-        }
 
         return $query->paginate($perPage);
     }
@@ -92,19 +97,7 @@ class TransactionService
      */
     public function getTransactionStats(array $filters = []): array
     {
-        $query = Transaction::query();
-
-        $user = Auth::user();
-        if ($user->role !== 'BRANCH_ADMIN' || $user->branch_id != 1) {
-            $query->whereHas('order', fn($q) => $q->where('branch_id', $user->branch_id));
-        }
-
-        if (!empty($filters['date_from'])) {
-            $query->whereDate('created_at', '>=', $filters['date_from']);
-        }
-        if (!empty($filters['date_to'])) {
-            $query->whereDate('created_at', '<=', $filters['date_to']);
-        }
+        $query = $this->buildTransactionQuery($filters);
 
         $transactions = $query->get();
 

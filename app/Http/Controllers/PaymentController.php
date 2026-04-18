@@ -45,6 +45,14 @@ class PaymentController extends Controller
 
         return view('admin.payment.table', compact('transactions'));
     }
+    public function stats(Request $request)
+    {
+        $filters = $request->only(['date_from', 'date_to', 'payment_method', 'type', 'branch_id']);
+
+        $stats = $this->transactionService->getTransactionStats($filters);
+
+        return view('admin.payment.partials.stats-cards', compact('stats'));
+    }
 
     /**
      * Process payment (Cash payment)

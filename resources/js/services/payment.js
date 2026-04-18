@@ -80,6 +80,17 @@ class PaymentService {
         });
     }
     /**
+     * Get payment transactions stats with filters
+     */
+    static getTransactionsStats(filters = {}) {
+        return $.ajax({
+            url: window.routes.paymentStats,
+            type: "GET",
+            dataType: "html",
+            data: filters, // luôn gửi
+        });
+    }
+    /**
      * Get list of branches for super admin filter
      */
     static getBranches() {

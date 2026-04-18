@@ -29,7 +29,7 @@ class PaymentDetailService
             'car:id,brand_id,car_model_id,license_plate,manufacture_year,color',
             'car.brand:id,name',
             'car.carModel:id,name',
-            'branch:id,name',
+            'branch:id,name,phone,address',
             'details.item',
             'transactions'
         ])->find($orderId);
