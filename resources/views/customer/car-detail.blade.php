@@ -23,7 +23,7 @@
             </div>
             <div class="d-flex align-items-center">
                 @if (!empty($car->image))
-                    <img src="{{ asset('storage/' . $car->image) }}" alt="car" class="rounded-circle shadow-sm me-3"
+                    <img src="{{ Storage::disk()->url($car->image) }}" alt="car" class="rounded-circle shadow-sm me-3"
                         style="width: 120px; height: 120px; object-fit: cover;">
                 @else
                     <div class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm"

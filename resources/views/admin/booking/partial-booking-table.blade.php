@@ -22,7 +22,7 @@
                         $badgeClass = match ($booking->status) {
                             'PENDING' => '<span class="status-badge bg-warning text-dark">Chờ xử lý</span>',
                             'CONFIRMED' => '<span class="status-badge success">Đã tiếp nhận</span>',
-                            'CANCELLED' => '<span class="status-badge danger">Đã huỷ</span>',
+                            'CANCELED' => '<span class="status-badge danger">Đã huỷ</span>',
                             default => '<span class="status-badge bg-dark text-light">Không xác định</span>',
                         };
 
@@ -81,7 +81,7 @@
                                 $btnIcon = $booking->status === 'PENDING' ? 'fa-plus' : 'fa-check-double';
                                 $isDisabled = $booking->status !== 'PENDING';
                             @endphp
-                            @if ($booking->status === 'CANCELLED')
+                            @if ($booking->status === 'CANCELED')
                             @else
                                 <a href="{{ route('reception.create') }}?bookingId={{ $booking->id }}&phone={{ $booking->contact_phone }}"
                                     class="btn btn-sm {{ $btnClass }} {{ $isDisabled ? 'disabled' : '' }}"

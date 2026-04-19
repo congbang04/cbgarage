@@ -107,6 +107,8 @@ class CarSeeder extends Seeder
     {
         $fileName = 'cars/' . Str::slug($brand . '-' . $model) . '.jpg';
 
+        // ✅ Nếu đã có rồi thì không tải lại
+        if (Storage::disk()->exists($fileName)) {
         // Nếu đã có rồi thì không tải lại
         if (Storage::disk('s3')->exists($fileName)) {
             return $fileName;
@@ -124,6 +126,7 @@ class CarSeeder extends Seeder
 
             try {
                 $image = file_get_contents($imageUrl);
+                Storage::disk()->put($fileName, $image);
                 Storage::disk('s3')->put($fileName, $image);
 
                 sleep(1); // tránh rate limit
@@ -150,7 +153,7 @@ class CarSeeder extends Seeder
 
             $cars = collect($this->carsData)
                 ->unique(fn($c) => $c['brand'] . '-' . $c['model'])
-                ->random(rand(2, 4));
+                ->random(rand(1, 3));
 
             foreach ($cars as $carData) {
 

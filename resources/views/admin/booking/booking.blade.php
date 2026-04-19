@@ -34,7 +34,7 @@
                                 <option value="">Tất cả trạng thái</option>
                                 <option value="PENDING">Chờ xử lý</option>
                                 <option value="CONFIRMED">Đã tiếp nhận</option>
-                                <option value="CANCELLED">Đã huỷ</option>
+                                <option value="CANCELED">Đã huỷ</option>
                             </select>
                         </div>
                         <div class="col-md-3">

@@ -26,18 +26,18 @@
                     <td class="text-center">
                         <span class="badge bg-secondary fw-bold">#ORD-{{ $order?->id }}</span>
                     </td>
-                    <td class="text-center">
+                    <td class="text-start">
                         <div class="fw-bold">{{ $customer?->name ?? 'N/A' }}</div>
                         <div class="small text-muted">{{ $customer?->phone ?? 'N/A' }}</div>
                     </td>
-                    <td class="text-center">{{ $branch?->name ?? 'N/A' }}</td>
+                    <td class="text-start">{{ $branch?->name ?? 'N/A' }}</td>
                     <td class="text-center">
                         @if ($isPayment)
-                            <span class="badge bg-success">
+                            <span class="badge bg-success" style="width:100px">
                                 <i class="fas fa-check-circle"></i> Thanh toán
                             </span>
                         @else
-                            <span class="badge bg-warning text-dark">
+                            <span class="badge bg-warning text-dark" style="width:100px">
                                 <i class="fas fa-undo"></i> Hoàn tiền
                             </span>
                         @endif
@@ -54,15 +54,19 @@
                             'cash' => ['label' => 'Tiền mặt', 'class' => 'bg-success'],
                             'bank_transfer' => ['label' => 'Chuyển khoản', 'class' => 'bg-primary'],
                             'card' => ['label' => 'Thẻ', 'class' => 'bg-info'],
+                            'e_wallet' => [
+                                'label' => 'Ví điện tử',
+                                'class' => 'bg-info-subtle text-dark',
+                            ],
                         ];
 
-                        $method = $methods[$transaction->payment_method] ?? [
+                        $method = $methods[strtolower($transaction->payment_method)] ?? [
                             'label' => ucfirst($transaction->payment_method),
                             'class' => 'bg-secondary',
                         ];
                     @endphp
 
-                        <span class="badge {{ $method['class'] }}">
+                        <span class="badge {{ $method['class'] }}" style="width:102px">
                             {{ $method['label'] }}
                         </span>
                     </td>

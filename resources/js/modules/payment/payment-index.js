@@ -19,6 +19,7 @@ export function initPaymentIndexModule() {
     bindViewOrderDetails();
     bindPaginationClick();
     loadTransactions();
+    loadStats();
     loadBranches();
 }
 
@@ -40,8 +41,23 @@ function bindFilterSubmit() {
         // Save current filters for pagination
         currentFilters = filters;
         loadTransactions(filters);
+        loadStats(filters);
     });
 }
+$(document).on("reset", "#paymentFilterForm", function () {
+    const filters = {
+        date_from: "",
+        date_to: "",
+        payment_method: "",
+        type: "",
+        branch_id: "",
+    };
+
+    currentFilters = filters;
+
+    loadTransactions(filters);
+    loadStats(filters);
+});
 
 /**
  * Bind quick payment button
@@ -148,6 +164,15 @@ function loadTransactions(filters = {}, paginationUrl = null) {
         })
         .fail(() => {
             showError("Không thể tải dữ liệu");
+        });
+}
+function loadStats(filters) {
+    PaymentService.getTransactionsStats(filters)
+        .done((html) => {
+            $("#stats-cards").html(html);
+        })
+        .fail(() => {
+            showError("Không thể tải dữ liệu thông số");
         });
 }
 

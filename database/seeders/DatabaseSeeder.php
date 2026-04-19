@@ -34,6 +34,8 @@ class DatabaseSeeder extends Seeder
             PartRequestSeeder::class,
             StockTransferSeeder::class,
             AiChatSeeder::class,
+            LaborSeeder::class,
+            PartLaborSeeder::class
         ]);
     }
 }

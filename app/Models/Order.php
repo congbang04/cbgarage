@@ -13,7 +13,7 @@ class Order extends Model
     const STATUS_WAITING_PART = 'WAITING_PART';
     const STATUS_COMPLETED = 'COMPLETED';
     const STATUS_PAID = 'PAID';
-    const STATUS_CANCELLED = 'CANCELLED';
+    const STATUS_CANCELED = 'CANCELED';
 
     public static function statuses(): array
     {
@@ -24,7 +24,7 @@ class Order extends Model
             self::STATUS_WAITING_PART,
             self::STATUS_COMPLETED,
             self::STATUS_PAID,
-            self::STATUS_CANCELLED,
+            self::STATUS_CANCELED,
         ];
     }
     protected $fillable = [

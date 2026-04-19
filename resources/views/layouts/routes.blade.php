@@ -47,6 +47,7 @@
 
         'receptionServices' => route('reception.services'),
         'receptionParts' => route('reception.parts'),
+        'receptionLabors' => route('reception.labors'),
         'receptionTechnicians' => route('reception.technicians'),
         'receptionSaveQuotation' => route('reception.save-quotation', ['orderId' => ':orderId']),
         'receptionQuotationItems' => route('reception.quotation-items', ['orderId' => ':orderId']),
@@ -112,6 +113,7 @@
 
         'paymentIndex' => route('payment.index'),
         'paymentTable' => route('payment.table'),
+        'paymentStats' => route('payment.stats'),
         'paymentDetail' => route('payment.detail', ['id' => ':id']),
         'paymentPay' => route('payment.api.pay'),
         'paymentProcessPayment' => route('payment.api.process-payment'),

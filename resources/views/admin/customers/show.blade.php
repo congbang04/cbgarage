@@ -32,7 +32,7 @@
                         <div class="card-body text-center">
                             @if ($customer->image)
                                 <div class="d-flex align-items-center justify-content-center"> <img
-                                        src="{{ asset('storage/' . $customer->image) }}" alt="{{ $customer->name }}"
+                                        src="{{ Storage::disk()->url($customer->image) }}" alt="{{ $customer->name }}"
                                         class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
                                 </div>
                             @else

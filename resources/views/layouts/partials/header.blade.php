@@ -10,8 +10,8 @@
                         <i class="far fa-calendar-check me-2"></i>
                         ĐẶT LỊCH NGAY
                     </a>
-                    <a href="#about" class="btn btn-outline-brand"><i class="fa-solid fa-envelope me-2"></i> LIÊN
-                        HỆ</a>
+                    <a href="#about" class="btn btn-outline-brand"><i class="fa-solid fa-envelope me-2"></i>
+                        LIÊN HỆ</a>
                 </div>
             </div>
         </div>

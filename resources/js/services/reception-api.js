@@ -20,3 +20,11 @@ export function tableList(url = window.routes.tableList, data = {}) {
         dataType: "html",
     });
 }
+
+export function getBranches() {
+    return $.ajax({
+        url: window.routes.paymentBranches,
+        type: "GET",
+        dataType: "json",
+    });
+}

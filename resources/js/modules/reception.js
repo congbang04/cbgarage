@@ -2,6 +2,7 @@ import {
     customerSearch,
     receptionStore,
     tableList,
+    getBranches,
 } from "../services/reception-api";
 import { showValidationErrors, clearErrors } from "../helpers/validation";
 
@@ -201,13 +202,38 @@ function loadOrders(url = window.routes.tableList) {
         keyword: $('input[name="keyword"]').val(),
         status: $('select[name="status"]').val(),
         date: $('input[name="date"]').val(),
+        branch_id: $('select[name="branch_id"]').val(),
     };
-    tableList(url || window.routes.tableList, filters)
+    console.log(filters);
+
+    tableList(url, filters)
         .done(function (res) {
             $("#table-data").html(res);
         })
         .fail(function (xhr) {
             console.log(xhr.responseText);
+        });
+}
+/**
+ * Load branches for filter dropdown
+ */
+function loadBranches() {
+    const $branchSelect = $("#filterBranch");
+
+    if ($branchSelect.length === 0) {
+        return; // No branch filter on this page
+    }
+
+    getBranches()
+        .done((branches) => {
+            branches.forEach((branch) => {
+                $branchSelect.append(
+                    `<option value="${branch.id}">${branch.name}</option>`,
+                );
+            });
+        })
+        .fail(() => {
+            console.error("Failed to load branches");
         });
 }
 
@@ -228,11 +254,19 @@ function initReceptionSearch() {
 
     $(document).on(
         "change",
-        'select[name="status"], input[name="date"]',
+        'select[name="status"], input[name="date"], select[name="branch_id"]',
         function () {
             loadOrders();
         },
     );
+
+    $(document).on("click", "#btn-reset", function () {
+        $('input[name="keyword"]').val("");
+        $('select[name="status"]').val("");
+        $('input[name="date"]').val("");
+        $('select[name="branch_id"]').val("");
+        loadOrders();
+    });
 
     $(document).on("click", ".btn-pay", function (e) {
         e.preventDefault();
@@ -243,4 +277,5 @@ function initReceptionSearch() {
             orderId,
         );
     });
+    loadBranches();
 }

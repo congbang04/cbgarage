@@ -35,52 +35,13 @@
 
         <div class="p-4">
             <!-- Stats Cards -->
-            <div class="row g-4 mb-4">
-                <div class="col-md-3">
-                    <div class="card p-3 border-start border-4 border-success">
-                        <div class="text-muted small">Tổng thanh toán</div>
-                        <h4 class="fw-bold mb-0 text-success">
-                            {{ number_format($stats['total_payment'] ?? 0) }} đ
-                        </h4>
-                        <small class="text-muted">{{ $stats['payment_count'] ?? 0 }} giao dịch</small>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card p-3 border-start border-4 border-warning">
-                        <div class="text-muted small">Tổng hoàn tiền</div>
-                        <h4 class="fw-bold mb-0 text-warning">
-                            {{ number_format($stats['total_refund'] ?? 0) }} đ
-                        </h4>
-                        <small class="text-muted">{{ $stats['refund_count'] ?? 0 }} giao dịch</small>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card p-3 border-start border-4 border-primary">
-                        <div class="text-muted small">Doanh thu ròng</div>
-                        <h4 class="fw-bold mb-0 text-primary">
-                            {{ number_format($stats['net_revenue'] ?? 0) }} đ
-                        </h4>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card p-3 border-start border-4 border-info">
-                        <div class="text-muted small">Tỷ suất hoàn tiền</div>
-                        <h4 class="fw-bold mb-0 text-info">
-                            @php
-                                $totalPayment = $stats['total_payment'] ?? 0;
-                                $totalRefund = $stats['total_refund'] ?? 0;
-                                $rate = $totalPayment > 0 ? round(($totalRefund / $totalPayment) * 100, 2) : 0;
-                            @endphp
-                            {{ $rate }}%
-                        </h4>
-                    </div>
-                </div>
+            <div class="row g-4 mb-4" id="stats-cards">
+                {{-- ajax render --}}
             </div>
 
             <!-- Filter Section -->
-            <div class="card mb-4">
+            <div class="card mb-4 shadow p-3 mb-5 bg-body-tertiary rounded">
                 <div class="card-header bg-white py-3">
-                    <h6 class="mb-3 fw-bold">Bộ lọc</h6>
                     <form id="paymentFilterForm">
                         <div class="row g-3">
                             <div class="col-md-3">
@@ -104,6 +65,9 @@
                                 <select class="form-select" id="filterPaymentMethod" name="payment_method">
                                     <option value="">-- Tất cả --</option>
                                     <option value="cash">Tiền mặt</option>
+                                    <option value="bank_transfer">Chuyển khoản</option>
+                                    <option value="card">Thẻ</option>
+                                    <option value="e-wallet">Ví điện tử</option>
                                 </select>
                             </div>
 
@@ -117,8 +81,11 @@
                             @endif
 
                             <div class="col-md-3 d-flex align-items-end">
-                                <button type="submit" class="btn btn-primary w-100">
+                                <button type="submit" class="btn btn-primary w-60 me-2">
                                     <i class="fas fa-search"></i> Tìm kiếm
+                                </button>
+                                <button type="reset" class="btn btn-secondary w-60">
+                                    <i class="fas fa-search"></i> Đặt lại
                                 </button>
                             </div>
                         </div>
@@ -127,7 +94,7 @@
             </div>
 
             <!-- Transactions Table -->
-            <div class="card">
+            <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
                 <div class="table-responsive" id="paymentTableContainer">
                     {{-- Table will be loaded via AJAX --}}
                     <div class="p-4 text-center">

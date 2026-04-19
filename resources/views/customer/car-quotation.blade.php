@@ -49,7 +49,7 @@
                         'PAID'
                             => '<span class="status-badge fs-6 px-3 fw-bold bg-success text-light">Đã thanh toán</span>',
 
-                        'CANCELLED' => '<span class="status-badge fs-6 px-3 fw-bold danger">Đã huỷ</span>',
+                        'CANCELED' => '<span class="status-badge fs-6 px-3 fw-bold danger">Đã huỷ</span>',
 
                         default
                             => '<span class="status-badge fs-6 px-3 fw-bold bg-dark text-light">Không xác định</span>',

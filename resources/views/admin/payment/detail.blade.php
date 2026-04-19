@@ -3,6 +3,27 @@
 @section('title', 'Chi tiết thanh toán đơn hàng #' . $order->id)
 
 @section('vite')
+    <script>
+        window.PaymentConfig = @js([
+    'orderId' => $order?->id,
+    'orderDetails' => $order->details,
+    'branch' => [
+        'name' => $order?->branch?->name ?? 'N/A',
+        'address' => $order?->branch?->address ?? 'N/A',
+        'phone' => $order?->branch?->phone ?? 'N/A',
+    ],
+    'customer' => [
+        'name' => $order?->customer?->name ?? 'N/A',
+        'address' => $order?->customer?->address ?? 'N/A',
+        'phone' => $order?->customer?->phone ?? 'N/A',
+    ],
+    'car' => [
+        'name' => $order?->car?->brand?->name . ' ' . $order?->car?->carModel?->name ?? 'N/A',
+        'license_plate' => $order?->car?->license_plate ?? 'N/A',
+    ],
+]);
+    </script>
+
     @vite(['resources/js/modules/payment/payment-detail.js'])
 @endsection
 
@@ -109,19 +130,43 @@
                     <table class="table table-sm mb-0">
                         <thead class="bg-light">
                             <tr>
-                                <th>Dịch vụ</th>
-                                <th class="text-end">Số lượng</th>
-                                <th class="text-end">Đơn giá</th>
+                                <th class="text-center" style="width: 50px;">#</th>
+                                <th class="text-start">Mã & Tên hạng mục</th>
+                                <th class="text-center">Loại</th>
+                                <th class="text-center">ĐVT</th>
+                                <th class="text-center">Số lượng</th>
+                                <th class="text-center">Đơn giá</th>
                                 <th class="text-end">Thành tiền</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @forelse ($order->details as $detail)
+                        <tbody id="">
+                            @forelse ($order->details as $index => $detail)
+                                @php
+                                    $lineTotal = $detail->quantity * $detail->price;
+                                    $badgeClass = match ($detail->item_type) {
+                                        'App\Models\Service'
+                                            => '<span class="badge bg-info-subtle text-info fw-bold" style="width: 75px">Dịch vụ</span>',
+                                        'App\Models\Labor'
+                                            => '<span class="badge bg-primary-subtle text-primary fw-bold" style="width: 75px">Tiền công</span>',
+                                        default
+                                            => '<span class="badge bg-secondary-subtle text-secondary fw-bold" style="width: 75px">Vật tư</span>',
+                                    };
+                                @endphp
                                 <tr>
-                                    <td>{{ $detail->item?->name ?? 'N/A' }}</td>
-                                    <td class="text-end">{{ $detail->quantity }}</td>
-                                    <td class="text-end">{{ number_format($detail->price, 0, ',', '.') }} đ</td>
-                                    <td class="text-end fw-bold">{{ number_format($detail->price, 0, ',', '.') }} đ</td>
+                                    <td class="text-center">{{ $index + 1 }}</td>
+                                    <td class="text-start">
+                                        <div class="fw-bold name-item">{{ $detail->item?->name ?? 'N/A' }} </div>
+                                        <div class="small text-muted">id: {{ $detail->item_id }}</div>
+                                    </td>
+                                    <td class="text-center">{!! $badgeClass !!}</td>
+                                    <td class="text-center">{{ $detail->item?->unit ?? '-' }}</td>
+                                    <td class="text-center">
+                                        <input class="text-center item-quantity" style="max-width: 60px;" disabled
+                                            value="{{ $detail->quantity }}" data-index="{{ $index + 1 }}">
+                                    </td>
+                                    <td class="text-end item-price">{{ number_format($detail->price, 0, ',', '.') }}</td>
+                                    <td class="text-end fw-bold item-total">{{ number_format($lineTotal, 0, ',', '.') }}
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>

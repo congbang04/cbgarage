@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Booking;
+use App\Models\Labor;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Part;
@@ -93,7 +94,7 @@ class ReceptionService
                 'branch:id,name'
             ]);
 
-        // Lọc theo từ khóa (Biển số xe hoặc Tên khách hàng)
+
         if (!empty($filters['keyword'])) {
             $keyword = $filters['keyword'];
             $query->where(function ($q) use ($keyword) {
@@ -109,14 +110,16 @@ class ReceptionService
             });
         }
 
-        // Lọc theo trạng thái
         if (!empty($filters['status'])) {
             $query->where('status', $filters['status']);
         }
 
-        // Lọc theo ngày tạo (Ngày nhận xe)
         if (!empty($filters['date'])) {
             $query->whereDate('created_at', $filters['date']);
+        }
+
+        if (!empty($filters['branch_id'])) {
+            $query->where('branch_id', $filters['branch_id']);
         }
 
         return $query->orderByDesc('updated_at')->paginate($perPage);
@@ -155,7 +158,10 @@ class ReceptionService
      */
     public function getParts()
     {
-        return Part::select('id', 'sku', 'name', 'price_sell', 'unit')->orderBy('name')->get();
+        return Part::select('id', 'sku', 'name', 'price_sell', 'unit')
+            ->with('suggestedLabors')
+            ->orderBy('name')
+            ->get();
     }
 
     /**
@@ -170,7 +176,13 @@ class ReceptionService
             ->orderBy('name')
             ->get(['id', 'name', 'user_id']);
     }
-
+    public function getLabors()
+    {
+        return Labor::select('id', 'sku', 'name', 'price')
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get();
+    }
     /**
      * Save quotation with order details
      * Lưu báo giá kèm theo chi tiết hạng mục
@@ -187,9 +199,8 @@ class ReceptionService
             foreach ($details as $detail) {
                 $quantity = $detail['quantity'] ?? 1;
                 $price = $detail['price'] ?? 0;
-                $discount = $detail['discount'] ?? 0;
 
-                $lineTotal = ($quantity * $price) - ($quantity * $price * ($discount / 100));
+                $lineTotal = ($quantity * $price);
                 $totalAmount += $lineTotal;
 
                 OrderDetail::create([
@@ -198,18 +209,13 @@ class ReceptionService
                     'item_id' => $detail['item_id'],
                     'quantity' => $quantity,
                     'price' => $price,
-                    'discount' => $discount,
                     'status' => Order::STATUS_RECEIVED,
                 ]);
             }
 
-            // Calculate VAT (8%)
-            $vat = $totalAmount * 0.08;
-            $finalAmount = $totalAmount + $vat;
-
             // Update order
             $order->update([
-                'total_amount' => $finalAmount,
+                'total_amount' => $totalAmount,
                 'technician_id' => $technicianId,
                 'status' => $quoted,
             ]);
@@ -229,7 +235,8 @@ class ReceptionService
             'car:id,brand_id,car_model_id,license_plate,manufacture_year,color',
             'car.brand:id,name',
             'car.carModel:id,name',
-            'technician:id,name'
+            'technician:id,name',
+            'branch:id,name,address,phone'
         ])->find($orderId);
     }
     public function cancelOrder($orderId)
@@ -243,12 +250,12 @@ class ReceptionService
             throw new Exception("Không thể hủy đơn 'ĐÃ HOÀN THÀNH' hoặc 'ĐÃ THANH TOÁN'.");
         }
 
-        if ($order->status === Order::STATUS_CANCELLED) {
+        if ($order->status === Order::STATUS_CANCELED) {
             throw new Exception("Đơn này đã được hủy trước đó.");
         }
 
         $order->update([
-            'status' => Order::STATUS_CANCELLED
+            'status' => Order::STATUS_CANCELED
         ]);
 
         if ($order->booking) {

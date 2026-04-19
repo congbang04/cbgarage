@@ -82,7 +82,7 @@
                 <div class="card border-0 shadow-sm text-center p-4 h-100">
                     <div class="mb-3 position-relative d-block mx-auto" style="width: max-content;">
                         @if (!empty(auth()->user()->customer->image))
-                            <img src="{{ Storage::disk('s3')->url(auth()->user()->customer->image) }}"
+                            <img src="{{ Storage::disk()->url(auth()->user()->customer->image) }}"
                                 class="rounded-circle shadow-sm" alt="Avatar"
                                 style="width: 128px; height: 128px; object-fit: cover;">
                         @else
@@ -99,8 +99,6 @@
                         </span>
                     </div>
                     <h5 class="fw-bold mb-1"> {{ auth()->user()->customer->name }}</h5>
-                    <p class="text-muted small mb-3">Thành viên Bạc <i class="fas fa-star text-warning"></i></p>
-
                     <button type="button" class="btn btn-outline-primary btn-sm rounded-pill" data-bs-toggle="modal"
                         data-bs-target="#updateProfileModal"><i class="fas fa-edit me-1"></i>
                         Chỉnh sửa hồ sơ
@@ -138,7 +136,7 @@
                         <div class="row g-0">
                             @if (!empty($car->image))
                                 <div class="col-4 bg-light d-flex align-items-center justify-content-center">
-                                    <img src="{{ Storage::disk('s3')->url($car->image) }}" alt="car" class="car-img">
+                                    <img src="{{ Storage::disk()->url($car->image) }}" alt="car" class="car-img">
                                 </div>
                             @else
                                 <div class="col-4 bg-light d-flex align-items-center justify-content-center">

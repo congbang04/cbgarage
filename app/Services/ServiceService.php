@@ -30,7 +30,7 @@ class ServiceService
         $service = $this->find($id);
 
         if ($service->icon) {
-            Storage::disk('s3')->delete($service->icon);
+            Storage::disk()->delete($service->icon);
         }
 
         return $service->delete();

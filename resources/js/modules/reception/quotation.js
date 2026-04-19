@@ -7,10 +7,10 @@
 import {
     loadServices,
     loadParts,
+    loadLabors,
     loadTechnicians,
     handleAddItem,
     handleRemoveItem,
-    handleQuantityChange,
     handleSaveQuotation,
     handlePrintQuotation,
     handleSendWhatsApp,
@@ -18,6 +18,7 @@ import {
     getSelectedItem,
     filterServices,
     filterParts,
+    filterLabors,
 } from "./quotation-core.js";
 
 /**
@@ -28,6 +29,7 @@ export function initQuotationModule() {
     // Load data
     loadServices();
     loadParts();
+    loadLabors();
     loadTechnicians();
 
     // Bind events
@@ -124,8 +126,13 @@ function bindSearchInputs() {
         filterParts($(this).val());
     });
 
+    const debouncedLaborSearch = debounce(function () {
+        filterLabors($(this).val());
+    });
+
     $(document).on("input", "#search-services", debouncedServiceSearch);
     $(document).on("input", "#search-parts", debouncedPartSearch);
+    $(document).on("input", "#search-labors", debouncedLaborSearch);
 }
 
 /**

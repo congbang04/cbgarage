@@ -27,6 +27,17 @@ export function getParts() {
         dataType: "json",
     });
 }
+/**
+ * Get all available Labors
+ * GET /reception/Labors
+ */
+export function getLabors() {
+    return $.ajax({
+        url: window.routes.receptionLabors,
+        type: "GET",
+        dataType: "json",
+    });
+}
 
 /**
  * Get all technicians for assignment

@@ -21,12 +21,6 @@
             class="nav-link {{ request()->routeIs('admin.booking') ? 'active' : '' }}">
             <i class="fa-solid fa-calendar-days"></i> <span>Quản lý đặt lịch</span>
         </a>
-        @can('is-super-admin')
-            <a href="{{ route('admin.customers.index') }}"
-                class="nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
-                <i class="fas fa-users"></i> <span>Quản lý khách hàng</span>
-            </a>
-        @endcan
 
         @php $isReceptionActive = request()->routeIs('reception.*'); @endphp
         <div class="dropdown w-100">
@@ -68,13 +62,13 @@
                 <li>
                     <a class="dropdown-item {{ request()->routeIs('warehouse.part-requests') ? 'active' : '' }}"
                         href="{{ route('warehouse.part-requests') }}">
-                        <i class="fas fa-circle"></i> Yêu cầu cấp vật tư
+                        <i class="fas fa-circle"></i> Duyệt yêu cầu
                     </a>
                 </li>
                 <li>
                     <a class="dropdown-item {{ request()->routeIs('warehouse.stock-transfer') ? 'active' : '' }}"
                         href="{{ route('warehouse.stock-transfer') }}">
-                        <i class="fas fa-circle"></i> Luân chuyển kho
+                        <i class="fas fa-circle"></i> Luân chuyển
                     </a>
                 </li>
                 <li>
