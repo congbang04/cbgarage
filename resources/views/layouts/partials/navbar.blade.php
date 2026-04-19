@@ -8,6 +8,15 @@
         </button>
 
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="#">Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link" href="#about">Về chúng tôi</a></li>
+                <li class="nav-item"><a class="nav-link" href="#services">Dịch vụ</a></li>
+                <li class="nav-item"><a class="nav-link" href="#pricing">Bảng giá</a></li>
+                <li class="nav-item"><a class="nav-link" href="#reviews">Đánh giá</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('booking.index') }}">Đặt lịch</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('chat.index') }}">CBAUTO Chat</a></li>
+            </ul>
             <div>
                 @auth
                     <div class="btn-group navbar-nav">
@@ -37,15 +46,6 @@
                     <a href="{{ route('login') }}" class="btn btn-brand">Đăng nhập</a>
                 @endauth
             </div>
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="#">Trang chủ</a></li>
-                <li class="nav-item"><a class="nav-link" href="#about">Về chúng tôi</a></li>
-                <li class="nav-item"><a class="nav-link" href="#services">Dịch vụ</a></li>
-                <li class="nav-item"><a class="nav-link" href="#pricing">Bảng giá</a></li>
-                <li class="nav-item"><a class="nav-link" href="#reviews">Đánh giá</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('booking.index') }}">Đặt lịch</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('chat.index') }}">CBAUTO Chat</a></li>
-            </ul>
         </div>
     </div>
 </nav>
