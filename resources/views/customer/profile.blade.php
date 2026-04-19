@@ -99,8 +99,6 @@
                         </span>
                     </div>
                     <h5 class="fw-bold mb-1"> {{ auth()->user()->customer->name }}</h5>
-                    <p class="text-muted small mb-3">Thành viên Bạc <i class="fas fa-star text-warning"></i></p>
-
                     <button type="button" class="btn btn-outline-primary btn-sm rounded-pill" data-bs-toggle="modal"
                         data-bs-target="#updateProfileModal"><i class="fas fa-edit me-1"></i>
                         Chỉnh sửa hồ sơ

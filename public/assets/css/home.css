@@ -15,7 +15,6 @@ body {
     font-family: var(--font-family);
     color: var(--text-color);
     background-color: #ffffff;
-    overflow-x: hidden;
 }
 
 h1,
@@ -226,7 +225,7 @@ h6 {
     border: none;
     border-bottom: 1px solid #ddd;
     border-radius: 0 !important;
-    background: transparent;
+    background: var(--brand-light);
 }
 
 .accordion-button {
@@ -362,4 +361,23 @@ h6 {
         height: 35px;
         width: 35px; /* Giữ nguyên dạng vuông */
     }
+}
+
+.accordion-collapse {
+    position: relative;
+    z-index: 1;
+}
+
+.accordion-body {
+    position: relative;
+    z-index: 1;
+    transform: translateZ(
+        0
+    ); /* Ép trình duyệt sử dụng hardware acceleration để render phần chữ */
+}
+/* Chặn đứng AOS tiêm overflow vào body gây hỏng position: fixed trên mobile */
+body[data-aos-easing],
+html,
+body {
+    overflow-x: visible !important;
 }
