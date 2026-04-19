@@ -108,7 +108,7 @@ class CarSeeder extends Seeder
         $fileName = 'cars/' . Str::slug($brand . '-' . $model) . '.jpg';
 
         // ✅ Nếu đã có rồi thì không tải lại
-        if (Storage::disk('public')->exists($fileName)) {
+        if (Storage::disk()->exists($fileName)) {
             return $fileName;
         }
 
@@ -125,7 +125,7 @@ class CarSeeder extends Seeder
 
             try {
                 $image = file_get_contents($imageUrl);
-                Storage::disk('public')->put($fileName, $image);
+                Storage::disk()->put($fileName, $image);
 
                 sleep(1); // tránh rate limit
 

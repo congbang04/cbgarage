@@ -4,7 +4,7 @@
             <input type="radio" class="d-none" name="service_id" value="{{ $service->id }}">
             <div class="service-icon">
                 @if ($service->icon)
-                    <img src="{{ asset('storage/' . $service->icon) }}">
+                    <img src="{{ Storage::disk()->url($service->icon) }}">
                 @else
                     <i class="fas fa-question-circle"></i>
                 @endif

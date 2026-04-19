@@ -37,7 +37,7 @@
                                             <button type="button" class="btn btn-sm btn-light border edit-service"
                                                 data-bs-toggle="modal" data-bs-target="#create-service"
                                                 data-id="{{ $service->id }}" data-name="{{ $service->name }}"
-                                                data-icon="{{ asset('storage/' . $service->icon) }}"
+                                                data-icon="{{ Storage::disk()->url($service->icon) }}"
                                                 data-price="{{ $service->price }}"
                                                 data-estimated_duration="{{ $service->estimated_duration }}"
                                                 data-description="{{ $service->description }}">
