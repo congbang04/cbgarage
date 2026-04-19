@@ -107,12 +107,10 @@ class CarSeeder extends Seeder
     {
         $fileName = 'cars/' . Str::slug($brand . '-' . $model) . '.jpg';
 
-        // ✅ Nếu đã có rồi thì không tải lại
         if (Storage::disk()->exists($fileName)) {
-        // Nếu đã có rồi thì không tải lại
-        if (Storage::disk('s3')->exists($fileName)) {
             return $fileName;
         }
+
         $query = $brand . ' ' . $model . ' car';
 
         $response = Http::get('https://api.unsplash.com/search/photos', [
@@ -127,7 +125,6 @@ class CarSeeder extends Seeder
             try {
                 $image = file_get_contents($imageUrl);
                 Storage::disk()->put($fileName, $image);
-                Storage::disk('s3')->put($fileName, $image);
 
                 sleep(1); // tránh rate limit
 
