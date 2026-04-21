@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Events\PartRequestUpdated;
 use App\Models\Inventory;
+use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\PartRequest;
 use Exception;
@@ -185,24 +186,23 @@ class PartRequestService
 
             $part = $detail->part;
 
-            // 🔑 check đã tồn tại chưa (tránh duplicate)
+            // check đã tồn tại chưa (tránh duplicate)
             $existingDetail = $order->details()
                 ->where('item_type', \App\Models\Part::class)
                 ->where('item_id', $part->id)
                 ->first();
 
             if ($existingDetail) {
-                // ✅ đã có → cộng thêm số lượng
+                // đã có → cộng thêm số lượng
                 $existingDetail->increment('quantity', $actualQty);
             } else {
-                // 🆕 chưa có → tạo mới
+                // chưa có → tạo mới
                 OrderDetail::create([
                     'order_id' => $order->id,
                     'item_type' => \App\Models\Part::class,
                     'item_id' => $part->id,
                     'quantity' => $actualQty,
-                    'price' => $part->price_sell, // ⚠️ lấy từ DB, không dùng frontend
-                    'discount' => 0,
+                    'price' => $part->price_sell, // lấy từ DB, không dùng frontend
                     'status' => PartRequest::STATUS_PENDING,
                 ]);
             }

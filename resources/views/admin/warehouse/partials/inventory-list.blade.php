@@ -37,6 +37,9 @@
                         <i class="fas fa-edit"></i>
                     </button>
                 </td>
+                <td>
+                    <span>{{ $inventory->branch_id }}</span>
+                </td>
             </tr>
         @empty
             <tr>

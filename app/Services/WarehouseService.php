@@ -24,7 +24,7 @@ class WarehouseService
 
         $lowStockCount = Inventory::query()
             ->where('branch_id', auth()->user()->branch_id)
-            ->whereRaw('quantity < min_stock')
+            ->whereRaw('quantity <= min_stock')
             ->count();
 
         return [

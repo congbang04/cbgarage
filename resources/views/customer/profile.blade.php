@@ -130,7 +130,7 @@
                     </button>
                 </div>
                 <hr>
-                @foreach ($cars as $car)
+                @forelse ($cars as $car)
                     <!-- Car 1 -->
                     <div class="card border-0 shadow-sm mb-3 ">
                         <div class="row g-0">
@@ -187,7 +187,16 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="text-center py-5">
+                        <i class="fas fa-car fa-3x text-secondary opacity-50 mb-3"></i>
+                        <p class="text-muted mb-2">Bạn chưa có xe nào</p>
+                        <button class="btn btn-primary btn-sm rounded-pill" data-bs-toggle="modal"
+                            data-bs-target="#addCarModal">
+                            <i class="fas fa-plus me-1"></i> Thêm xe ngay
+                        </button>
+                    </div>
+                @endforelse
             </div>
         </div>
     </main>

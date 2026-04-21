@@ -114,7 +114,7 @@ class PaymentDetailService
         if (!$order) {
             return null;
         }
-
+        $this->recalculateOrderTotal($order);
         return [
             'order' => $order,
             'paymentSummary' => $this->getPaymentSummary($order),
@@ -122,5 +122,15 @@ class PaymentDetailService
             'canRefund' => $this->canRefund($order),
             'paymentMethods' => PaymentService::paymentMethods(),
         ];
+    }
+    protected function recalculateOrderTotal(Order $order): void
+    {
+        $total = $order->details()
+            ->selectRaw('SUM(quantity * price) as total')
+            ->value('total');
+
+        $order->update([
+            'total_amount' => $total ?? 0
+        ]);
     }
 }
