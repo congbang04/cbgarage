@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Nhật ký AI | CBAUTO')
+@section('title', 'CBAUTO - Nhật ký AI')
 
 @section('vite')
     @vite(['resources/js/modules/chat-ai/admin-ai-logs.js'])

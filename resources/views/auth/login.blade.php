@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Đăng nhập')
+@section('title', 'CBAUTO - Đăng nhập')
 @section('styles')
     <link rel="stylesheet" href={{ asset('assets/css/design-system.css') }}>
     <link rel="stylesheet" href={{ asset('assets/css/auth.css') }}>
@@ -10,7 +10,7 @@
         <div class="auth-card">
             <!-- Brand -->
             <div class="auth-brand">
-            <img src="{{ asset('storage/logo/logo-icon.png') }}" alt="CBAUTO" class="logo-icon-img">
+                <img src="{{ asset('storage/logo/logo-icon.png') }}" alt="CBAUTO" class="logo-icon-img">
                 <span>CBAUTO</span>
             </div>
 

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Chi tiết thanh toán đơn hàng #' . $order->id)
+@section('title', 'CBAUTO - Chi tiết thanh toán')
 
 @section('vite')
     <script>

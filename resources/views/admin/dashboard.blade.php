@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Trang quản trị')
+@section('title', 'CBAUTO - Trang quản trị')
 
 @section('vite')
     @vite(['resources/js/modules/admin-dashboard.js', 'resources/js/modules/admin-dashboard-chart.js'])

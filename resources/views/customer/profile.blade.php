@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Thông tin cá nhân')
+@section('title', 'CBAUTO - Thông tin cá nhân')
 @section('vite')
     @vite(['resources/js/modules/profile.js', 'resources/js/modules/car.js', 'resources/js/modules/car-crop.js'])
 @endsection

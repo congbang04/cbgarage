@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Phụ tùng & Vật tư')
+@section('title', 'CBAUTO - Phụ tùng & Vật tư')
 @section('vite')
     @vite(['resources/js/modules/part.js'])
 @endsection

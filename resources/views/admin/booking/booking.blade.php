@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Tiếp nhận xe')
+@section('title', 'CBAUTO - Quản lý đặt lịch')
 @section('vite')
     @vite(['resources/js/modules/admin-booking.js'])
 @endsection

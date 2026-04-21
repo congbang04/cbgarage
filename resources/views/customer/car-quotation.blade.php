@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Báo giá')
+@section('title', 'CBAUTO - Báo giá')
 @section('vite')
     @vite(['resources/js/modules/car-quotation.js'])
 @endsection

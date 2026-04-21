@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Quản lý thanh toán')
+@section('title', 'CBAUTO - Quản lý thanh toán')
 
 @section('vite')
     @vite(['resources/js/modules/payment/payment-index.js'])

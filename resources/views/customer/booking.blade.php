@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Đặt lịch')
+@section('title', 'CBAUTO - Đặt lịch')
 @section('vite')
     @vite(['resources/js/modules/booking/booking-app.js'])
 @endsection

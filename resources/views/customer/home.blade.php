@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Trang chủ')
+@section('title', 'CBAUTO - Trang chủ')
 @section('vite')
     @vite(['resources/js/modules/chat-ai/chat-ai-widget.js'])
 @endsection

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Luân chuyển hàng hóa')
+@section('title', 'CBAUTO - Luân chuyển')
 @section('vite')
     @vite(['resources/js/modules/warehouse/stock-transfer.js'])
 @endsection
