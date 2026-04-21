@@ -4,18 +4,17 @@ import tailwindcss from "@tailwindcss/vite";
 import { globSync } from "glob";
 
 export default defineConfig(({ command, mode }) => {
+    // Quét tất cả các file js trong thư mục modules
     const moduleScripts = globSync("resources/js/modules/**/*.js");
-
-    const inputFiles = [
-        "resources/css/app.css",
-        "resources/js/app.js",
-        ...(command === "build" ? moduleScripts : []),
-    ];
 
     return {
         plugins: [
             laravel({
-                input: inputFiles,
+                input: [
+                    "resources/css/app.css",
+                    "resources/js/app.js",
+                    ...moduleScripts,
+                ],
                 refresh: true,
             }),
             tailwindcss(),

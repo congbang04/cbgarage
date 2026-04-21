@@ -320,6 +320,7 @@ export function handleAddItem(itemType, itemId, itemName, price) {
     $("#item-form-section").hide();
     $("#search-services").val("");
     $("#search-parts").val("");
+    $("#search-labors").val("");
 
     // Close modal
     const modal = bootstrap.Modal.getInstance(
@@ -482,7 +483,7 @@ export function updateQuotationTotal() {
         }
     });
 
-    const finalTotal = totalGoods + totalLabor;
+    const finalTotal = totalGoods + totalLabor + totalService;
 
     // Update display
     $(".total-goods").html(totalGoods.toLocaleString("vi-VN"));
