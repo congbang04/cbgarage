@@ -168,11 +168,6 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="dropdown-item" href="booking.html">
-                                                        Đặt lịch sửa xe này
-                                                    </a>
-                                                </li>
-                                                <li>
                                                     <hr class="dropdown-divider">
                                                 </li>
                                                 <li>

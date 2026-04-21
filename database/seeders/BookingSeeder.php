@@ -13,7 +13,8 @@ class BookingSeeder extends Seeder
     {
         $faker = \Faker\Factory::create('vi_VN');
 
-        $services = DB::table('services')->pluck('id')->toArray();
+        // Lấy toàn bộ service bao gồm id và estimated_duration để tính end_time
+        $services = DB::table('services')->select('id', 'estimated_duration')->get();
         $bays = DB::table('bays')->pluck('id')->toArray();
         $customers = DB::table('customers')->select('id', 'name', 'phone')->get();
 
@@ -30,7 +31,7 @@ class BookingSeeder extends Seeder
             $carId = null;
 
             if (!$isGuest && $customers->isNotEmpty()) {
-                // Khách đã có thông tin trong hệ thống (Case 1)
+                // Khách đã có thông tin trong hệ thống
                 $customer = $customers->random();
                 $customerId = $customer->id;
                 $contactName = $customer->name;
@@ -41,21 +42,39 @@ class BookingSeeder extends Seeder
                     $carId = $cars[array_rand($cars)];
                 }
             } else {
-                // Khách lẻ tự đặt trên web, chỉ để lại Tên + SĐT (Case 3)
+                // Khách lẻ tự đặt trên web, chỉ để lại Tên + SĐT
                 $contactName = $faker->firstName() . ' ' . $faker->lastName();
                 $contactPhone = $this->fakeVietnamPhone($faker);
             }
 
-            // Random thời gian
+            // 1. Chọn ngẫu nhiên 1 dịch vụ để lấy ID và thời gian thực hiện
+            $service = $services->random();
+            $serviceId = $service->id;
+            $duration = $service->estimated_duration;
+
+            // 2. Logic random thời gian bắt đầu đảm bảo kết thúc KHÔNG QUÁ 18h
             $daysOffset = rand(-30, 14);
+
+            do {
+                // Giờ chỉ random từ 8h đến 17h (vì nếu lấy 18h cộng thêm duration chắc chắn sẽ lố giờ)
+                $hour = rand(8, 17);
+                $minuteOptions = [0, 20, 40];
+                $minute = $minuteOptions[array_rand($minuteOptions)];
+
+                // Tính tổng số phút từ 00:00 trong ngày để kiểm tra
+                // 18h00 tương đương với 18 * 60 = 1080 phút
+                $totalMinutes = ($hour * 60) + $minute + $duration;
+            } while ($totalMinutes > 18 * 60); // Nếu lố 18h thì vòng lặp sẽ tự động bốc lại giờ khác
+
             $start = $baseDate->copy()
                 ->addDays($daysOffset)
-                ->setTime(rand(8, 17), [0, 30][rand(0, 1)]);
+                ->setTime($hour, $minute, 0);
 
-            // 🔥 LOGIC TRẠNG THÁI CHUẨN THỰC TẾ
+            // 3. Tính thời gian kết thúc dựa vào thời gian làm dịch vụ
+            $end = (clone $start)->addMinutes($duration);
+
+            // LOGIC TRẠNG THÁI
             if ($start <= now()) {
-                // Quá khứ: Hoặc khách đã đến tạo Order (CONFIRMED) hoặc không đến/hủy (CANCELED)
-                // Tỉ lệ đến thực tế thường cao hơn hủy
                 $status = $faker->randomElement([
                     Booking::STATUS_CONFIRMED,
                     Booking::STATUS_CONFIRMED,
@@ -63,7 +82,6 @@ class BookingSeeder extends Seeder
                     Booking::STATUS_CANCELED
                 ]);
             } else {
-                // Tương lai: Chỉ chờ khách đến (PENDING) hoặc đã báo hủy (CANCELED)
                 $status = $faker->randomElement([
                     Booking::STATUS_PENDING,
                     Booking::STATUS_PENDING,
@@ -72,14 +90,10 @@ class BookingSeeder extends Seeder
                 ]);
             }
 
-            $durationList = [30, 60, 90, 120];
-            $duration = $durationList[array_rand($durationList)];
-            $end = (clone $start)->addMinutes($duration);
-
             DB::table('bookings')->insert([
                 'contact_name' => $contactName,
                 'contact_phone' => $contactPhone,
-                'service_id' => $services[array_rand($services)],
+                'service_id' => $serviceId,
                 'start_time' => $start,
                 'end_time' => $end,
                 'status' => $status,

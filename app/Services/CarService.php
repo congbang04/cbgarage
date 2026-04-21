@@ -30,6 +30,7 @@ class CarService
             'color' => $data['color'],
             'current_odo' => $data['current_odo'],
             'vin_number' => $data['vin_number'],
+            'image' => $data['image'] ?? null,
         ]);
     }
     public function createOrFind(array $data): Car

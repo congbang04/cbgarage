@@ -29,7 +29,7 @@ class WorkingHourSeeder extends Seeder
                 'day_of_week' => $day,
                 'active' => $active,
                 'start_time' => $active ? '08:00:00' : null,
-                'end_time' => $active ? '17:00:00' : null,
+                'end_time' => $active ? '18:00:00' : null,
                 'lunch_start' => $active ? '12:00:00' : null,
                 'lunch_end' => $active ? '13:00:00' : null,
                 'created_at' => now(),

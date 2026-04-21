@@ -97,7 +97,7 @@ class ChatService
             // 4. Lưu tin nhắn trả về của Bot
             AiMessage::create([
                 'session_id' => $sessionId,
-                'sender' => 'model',
+                'sender' => 'bot',
                 'content' => $botReply
             ]);
 

@@ -20,7 +20,7 @@ class GeminiService
         $contents = [];
         foreach ($chatHistory as $msg) {
             $contents[] = [
-                "role" => $msg['role'], // 'user' hoặc 'model'
+                "role" => $msg['role'], // 'user' hoặc 'bot'
                 "parts" => [
                     ["text" => $msg['content']]
                 ]

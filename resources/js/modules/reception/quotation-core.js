@@ -488,6 +488,7 @@ export function updateQuotationTotal() {
     // Update display
     $(".total-goods").html(totalGoods.toLocaleString("vi-VN"));
     $(".total-labor").html(totalLabor.toLocaleString("vi-VN"));
+    $(".total-service").html(totalService.toLocaleString("vi-VN"));
     $(".total-payment").html(finalTotal.toLocaleString("vi-VN"));
 }
 

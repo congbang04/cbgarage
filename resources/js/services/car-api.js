@@ -3,6 +3,8 @@ export function createCar(data) {
         url: window.routes.carStore,
         method: "POST",
         data: data,
+        processData: false,
+        contentType: false,
     });
 }
 export function deleteCar(carId) {
@@ -14,8 +16,10 @@ export function deleteCar(carId) {
 export function updateCar(carId, data) {
     return $.ajax({
         url: window.routes.carUpdate.replace(":id", carId),
-        method: "PUT",
+        method: "POST",
         data: data,
+        processData: false,
+        contentType: false,
     });
 }
 export function carOrders(carId, url = window.routes.carOrders) {

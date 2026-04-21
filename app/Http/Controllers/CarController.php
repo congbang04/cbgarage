@@ -38,7 +38,7 @@ class CarController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('cars', 'public');
+            $path = $request->file('image')->store('cars');
             $data['image'] = $path;
         }
 
@@ -110,13 +110,12 @@ class CarController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($car->image && Storage::exists('public/' . $car->image)) {
-                Storage::delete('public/' . $car->image);
+            if (!empty($car->image) && Storage::disk()->exists($car->image)) {
+                Storage::disk()->delete($car->image);
             }
 
             // Store new image
-            $path = $request->file('image')->store('cars', 'public');
+            $path = $request->file('image')->store('cars');
             $validated['image'] = $path;
         }
 

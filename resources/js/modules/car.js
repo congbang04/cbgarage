@@ -10,6 +10,8 @@ import { confirmDelete } from "../helpers/sweetalert";
 $(document).ready(function () {
     resetModal("#updateCarModal", "#form_update_car");
     resetModal("#addCarModal", "#form_create_car");
+    $("#create_car_preview").attr("src", "").addClass("d-none");
+    $("#create_car_image").val("");
     loadCarOrders();
 });
 function loadCarOrders(url = window.routes.carOrders) {
@@ -38,7 +40,7 @@ $("#form_create_car").on("submit", function (e) {
     e.preventDefault();
 
     let form = $(this);
-    let formData = form.serialize();
+    let formData = new FormData(form[0]);
 
     clearErrors(form);
 
@@ -47,6 +49,9 @@ $("#form_create_car").on("submit", function (e) {
             Swal.fire("Thành công!", res.message, "success");
 
             $("#form_create_car")[0].reset();
+
+            $("#create_car_preview").attr("src", "").addClass("d-none");
+            $("#create_car_image").val("");
 
             $(".modal").modal("hide");
 
@@ -74,8 +79,10 @@ $("#form_update_car").on("submit", function (e) {
     e.preventDefault();
 
     let form = $(this);
-    let formData = form.serialize();
+    let formData = new FormData(form[0]);
     let carId = $("#car_id").val();
+
+    clearErrors(form);
 
     updateCar(carId, formData)
         .done(function (res) {
