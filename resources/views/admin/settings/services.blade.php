@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Tiếp nhận xe')
+@section('title', 'CBAUTO - Danh mục Dịch vụ')
 @section('vite')
     @vite(['resources/js/modules/service.js'])
 @endsection

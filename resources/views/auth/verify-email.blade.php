@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Xác thực email')
+@section('title', 'CBAUTO - Xác thực email')
 @section('styles')
     <link rel="stylesheet" href={{ asset('assets/css/design-system.css') }}>
     <link rel="stylesheet" href={{ asset('assets/css/auth.css') }}>

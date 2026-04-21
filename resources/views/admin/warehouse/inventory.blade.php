@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Quản lý tồn kho')
+@section('title', 'CBAUTO - Quản lý tồn kho')
 
 @section('vite')
     @vite(['resources/js/modules/warehouse/inventory.js'])

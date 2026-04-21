@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Quản lý Chi nhánh')
+@section('title', 'CBAUTO - Quản lý Chi nhánh')
 @section('vite')
     @vite(['resources/js/modules/branch.js'])
 @endsection

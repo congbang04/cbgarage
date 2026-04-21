@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Báo giá')
+@section('title', 'CBAUTO - Báo giá xe')
 @section('vite')
     <script>
         window.QuotationConfig = @js([

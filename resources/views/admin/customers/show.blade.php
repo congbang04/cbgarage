@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Chi tiết khách hàng - ' . $customer->name)
+@section('title', 'CBAUTO - Chi tiết khách hàng - ' . $customer->name)
 @section('styles')
     <link rel="stylesheet" href="{{ asset('assets/css/design-system.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}">

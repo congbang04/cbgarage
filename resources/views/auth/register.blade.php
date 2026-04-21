@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Đăng ký')
+@section('title', 'CBAUTO - Đăng ký')
 @section('styles')
     <link rel="stylesheet" href={{ asset('assets/css/design-system.css') }}>
     <link rel="stylesheet" href={{ asset('assets/css/auth.css') }}>

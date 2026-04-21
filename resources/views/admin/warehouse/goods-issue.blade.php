@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Phiếu xuất kho')
+@section('title', 'CBAUTO - Phiếu xuất kho')
 @section('vite')
     @vite(['resources/js/modules/warehouse/goods-issue.js'])
 @endsection

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Trợ lý AI | CBAUTO')
+@section('title', 'CBAUTO - Trợ lý AI')
 
 @section('vite')
     @vite(['resources/js/modules/chat-ai/chat-ai.js'])

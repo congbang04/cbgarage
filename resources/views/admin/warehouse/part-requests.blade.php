@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Duyệt yêu cầu xuất kho')
+@section('title', 'CBAUTO - Duyệt yêu cầu')
 @section('vite')
     @vite(['resources/js/modules/warehouse/part-requests.js'])
 @endsection

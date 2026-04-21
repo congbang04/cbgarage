@@ -35,8 +35,8 @@ class CustomerController extends Controller
         // Handle image upload
         if ($request->hasFile('image')) {
             // Delete old image if exists
-            if ($customer->image && Storage::disk('s3')->exists($customer->image)) {
-                Storage::disk('s3')->delete($customer->image);
+            if ($customer->image && Storage::disk()->exists($customer->image)) {
+                Storage::disk()->delete($customer->image);
             }
 
             // Store new image
