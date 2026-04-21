@@ -43,7 +43,9 @@
                         </ul>
                     </div>
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-brand">Đăng nhập</a>
+                    <div class="btn-group navbar-nav">
+                        <a href="{{ route('login') }}" class="btn btn-brand">Đăng nhập</a>
+                    </div>
                 @endauth
             </div>
         </div>
