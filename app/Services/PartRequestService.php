@@ -145,7 +145,7 @@ class PartRequestService
     /**
      * Deduct inventory quantity
      */
-    protected function deductInventory(int $partId, int $quantity, int $branchId): void
+    public function deductInventory(int $partId, int $quantity, int $branchId): void
     {
         if (!$branchId) {
             throw new Exception('Lỗi không tìm thấy chi nhánh, chi nhánh không tồn tại');

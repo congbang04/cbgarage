@@ -241,20 +241,44 @@ class StockTransferService
      */
     public function cancelTransfer(int $transferId, ?string $reason = null): StockTransfer
     {
-        $transfer = StockTransfer::findOrFail($transferId);
+        return DB::transaction(function () use ($transferId, $reason) {
 
-        if (in_array($transfer->status, [StockTransfer::STATUS_COMPLETED, StockTransfer::STATUS_CANCELED])) {
-            throw new Exception('Không thể hủy phiếu chuyển kho này');
-        }
-        $transfer->update([
-            'status' => StockTransfer::STATUS_CANCELED,
-            'note' => $reason,
-            'updated_at' => now(),
-        ]);
+            $transfer = StockTransfer::with('details')->findOrFail($transferId);
 
-        broadcast(new StockTransferUpdated($transfer));
+            if (in_array($transfer->status, [
+                StockTransfer::STATUS_COMPLETED,
+                StockTransfer::STATUS_CANCELED
+            ])) {
+                throw new Exception('Không thể hủy phiếu chuyển kho này');
+            }
 
-        return $transfer;
+            if ($transfer->status === StockTransfer::STATUS_IN_TRANSIT) {
+
+                foreach ($transfer->details as $detail) {
+
+                    $inventory = Inventory::where('part_id', $detail->part_id)
+                        ->where('branch_id', $transfer->from_branch_id)
+                        ->lockForUpdate()
+                        ->first();
+
+                    if (!$inventory) {
+                        throw new Exception("Không tìm thấy tồn kho để hoàn lại");
+                    }
+
+                    $inventory->increment('quantity', $detail->quantity);
+                }
+            }
+
+            $transfer->update([
+                'status' => StockTransfer::STATUS_CANCELED,
+                'note' => $reason,
+                'updated_at' => now(),
+            ]);
+
+            broadcast(new StockTransferUpdated($transfer));
+
+            return $transfer;
+        });
     }
     /**
      * Issue goods for Stock Transfer

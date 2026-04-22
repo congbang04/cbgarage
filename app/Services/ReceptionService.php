@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Booking;
+use App\Models\Inventory;
 use App\Models\Labor;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -11,21 +12,24 @@ use App\Models\Service;
 use App\Models\Technician;
 use App\Services\CarService;
 use App\Services\CustomerService;
+use App\Services\PartRequestService;
 use App\Services\ServiceService;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
 class ReceptionService
 {
-    protected $customerService, $carService, $serviceService, $partService;
+    protected $customerService, $carService, $serviceService, $partRequestService;
     public function __construct(
         CustomerService $customerService,
         CarService $carService,
-        ServiceService $serviceService
+        ServiceService $serviceService,
+        PartRequestService $partRequestService
     ) {
         $this->customerService = $customerService;
         $this->carService = $carService;
         $this->serviceService = $serviceService;
+        $this->partRequestService = $partRequestService;
     }
     public function store(array $data)
     {
@@ -191,18 +195,73 @@ class ReceptionService
     public function saveQuotation(Order $order, array $details, ?int $technicianId = null): Order
     {
         return DB::transaction(function () use ($order, $details, $technicianId) {
+
             $totalAmount = 0;
-            $quoted = Order::STATUS_QUOTED;
-            // Clear existing details
+
+            // Lấy details cũ
+            $oldDetails = $order->details()->get()->keyBy(function ($item) {
+                return $item->item_type . '_' . $item->item_id;
+            });
+
+            // Map details mới
+            $newDetailsMap = collect($details)->keyBy(function ($item) {
+                return $item['item_type'] . '_' . $item['item_id'];
+            });
+
+            // 1. Hoàn kho cho item bị xóa
+            foreach ($oldDetails as $key => $old) {
+                if (!isset($newDetailsMap[$key]) && $old->item_type === 'App\Models\Part') {
+                    $this->addInventory(
+                        $old->item_id,
+                        $old->quantity,
+                        $order->branch_id
+                    );
+                }
+            }
+
+            // 2. Trừ / cập nhật kho
+            foreach ($newDetailsMap as $key => $new) {
+
+                $quantity = $new['quantity'] ?? 1;
+
+                if ($new['item_type'] !== 'App\Models\Part') continue;
+
+                if (isset($oldDetails[$key])) {
+
+                    $diff = $quantity - $oldDetails[$key]->quantity;
+
+                    if ($diff > 0) {
+                        $this->partRequestService->deductInventory(
+                            $new['item_id'],
+                            $diff,
+                            $order->branch_id
+                        );
+                    } elseif ($diff < 0) {
+                        $this->addInventory(
+                            $new['item_id'],
+                            abs($diff),
+                            $order->branch_id
+                        );
+                    }
+                } else {
+                    // item mới
+                    $this->partRequestService->deductInventory(
+                        $new['item_id'],
+                        $quantity,
+                        $order->branch_id
+                    );
+                }
+            }
+
+            // 3. Xóa và tạo lại details
             $order->details()->delete();
 
-            // Create order details and calculate total
             foreach ($details as $detail) {
+
                 $quantity = $detail['quantity'] ?? 1;
                 $price = $detail['price'] ?? 0;
 
-                $lineTotal = ($quantity * $price);
-                $totalAmount += $lineTotal;
+                $totalAmount += $quantity * $price;
 
                 OrderDetail::create([
                     'order_id' => $order->id,
@@ -214,17 +273,33 @@ class ReceptionService
                 ]);
             }
 
-            // Update order
+            // 4. Update order
             $order->update([
                 'total_amount' => $totalAmount,
                 'technician_id' => $technicianId,
-                'status' => $quoted,
+                'status' => Order::STATUS_QUOTED,
             ]);
 
             return $order->fresh('details');
         });
     }
+    public function addInventory(int $partId, int $quantity, int $branchId): void
+    {
+        if (!$branchId) {
+            throw new Exception('Không tìm thấy chi nhánh');
+        }
 
+        $inventory = Inventory::where('part_id', $partId)
+            ->where('branch_id', $branchId)
+            ->lockForUpdate()
+            ->first();
+
+        if (!$inventory) {
+            throw new Exception("Không tìm thấy tồn kho để hoàn lại");
+        }
+
+        $inventory->increment('quantity', $quantity);
+    }
     /**
      * Get quotation by order ID with all details
      */
