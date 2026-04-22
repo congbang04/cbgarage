@@ -24,7 +24,6 @@
                                         data-is_central_warehouse="{{ $branch->is_central_warehouse }}">
                                         Sửa thông tin
                                     </a></li>
-                                <li><a class="dropdown-item" href="#">Quản lý cầu nâng</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>

@@ -215,13 +215,6 @@ $(document).on("click", "#btn_reset_search", function () {
     }, 50);
 });
 
-// Handle pagination
-$(document).on("click", ".pagination-container a", function (e) {
-    e.preventDefault();
-    let url = $(this).attr("href");
-    BayModule.loadBays(url);
-});
-
 // Initialize when DOM is ready
 $(document).ready(() => {
     BayModule.init();
