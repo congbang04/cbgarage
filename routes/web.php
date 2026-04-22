@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminCustomerController;
 use App\Http\Controllers\AiLogController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BayController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CarController;
@@ -32,6 +33,9 @@ Route::middleware(['auth', 'can:is-super-admin'])->group(
     function () {
         Route::resource('branches', BranchController::class);
         Route::get('/partial/branch-list', [BranchController::class, 'branchList'])->name('branchList');
+
+        Route::resource('bays', BayController::class);
+        Route::get('/partial/bay-list', [BayController::class, 'bayList'])->name('bayList');
 
         Route::resource('services', ServiceController::class);
         Route::get('/partial/service-list', [ServiceController::class, 'servicesList'])->name('serviceList');

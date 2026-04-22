@@ -44,12 +44,12 @@ class BranchService
 
     public function countByBranch($branchId)
     {
-        return Bay::where('branch_id', $branchId)->count();
+        return Bay::where('branch_id', $branchId)->where('status', 'available')->count();
     }
 
     public function countStaffByBranch($branchId)
     {
-        return \App\Models\User::where('branch_id', $branchId)->count();
+        return User::where('branch_id', $branchId)->count();
     }
 
     public function find($id)

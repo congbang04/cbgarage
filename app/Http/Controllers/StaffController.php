@@ -33,7 +33,7 @@ class StaffController extends Controller
         $branch = $request->input('branch', '');
         $status = $request->input('status', '');
 
-        $query = User::with('technician')->where('role', '!=', 'CUSTOMER')->where('branch_id', auth()->user()->branch_id);
+        $query = User::with('technician')->where('role', '!=', 'CUSTOMER');
 
         // Search by name, email, phone
         if ($search) {

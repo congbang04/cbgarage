@@ -13,6 +13,15 @@
         <header class="top-navbar">
             <h4 class="mb-0 fw-bold">Danh sách công việc</h4>
             <div class="d-flex gap-2">
+                <div>
+                    <a class="btn btn-sm btn-primary" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); $('#logout-form').submit();">
+                        Đăng xuất
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </div>
                 <button class="btn btn-light border" id="refreshBtn">
                     <i class="fas fa-sync-alt"></i>
                 </button>

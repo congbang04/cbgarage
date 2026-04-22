@@ -27,6 +27,9 @@
         <a href="{{ route('branches.index') }}" class="nav-link @if (request()->routeIs('branches.*')) active @endif">
             <i class="fas fa-building"></i> <span>Chi nhánh</span>
         </a>
+        <a href="{{ route('bays.index') }}" class="nav-link @if (request()->routeIs('bays.*')) active @endif">
+            <i class="fas fa-car"></i> <span>Cầu nâng</span>
+        </a>
         <a href="{{ route('staff.index') }}" class="nav-link {{ request()->routeIs('staff.index') ? 'active' : '' }}">
             <i class="fas fa-users"></i> <span>Nhân sự</span>
         </a>
@@ -42,5 +45,14 @@
                 <i class="fas fa-arrow-left" style="margin-top: 4px"></i> Quay lại Vận hành
             </a>
         </div>
+    </div>
+    <div class="sidebar-footer">
+        <a href="#" class="nav-link text-danger p-0"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <i class="fas fa-sign-out-alt"></i> <span>Đăng xuất</span>
+        </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
     </div>
 </nav>

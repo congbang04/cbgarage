@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 50);
             $table->string('status', 50)->default('available');
-            $table->string('type', 50);
+            $table->string('type', 50)->nullable();
 
             $table->foreignId('branch_id')->constrained('branches');
 

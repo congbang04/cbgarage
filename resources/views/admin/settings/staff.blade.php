@@ -42,7 +42,7 @@
                                 <option value="advisor">Cố vấn dịch vụ</option>
                                 <option value="warehouse">Thủ kho</option>
                                 <option value="cashier">Thu ngân</option>
-                                <option value="admin">Quản trị viên</option>
+                                <option value="branch_admin">Quản trị viên</option>
                             </select>
                         </div>
                         <div class="col-md-3">

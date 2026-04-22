@@ -36,6 +36,11 @@
         'branchDestroy' => route('branches.destroy', ['branch' => ':branch']),
         'branchUpdate' => route('branches.update', ['branch' => ':branch']),
 
+        'bayList' => route('bayList'),
+        'bayStore' => route('bays.store'),
+        'bayDestroy' => route('bays.destroy', ['bay' => ':bay']),
+        'bayUpdate' => route('bays.update', ['bay' => ':bay']),
+
         'staffList' => route('staff.list'),
         'staffStore' => route('staff.store'),
         'staffUpdate' => route('staff.update', ['staff' => ':staff']),
