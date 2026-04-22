@@ -41,56 +41,54 @@
 
             <!-- Filter Section -->
             <div class="card mb-4 shadow p-3 mb-5 bg-body-tertiary rounded">
-                <div class="card-header bg-white py-3">
-                    <form id="paymentFilterForm">
-                        <div class="row g-3">
-                            <div class="col-md-3">
-                                <label class="form-label small">Từ ngày</label>
-                                <input type="date" class="form-control" id="filterDateFrom" name="date_from">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label small">Đến ngày</label>
-                                <input type="date" class="form-control" id="filterDateTo" name="date_to">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label small">Loại giao dịch</label>
-                                <select class="form-select" id="filterType" name="type">
-                                    <option value="">-- Tất cả --</option>
-                                    <option value="payment">Thanh toán</option>
-                                    <option value="refund">Hoàn tiền</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label small">Hình thức thanh toán</label>
-                                <select class="form-select" id="filterPaymentMethod" name="payment_method">
-                                    <option value="">-- Tất cả --</option>
-                                    <option value="cash">Tiền mặt</option>
-                                    <option value="bank_transfer">Chuyển khoản</option>
-                                    <option value="card">Thẻ</option>
-                                    <option value="e-wallet">Ví điện tử</option>
-                                </select>
-                            </div>
-
-                            @if (auth()->user()->role === 'BRANCH_ADMIN' && auth()->user()->branch_id == 1)
-                                <div class="col-md-3">
-                                    <label class="form-label small">Chi nhánh</label>
-                                    <select class="form-select" id="filterBranch" name="branch_id">
-                                        <option value="">-- Tất cả --</option>
-                                    </select>
-                                </div>
-                            @endif
-
-                            <div class="col-md-3 d-flex align-items-end">
-                                <button type="submit" class="btn btn-primary w-60 me-2">
-                                    <i class="fas fa-search"></i> Tìm kiếm
-                                </button>
-                                <button type="reset" class="btn btn-secondary w-60">
-                                    <i class="fas fa-search"></i> Đặt lại
-                                </button>
-                            </div>
+                <form id="paymentFilterForm">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label small">Từ ngày</label>
+                            <input type="date" class="form-control" id="filterDateFrom" name="date_from">
                         </div>
-                    </form>
-                </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Đến ngày</label>
+                            <input type="date" class="form-control" id="filterDateTo" name="date_to">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Loại giao dịch</label>
+                            <select class="form-select" id="filterType" name="type">
+                                <option value="">-- Tất cả --</option>
+                                <option value="payment">Thanh toán</option>
+                                <option value="refund">Hoàn tiền</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Hình thức thanh toán</label>
+                            <select class="form-select" id="filterPaymentMethod" name="payment_method">
+                                <option value="">-- Tất cả --</option>
+                                <option value="cash">Tiền mặt</option>
+                                <option value="bank_transfer">Chuyển khoản</option>
+                                <option value="card">Thẻ</option>
+                                <option value="e-wallet">Ví điện tử</option>
+                            </select>
+                        </div>
+
+                        @if (auth()->user()->role === 'BRANCH_ADMIN' && auth()->user()->branch_id == 1)
+                            <div class="col-md-3">
+                                <label class="form-label small">Chi nhánh</label>
+                                <select class="form-select" id="filterBranch" name="branch_id">
+                                    <option value="">-- Tất cả --</option>
+                                </select>
+                            </div>
+                        @endif
+
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-60 me-2">
+                                <i class="fas fa-search"></i> Tìm kiếm
+                            </button>
+                            <button type="reset" class="btn btn-secondary w-60">
+                                <i class="fas fa-search"></i> Đặt lại
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
 
             <!-- Transactions Table -->

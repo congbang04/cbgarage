@@ -22,7 +22,7 @@
     <div class="col-md-3">
         <div class="card p-3 border-start border-4 border-primary shadow p-3 mb-5 bg-body-tertiary rounded"
             style="height: 102px">
-            <div class="text-muted small">Doanh thu ròng</div>
+            <div class="text-muted small">Tiền thực nhận</div>
             <h4 class="fw-bold mb-0 text-primary">
                 {{ number_format($stats['net_revenue'] ?? 0) }} đ
             </h4>

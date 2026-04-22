@@ -171,7 +171,8 @@ class ReceptionService
     {
         return Technician::query()
             ->whereHas('user', function ($q) use ($branchId) {
-                $q->where('branch_id', $branchId);
+                $q->where('branch_id', $branchId)
+                    ->where('role', 'TECHNICIAN');
             })
             ->orderBy('name')
             ->get(['id', 'name', 'user_id']);
