@@ -18,69 +18,42 @@ Ngoài ra, hệ thống tích hợp trợ lý ảo giúp tư vấn dịch vụ t
 - Cập nhật thông tin
 - Quản lý xe
 - Xem danh sách dịch vụ sửa chữa
-- Đặt lịch sửa chữa theo ngày giờ
-- Chọn chi nhánh
+- Đặt lịch sửa chữa
 - Theo dõi trạng thái đơn hàng sửa chữa xe
 - Xem lịch sử sửa chữa
 - Nhận tư vấn từ trợ lý ảo
 
-## Chức năng nhân viên
-
-### 👨‍🔧 Lễ tân (Reception)
-
-- Tiếp nhận khách hàng và tạo phiếu sửa chữa
-- Tạo và quản lý báo giá (quotation)
-- Thêm dịch vụ và phụ tùng vào báo giá
-- Gán kỹ thuật viên thực hiện
-- Xem danh sách dịch vụ, phụ tùng, kỹ thuật viên
-- Lưu và cập nhật thông tin báo giá theo từng đơn
-
 ---
 
-### 🧑‍🔧 Kỹ thuật viên (Technician)
+## Chức năng nhân viên
+
+### Cố vấn dịch vụ (Advisor)
+
+- Tiếp nhận khách hàng và tạo phiếu sửa chữa
+- Tạo và quản lý báo giá
+- Xem danh sách dịch vụ, phụ tùng, tiền công, kỹ thuật viên
+- Thêm dịch vụ, phụ tùng, tiền công vào báo giá
+- Gán kỹ thuật viên thực hiện
+- Lưu và cập nhật thông tin báo giá theo từng đơn
+
+### Kỹ thuật viên (Technician)
 
 - Xem danh sách công việc được phân công
 - Xem chi tiết công việc theo từng xe
 - Cập nhật trạng thái công việc (đang làm, hoàn thành,...)
 - Hoàn thành từng hạng mục sửa chữa
-- Yêu cầu thêm phụ tùng trong quá trình sửa chữa
+- Có thể yêu cầu thêm phụ tùng trong quá trình sửa chữa
 
----
+### Nhân viên kho (Warehouse)
 
-### 📦 Nhân viên kho (Warehouse)
-
-- Quản lý tồn kho phụ tùng
-- Xem danh sách yêu cầu phụ tùng từ kỹ thuật viên
-- Duyệt / từ chối yêu cầu phụ tùng
+- Quản lý tồn kho phụ tùng, vật tư
+- Xem danh sách yêu cầu phụ tùng, vật tư từ kỹ thuật viên
+- Duyệt / từ chối yêu cầu phụ tùng, vật tư
 - Quản lý xuất kho và điều chuyển kho
 - Theo dõi lịch sử nhập – xuất – chuyển kho
 - Xử lý các yêu cầu chuyển kho giữa các chi nhánh
 
----
-
-## Chức năng quản trị
-
-### 🛠️ Quản lý hệ thống (Super Admin)
-
-- Quản lý chi nhánh garage
-- Quản lý dịch vụ sửa chữa
-- Quản lý phụ tùng
-- Quản lý nhân viên (thêm, sửa, xoá, bật/tắt hoạt động)
-- Phân quyền và kiểm soát trạng thái nhân viên
-
----
-
-### 📊 Quản trị vận hành (Admin)
-
-- Xem dashboard thống kê hệ thống
-- Tìm kiếm và quản lý khách hàng
-- Quản lý toàn bộ lịch hẹn (booking)
-- Theo dõi trạng thái sửa chữa của các đơn hàng
-- Xem dữ liệu thống kê theo thời gian thực
-
----
-
-### 💳 Quản lý thanh toán
+### Quản lý thanh toán (Cashier)
 
 - Xem danh sách thanh toán
 - Xem chi tiết đơn hàng
@@ -90,21 +63,50 @@ Ngoài ra, hệ thống tích hợp trợ lý ảo giúp tư vấn dịch vụ t
 
 ---
 
-### 🤖 Quản lý trợ lý ảo (AI Chat)
+### Quản lý hệ thống (Super Admin)
 
-- Xem danh sách phiên chat
-- Xem nội dung hội thoại
-- Xoá phiên chat
-- Theo dõi hoạt động tư vấn của hệ thống AI
+> Là cấp quản trị cao nhất, có toàn quyền trên toàn bộ hệ thống.
+
+#### Bao gồm
+
+- Toàn bộ chức năng của **Nhân viên**
+- Toàn bộ chức năng của **Branch Admin**
+
+#### Chức năng nâng cao
+
+- Quản lý khách hàng
+- Quản lý dịch vụ sửa chữa
+- Quản lý phụ tùng, vật tư (inventory)
+- Quản lý chi nhánh (branches)
+- Quản lý cầu nâng (bay) theo từng chi nhánh
+- Quản lý nhân viên:
+    - Thêm / sửa / xoá
+    - Bật / tắt trạng thái hoạt động
+- Phân quyền hệ thống:
+    - Gán vai trò (role)
+    - Kiểm soát quyền truy cập
+- Quản lý trợ lý ảo:
+    - Xem danh sách phiên chat
+    - Xem nội dung hội thoại
+    - Xoá phiên chat
 
 ---
 
-## Các chức năng liên quan khác
+### Quản trị chi nhánh (Branch Admin)
 
-- Đặt lịch sửa chữa trực tuyến (Booking)
-- Quản lý xe và lịch sử sửa chữa của khách hàng
-- Xem khung giờ (slots) khả dụng
-- Chat với trợ lý ảo để được tư vấn dịch vụ
+> Quản lý hoạt động trong phạm vi **một chi nhánh cụ thể**.
+
+#### Bao gồm
+
+- Toàn bộ chức năng của **Nhân viên**
+
+#### Giới hạn
+
+- Không có quyền quản lý toàn hệ thống (multi-branch)
+- Không quản lý nhân sự toàn hệ thống
+- Không truy cập dữ liệu của chi nhánh khác
+
+---
 
 ## Tính năng nổi bật
 
@@ -116,15 +118,8 @@ Ngoài ra, hệ thống tích hợp trợ lý ảo giúp tư vấn dịch vụ t
 
 ## Công nghệ sử dụng
 
-- Backend: Laravel
-- Frontend: HTML, CSS, JavaScript
+- Backend: PHP (Laravel Framework), RESTful API, MVC Architecture
+- Frontend: HTML5, CSS3, JavaScript (ES6+), Blade Template Engine, jQuery (xử lý DOM, AJAX)
+- Xử lý bất đồng bộ: AJAX (jQuery), Lọc dữ liệu không reload trang, Cập nhật trạng thái realtime (booking, đơn sửa chữa)
 - Cơ sở dữ liệu: MySQL
-- AJAX: xử lý lọc và cập nhật dữ liệu không reload trang
-
-## Hướng dẫn cài đặt
-
-1. Clone project
-2. Cài đặt composer
-3. Cấu hình file .env
-4. Chạy migrate database
-5. Start server
+- DevOps / Môi trường: Docker (Dockerfile)
