@@ -2,25 +2,53 @@
 
 namespace App\Services;
 
+use App\Services\PartService;
+use App\Services\ServiceService;
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class GeminiService
 {
     protected $apiUrl, $apiKey;
+    protected $partService, $serviceService;
 
-    public function __construct()
+    public function __construct(PartService $partService, ServiceService $serviceService)
     {
         $this->apiKey = config('services.gemini.key');
         $this->apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$this->apiKey}";
-    }
 
+        $this->partService = $partService;
+        $this->serviceService = $serviceService;
+    }
+    private function getPricingContext()
+    {
+        // Lấy danh sách dịch vụ và phụ tùng
+        $services = $this->serviceService->getAll();
+        $parts = $this->partService->getAll(100);
+
+        $context = "DANH SÁCH BẢNG GIÁ THAM KHẢO:\n\n";
+
+        $context .= "DỊCH VỤ:\n";
+        foreach ($services as $service) {
+            $context .= "- {$service->name}: " . number_format($service->price) . " VNĐ\n";
+        }
+
+        $context .= "\nPHỤ TÙNG:\n";
+        foreach ($parts as $part) {
+            $context .= "- {$part->name} (SKU: {$part->sku}): " . number_format($part->price_sell) . " VNĐ\n";
+        }
+
+        return $context;
+    }
     public function generateChatResponse(array $chatHistory)
     {
+        $pricingData = $this->getPricingContext();
+        Log::notice($pricingData);
         $contents = [];
         foreach ($chatHistory as $msg) {
             $contents[] = [
-                "role" => $msg['role'], // 'user' hoặc 'bot'
+                "role" => $msg['role'] === 'bot' ? 'model' : 'user',
                 "parts" => [
                     ["text" => $msg['content']]
                 ]
@@ -28,27 +56,34 @@ class GeminiService
         }
         $payload = [
             "systemInstruction" => [
-                "parts" => [
-                    [
-                        "text" => "Bạn là một thợ máy chuyên nghiệp và nhân viên chăm sóc khách hàng tại gara xe 'AutoCare'. 
-                        \nNhiệm vụ của bạn là:
-                        \n1. Đưa ra chẩn đoán ngắn gọn các vấn đề hỏng hóc của xe dựa trên mô tả.
-                        \n2. Đưa ra nguyên nhân dự đoán và lời khuyên an toàn.
-                        \n3. Mời khách hàng mang xe đến AutoCare để kiểm tra.
-                        \n4. Nếu khách muốn đặt lịch, hãy thu thập đủ: Tên, SĐT, ngày giờ.
-                        \nLuôn giữ thái độ lịch sự, chuyên nghiệp và ngắn gọn."
-                    ]
-                ]
+                "parts" => [[
+                    "text" => "Bạn là chuyên gia kỹ thuật và tư vấn viên tại gara 'CBAUTO'.
+            
+                                NHIỆM VỤ:
+                                1. Chẩn đoán hỏng hóc dựa trên mô tả của khách.
+                                2. Gợi ý phụ tùng và dịch vụ từ danh sách cung cấp.
+                                3. Luôn nhắc nhở: 'Báo giá chỉ mang tính chất tham khảo, cần Kỹ thuật viên kiểm tra trực tiếp'.
+
+                                QUY TẮC ĐỊNH DẠNG (BẮT BUỘC):
+                                - Sử dụng Markdown để trình bày câu trả lời.
+                                - Khi báo giá, PHẢI sử dụng BẢNG (Table) gồm các cột: Hạng mục, Đơn giá, Ghi chú.
+                                - TUYỆT ĐỐI KHÔNG hiển thị mã SKU (ví dụ: P-001, P-002...) trong câu trả lời. Chỉ hiển thị tên phụ tùng/dịch vụ thuần túy.
+                                - Đơn giá phải được định dạng có dấu phẩy ngăn cách hàng nghìn và kèm đơn vị VNĐ (ví dụ: 500,000 VNĐ).
+                                - Các thuật ngữ kỹ thuật nên viết hoa chữ cái đầu.
+
+                                DANH SÁCH BẢNG GIÁ HỆ THỐNG:
+                                {$pricingData}"
+                ]]
             ],
             "contents" => $contents,
             "generationConfig" => [
-                "temperature" => 0.7,
-                "maxOutputTokens" => 1024,
+                "temperature" => 0.5,
+                "maxOutputTokens" => 4096,
             ]
         ];
 
         try {
-            $response = Http::timeout(30)->withHeaders([
+            $response = Http::timeout(90)->withHeaders([
                 'Content-Type' => 'application/json',
             ])->post($this->apiUrl, $payload);
 

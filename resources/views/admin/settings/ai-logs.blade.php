@@ -3,6 +3,7 @@
 @section('title', 'CBAUTO - Nhật ký AI')
 
 @section('vite')
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     @vite(['resources/js/modules/chat-ai/admin-ai-logs.js'])
 @endsection
 

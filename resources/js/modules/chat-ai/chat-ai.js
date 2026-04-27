@@ -86,12 +86,22 @@ $(document).ready(function () {
             messagesEl.empty();
             if (res.messages.length > 0) {
                 res.messages.forEach((msg) => {
-                    let cssClass = msg.sender === "user" ? "user" : "bot";
-                    messagesEl.append(`
-                        <div class="chat-bubble ${cssClass}">
-                            ${formatMessage(msg.content)}
-                        </div>
-                    `);
+                    if (msg.sender === "user") {
+                        // Tin nhắn của khách giữ nguyên
+                        messagesEl.append(`
+                            <div class="chat-bubble user">
+                                ${formatMessage(msg.content)}
+                            </div>
+                        `);
+                    } else {
+                        // Tin nhắn của Bot áp dụng cấu trúc mới có Avatar
+                        messagesEl.append(`
+                            <div class="chat-bubble bot">
+                                <div class="bot-avatar"></div>
+                                <div class="bot-content">${formatMessage(msg.content)}</div>
+                            </div>
+                        `);
+                    }
                 });
                 scrollToBottom(scrollAreaEl);
             } else {

@@ -1,11 +1,16 @@
 import { sendChatMessage } from "../../services/chat-ai-api.js";
 
-// Helper: Format text (In đậm và xuống dòng)
 export function formatMessage(text) {
     if (!text) return "";
-    let formatted = text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
-    formatted = formatted.replace(/\n/g, "<br>");
-    return formatted;
+
+    let html = marked.parse(text);
+
+    html = html.replace(
+        /<table>/g,
+        '<table class="table table-bordered table-hover mt-3 bg-white">',
+    );
+
+    return html;
 }
 
 // Helper: Cuộn xuống cuối khung chat
@@ -47,8 +52,13 @@ export function processSendMessage({
     // 2. Render hiệu ứng Bot đang gõ
     let typingId = "typing-" + Date.now();
     appendContainer.append(`
-        <div id="${typingId}" class="chat-bubble bot text-muted small fst-italic">
-            <i class="fas fa-circle-notch fa-spin me-2"></i> Đang phân tích...
+        <div id="${typingId}" class="chat-bubble bot">
+            <div class="bot-avatar"></div>
+            <div class="bot-content typing-indicator-bubble">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
         </div>
     `);
     scrollToBottom(scrollContainer);
@@ -65,7 +75,10 @@ export function processSendMessage({
 
             // Render tin nhắn của Bot
             appendContainer.append(
-                `<div class="chat-bubble bot">${formatMessage(res.reply)}</div>`,
+                `<div class="chat-bubble bot">
+                    <div class="bot-avatar"></div>
+                    <div class="bot-content">${formatMessage(res.reply)}</div>
+                </div>`,
             );
 
             // Gọi callback nếu có truyền vào (VD: cập nhật lại Sidebar)
@@ -74,7 +87,10 @@ export function processSendMessage({
         .fail((err) => {
             $(`#${typingId}`).remove();
             appendContainer.append(
-                `<div class="chat-bubble bot text-danger">Lỗi kết nối. Vui lòng thử lại.</div>`,
+                `<div class="chat-bubble bot">
+                    <div class="bot-avatar"></div>
+                    <div class="bot-content text-danger">Lỗi kết nối. Vui lòng thử lại.</div>
+                </div>`,
             );
         })
         .always(() => {

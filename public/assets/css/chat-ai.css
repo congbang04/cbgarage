@@ -254,23 +254,46 @@ body {
 .chat-bubble.bot {
     align-self: flex-start;
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* Chìa khóa đây: Xếp logo ngang hàng với chữ */
+    align-items: flex-start;
+    gap: 12px; /* Khoảng cách giữa avatar và nội dung */
     width: 100%;
+    max-width: 95%; /* Tránh việc tràn lề phải */
 }
 
-/* Thêm icon Sparkle cho Bot bằng pseudo-element */
+/* Đảm bảo tắt hoàn toàn logo ::before cũ để tránh hiển thị 2 logo */
 .chat-bubble.bot::before {
-    content: "";
-    display: block;
-    width: 24px; /* chỉnh to nhỏ tại đây */
-    height: 24px;
+    display: none !important;
+}
 
+/* Style cho Avatar */
+.bot-avatar {
+    width: 32px;
+    height: 32px;
     background-image: url("/storage/logo/logo-favicon.png");
     background-size: contain;
     background-repeat: no-repeat;
+    background-size: 70%;
     background-position: center;
+    flex-shrink: 0; /* Giúp logo không bị móp méo khi text quá dài */
+    border-radius: 50%;
+    border: 1px solid #e1e5ea;
+    background-color: #fff;
+}
 
-    margin-bottom: 10px;
+/* Phần chứa Text hoặc 3 chấm */
+.bot-content {
+    flex-grow: 1;
+    overflow-x: auto; /* Cho phép bảng table cuộn ngang nếu quá to */
+    padding-top: 6px; /* Hạ text xuống một xíu để cân bằng mắt với logo */
+}
+
+/* Khung chứa hiệu ứng 3 chấm */
+.typing-indicator-bubble {
+    display: flex !important;
+    align-items: center;
+    gap: 4px;
+    height: 35px; /* Cao bằng avatar để 3 chấm nằm ở giữa logo */
 }
 
 /* Welcome Screen */
@@ -488,5 +511,45 @@ body {
     .logo-icon-img {
         height: 35px;
         width: 35px; /* Giữ nguyên dạng vuông */
+    }
+}
+
+/* Khung chứa hiệu ứng */
+.typing-indicator-bubble {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 18px !important;
+    min-height: 40px; /* Giữ chiều cao cố định để khung không bị giật */
+}
+
+/* Kiểu dáng của từng dấu chấm */
+.typing-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #8c8c8c; /* Màu xám nhạt */
+    border-radius: 50%;
+    animation: typingBounce 1.4s infinite ease-in-out both;
+}
+
+/* Tạo độ trễ (delay) cho từng dấu chấm để tạo hiệu ứng làn sóng */
+.typing-dot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+.typing-dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+/* Chuyển động thu phóng và mờ dần */
+@keyframes typingBounce {
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+        opacity: 0.4;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
     }
 }

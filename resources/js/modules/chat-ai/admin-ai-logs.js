@@ -107,9 +107,16 @@ $(document).ready(function () {
     }
 
     function formatText(text) {
-        let formatted = text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
-        formatted = formatted.replace(/\n/g, "<br>");
-        return formatted;
+        if (!text) return "";
+
+        let html = marked.parse(text);
+
+        html = html.replace(
+            /<table>/g,
+            '<table class="table table-bordered table-sm mt-2 mb-0 bg-white text-dark">',
+        );
+
+        return html;
     }
 
     function loadChatMessages(sessionId) {
@@ -142,7 +149,9 @@ $(document).ready(function () {
                 if (msg.sender === "bot") {
                     chatContentEl.append(`
                         <div class="d-flex flex-row mb-3">
-                            <div class="p-2 me-3 border bg-white rounded-circle d-flex align-items-center justify-content-center" style="width:40px; height:40px;">🤖</div>
+                            <div class="p-2 me-3 border bg-white rounded-circle d-flex align-items-center justify-content-center" style="width:40px; height:40px;">
+                                <img src="/storage/logo/logo-favicon.png" alt="AI" style="width: 100%; height: 100%; object-fit: contain;">
+                            </div>
                             <div class="p-3 bg-white border rounded shadow-sm" style="max-width: 70%;">
                                 ${formatText(msg.content)}
                             </div>
