@@ -406,7 +406,7 @@
         <div id="chat-messages" class="chat-widget-messages d-flex flex-column">
             <div class="text-center small text-muted my-3">Hôm nay</div>
             <div class="chat-bubble bot">
-                Xin chào! 👋 <br> Em là trợ lý ảo của AutoCare. Em có thể giúp gì cho xe của anh/chị hôm nay?
+                Xin chào! <br> Em là chatbot của CBAUTO. Em có thể giúp gì cho xe của anh/chị hôm nay?
             </div>
         </div>
 
